@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "521428961278",
+    "firebase_url": "https://cobalt-demo.firebaseio.com",
+    "project_id": "cobalt-demo",
+    "storage_bucket": "cobalt-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521428961278:android:a193aea2173d4787",
+        "android_client_info": {
+          "package_name": "com.example.ann.cobalt_demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521428961278-usnqkag003lcp76g9217r07jqf422vgi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8D77H1Z_tTM_TVtqXbBxiA6QjlKFVfOQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
