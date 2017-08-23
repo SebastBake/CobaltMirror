@@ -219,12 +219,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="41dp"
-        android:layout_marginLeft="1245dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:onClick="Search_Trip"
         android:text="search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1" />
+
+    <Button
+        android:id="@+id/ARButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="29dp"
+        android:layout_marginStart="35dp"
+        android:onClick="AR"
+        android:text="AR"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/Search"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1" />
 

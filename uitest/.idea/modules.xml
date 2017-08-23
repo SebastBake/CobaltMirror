@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mixare/mixare.iml" filepath="$PROJECT_DIR$/mixare/mixare.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mixarelib/mixarelib.iml" filepath="$PROJECT_DIR$/mixarelib/mixarelib.iml" />
       <module fileurl="file://$PROJECT_DIR$/uitest.iml" filepath="$PROJECT_DIR$/uitest.iml" />
     </modules>
   </component>

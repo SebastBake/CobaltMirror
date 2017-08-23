@@ -65,6 +65,11 @@ public class Create extends AppCompatActivity {
         Intent search_Intent = new Intent(this,Search.class);
         startActivity(search_Intent);
     }
+    public void AR(View view){
+        Intent AR_Intent = new Intent(this,org.mixare.MainActivity.class);
+        startActivity(AR_Intent);
+    }
+
 
     // i should really change this to radio group but im lazy
     public void onRadioButtonClicked(View view) {
