@@ -66,7 +66,7 @@ public class Create extends AppCompatActivity {
         startActivity(search_Intent);
     }
     public void AR(View view){
-        Intent AR_Intent = new Intent(this,org.mixare.MainActivity.class);
+        Intent AR_Intent = new Intent(this,ARActivity.class);
         startActivity(AR_Intent);
     }
 
