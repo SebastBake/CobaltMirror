@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Cobalt Demo</string>
+    <string name="trip_name">TRIP NAME</string>
+    <string name="trip_description">DESCRIPTION</string>
+    <string name="trip_place">PLACE NAME</string>
+    <string name="place_name">PLACE NAME</string>
+    <string name="place_description"> PLACE DESCRIPTION</string>
+    <string name="ar_button">AR</string>
+    <string name="location_button">LOC</string>
+    <string name="menu_trip">TRIP</string>
+    <string name="menu_map">MAP</string>
+    <string name="menu_chat">CHAT</string>
+    <string name="title_activity_chat">Chat</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_trip"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_name"
+        android:title="@string/menu_trip"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_map"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_map"
+        android:title="@string/menu_map" />
+    <item
+        android:id="@+id/action_chat"
+        android:icon="@drawable/ic_action_chat"
+        android:enabled="true"
+        android:title="@string/menu_chat" />
+
+</menu>
