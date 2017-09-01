@@ -1,12 +1,29 @@
 <resources>
     <string name="app_name">TourList</string>
 
-    <string name="title_activity_augmented_reality">AugmentedReality</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="hello_trip_details_fragment">Hello, Trip Details Screen!</string>
+    <string name="hello_chat_fragment">Hello, Chat Screen!</string>
+    <string name="hello_map_fragment">Hello, Map Screen!</string>
+
+    <string name="ar_button">AR</string>
+    <string name="location_button">LOC</string>
+
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_fragment_current_trip">Current Trip</string>
+    <string name="title_fragment_trip_details">Trip Details</string>
+    <string name="title_fragment_chat">Chat</string>
+    <string name="title_fragment_map">Map</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="title_activity_augmented_reality">AugmentedRealityActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="title_activity_chat">Chat</string>
-    <string name="title_activity_map">Map</string>
-    <string name="title_activity_trip_details">Trip</string>
 
 </resources>
