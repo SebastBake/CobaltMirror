@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AugmentedRealityActivity"
+            android:name=".AugmentedReality.AugmentedRealityActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_augmented_reality"
             android:parentActivityName=".BaseActivity"
