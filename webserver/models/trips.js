@@ -8,6 +8,12 @@ var tripSchema = mongoose.Schema({
   "date": String,
   "size": String,
   "cost": String,
-  "locations": [String]
+  "locations": [{
+    "title": String,
+    "latitude": Number,
+    "longitude": Number,
+    "altitude": Number,
+    "description": String
+  }]
 });
 mongoose.model('trips', tripSchema);

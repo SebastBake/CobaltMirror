@@ -15,3 +15,4 @@ mongoose.connect(
 
 //trips Schema
 require('./trips.js');
+require('./locations.js');
