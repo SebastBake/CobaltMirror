@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.unimelbit.teamcobalt.tourlist.AugmentedReality.POIDetailActivity">
+
+    <TextView
+        android:id="@+id/poi_title"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="48dp"
+        android:text="Title"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/poi_id"
+        app:layout_constraintRight_toRightOf="@+id/poi_id"
+        app:layout_constraintTop_toBottomOf="@+id/poi_id"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <TextView
+        android:id="@+id/poi_description"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="263dp"
+        android:text="Description"
+        app:layout_constraintLeft_toLeftOf="@+id/poi_title"
+        app:layout_constraintRight_toRightOf="@+id/poi_title"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <TextView
+        android:id="@+id/poi_id"
+        android:layout_width="249dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="85dp"
+        android:text="ID"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="25dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="cursive"
+        android:text="POI Information"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/poi_id"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/poi_id" />
+
+</android.support.constraint.ConstraintLayout>
