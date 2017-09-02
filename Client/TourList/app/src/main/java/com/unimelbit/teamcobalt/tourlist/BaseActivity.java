@@ -9,10 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.Trip.TabbedTripFragment;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    //Permission manager
+    private PermissionManager permission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,10 @@ public class BaseActivity extends AppCompatActivity
 
         initNavDrawer();
         initTabbedTripFragment();
+
+        //Permission check when initiating app
+        permission = new PermissionManager() {};
+        permission.checkAndRequestPermissions(this);
     }
 
     private void initNavDrawer() {
@@ -80,5 +88,13 @@ public class BaseActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /*
+    Check for permissions and see if they are granted
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        permission.checkResult(requestCode,permissions, grantResults);
     }
 }
