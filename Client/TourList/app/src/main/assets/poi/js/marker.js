@@ -16,6 +16,7 @@ function Marker(poiData) {
 
     // create the AR.GeoLocation from the poi data
     var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
+        var distance = (markerLocation.distanceToUser() > 999) ? ((markerLocation.distanceToUser() / 1000).toFixed(2) + " km") : (Math.round(markerLocation.distanceToUser()) + " m");
 
     // create an AR.ImageDrawable for the marker in idle state
     this.markerDrawable_idle = new AR.ImageDrawable(World.markerDrawable_idle, 2.5, {
@@ -47,7 +48,7 @@ function Marker(poiData) {
     });
 
     // create an AR.Label for the marker's description
-    this.descriptionLabel = new AR.Label(poiData.description.trunc(15), 0.8, {
+    this.descriptionLabel = new AR.Label(distance, 0.8, {
         zOrder: 1,
         translate: {
             y: -0.55
@@ -94,9 +95,7 @@ function Marker(poiData) {
     this.radardrawablesSelected = [];
     this.radardrawablesSelected.push(this.radarCircleSelected);
 
-    /*  
-        Note that indicator and radar-drawables were added
-    */
+
     this.markerObject = new AR.GeoObject(markerLocation, {
         drawables: {
             cam: [this.markerDrawable_idle, this.markerDrawable_selected, this.titleLabel, this.descriptionLabel],

@@ -31,10 +31,10 @@
 			}
 		},
 
-		// you may define some custom action when user pressed radar, e.g. display distance, custom filtering etc.
-		clickedRadar: function clickedRadarFn() {
-			alert("Radar Clicked");
-		},
+		// custom action when user pressed radar, e.g. display distance, custom filtering etc.
+		//clickedRadar: function clickedRadarFn() {
+		//	alert("Radar Clicked");
+	//	},
 
 		setMaxDistance: function setMaxDistanceFn(maxDistanceMeters) {
 			AR.radar.maxDistance = maxDistanceMeters;

@@ -17,9 +17,11 @@
     <!-- positioning of poi-radar -->
     <link rel="stylesheet" href="css/poi-radar.css" />
 
+
     <!-- jquery mobile CSS -->
-    <link rel="stylesheet" href="jquery/jquery.mobile-1.3.2.min.css" />
-    <!-- required to set background transparent & enable "click through" -->
+        <link rel="stylesheet" href="css/themes/ui-theme.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile.structure-1.3.2.min.css" />
+        <!-- required to set background transparent & enable "click through" -->
     <link rel="stylesheet" href="jquery/jquery-mobile-transparent-ui-overlay.css" />
 
     <!-- jquery JS files -->
@@ -30,7 +32,7 @@
     <script src="js/marker.js"></script>
 
     <!-- World logic-->
-    <script type="text/javascript" src="js/nativedetailscreen.js"></script>
+    <script type="text/javascript" src="js/cameradetailscreen.js"></script>
 
     <!-- radar component -->
     <script type="text/javascript" src="js/radar.js"></script>
@@ -42,9 +44,10 @@
             <!-- MAIN PAGE CONTENT -->
 
             <!-- header of UI holding feature buttons -->
-            <div id ="header-status" data-role="header" data-position="fixed" data-theme="c">
-                <a href="javascript: World.showRange();" data-icon="gear" data-inline="true" data-mini="true">Range</a>
-                <a href="javascript: World.reloadPlaces()" data-icon="refresh" >Reload</a>
+            <div id ="header-status" data-role="header" data-position="fixed" data-theme="b">
+                <a href="javascript: World.showRange();" data-icon="gear" data-inline="true" data-mini="true">Options</a>
+
+                <a href="javascript: World.reloadPlaces()" data-icon="refresh" data-inline="true" data-mini="true" >Reload</a>
                 <h1></h1>
             </div>
 
@@ -54,9 +57,10 @@
             <!-- transparent footer-->
             <div data-role="footer" class="ui-bar" data-theme="f" data-position="fixed" style="text-align:center;">
 
+
+
                 <!-- small status-button -->
                 <a style="text-align:right;" id="popupInfoButton" href="#popupInfo" data-rel="popup" data-role="button" class="ui-icon-alt" data-inline="true" data-transition="pop" data-icon="alert" data-theme="e" data-iconpos="notext">Log</a> </p>
-
                 <!-- popup displayed when button clicked -->
                 <div data-role="popup" id="popupInfo" class="ui-content" data-theme="e" style="max-width:350px;">
                   <p style="text-align:right;" id="status-message">Trying to find out where you are</p>
@@ -69,13 +73,12 @@
             <!-- PANELS, ONLY VISIBLE ON DEMAND -->
 
             <!-- panel containing POI detail information -->
-            <div data-role="panel" id="panel-poidetail" data-position="right" data-display="overlay" style="background-color:#F0F0F0;" data-theme="c">
+            <div data-role="panel" id="panel-poidetail" data-position="right" data-display="overlay" style="background-color:#2e3192;" data-theme="b">
 
                 <!-- header with "close" button -->
-                <div data-role="header" data-theme="c">
-                    <h1>Details</h1>
-                    <a href="#header" data-rel="close">Close</a>
-                </div>
+                <a href="#panel" data-role="button" data-rel="close" data-inline="true" data-mini="true">Close</a>
+
+
 
                 <!-- content of POI detail page, you may also add thumbnails etc. here if you like -->
                  <div data-role="content">
@@ -91,22 +94,24 @@
 
                     <!-- more button-->
                     <a href="javascript: World.onPoiDetailMoreButtonClicked();" data-role="button" data-icon="arrow-r" data-iconpos="right" data-inline="true">More</a>
+                     <a href="javascript: World.onPoiDetailMapButtonClicked();" data-role="button"  data-inline="true">Map</a>
                 </div>
             </div>
 
 
 
             <!-- range panel -->
-            <div data-role="panel" id="panel-distance" data-position="left" data-display="overlay" style="background-color:#F0F0F0;" data-theme="c">
+            <div data-role="panel" id="panel-distance" data-position="left" data-display="overlay" style="background-color:#2e3192;" data-theme="b">
 
                     <!-- header with close button -->
-                    <div data-role="header" data-theme="c">
-                        <h1>Range</h1>
-                        <a href="#header" data-rel="close">Close</a>
-                    </div>
+
+                <a href="#panel" data-role="button" data-rel="close" data-inline="true" data-mini="true">Close</a>
 
                     <!-- distance information, calculated/updated in code  -->
                     <div data-role="content">
+                        <button onclick="World.ChangeToNearByPlaces();">Nearby Spots</button>
+                        <button onclick="World.ChangeToTripPlaces();">Trip Spots</button>
+
 
                         <!-- Range in m/km-->
                         <h4> Range: <a id="panel-distance-value"></a></h4>
