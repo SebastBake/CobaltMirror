@@ -8,20 +8,31 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.AugmentedRealityActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class TripDetailsFragment extends Fragment {
 
     public static final int TRIP_SECTION_INDEX = 0;
     private FloatingActionButton augmentedRealityButton;
+
+    private FloatingActionButton locButton;
+
+    private int PLACE_PICKER_REQUEST = 1;
 
     private ARTools arTool;
 
@@ -49,6 +60,8 @@ public class TripDetailsFragment extends Fragment {
 
         initAugmentedRealityButton(rootView);
 
+        initLocButton(rootView);
+
 
         return rootView;
     }
@@ -66,6 +79,51 @@ public class TripDetailsFragment extends Fragment {
 
     }
 
+    private void initLocButton(View rootView) {
+
+        locButton = (FloatingActionButton) rootView.findViewById(R.id.loc_button);
+
+        locButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    Intent intent = builder.build(getActivity());
+
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
+        if (requestCode == PLACE_PICKER_REQUEST){
+
+            if(resultCode == RESULT_OK){
+
+                //Place place = PlacePicker.getPlace(getActivity(), data);
+
+            }
+        }
+
+    }
+
+
+    public void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, someFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
     /*
     Start AR Activity after checking if GPS is enabled. Display a message to enable the GPS if
