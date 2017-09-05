@@ -28,11 +28,11 @@ dependencies {
 
     compile(name: 'wikitudesdk', ext: 'aar')
 
+
     compile 'com.google.android.gms:play-services-location:11.2.0'
     compile 'com.google.android.gms:play-services-maps:11.2.0'
     compile 'com.google.android.gms:play-services-places:11.2.0'
     compile 'com.google.android.gms:play-services-nearby:11.2.0'
-
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:24.2.1'
