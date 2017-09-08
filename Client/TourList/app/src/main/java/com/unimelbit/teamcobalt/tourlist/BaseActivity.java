@@ -10,10 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
+import com.unimelbit.teamcobalt.tourlist.Search.SearchResultFragment;
 import com.unimelbit.teamcobalt.tourlist.Trip.TabbedTripFragment;
+import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.OnSearchListener {
 
     //Permission manager
     private PermissionManager permission;
@@ -54,6 +56,29 @@ public class BaseActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
+    private void initSearchFragment() {
+        SearchFragment fragment = new SearchFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onSearch(String text) {
+        SearchResultFragment fragment = new SearchResultFragment();
+        Bundle args = new Bundle();
+        args.putString(SearchResultFragment.ARG_TEXT, text);
+        fragment.setArguments(args);
+             getSupportFragmentManager().beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+                   .commit();
+
+        }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -73,7 +98,8 @@ public class BaseActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_search) {
+            initSearchFragment();
 
         } else if (id == R.id.nav_slideshow) {
 
