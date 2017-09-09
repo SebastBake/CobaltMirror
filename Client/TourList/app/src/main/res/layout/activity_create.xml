@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.unimelbit.teamcobalt.tourlist.CreateTrips.createActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TextView
+        android:id="@+id/Apply_button"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:text="@string/Cost_title"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="14dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/Cost_medium"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <RadioButton
+        android:id="@+id/Size_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Size_medium"
+        android:onClick="onRadioButtonClicked"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginStart="129dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <RadioButton
+        android:id="@+id/Size_large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Size_large"
+        android:onClick="onRadioButtonClicked"
+        android:layout_marginEnd="57dp"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="57dp"
+        app:layout_constraintRight_toRightOf="@+id/textView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Size_medium"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/Cost_medium" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:text="@string/Date_title"
+        android:textSize="24sp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/Date_field"
+        app:layout_constraintRight_toRightOf="@+id/textView5"
+        android:layout_marginTop="44dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="44dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/Name_field" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="cursive"
+        android:text="Create A Trip"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="5dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:text="@string/name_title"
+        android:textSize="24sp"
+        android:layout_marginEnd="4dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/Name_field"
+        app:layout_constraintRight_toRightOf="@+id/textView4"
+        android:layout_marginTop="56dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="44dp"
+        app:layout_constraintLeft_toLeftOf="@+id/Name_field"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/Name_field"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/Date_field"
+        android:layout_marginTop="92dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/Date_field"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/Date_field"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintRight_toLeftOf="@+id/Size_large"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginTop="36dp"
+        app:layout_constraintTop_toBottomOf="@+id/Name_field"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/textView4" />
+
+    <RadioButton
+        android:id="@+id/Size_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Size_small"
+        android:onClick="onRadioButtonClicked"
+        android:layout_marginStart="12dp"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/textView5" />
+
+    <RadioButton
+        android:id="@+id/Cost_small"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text="@string/Cost_small"
+        android:onClick="onRadioButtonClicked"
+        android:layout_marginStart="12dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginEnd="13dp"
+        app:layout_constraintRight_toRightOf="@+id/Size_small"
+        app:layout_constraintTop_toBottomOf="@+id/Apply_button"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/Apply_button" />
+
+    <RadioButton
+        android:id="@+id/Cost_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Cost_medium"
+        android:onClick="onRadioButtonClicked"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/Apply_button"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/Size_medium" />
+
+    <RadioButton
+        android:id="@+id/Cost_large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Cost_large"
+        android:onClick="onRadioButtonClicked"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Cost_medium"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/Size_large" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:text="@string/Size_title"
+        android:textStyle="bold"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/Apply_button"
+        android:layout_marginTop="44dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/Apply_button" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Create_Trip"
+        android:text="Apply"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="26dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="29dp" />
+
+</android.support.constraint.ConstraintLayout>

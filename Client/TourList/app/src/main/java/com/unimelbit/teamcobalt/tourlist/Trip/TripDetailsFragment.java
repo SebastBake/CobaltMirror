@@ -20,6 +20,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.AugmentedRealityActivity;
+import com.unimelbit.teamcobalt.tourlist.CreateTrips.createActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -86,19 +87,8 @@ public class TripDetailsFragment extends Fragment {
         locButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                try {
-                    Intent intent = builder.build(getActivity());
-
-                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
-
+                Intent create = new Intent(getActivity(), createActivity.class);
+                startActivity(create);
             }
         });
 
