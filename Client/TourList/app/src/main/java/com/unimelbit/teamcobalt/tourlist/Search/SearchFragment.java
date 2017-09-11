@@ -23,6 +23,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
         public void onSearch(String text);
     }
 
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(String title);
+    }
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -59,12 +63,19 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         Button b = (Button) v.findViewById(R.id.Search_button);
         b.setOnClickListener( this);
+        getActivity().setTitle(R.string.title_fragment_search);
         return v;
     }
 

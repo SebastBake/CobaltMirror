@@ -1,5 +1,6 @@
 package com.unimelbit.teamcobalt.tourlist.Search;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class SearchResultFragment extends Fragment {
    public static String ARG_TEXT;
 
     private ListView lv;
+
 
     private ProgressBar pb;
 
@@ -73,7 +75,8 @@ public class SearchResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_result, container, false);
         TextView textview = (TextView) view.findViewById(R.id.Result_text);
         final Bundle args = getArguments();
-        textview.setText(args.getString(ARG_TEXT));
+        textview.setText(R.string.fragment_searchresults_header+ args.getString(ARG_TEXT));
+        getActivity().setTitle(R.string.title_fragment_searchresults);
 
         pb = (ProgressBar) view.findViewById(R.id.progressBar);
 
@@ -87,7 +90,7 @@ public class SearchResultFragment extends Fragment {
     }
 
     // Get class, everything is here
-    class GetDataTask extends AsyncTask<String, Void, String> {
+    public class GetDataTask extends AsyncTask<String, Void, String> {
 
 
         @Override
@@ -114,25 +117,35 @@ public class SearchResultFragment extends Fragment {
             // now that get is done, change layout,get stuff from json, display stuff
             pb.setVisibility(View.GONE);
             lv = (ListView) getView().findViewById(R.id.results_list);
-
+            int count =0;
 
 
             try {
                 JSONArray jArray = new JSONArray(result);
                 for (int i=0; i < jArray.length(); i++)
                 {
+                    count ++;
                     try {
                         JSONObject oneObject = jArray.getJSONObject(i);
                         // Pulling items from the array
                         String name = oneObject.getString("name");
                         String cost = oneObject.getString("cost");
                         String size = oneObject.getString("size");
-
+                        JSONArray locations =oneObject.getJSONArray("locations");
+                        String locations_titles = "";
+                        for (int j=0; j< locations.length();j++){
+                            JSONObject location = locations.getJSONObject(j);
+                            String title = location.getString("title");
+                            locations_titles = locations_titles + title + "\n";
+                        }
                         HashMap<String, String> trip = new HashMap<>();
 
                         trip.put("name",name);
                         trip.put("cost",cost);
                         trip.put("size",size);
+                        trip.put("locations",locations_titles);
+
+
 
                         searchList.add(trip);
 
@@ -149,14 +162,15 @@ public class SearchResultFragment extends Fragment {
             ListAdapter adapter = new SimpleAdapter(
                     getContext(), searchList,
                     R.layout.fragment_search_results_items, new String[]{"name", "size",
-                    "cost"}, new int[]{R.id.name,
-                    R.id.size, R.id.cost});
+                    "cost","locations"}, new int[]{R.id.name,
+                    R.id.size, R.id.cost,R.id.locations});
 
             lv.setAdapter(adapter);
 
+
         }
 
-        private String getData(String urlPath) throws IOException {
+        public  String getData(String urlPath) throws IOException {
             StringBuilder result = new StringBuilder();
             BufferedReader bufferedReader =null;
 

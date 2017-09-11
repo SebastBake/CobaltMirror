@@ -10,29 +10,16 @@
 
     <TextView
         android:id="@+id/Result_text"
-        android:layout_width="121dp"
-        android:layout_height="29dp"
+        android:layout_width="153dp"
+        android:layout_height="27dp"
         android:text="TextView"
         tools:layout_constraintTop_creator="1"
         android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/results_list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Result_text"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="28dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -48,4 +35,20 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="149dp"
         app:layout_constraintVertical_bias="0.498" />
+
+    <ListView
+        android:id="@+id/results_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Result_text"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 </android.support.constraint.ConstraintLayout>

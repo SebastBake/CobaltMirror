@@ -49,6 +49,9 @@ public class BaseActivity extends AppCompatActivity
         toggle.syncState(); // What does this do?
         navigationView.setNavigationItemSelectedListener(this);
     }
+    public int testing(int num){
+        return num + 1;
+    }
 
     private void initTabbedTripFragment() {
         TabbedTripFragment fragment = new TabbedTripFragment();
@@ -123,4 +126,6 @@ public class BaseActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         permission.checkResult(requestCode,permissions, grantResults);
     }
+
+
 }
