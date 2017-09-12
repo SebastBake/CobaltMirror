@@ -10,10 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
+import com.unimelbit.teamcobalt.tourlist.Search.SearchResultFragment;
 import com.unimelbit.teamcobalt.tourlist.Trip.TabbedTripFragment;
+import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.OnSearchListener {
 
     //Permission manager
     private PermissionManager permission;
@@ -47,6 +49,9 @@ public class BaseActivity extends AppCompatActivity
         toggle.syncState(); // What does this do?
         navigationView.setNavigationItemSelectedListener(this);
     }
+    public int testing(int num){
+        return num + 1;
+    }
 
     private void initTabbedTripFragment() {
         TabbedTripFragment fragment = new TabbedTripFragment();
@@ -54,6 +59,32 @@ public class BaseActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
+
+    //Create search fragment -spike
+    private void initSearchFragment() {
+        SearchFragment fragment = new SearchFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    // On search button press start search result fragment and send text over - spike
+    @Override
+    public void onSearch(String text) {
+        SearchResultFragment fragment = new SearchResultFragment();
+        Bundle args = new Bundle();
+        args.putString(SearchResultFragment.ARG_TEXT, text);
+        fragment.setArguments(args);
+             getSupportFragmentManager().beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+                   .commit();
+
+        }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -65,15 +96,17 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+    // Added start fragment in search part of nav
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_Profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_search) {
+            initSearchFragment();
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -97,4 +130,6 @@ public class BaseActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         permission.checkResult(requestCode,permissions, grantResults);
     }
+
+
 }
