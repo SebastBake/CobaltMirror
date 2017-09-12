@@ -59,6 +59,8 @@ public class BaseActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
+
+    //Create search fragment -spike
     private void initSearchFragment() {
         SearchFragment fragment = new SearchFragment();
         getSupportFragmentManager().beginTransaction()
@@ -67,6 +69,7 @@ public class BaseActivity extends AppCompatActivity
                 .commit();
     }
 
+    // On search button press start search result fragment and send text over - spike
     @Override
     public void onSearch(String text) {
         SearchResultFragment fragment = new SearchResultFragment();
@@ -93,13 +96,14 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+    // Added start fragment in search part of nav
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_Profile) {
             // Handle the camera action
         } else if (id == R.id.nav_search) {
             initSearchFragment();
