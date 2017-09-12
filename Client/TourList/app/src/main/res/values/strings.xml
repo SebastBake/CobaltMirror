@@ -29,8 +29,12 @@
     <string name="title_activity_aug_reality">I see you</string>
     <string name="title_activity_poidetail">Tell me more</string>
 
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_fragment_search">Search</string>
+    <string name="title_fragment_searchresults">Search Results</string>
+    <string name="fragment_searchresults_header">Results for:</string>
 
     <string name="name_title">Name</string>
     <string name="Date_title">Date</string>

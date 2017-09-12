@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/Name_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trip Name:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/Size_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Size of Trip:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/Cost_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cost of Trip:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/Locations_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Locations:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/locations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+</LinearLayout>

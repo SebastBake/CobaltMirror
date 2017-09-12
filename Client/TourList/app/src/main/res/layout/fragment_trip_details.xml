@@ -21,7 +21,7 @@
             android:src="@android:drawable/ic_menu_view"
             android:text="@string/ar_button"
             android:textStyle="bold"
-            app:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/scheme1_blue"
             app:elevation="10dp"
             app:layout_constraintBottom_toTopOf="@+id/loc_button"
             app:layout_constraintRight_toRightOf="parent" />
@@ -40,7 +40,8 @@
             android:textStyle="bold"
             app:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:backgroundTint="@color/scheme1_green"/>
 
         <ImageView
             android:id="@+id/imageView2"
@@ -52,7 +53,7 @@
             android:scaleType="fitCenter"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:color/holo_green_light" />
+            app:srcCompat="@color/scheme1_green" />
 
         <TextView
             android:id="@+id/trip_details_name"
@@ -82,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trip_details_name" />
 
         <ListView
-            android:id="@+id/listView"
+            android:id="@+id/container"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
