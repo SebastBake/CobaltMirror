@@ -8,6 +8,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,6 +23,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.gson.Gson;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import org.json.JSONObject;
@@ -97,6 +100,38 @@ public class TripsActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    // create an action bar button
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_trip_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.mybutton) {
+
+            send_to_server();
+
+            finish();
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    //Create JSON object with array of places to upload to server
+    public void send_to_server(){
+
+        String jsonPlaces = new Gson().toJson(placeArray);
+
+
     }
 
 

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
+import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Search.SearchResultFragment;
 import com.unimelbit.teamcobalt.tourlist.Trip.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
@@ -69,6 +70,16 @@ public class BaseActivity extends AppCompatActivity
                 .commit();
     }
 
+
+    //Create trips
+    private void initCreateFragment() {
+        CreateTripFragment fragment = new CreateTripFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     // On search button press start search result fragment and send text over - spike
     @Override
     public void onSearch(String text) {
@@ -108,7 +119,8 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_search) {
             initSearchFragment();
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_create) {
+            initCreateFragment();
 
         } else if (id == R.id.nav_manage) {
 
