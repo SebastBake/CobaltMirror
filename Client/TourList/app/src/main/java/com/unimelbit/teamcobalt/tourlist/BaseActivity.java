@@ -9,14 +9,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Search.SearchResultFragment;
-import com.unimelbit.teamcobalt.tourlist.Trip.LoadTripDetailsFragment;
-import com.unimelbit.teamcobalt.tourlist.Trip.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
+import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
+import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
 import com.unimelbit.teamcobalt.tourlist.Trip.TripDetails;
+import com.unimelbit.teamcobalt.tourlist.Trip.TripGetProcessor;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.OnSearchListener {
@@ -58,19 +60,17 @@ public class BaseActivity extends AppCompatActivity
         toggle.syncState(); // What does this do?
         navigationView.setNavigationItemSelectedListener(this);
     }
-    public int testing(int num){
-        return num + 1;
-    }
 
     private void initTabbedTripFragment(String tripURL) {
-        LoadTripDetailsFragment fragment = LoadTripDetailsFragment.newInstance(tripURL);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
+        TripGetProcessor processor = new TripGetProcessor(tripURL, this);
+        LoadingFragment fragment = LoadingFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        new GetRequester(processor).execute(tripURL);
     }
 
     // Create search fragment -spike
     private void initSearchFragment() {
+        clearFragmentContainer();
         SearchFragment fragment = new SearchFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -81,14 +81,13 @@ public class BaseActivity extends AppCompatActivity
     public void setCurrentTrip(TripDetails trip) {
         currentTrip = trip;
     }
-
     public TripDetails getCurrentTrip() {
         return currentTrip;
     }
 
-
     // Create trips
     private void initCreateFragment() {
+        clearFragmentContainer();
         CreateTripFragment fragment = new CreateTripFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -96,22 +95,25 @@ public class BaseActivity extends AppCompatActivity
                 .commit();
     }
 
+    public void clearFragmentContainer() {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (f!=null) {
+            getSupportFragmentManager().beginTransaction().remove(f).commit();
+        }
+    }
+
     // On search button press start search result fragment and send text over - spike
     @Override
     public void onSearch(String text) {
+        clearFragmentContainer();
         SearchResultFragment fragment = new SearchResultFragment();
         Bundle args = new Bundle();
         args.putString(SearchResultFragment.ARG_TEXT, text);
         fragment.setArguments(args);
-             getSupportFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-                   .commit();
-
+            .addToBackStack(null).commit();
         }
-
-
-
 
     @Override
     public void onBackPressed() {

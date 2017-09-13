@@ -10,11 +10,14 @@ public class TripDetails {
     private String size;
     private String locations;
 
-    public TripDetails(String name, String cost, String size, String locations) {
+    private String url;
+
+    public TripDetails(String name, String cost, String size, String locations, String url) {
         this.name = name;
         this.cost = cost;
         this.size = size;
         this.locations = locations;
+        this.url = url;
     }
 
     public String getLocations() {
@@ -31,5 +34,9 @@ public class TripDetails {
 
     public String getCost() {
         return cost;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }
