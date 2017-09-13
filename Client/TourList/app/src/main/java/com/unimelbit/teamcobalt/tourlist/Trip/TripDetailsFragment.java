@@ -12,15 +12,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
-import com.unimelbit.teamcobalt.tourlist.AugmentedReality.AugmentedRealityActivity;
-import com.unimelbit.teamcobalt.tourlist.CreateTrips.createActivity;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -29,28 +28,20 @@ import static android.app.Activity.RESULT_OK;
 public class TripDetailsFragment extends Fragment {
 
     public static final int TRIP_SECTION_INDEX = 0;
-    private FloatingActionButton augmentedRealityButton;
-
-    private FloatingActionButton locButton;
 
     private int PLACE_PICKER_REQUEST = 1;
 
     private ARTools arTool;
 
+    private FloatingActionButton augmentedRealityButton;
+    private FloatingActionButton locButton;
 
     public TripDetailsFragment() {
-        // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static TripDetailsFragment newInstance() {
         TripDetailsFragment fragment = new TripDetailsFragment();
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -59,18 +50,34 @@ public class TripDetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_trip_details, container, false);
 
+        if ( ((BaseActivity)getActivity()).getCurrentTrip() != null) {
+            initTextBoxes(rootView, ((BaseActivity)getActivity()).getCurrentTrip());
+        }
+
         initAugmentedRealityButton(rootView);
 
         initLocButton(rootView);
 
-
         return rootView;
+    }
+
+    private void initTextBoxes(View rootView, TripDetails tripDetails) {
+
+        TextView tripName = (TextView)rootView.findViewById(R.id.trip_details_name);
+        tripName.setText(tripDetails.getName());
+
+        // TODO: Description currently not stored in database
+
+        TextView tripCost = (TextView)rootView.findViewById(R.id.trip_details_cost);
+        tripCost.setText(tripDetails.getCost());
+
+        TextView tripSize = (TextView)rootView.findViewById(R.id.trip_details_size);
+        tripSize.setText(tripDetails.getSize());
     }
 
     private void initAugmentedRealityButton(View rootView) {
 
         augmentedRealityButton = (FloatingActionButton) rootView.findViewById(R.id.ar_button);
-
         augmentedRealityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,8 +94,19 @@ public class TripDetailsFragment extends Fragment {
         locButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent create = new Intent(getActivity(), createActivity.class);
-                startActivity(create);
+
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    Intent intent = builder.build(getActivity());
+
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -129,7 +147,7 @@ public class TripDetailsFragment extends Fragment {
             startActivity(new Intent(getActivity(), ARActivity.class));
 
             //Notify the user to turn on the GPS settings
-        }else {
+        } else {
 
             //Intent for directing user to the location settings activity
             final Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);

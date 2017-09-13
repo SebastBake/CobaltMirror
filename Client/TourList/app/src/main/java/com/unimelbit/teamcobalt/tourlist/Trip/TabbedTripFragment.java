@@ -1,13 +1,12 @@
 package com.unimelbit.teamcobalt.tourlist.Trip;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,23 @@ public class TabbedTripFragment extends Fragment {
     private TripPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
+    public TabbedTripFragment() {
+    }
+
+    public static TabbedTripFragment newInstance() {
+        TabbedTripFragment fragment = new TabbedTripFragment();
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_tabbed_trip, container, false);
         initTabs(rootView);
+
         getActivity().setTitle(R.string.title_fragment_current_trip);
+
         return rootView;
     }
 
@@ -43,10 +52,6 @@ public class TabbedTripFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.trip_tabs);
         tabLayout.setupWithViewPager(mViewPager);
     }
-
-
-
-
 
 
     public class TripPagerAdapter extends FragmentPagerAdapter {

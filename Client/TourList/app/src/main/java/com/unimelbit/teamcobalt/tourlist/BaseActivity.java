@@ -13,11 +13,16 @@ import android.view.MenuItem;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Search.SearchResultFragment;
+import com.unimelbit.teamcobalt.tourlist.Trip.LoadTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.Trip.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
+import com.unimelbit.teamcobalt.tourlist.Trip.TripDetails;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.OnSearchListener {
+
+    // current trip
+    private static TripDetails currentTrip = null;
 
     //Permission manager
     private PermissionManager permission;
@@ -28,7 +33,9 @@ public class BaseActivity extends AppCompatActivity
         setContentView(R.layout.activity_base);
 
         initNavDrawer();
-        initTabbedTripFragment();
+
+        // open demo trip for demo
+        initTabbedTripFragment("https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip");
 
         //Permission check when initiating app
         permission = new PermissionManager() {};
@@ -55,14 +62,14 @@ public class BaseActivity extends AppCompatActivity
         return num + 1;
     }
 
-    private void initTabbedTripFragment() {
-        TabbedTripFragment fragment = new TabbedTripFragment();
+    private void initTabbedTripFragment(String tripURL) {
+        LoadTripDetailsFragment fragment = LoadTripDetailsFragment.newInstance(tripURL);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 
-    //Create search fragment -spike
+    // Create search fragment -spike
     private void initSearchFragment() {
         SearchFragment fragment = new SearchFragment();
         getSupportFragmentManager().beginTransaction()
@@ -71,8 +78,16 @@ public class BaseActivity extends AppCompatActivity
                 .commit();
     }
 
+    public void setCurrentTrip(TripDetails trip) {
+        currentTrip = trip;
+    }
 
-    //Create trips
+    public TripDetails getCurrentTrip() {
+        return currentTrip;
+    }
+
+
+    // Create trips
     private void initCreateFragment() {
         CreateTripFragment fragment = new CreateTripFragment();
         getSupportFragmentManager().beginTransaction()
@@ -112,24 +127,18 @@ public class BaseActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
+        int id = item.getItemId();
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (id == R.id.nav_Profile) {
-            // Handle the camera action
+            initTabbedTripFragment("https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip");
+
         } else if (id == R.id.nav_search && !(f instanceof SearchFragment) ) {
             initSearchFragment();
 
         } else if (id == R.id.nav_create && !(f instanceof CreateTripFragment)) {
             initCreateFragment();
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 

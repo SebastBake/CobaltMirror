@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:text="Demo Trip Name"
+            android:text="show trip name here"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -76,11 +76,36 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:text="Demo Trip Description"
+            android:text="show trip description here"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintLeft_toRightOf="@+id/imageView2"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/trip_details_name" />
+
+        <TextView
+            android:id="@+id/trip_details_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="show trip size here"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintLeft_toRightOf="@+id/imageView2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_details_cost" />
+
+        <TextView
+            android:id="@+id/trip_details_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="show trip cost here"
+            app:layout_constraintLeft_toRightOf="@+id/imageView2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_details_description" />
 
         <ListView
             android:id="@+id/container"
@@ -91,6 +116,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2"
