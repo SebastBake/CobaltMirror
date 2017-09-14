@@ -47,9 +47,11 @@ public class LoadingFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            loadingMsg = (String)getArguments().get(ARG_LOADING_MSG);
+            loadingMsg = getArguments().getString(ARG_LOADING_MSG);
         }
     }
 }

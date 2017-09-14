@@ -12,16 +12,16 @@ import android.view.MenuItem;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
-import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
-import com.unimelbit.teamcobalt.tourlist.Trip.TripDetails;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.OnSearchListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private static String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
 
     // current trip
-    private static TripDetails currentTrip;
+    private static Trip currentTrip;
 
     // Permission manager
     private PermissionManager permission;
@@ -77,14 +77,14 @@ public class BaseActivity extends AppCompatActivity
     /**
      * setter for current trip
      */
-    public void setCurrentTrip(TripDetails trip) {
+    public void setCurrentTrip(Trip trip) {
         currentTrip = trip;
     }
 
     /**
      * setter for current trip
      */
-    public TripDetails getCurrentTrip() {
+    public Trip getCurrentTrip() {
         return currentTrip;
     }
 
@@ -102,14 +102,6 @@ public class BaseActivity extends AppCompatActivity
     }
 
     /**
-     * Search button press start search result fragment and send text over
-     */
-    @Override
-    public void onSearch(String text) {
-        mainContainer.gotoSearchResultFragment(text);
-    }
-
-    /**
      * Links menu items in the nav drawer to the methods defining their functionality
      * @param item The menu item tapped by the user
      */
@@ -122,8 +114,8 @@ public class BaseActivity extends AppCompatActivity
         if (id == R.id.nav_Profile) {
             mainContainer.gotoTabbedTripFragment(DEMOTRIP_URL);
 
-        } else if (id == R.id.nav_search && !(f instanceof SearchFragment) ) {
-            mainContainer.gotoSearchFragment();
+        } else if (id == R.id.nav_search && !(f instanceof TripSearchFragment) ) {
+            mainContainer.gotoTripSearchFragment();
 
         } else if (id == R.id.nav_create && !(f instanceof CreateTripFragment)) {
             mainContainer.gotoCreateFragment();

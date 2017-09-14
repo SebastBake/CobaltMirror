@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.Trip;
+package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
 
 import android.util.Log;
@@ -6,6 +6,9 @@ import android.util.Log;
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+
+import java.util.ArrayList;
 
 /**
  * Created by Sebastian on 13/9/17.
@@ -23,15 +26,16 @@ public class TripGetRequest implements GetRequest {
         this.url = url;
         this.containerManager = containerManager;
 
-        containerManager.gotoLoadingScreen(LOADING_MSG);
+        containerManager.gotoLoadingFragment(LOADING_MSG);
         new GetRequester(this).execute(url);
     }
 
     @Override
     public void processResult(String result) {
+
         try {
-            TripDetails trip = new TripDetails(result, url);
-            containerManager.gotoTabbedTripFragment(trip);
+            ArrayList<Trip> trip = Trip.newTripArray(result, url);
+            containerManager.gotoTabbedTripFragment(trip.get(0));
         } catch (Exception e) {
             requestFailed("Something failed for url: " + url + " and result: " + result, e);
         }
@@ -39,8 +43,10 @@ public class TripGetRequest implements GetRequest {
 
     @Override
     public void requestFailed(String msg,Exception e) {
-        Log.e("Trip get req failure",msg);
+
+        Log.e("TripGetRequest failed",msg);
         e.printStackTrace();
         containerManager.clearFragmentContainer();
+        containerManager.gotoErrorFragment("TripGetRequest failed: " + msg);
     }
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.unimelbit.teamcobalt.tourlist.Trip.TripDetailsFragment">
+    tools:context="com.unimelbit.teamcobalt.tourlist.TripDetails.TripDetailsFragment">
 
 
     <android.support.constraint.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.Trip;
+package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
 
 import android.os.Bundle;

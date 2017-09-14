@@ -1,15 +1,17 @@
 package com.unimelbit.teamcobalt.tourlist;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
-import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
-import com.unimelbit.teamcobalt.tourlist.Search.SearchResultFragment;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
-import com.unimelbit.teamcobalt.tourlist.Trip.TabbedTripFragment;
-import com.unimelbit.teamcobalt.tourlist.Trip.TripDetails;
-import com.unimelbit.teamcobalt.tourlist.Trip.TripGetRequest;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
+
+import java.util.ArrayList;
 
 /**
  * Created by Sebastian on 14/9/17.
@@ -18,10 +20,14 @@ import com.unimelbit.teamcobalt.tourlist.Trip.TripGetRequest;
  * Any fragment transaction on the main fragment container should be placed in this class.
  * It can then be called using baseActivity.getBaseFragmentContainerManager().gotoDemoMethod()
  */
-public class BaseFragmentContainerManager {
+public class BaseFragmentContainerManager
+        implements TripSearchResultFragment.onFragmentCreatedListener
+{
 
     private BaseActivity baseActivity;
     private int containerId;
+
+    private ArrayList<Trip> tmpTrips;
 
     BaseFragmentContainerManager(BaseActivity b, int id) {
         baseActivity = b;
@@ -42,9 +48,9 @@ public class BaseFragmentContainerManager {
     /**
      * Takes the user to trip details screen using a trip object
      */
-    public void gotoTabbedTripFragment(TripDetails trip) {
-        baseActivity.setCurrentTrip(trip);
+    public void gotoTabbedTripFragment(Trip trip) {
 
+        baseActivity.setCurrentTrip(trip);
         TabbedTripFragment fragment = TabbedTripFragment.newInstance();
         gotoFragment(fragment);
     }
@@ -52,37 +58,53 @@ public class BaseFragmentContainerManager {
     /**
      * Takes the user to the search trips screen
      */
-    public void gotoSearchFragment() {
+    public void gotoTripSearchFragment() {
 
-        SearchFragment fragment = new SearchFragment();
-        gotoFragmentUsingBackstack(fragment, null);
-    }
-
-    /**
-     * Takes the user to the create trips screen
-     */
-    public void gotoCreateFragment() {
-        CreateTripFragment fragment = new CreateTripFragment();
+        TripSearchFragment fragment = TripSearchFragment.newInstance();
         gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
      * Takes the user to the start search result fragment and sends text over
      */
-    public void gotoSearchResultFragment(String text) {
+    public void gotoTripSearchResultFragment(String text) {
 
-        SearchResultFragment fragment = new SearchResultFragment();
-        Bundle args = new Bundle();
-        args.putString(SearchResultFragment.ARG_TEXT, text);
-        fragment.setArguments(args);
+        TripSearchResultFragment fragment = TripSearchResultFragment.newInstance(text, this);
+        gotoFragmentUsingBackstack(fragment, null);
+    }
+
+    public void setTmpTrips(ArrayList<Trip> tmpTrips) {
+        this.tmpTrips = tmpTrips;
+    }
+
+    public void onCreatedView(TripSearchResultFragment fragment,View rootView) {
+        fragment.showResultsList(tmpTrips, rootView);
+    }
+
+    /**
+     * Takes the user to the create trips screen
+     */
+    public void gotoCreateFragment() {
+
+        CreateTripFragment fragment = new CreateTripFragment();
         gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
      * Start loading screen
      */
-    public void gotoLoadingScreen(String loadingMsg) {
+    public void gotoLoadingFragment(String loadingMsg) {
+
         LoadingFragment fragment = LoadingFragment.newInstance(loadingMsg);
+        gotoFragment(fragment);
+    }
+
+    /**
+     * Takes the user to the error screen
+     */
+    public void gotoErrorFragment(String errMsg) {
+
+        ErrorFragment fragment = ErrorFragment.newInstance(errMsg);
         gotoFragment(fragment);
     }
 
@@ -90,10 +112,20 @@ public class BaseFragmentContainerManager {
      * Clears the main fragment container
      */
     public void clearFragmentContainer() {
-        Fragment f = baseActivity.getSupportFragmentManager().findFragmentById(containerId);
-        if (f!=null) {
-            baseActivity.getSupportFragmentManager().beginTransaction().remove(f).commit();
+
+        Fragment fragment = getCurrentFragment();
+
+        if (fragment != null) {
+            baseActivity.getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
+    }
+
+    /**
+     *
+     * @return the current fragment in the main fragment container
+     */
+    public Fragment getCurrentFragment() {
+        return baseActivity.getSupportFragmentManager().findFragmentById(containerId);
     }
 
     /**

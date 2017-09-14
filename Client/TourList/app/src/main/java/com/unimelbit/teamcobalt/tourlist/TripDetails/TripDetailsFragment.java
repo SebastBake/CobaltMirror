@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.Trip;
+package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
 
 import android.app.AlertDialog;
@@ -20,6 +20,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -61,18 +62,18 @@ public class TripDetailsFragment extends Fragment {
         return rootView;
     }
 
-    private void initTextBoxes(View rootView, TripDetails tripDetails) {
+    private void initTextBoxes(View rootView, Trip trip) {
 
         TextView tripName = (TextView)rootView.findViewById(R.id.trip_details_name);
-        tripName.setText(tripDetails.getName());
+        tripName.setText(trip.getName());
 
         // TODO: Description currently not stored in database
 
         TextView tripCost = (TextView)rootView.findViewById(R.id.trip_details_cost);
-        tripCost.setText(tripDetails.getCost());
+        tripCost.setText(trip.getCost());
 
         TextView tripSize = (TextView)rootView.findViewById(R.id.trip_details_size);
-        tripSize.setText(tripDetails.getSize());
+        tripSize.setText(trip.getSize());
     }
 
     private void initAugmentedRealityButton(View rootView) {

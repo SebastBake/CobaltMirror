@@ -1,16 +1,10 @@
-package com.unimelbit.teamcobalt.tourlist.Trip;
+package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v7.view.SupportMenuInflater;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,7 +15,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.unimelbit.teamcobalt.tourlist.R;
 
 
 public class MapFragment extends SupportMapFragment implements OnMapReadyCallback {
