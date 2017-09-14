@@ -1,7 +1,6 @@
 package com.unimelbit.teamcobalt.tourlist.Search;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,12 +14,11 @@ import com.unimelbit.teamcobalt.tourlist.R;
 /**
  * Created by spike on 8/9/2017.
  */
-
 public class SearchFragment extends Fragment implements View.OnClickListener{
     OnSearchListener mCallBack;
 
     public interface OnSearchListener {
-        public void onSearch(String text);
+        void onSearch(String text);
     }
 
     public interface OnFragmentInteractionListener {
@@ -28,28 +26,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
     }
 
     public SearchFragment() {
-        // Required empty public constructor
     }
 
 
     // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance() {
         SearchFragment fragment = new SearchFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-
     }
 
     @Override
@@ -85,12 +68,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
         switch(v.getId()){
             case R.id.Search_button:
                 mCallBack.onSearch(text);
-               // SearchResultFragment Frag= new SearchResultFragment();
-                //getActivity().getFragmentManager().beginTransaction()
-                      //  .replace(R.id.fragment_container, Frag)
-                      //  .addToBackStack(null)
-                      //  .commit();
-
         }
     }
 

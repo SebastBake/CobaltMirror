@@ -9,41 +9,47 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
-import com.unimelbit.teamcobalt.tourlist.Search.SearchResultFragment;
 import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
-import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
-import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
 import com.unimelbit.teamcobalt.tourlist.Trip.TripDetails;
-import com.unimelbit.teamcobalt.tourlist.Trip.TripGetProcessor;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.OnSearchListener {
 
-    // current trip
-    private static TripDetails currentTrip = null;
+    private static String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
 
-    //Permission manager
+    // current trip
+    private static TripDetails currentTrip;
+
+    // Permission manager
     private PermissionManager permission;
+
+    // Manager of main fragment
+    private static BaseFragmentContainerManager mainContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        currentTrip = null;
+        mainContainer = new BaseFragmentContainerManager(this, R.id.fragment_container);
+
         initNavDrawer();
 
         // open demo trip for demo
-        initTabbedTripFragment("https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip");
+        mainContainer.gotoTabbedTripFragment(DEMOTRIP_URL);
 
         //Permission check when initiating app
         permission = new PermissionManager() {};
         permission.checkAndRequestPermissions(this);
     }
 
+    /**
+     * Initializes the navigation drawer
+     */
     private void initNavDrawer() {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -57,64 +63,34 @@ public class BaseActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState(); // What does this do?
+        toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void initTabbedTripFragment(String tripURL) {
-        TripGetProcessor processor = new TripGetProcessor(tripURL, this);
-        LoadingFragment fragment = LoadingFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-        new GetRequester(processor).execute(tripURL);
+    /**
+     * returns the base fragment container manager
+     */
+    public BaseFragmentContainerManager getMainContainerManager() {
+        return mainContainer;
     }
 
-    // Create search fragment -spike
-    private void initSearchFragment() {
-        clearFragmentContainer();
-        SearchFragment fragment = new SearchFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
+    /**
+     * setter for current trip
+     */
     public void setCurrentTrip(TripDetails trip) {
         currentTrip = trip;
     }
+
+    /**
+     * setter for current trip
+     */
     public TripDetails getCurrentTrip() {
         return currentTrip;
     }
 
-    // Create trips
-    private void initCreateFragment() {
-        clearFragmentContainer();
-        CreateTripFragment fragment = new CreateTripFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    public void clearFragmentContainer() {
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (f!=null) {
-            getSupportFragmentManager().beginTransaction().remove(f).commit();
-        }
-    }
-
-    // On search button press start search result fragment and send text over - spike
-    @Override
-    public void onSearch(String text) {
-        clearFragmentContainer();
-        SearchResultFragment fragment = new SearchResultFragment();
-        Bundle args = new Bundle();
-        args.putString(SearchResultFragment.ARG_TEXT, text);
-        fragment.setArguments(args);
-        getSupportFragmentManager().beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null).commit();
-        }
-
+    /**
+     * Closes nav drawer when back button pressed
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -125,22 +101,32 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
-    // Added start fragment in search part of nav
-    @SuppressWarnings("StatementWithEmptyBody")
+    /**
+     * Search button press start search result fragment and send text over
+     */
+    @Override
+    public void onSearch(String text) {
+        mainContainer.gotoSearchResultFragment(text);
+    }
+
+    /**
+     * Links menu items in the nav drawer to the methods defining their functionality
+     * @param item The menu item tapped by the user
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        Fragment f = getSupportFragmentManager().findFragmentById(mainContainer.getContainerId());
 
         if (id == R.id.nav_Profile) {
-            initTabbedTripFragment("https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip");
+            mainContainer.gotoTabbedTripFragment(DEMOTRIP_URL);
 
         } else if (id == R.id.nav_search && !(f instanceof SearchFragment) ) {
-            initSearchFragment();
+            mainContainer.gotoSearchFragment();
 
         } else if (id == R.id.nav_create && !(f instanceof CreateTripFragment)) {
-            initCreateFragment();
+            mainContainer.gotoCreateFragment();
 
         }
 
@@ -149,13 +135,11 @@ public class BaseActivity extends AppCompatActivity
         return true;
     }
 
-    /*
-    Check for permissions and see if they are granted
+    /**
+     * Check for permissions and see if they are granted
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         permission.checkResult(requestCode,permissions, grantResults);
     }
-
-
 }

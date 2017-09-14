@@ -1,11 +1,6 @@
 package com.unimelbit.teamcobalt.tourlist.ServerRequester;
 
-import android.app.Activity;
 import android.os.AsyncTask;
-
-import com.unimelbit.teamcobalt.tourlist.Trip.TripDetails;
-
-import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,9 +15,9 @@ import java.net.URL;
 */
 public class GetRequester extends AsyncTask<String, Void, String> {
 
-    private GetProcessor processor;
+    private GetRequest processor;
 
-    public GetRequester(GetProcessor processor) {
+    public GetRequester(GetRequest processor) {
         this.processor = processor;
     }
 
@@ -31,8 +26,9 @@ public class GetRequester extends AsyncTask<String, Void, String> {
         try {
             return getData(params[0]);
         } catch (IOException ex) {
-            processor.requestFailed();
-            return "Network error !";
+            String errorMsg = "Network error !";
+            processor.requestFailed(errorMsg, ex);
+            return errorMsg;
         }
     }
 

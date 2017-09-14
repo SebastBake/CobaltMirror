@@ -30,7 +30,7 @@ import java.util.Date;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
-public class createActivity extends AppCompatActivity {
+public class CreateActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.spike.uitest.MESSAGE";
     public static final String EXTRA_MESSAGE_TWO = "com.example.spike.uitest.MESSAGE_TWO";
     public static final String EXTRA_MESSAGE_FOUR = "com.example.spike.uitest.MESSAGE_THREE"; ;

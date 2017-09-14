@@ -37,40 +37,29 @@ public class SearchResultFragment extends Fragment {
 
     private ListView lv;
 
-
     private ProgressBar pb;
 
-    // id + value kinda like json
+    // List of Search results
     ArrayList<HashMap<String, String>> searchList;
+
     public SearchResultFragment() {
-        // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
     public static SearchResultFragment newInstance() {
         SearchResultFragment fragment = new SearchResultFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search_result, container, false);
         TextView textview = (TextView) view.findViewById(R.id.Result_text);
@@ -81,17 +70,15 @@ public class SearchResultFragment extends Fragment {
         pb = (ProgressBar) view.findViewById(R.id.progressBar);
 
         searchList = new ArrayList<>();
+
         // Right now search just displays all trips to test
         new GetDataTask().execute("https://cobaltwebserver.herokuapp.com/api/locations/search?searchcontent=" + args.getString(ARG_TEXT));
-
-
 
         return view;
     }
 
     // Get class, everything is here
     public class GetDataTask extends AsyncTask<String, Void, String> {
-
 
         @Override
         protected void onPreExecute() {
@@ -145,11 +132,7 @@ public class SearchResultFragment extends Fragment {
                         trip.put("size",size);
                         trip.put("locations",locations_titles);
 
-
-
                         searchList.add(trip);
-
-
 
                     } catch (JSONException e) {
                         // Oops
@@ -160,14 +143,14 @@ public class SearchResultFragment extends Fragment {
             }
 
             ListAdapter adapter = new SimpleAdapter(
-                    getContext(), searchList,
-                    R.layout.fragment_search_results_items, new String[]{"name", "size",
-                    "cost","locations"}, new int[]{R.id.name,
-                    R.id.size, R.id.cost,R.id.locations});
+                    getContext(),
+                    searchList,
+                    R.layout.fragment_search_results_items,
+                    new String[]{ "name", "size", "cost","locations"},
+                    new int[]{ R.id.name, R.id.size, R.id.cost,R.id.locations}
+            );
 
             lv.setAdapter(adapter);
-
-
         }
 
         public  String getData(String urlPath) throws IOException {
@@ -201,6 +184,4 @@ public class SearchResultFragment extends Fragment {
             return result.toString();
         }
     }
-
-
 }
