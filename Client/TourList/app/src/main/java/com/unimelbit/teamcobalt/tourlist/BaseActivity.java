@@ -12,7 +12,10 @@ import android.view.MenuItem;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 
 public class BaseActivity extends AppCompatActivity
@@ -20,8 +23,9 @@ public class BaseActivity extends AppCompatActivity
 
     private static String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
 
-    // current trip
+    // current trip and user
     private static Trip currentTrip;
+    private static User currentUser;
 
     // Permission manager
     private PermissionManager permission;
@@ -39,8 +43,8 @@ public class BaseActivity extends AppCompatActivity
 
         initNavDrawer();
 
-        // open demo trip for demo
-        mainContainer.gotoTabbedTripFragment(DEMOTRIP_URL);
+        // open home screen, no login
+        mainContainer.gotoHomeFragment();
 
         //Permission check when initiating app
         permission = new PermissionManager() {};
@@ -67,26 +71,23 @@ public class BaseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    /**
-     * returns the base fragment container manager
-     */
+    // Assorted getters/setter
     public BaseFragmentContainerManager getMainContainerManager() {
         return mainContainer;
     }
-
-    /**
-     * setter for current trip
-     */
     public void setCurrentTrip(Trip trip) {
         currentTrip = trip;
     }
-
-    /**
-     * setter for current trip
-     */
     public Trip getCurrentTrip() {
         return currentTrip;
     }
+    public void setCurrentUser(User user) {
+        currentUser = user;
+    }
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
 
     /**
      * Closes nav drawer when back button pressed
@@ -111,15 +112,21 @@ public class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
         Fragment f = getSupportFragmentManager().findFragmentById(mainContainer.getContainerId());
 
-        if (id == R.id.nav_Profile) {
-            mainContainer.gotoTabbedTripFragment(DEMOTRIP_URL);
+        if (id == R.id.nav_Profile && !(f instanceof HomeFragment) && !(f instanceof LoginFragment)) {
+            mainContainer.gotoHomeFragment();
 
-        } else if (id == R.id.nav_search && !(f instanceof TripSearchFragment) ) {
+        } else if (id == R.id.nav_search && !(f instanceof TripSearchFragment)) {
             mainContainer.gotoTripSearchFragment();
 
         } else if (id == R.id.nav_create && !(f instanceof CreateTripFragment)) {
             mainContainer.gotoCreateFragment();
 
+        } else if (id == R.id.nav_current) {
+            if (currentTrip != null) {
+                mainContainer.gotoTabbedTripFragment(currentTrip);
+            } else {
+                mainContainer.gotoTabbedTripFragment(DEMOTRIP_URL);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

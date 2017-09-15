@@ -24,19 +24,18 @@ public class TripSearchResultFragment extends Fragment {
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
     private String searchQuery;
 
-    private BaseFragmentContainerManager containerManager;
+    private onFragmentCreatedListener listener;
 
     public TripSearchResultFragment() {
     }
 
-    public static TripSearchResultFragment newInstance(String text, BaseFragmentContainerManager containerManager) {
+    public static TripSearchResultFragment newInstance(String text) {
 
         TripSearchResultFragment fragment = new TripSearchResultFragment();
 
         Bundle args = new Bundle();
         args.putString(TripSearchResultFragment.ARG_SEARCH_QUERY, text);
         fragment.setArguments(args);
-        fragment.setListener(containerManager);
 
         return fragment;
     }
@@ -58,19 +57,19 @@ public class TripSearchResultFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_search_result, container, false);
 
-        TextView textview = (TextView) rootView.findViewById(R.id.result_text);
-
-        String header = getResources().getString(R.string.fragment_searchresults_header) + searchQuery;
-
-        textview.setText(header);
-        getActivity().setTitle(R.string.title_fragment_searchresults);
-
-        containerManager.onCreatedView(this, rootView);
+        listener.onCreatedView(this, rootView);
 
         return rootView;
     }
 
     public void showResultsList(ArrayList<Trip> trips, View rootView) {
+
+        TextView textview = (TextView) rootView.findViewById(R.id.result_text);
+
+        String header = trips.size() + " " + getResources().getString(R.string.fragment_searchresults_header) + " " + searchQuery;
+
+        textview.setText(header);
+        getActivity().setTitle(R.string.title_fragment_searchresults);
 
         ListView resultsList = (ListView)rootView.findViewById(R.id.results_list);
 
@@ -83,15 +82,15 @@ public class TripSearchResultFragment extends Fragment {
                 getContext(),
                 tripMaps,
                 R.layout.fragment_search_results_items,
-                new String[]{"name", "size", "cost", "locations"},
+                new String[]{Trip.JSON_NAME, Trip.JSON_SIZE, Trip.JSON_COST, Trip.JSON_LOC},
                 new int[]{R.id.name, R.id.size, R.id.cost, R.id.locations}
         );
 
         resultsList.setAdapter(adapter);
     }
 
-    private void setListener(BaseFragmentContainerManager containerManager) {
-        this.containerManager = containerManager;
+    public void setOnCreatedListener(TripSearchGetRequest request) {
+        listener = request;
     }
 
     public interface onFragmentCreatedListener {

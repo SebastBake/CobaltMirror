@@ -23,10 +23,14 @@ public class TripGetRequest implements GetRequest {
     private BaseFragmentContainerManager containerManager;
 
     public TripGetRequest(String url, BaseFragmentContainerManager containerManager) {
+
         this.url = url;
         this.containerManager = containerManager;
 
+        // Start loading fragment
         containerManager.gotoLoadingFragment(LOADING_MSG);
+
+        // Start get request
         new GetRequester(this).execute(url);
     }
 
@@ -34,7 +38,7 @@ public class TripGetRequest implements GetRequest {
     public void processResult(String result) {
 
         try {
-            ArrayList<Trip> trip = Trip.newTripArray(result, url);
+            ArrayList<Trip> trip = Trip.newTripArrayFromJSON(result, url);
             containerManager.gotoTabbedTripFragment(trip.get(0));
         } catch (Exception e) {
             requestFailed("Something failed for url: " + url + " and result: " + result, e);

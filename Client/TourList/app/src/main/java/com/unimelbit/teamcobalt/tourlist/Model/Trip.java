@@ -14,27 +14,36 @@ import java.util.HashMap;
 public class Trip {
 
     public static String JSON_NAME = "name";
-    public static String JSON_COST = "name";
+    public static String JSON_COST = "cost";
     public static String JSON_SIZE = "size";
     public static String JSON_LOC = "locations";
-    public static String JSON_LOC_TITLE = "title";
+    public static String JSON_DESC = "description";
 
     private String name;
+    private String description;
     private String cost;
     private String size;
-    private String locations;
+    private ArrayList<Location> locations;
 
     private String url;
 
-    public Trip(String name, String cost, String size, String locations, String url) {
+    public Trip(
+            String name,
+            String description,
+            String cost,
+            String size,
+            ArrayList<Location> locations,
+            String url
+    ) {
         this.name = name;
+        this.description = description;
         this.cost = cost;
         this.size = size;
         this.locations = locations;
         this.url = url;
     }
 
-    public static ArrayList<Trip> newTripArray(String result, String url) throws JSONException {
+    public static ArrayList<Trip> newTripArrayFromJSON(String result, String url) throws JSONException {
 
         ArrayList<Trip> trips = new ArrayList<>();
         JSONArray tripJSONArray = new JSONArray(result);
@@ -45,38 +54,32 @@ public class Trip {
             String name = "";
             String cost = "";
             String size = "";
-            String locations_titles = "";
+            String description = "";
+            ArrayList<Location> locations = new ArrayList<>();
+
 
             try {
-                name =  tripJSON.getString(JSON_NAME);
-            } catch (JSONException e) { }
-
-            try {
-                cost =  tripJSON.getString(JSON_COST);
+                name = tripJSON.getString(JSON_NAME);
             } catch (JSONException e) {}
 
             try {
-                size =  tripJSON.getString(JSON_SIZE);
+                cost = tripJSON.getString(JSON_COST);
             } catch (JSONException e) {}
 
             try {
-                JSONArray locations = tripJSON.getJSONArray(JSON_LOC);
+                size = tripJSON.getString(JSON_SIZE);
+            } catch (JSONException e) {}
 
-                for (int j=0; j<locations.length();j++){
+            try {
+                description = tripJSON.getString(JSON_DESC);
+            } catch (JSONException e) {}
 
-                    String title = "";
-
-                    try {
-                        JSONObject location = locations.getJSONObject(j);
-                        title = location.getString(JSON_LOC_TITLE);
-                    } catch (JSONException e) {}
-
-                    locations_titles = locations_titles + title + "\n";
-                }
-
+            try {
+                JSONArray jsonLocations = tripJSON.getJSONArray(JSON_LOC);
+                locations = Location.newLocationArrayFromJSON(jsonLocations);
             } catch(JSONException e) {}
 
-            trips.add(new Trip(name, cost, size, locations_titles, url));
+            trips.add(new Trip(name, description, cost, size, locations, url));
         }
 
         return trips;
@@ -89,13 +92,17 @@ public class Trip {
         map.put(JSON_NAME, name);
         map.put(JSON_COST, cost);
         map.put(JSON_SIZE, size);
-        map.put(JSON_LOC, locations);
+        map.put(JSON_LOC, "Locations go here...");
 
         return map;
     }
 
-    public String getLocations() {
+    public ArrayList<Location> getLocations() {
         return locations;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getSize() {

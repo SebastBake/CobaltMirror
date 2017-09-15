@@ -4,14 +4,15 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchGetRequest;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
-
-import java.util.ArrayList;
 
 /**
  * Created by Sebastian on 14/9/17.
@@ -20,14 +21,10 @@ import java.util.ArrayList;
  * Any fragment transaction on the main fragment container should be placed in this class.
  * It can then be called using baseActivity.getBaseFragmentContainerManager().gotoDemoMethod()
  */
-public class BaseFragmentContainerManager
-        implements TripSearchResultFragment.onFragmentCreatedListener
-{
+public class BaseFragmentContainerManager {
 
     private BaseActivity baseActivity;
     private int containerId;
-
-    private ArrayList<Trip> tmpTrips;
 
     BaseFragmentContainerManager(BaseActivity b, int id) {
         baseActivity = b;
@@ -36,6 +33,24 @@ public class BaseFragmentContainerManager
 
     public int getContainerId() {
         return containerId;
+    }
+
+    /**
+     * Takes the user to the home screen
+     */
+    public void gotoHomeFragment(User user) {
+
+        baseActivity.setCurrentUser(user);
+        gotoHomeFragment();
+    }
+
+    /**
+     * Takes the user to the home screen
+     */
+    public void gotoHomeFragment() {
+
+        HomeFragment fragment = HomeFragment.newInstance();
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
@@ -67,18 +82,11 @@ public class BaseFragmentContainerManager
     /**
      * Takes the user to the start search result fragment and sends text over
      */
-    public void gotoTripSearchResultFragment(String text) {
+    public void gotoTripSearchResultFragment(String text, TripSearchGetRequest request) {
 
-        TripSearchResultFragment fragment = TripSearchResultFragment.newInstance(text, this);
+        TripSearchResultFragment fragment = TripSearchResultFragment.newInstance(text);
+        fragment.setOnCreatedListener(request);
         gotoFragmentUsingBackstack(fragment, null);
-    }
-
-    public void setTmpTrips(ArrayList<Trip> tmpTrips) {
-        this.tmpTrips = tmpTrips;
-    }
-
-    public void onCreatedView(TripSearchResultFragment fragment,View rootView) {
-        fragment.showResultsList(tmpTrips, rootView);
     }
 
     /**
