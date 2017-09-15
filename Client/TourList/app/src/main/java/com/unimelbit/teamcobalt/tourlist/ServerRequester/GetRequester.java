@@ -23,9 +23,11 @@ public class GetRequester extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+
         try {
             return getData(params[0]);
         } catch (IOException ex) {
+
             String errorMsg = "Network error !";
             processor.requestFailed(errorMsg, ex);
             return errorMsg;
