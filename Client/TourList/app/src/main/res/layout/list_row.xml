@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/bitmap_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription="Property Image"
+        app:srcCompat="@drawable/googleg_standard_color_18" />
+
+    <LinearLayout
+        android:id="@+id/infoSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/bitmap_image"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/rowName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Street Address"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/list_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Description"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/pricingSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/infoSection"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/bedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginRight="15dp"
+             />
+
+        <TextView
+            android:id="@+id/bathroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/bedroom"
+            />
+
+        <TextView
+            android:id="@+id/carspot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/bathroom"
+            />
+
+        <ImageView
+            android:id="@+id/image_up"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            app:srcCompat="@mipmap/up"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="117dp" />
+
+        <ImageView
+            android:id="@+id/image_down"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            app:srcCompat="@mipmap/down"
+            android:layout_marginEnd="39dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/image_up" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REMOVE"
+        android:layout_below="@+id/infoSection"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

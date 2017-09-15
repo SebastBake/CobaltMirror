@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unimelbit.teamcobalt.tourlist">
 
-
-
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -29,6 +26,11 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+
 
     <application
         android:allowBackup="true"
@@ -37,6 +39,14 @@
         android:launchMode="singleTask"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCzMPO3wufV3Ld4qVPquFVJbMcKBL-N80c" />
+
         <activity
             android:name=".BaseActivity"
             android:label="@string/title_activity_base"
@@ -57,30 +67,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.unimelbit.teamcobalt.tourlist.BaseActivity" />
         </activity>
-        <activity android:name=".AugmentedReality.ARActivity"
+        <activity
+            android:name=".AugmentedReality.ARActivity"
             android:configChanges="screenSize|orientation"
-            android:label="@string/title_activity_aug_reality"
-            />
-
-        <activity android:name=".AugmentedReality.POIDetailActivity"
-            android:label="@string/title_activity_poidetail"
-            ></activity>
+            android:label="@string/title_activity_aug_reality" />
+        <activity
+            android:name=".AugmentedReality.POIDetailActivity"
+            android:label="@string/title_activity_poidetail" />
 
 
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value=" AIzaSyDt_Gpw4edjdn4h_Oza3R0i8plm5-NppaA" />
-
+        <activity android:name=".CreateTrips.CreateActivity" />
+        <activity android:name=".CreateTrips.TripsActivity"></activity>
     </application>
-
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true"
-        />
 
 </manifest>

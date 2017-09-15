@@ -2,19 +2,11 @@ package com.unimelbit.teamcobalt.tourlist;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
-import com.unimelbit.teamcobalt.tourlist.Search.SearchFragment;
-import com.unimelbit.teamcobalt.tourlist.Search.SearchResultFragment;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
-import junit.framework.Assert;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
@@ -37,9 +29,9 @@ public class SearchTest {
         @Test
         public void shouldNotBeNull() throws Exception
         {
-            SearchResultFragment fragment = new SearchResultFragment();
+            TripSearchResultFragment fragment = new TripSearchResultFragment();
             Bundle args = new Bundle();
-            args.putString(SearchResultFragment.ARG_TEXT, "demo");
+            args.putString(TripSearchResultFragment.ARG_SEARCH_QUERY, "demo");
             fragment.setArguments(args);
             SupportFragmentTestUtil.startFragment(fragment);
             assertNotNull(fragment);

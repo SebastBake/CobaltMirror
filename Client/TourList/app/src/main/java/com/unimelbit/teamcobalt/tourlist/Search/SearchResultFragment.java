@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.Search;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -73,7 +72,7 @@ public class SearchResultFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search_result, container, false);
-        TextView textview = (TextView) view.findViewById(R.id.Result_text);
+        TextView textview = (TextView) view.findViewById(R.id.result_text);
         final Bundle args = getArguments();
         textview.setText(R.string.fragment_searchresults_header+ args.getString(ARG_TEXT));
         getActivity().setTitle(R.string.title_fragment_searchresults);
@@ -163,7 +162,7 @@ public class SearchResultFragment extends Fragment {
                     getContext(), searchList,
                     R.layout.fragment_search_results_items, new String[]{"name", "size",
                     "cost","locations"}, new int[]{R.id.name,
-                    R.id.size, R.id.cost,R.id.locations});
+                    R.id.name, R.id.cost,R.id.locations});
 
             lv.setAdapter(adapter);
 
