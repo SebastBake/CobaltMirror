@@ -51,7 +51,6 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
 
         Log.e("TripGetRequest failed",msg);
         e.printStackTrace();
-        containerManager.clearFragmentContainer();
         containerManager.gotoErrorFragment("TripGetRequest failed: " + msg);
     }
 
