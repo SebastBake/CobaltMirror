@@ -17,6 +17,10 @@ import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchUserRequest;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +30,13 @@ public class BaseActivity extends AppCompatActivity
     // current trip and user
     private static Trip currentTrip;
     private static User currentUser;
+
+    public static void setPutObject(JSONObject putObject) {
+        PUT_OBJECT = putObject;
+    }
+
+    public static JSONObject PUT_OBJECT;
+
 
     // Permission manager
     private PermissionManager permission;

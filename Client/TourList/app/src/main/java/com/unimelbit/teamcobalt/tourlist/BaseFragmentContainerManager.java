@@ -57,6 +57,7 @@ public class BaseFragmentContainerManager {
      * Takes the user to trip details screen using a url
      */
     public void gotoTabbedTripFragment(String tripURL) {
+
         new TripGetRequest(tripURL, this);
     }
 
@@ -114,18 +115,6 @@ public class BaseFragmentContainerManager {
 
         ErrorFragment fragment = ErrorFragment.newInstance(errMsg);
         gotoFragment(fragment);
-    }
-
-    /**
-     * Clears the main fragment container
-     */
-    public void clearFragmentContainer() {
-
-        Fragment fragment = getCurrentFragment();
-
-        if (fragment != null) {
-            baseActivity.getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-        }
     }
 
     /**

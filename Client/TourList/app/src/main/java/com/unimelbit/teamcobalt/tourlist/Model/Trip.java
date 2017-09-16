@@ -89,10 +89,13 @@ public class Trip {
 
         HashMap<String, String> map = new HashMap<>();
 
+        String locationString = "";
+        for(Location location: locations) { locationString += location.getTitle() + "\n"; }
+
         map.put(JSON_NAME, name);
         map.put(JSON_COST, cost);
         map.put(JSON_SIZE, size);
-        map.put(JSON_LOC, "Locations go here...");
+        map.put(JSON_LOC, locationString);
 
         return map;
     }
