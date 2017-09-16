@@ -123,7 +123,7 @@ public class BaseActivity extends AppCompatActivity
 
                     Fragment fragmentInstance = new HomeFragment();
 
-                    System.out.println("PENIS");
+                    setTitle("Base Activity");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     getSupportFragmentManager().beginTransaction()
@@ -137,8 +137,6 @@ public class BaseActivity extends AppCompatActivity
 
                 else if(isLoading()){
 
-                    System.out.println("CUNT");
-
                     getSupportFragmentManager().popBackStackImmediate();
                     getSupportFragmentManager().popBackStackImmediate();
                     setLoading(false);
@@ -149,7 +147,6 @@ public class BaseActivity extends AppCompatActivity
                 else if (getFragmentManager().getBackStackEntryCount() > 1) {
                     getSupportFragmentManager().popBackStackImmediate();
                 } else {
-                    System.out.println("Fortune Cookies");
                     super.onBackPressed();
                 }
             }
