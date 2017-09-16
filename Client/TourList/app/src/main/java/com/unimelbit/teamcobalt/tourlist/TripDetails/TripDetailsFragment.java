@@ -153,7 +153,6 @@ public class TripDetailsFragment extends Fragment {
             //Intent for directing user to the location settings activity
             final Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
 
             //Dialogue to display
             final String message = "Please enable GPS before using AR functionality";

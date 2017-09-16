@@ -1,5 +1,8 @@
 package com.unimelbit.teamcobalt.tourlist;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -116,8 +119,35 @@ public class BaseFragmentContainerManager {
      */
     public void gotoErrorFragment(String errMsg) {
 
+        baseActivity.setLoading(true);
+
         ErrorFragment fragment = ErrorFragment.newInstance(errMsg);
-        gotoFragment(fragment);
+        //gotoFragment(fragment);
+
+
+        baseActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(containerId,fragment)
+                .addToBackStack(null)
+                .commit();
+
+/*
+        final AlertDialog.Builder builder = new AlertDialog.Builder(baseActivity);
+
+        //Dialogue to display
+        final String message = "The Following Error has occurred:\n\n" + errMsg;
+
+        //Direct user to location settings if they press OK, otherwise dismiss the display box
+        builder.setMessage(message)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                //baseActivity.getSupportFragmentManager().popBackStackImmediate();
+                                d.dismiss();
+                            }
+                        });
+        builder.create().show();
+        */
     }
 
     /**
@@ -182,6 +212,11 @@ The bread and butter for transactions and backstacks
             ft.addToBackStack(backStateName);
             ft.commit();
         }
+    }
+
+    public Context getBaseActivity(){
+        return baseActivity;
+
     }
 
 }

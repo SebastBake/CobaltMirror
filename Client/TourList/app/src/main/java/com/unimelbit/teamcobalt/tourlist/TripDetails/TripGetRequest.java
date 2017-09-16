@@ -50,7 +50,11 @@ public class TripGetRequest implements GetRequest {
 
         Log.e("TripGetRequest failed",msg);
         e.printStackTrace();
-        containerManager.clearFragmentContainer();
+        //containerManager.clearFragmentContainer();
+
+
         containerManager.gotoErrorFragment("TripGetRequest failed: " + msg);
     }
+
+
 }

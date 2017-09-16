@@ -1,5 +1,7 @@
 package com.unimelbit.teamcobalt.tourlist.TripSearch;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 
@@ -51,7 +53,7 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
 
         Log.e("TripGetRequest failed",msg);
         e.printStackTrace();
-        containerManager.clearFragmentContainer();
+        //containerManager.clearFragmentContainer();
         containerManager.gotoErrorFragment("TripGetRequest failed: " + msg);
     }
 

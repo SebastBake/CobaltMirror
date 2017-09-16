@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -118,7 +119,25 @@ public class BaseActivity extends AppCompatActivity
 
                 }
 
-                if(isLoading()){
+                if (f instanceof ErrorFragment){
+
+                    Fragment fragmentInstance = new HomeFragment();
+
+                    System.out.println("PENIS");
+
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, fragmentInstance)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setLoading(false);
+
+                }
+
+                else if(isLoading()){
+
+                    System.out.println("CUNT");
 
                     getSupportFragmentManager().popBackStackImmediate();
                     getSupportFragmentManager().popBackStackImmediate();
@@ -126,9 +145,11 @@ public class BaseActivity extends AppCompatActivity
                     //getFragmentManager().popBackStack();
 
                 }
+
                 else if (getFragmentManager().getBackStackEntryCount() > 1) {
                     getSupportFragmentManager().popBackStackImmediate();
                 } else {
+                    System.out.println("Fortune Cookies");
                     super.onBackPressed();
                 }
             }

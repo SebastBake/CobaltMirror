@@ -69,4 +69,5 @@ public class GetRequester extends AsyncTask<String, Void, String> {
 
         return result.toString();
     }
+
 }
