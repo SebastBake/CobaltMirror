@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ErrorFragment extends Fragment {
+public class ErrorFragment extends Fragment implements BackButtonInterface {
 
     private static final String ARG_MSG = "ARG_MSG";
 

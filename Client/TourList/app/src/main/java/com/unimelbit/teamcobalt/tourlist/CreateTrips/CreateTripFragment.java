@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
+import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import org.json.JSONException;
@@ -37,7 +38,7 @@ import java.net.URL;
  * Use the {@link CreateTripFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateTripFragment extends Fragment implements View.OnClickListener {
+public class CreateTripFragment extends Fragment implements View.OnClickListener, BackButtonInterface {
     // TODO: Rename parameter arguments, choose names that match
 
     public static final String EXTRA_MESSAGE = "com.example.spike.uitest.MESSAGE";

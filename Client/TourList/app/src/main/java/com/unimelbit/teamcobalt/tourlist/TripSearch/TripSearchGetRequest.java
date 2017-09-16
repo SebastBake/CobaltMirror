@@ -1,5 +1,7 @@
 package com.unimelbit.teamcobalt.tourlist.TripSearch;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 
