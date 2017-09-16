@@ -29,7 +29,28 @@
     <string name="title_activity_aug_reality">I see you</string>
     <string name="title_activity_poidetail">Tell me more</string>
 
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_fragment_search">Search</string>
+    <string name="title_fragment_searchresults">Search Results</string>
+    <string name="fragment_searchresults_header">Results for:</string>
+
+    <string name="name_title">Name</string>
+    <string name="Date_title">Date</string>
+    <string name="Name_field"></string>
+    <string name="Date_field"></string>
+    <string name="Size_title">Trip Size</string>
+    <string name="Size_small">1-5</string>
+    <string name="Size_medium">5-10</string>
+    <string name="Size_large">>10</string>
+    <string name="Cost_title">Estimated Cost</string>
+    <string name="Cost_small">$</string>
+    <string name="Cost_medium">$$</string>
+    <string name="Cost_large">$$$</string>
+    <string name="Apply_button">Apply</string>
+    <string name="title_activity_trip">Trip</string>
+    <string name="title_activity_search">Search</string>
+
 
 </resources>
