@@ -2,6 +2,7 @@ package com.unimelbit.teamcobalt.tourlist;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,7 +17,10 @@ import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
+import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,6 +34,9 @@ public class BaseActivity extends AppCompatActivity
     // Permission manager
     private PermissionManager permission;
 
+    //Flag for loading
+    private boolean loading;
+
     // Manager of main fragment
     private static BaseFragmentContainerManager mainContainer;
 
@@ -42,6 +49,8 @@ public class BaseActivity extends AppCompatActivity
         mainContainer = new BaseFragmentContainerManager(this, R.id.fragment_container);
 
         initNavDrawer();
+
+        loading = false;
 
         // open home screen, no login
         mainContainer.gotoHomeFragment();
@@ -98,7 +107,31 @@ public class BaseActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Fragment f = getMainContainerManager().getCurrentFragment();
+            int fragments = getSupportFragmentManager().getBackStackEntryCount();
+            if (fragments == 1 || f instanceof HomeFragment) {
+                finish();
+            } else {
+
+                if(fragments == 2 || f instanceof TabbedTripFragment){
+                    setTitle("Base Activity");
+
+                }
+
+                if(isLoading()){
+
+                    getSupportFragmentManager().popBackStackImmediate();
+                    getSupportFragmentManager().popBackStackImmediate();
+                    setLoading(false);
+                    //getFragmentManager().popBackStack();
+
+                }
+                else if (getFragmentManager().getBackStackEntryCount() > 1) {
+                    getSupportFragmentManager().popBackStackImmediate();
+                } else {
+                    super.onBackPressed();
+                }
+            }
         }
     }
 
@@ -141,4 +174,15 @@ public class BaseActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         permission.checkResult(requestCode,permissions, grantResults);
     }
+
+    public boolean isLoading(){
+
+        return loading;
+    }
+
+    public void setLoading(boolean t){
+
+        loading = t;
+    }
+
 }

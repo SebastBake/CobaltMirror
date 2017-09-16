@@ -1,6 +1,8 @@
 package com.unimelbit.teamcobalt.tourlist;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
@@ -67,7 +69,7 @@ public class BaseFragmentContainerManager {
 
         baseActivity.setCurrentTrip(trip);
         TabbedTripFragment fragment = TabbedTripFragment.newInstance();
-        gotoFragment(fragment);
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
@@ -103,8 +105,10 @@ public class BaseFragmentContainerManager {
      */
     public void gotoLoadingFragment(String loadingMsg) {
 
+        baseActivity.setLoading(true);
+
         LoadingFragment fragment = LoadingFragment.newInstance(loadingMsg);
-        gotoFragment(fragment);
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
@@ -141,11 +145,13 @@ public class BaseFragmentContainerManager {
      * @param fragment the fragment to replace the current fragment
      */
     private void gotoFragmentUsingBackstack(Fragment fragment, String backStackTag) {
-        baseActivity.getSupportFragmentManager()
+        /*baseActivity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(containerId,fragment)
                 .addToBackStack(backStackTag)
-                .commit();
+                .commit();*/
+
+        replaceFragment(fragment);
     }
 
     /**
@@ -159,4 +165,23 @@ public class BaseFragmentContainerManager {
                 .replace(containerId, fragment)
                 .commit();
     }
+
+
+/*
+The bread and butter for transactions and backstacks
+ */
+    private void replaceFragment (Fragment fragment){
+        String backStateName = fragment.getClass().getName();
+
+        FragmentManager manager = baseActivity.getSupportFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped){ //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(containerId, fragment);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
+    }
+
 }
