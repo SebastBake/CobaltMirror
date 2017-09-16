@@ -119,11 +119,11 @@ public class BaseActivity extends AppCompatActivity
 
                 }
 
-                if (f instanceof ErrorFragment){
+                if (f instanceof BackButtonInterface){
 
                     Fragment fragmentInstance = new HomeFragment();
 
-                    setTitle("Base Activity");
+
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     getSupportFragmentManager().beginTransaction()
@@ -131,16 +131,9 @@ public class BaseActivity extends AppCompatActivity
                             .addToBackStack(null)
                             .commit();
 
+                    setTitle("Base Activity");
+
                     setLoading(false);
-
-                }
-
-                else if(isLoading()){
-
-                    getSupportFragmentManager().popBackStackImmediate();
-                    getSupportFragmentManager().popBackStackImmediate();
-                    setLoading(false);
-                    //getFragmentManager().popBackStack();
 
                 }
 

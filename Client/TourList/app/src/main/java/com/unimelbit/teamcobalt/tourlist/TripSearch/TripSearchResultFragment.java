@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Created by spike on 8/9/2017.
  */
-public class TripSearchResultFragment extends Fragment {
+public class TripSearchResultFragment extends Fragment implements BackButtonInterface {
 
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
     private String searchQuery;

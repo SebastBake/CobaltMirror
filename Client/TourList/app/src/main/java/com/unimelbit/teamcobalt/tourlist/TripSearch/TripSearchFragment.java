@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -16,7 +17,7 @@ import com.unimelbit.teamcobalt.tourlist.R;
  * Created by spike on 8/9/2017.
  * Edited by sebastian on 14/9/2017.
  */
-public class TripSearchFragment extends Fragment implements View.OnClickListener {
+public class TripSearchFragment extends Fragment implements View.OnClickListener, BackButtonInterface {
 
     public TripSearchFragment() {
     }
