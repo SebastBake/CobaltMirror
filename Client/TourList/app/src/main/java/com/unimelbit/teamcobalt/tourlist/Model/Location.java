@@ -1,5 +1,8 @@
 package com.unimelbit.teamcobalt.tourlist.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,8 +14,9 @@ import java.util.HashMap;
  * Created by Sebastian on 14/9/17.
  * Simple class to hold trip locations, can be constructed using JSON from the server
  */
-public class Location {
+public class Location implements Parcelable{
 
+    public static final String LOC_DEFAULT_PARCEL_KEY = "LOC_DEFAULT_PARCEL_KEY";
     public static final String JSON_TITLE = "title";
     public static final String JSON_DESC = "Description";
     public static final String JSON_LAT = "latitude";
@@ -39,6 +43,23 @@ public class Location {
         this.longitude = longitude;
         this.altitude = altitude;
 
+    }
+
+    Location(Parcel parcel) {
+        title = parcel.readString();
+        description = parcel.readString();
+        latitude = parcel.readDouble();
+        longitude = parcel.readDouble();
+        altitude = parcel.readDouble();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeDouble(altitude);
     }
 
     public static ArrayList<Location> newLocationArrayFromJSON(JSONArray jsonArray) {
@@ -114,4 +135,21 @@ public class Location {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+
+        @Override
+        public Location[] newArray(int size) {
+            return new Location[size];
+        }
+
+        @Override
+        public Location createFromParcel(Parcel source) {
+            return new Location(source);
+        }
+    };
 }

@@ -27,20 +27,22 @@ import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
+
+import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
 public class TabbedTripFragment extends Fragment implements BackButtonInterface, TabLayout.OnTabSelectedListener {
 
+    public static final int NUM_TABS = 2;
+
     private TripPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
-    private int PLACE_PICKER_REQUEST = 1;
-
     private ARTools arTool;
-
     private FloatingActionButton augmentedRealityButton;
     private FloatingActionButton locButton;
     private FloatingActionButton mapButton;
@@ -141,7 +143,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface,
         @Override
         public int getCount() {
             // Show 3 total pages on the tab bar
-            return 2;
+            return NUM_TABS;
         }
 
         // titles of the tabs
@@ -185,9 +187,14 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface,
 
     public void resetLocSharingColor() {
         if(((BaseActivity)getActivity()).isLocationSharingOn()) {
-            locButton.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.scheme1_green, null)));
+
+            ColorStateList greenColour = ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.scheme1_green, null));
+            locButton.setBackgroundTintList(greenColour);
+
         } else {
-            locButton.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.scheme1_red, null)));
+
+            ColorStateList redColour = ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.scheme1_red, null));
+            locButton.setBackgroundTintList(redColour);
         }
     }
 
@@ -197,19 +204,14 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface,
         mapButton = (FloatingActionButton) rootView.findViewById(R.id.map_button);
 
         mapButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                try {
-                    Intent intent = builder.build(getActivity());
-                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                ArrayList<Location> locations = ((BaseActivity)getActivity()).getCurrentTrip().getLocations();
+                intent.putParcelableArrayListExtra(Location.LOC_DEFAULT_PARCEL_KEY, locations);
+                startActivity(intent);
             }
         });
     }
@@ -266,19 +268,6 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface,
         locButton.setVisibility(View.VISIBLE);
         augmentedRealityButton.setVisibility(View.VISIBLE);
         mapButton.setVisibility(View.VISIBLE);
-    }
-
-
-    // Not sure what this does?
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-
-        if (requestCode == PLACE_PICKER_REQUEST){
-
-            if(resultCode == RESULT_OK){
-                // Place place = PlacePicker.getPlace(getActivity(), data);
-            }
-        }
-
     }
 
 

@@ -51,6 +51,7 @@
     <string name="Apply_button">Apply</string>
     <string name="title_activity_trip">Trip</string>
     <string name="title_activity_search">Search</string>
+    <string name="title_activity_map">Map</string>
 
 
 </resources>
