@@ -64,8 +64,29 @@ var Addtrip = function(req, res) {
   });
 };
 
+// add trip to current user's saved list
+var Removetrip = function(req, res) {
+  var TripInx = req.body.tripid;
+  User.findOneAndUpdate({
+    _id: req.body.userid
+  }, {
+    $pull: {
+      'savedtrips': TripInx
+    }
+  }, function(err, data) {
+    if (err) {
+      return res.status(500).json({
+        'error': 'error in removing'
+      });
+    }
+    console.log(data);
+    res.json(data);
+  });
+};
+
+
 
 module.exports.createUser = createUser;
-
+module.exports.Removetrip = Removetrip;
 module.exports.findOneUser = findOneUser;
 module.exports.Addtrip = Addtrip;

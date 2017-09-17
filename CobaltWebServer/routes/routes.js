@@ -36,4 +36,7 @@ router.get('/api/user/:id', usercontroller.findOneUser);
 //Add saved trip
 router.put('/api/user/addtrip', usercontroller.Addtrip);
 
+//Remove trip from saved trips
+router.put('/api/user/removetrip', usercontroller.Removetrip)
+
 module.exports = router;
