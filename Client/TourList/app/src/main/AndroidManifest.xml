@@ -76,8 +76,6 @@
             android:name=".AugmentedReality.POIDetailActivity"
             android:label="@string/title_activity_poidetail" />
 
-        <activity android:name=".CreateTrips.CreateActivity" />
-        <activity android:name=".CreateTrips.TripsActivity"></activity>
     </application>
 
 </manifest>

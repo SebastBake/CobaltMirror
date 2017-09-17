@@ -136,6 +136,18 @@ var World = {
 
 		var Url = "https://www.google.com/search?q="+ currentMarker.poiData.title;
 		AR.context.openInBrowser(Url);
+
+		var markerSelectedJSON = {
+            action: "present_poi_details",
+            id: currentMarker.poiData.id,
+            title: currentMarker.poiData.title,
+            description: currentMarker.poiData.description
+            latitude: currentMarker.poiData.latitude;
+            longitude: currentMarker.poiData.longitude;
+        };
+
+        AR.platform.sendJSONObject(markerSelectedJSON);
+
 	},
 
 		// user clicked "map button in POI-detail panel -> open google maps
