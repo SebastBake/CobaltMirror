@@ -11,9 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.R;
 
-public class TabbedTripFragment extends Fragment {
+public class TabbedTripFragment extends Fragment implements BackButtonInterface {
 
     private TripPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;

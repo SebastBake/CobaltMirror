@@ -1,6 +1,11 @@
 package com.unimelbit.teamcobalt.tourlist;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
@@ -68,7 +73,7 @@ public class BaseFragmentContainerManager {
 
         baseActivity.setCurrentTrip(trip);
         TabbedTripFragment fragment = TabbedTripFragment.newInstance();
-        gotoFragment(fragment);
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
@@ -104,8 +109,10 @@ public class BaseFragmentContainerManager {
      */
     public void gotoLoadingFragment(String loadingMsg) {
 
+        baseActivity.setLoading(true);
+
         LoadingFragment fragment = LoadingFragment.newInstance(loadingMsg);
-        gotoFragment(fragment);
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
@@ -113,8 +120,35 @@ public class BaseFragmentContainerManager {
      */
     public void gotoErrorFragment(String errMsg) {
 
+        baseActivity.setLoading(true);
+
         ErrorFragment fragment = ErrorFragment.newInstance(errMsg);
-        gotoFragment(fragment);
+        //gotoFragment(fragment);
+
+
+        baseActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(containerId,fragment)
+                .addToBackStack(null)
+                .commit();
+
+/*
+        final AlertDialog.Builder builder = new AlertDialog.Builder(baseActivity);
+
+        //Dialogue to display
+        final String message = "The Following Error has occurred:\n\n" + errMsg;
+
+        //Direct user to location settings if they press OK, otherwise dismiss the display box
+        builder.setMessage(message)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                //baseActivity.getSupportFragmentManager().popBackStackImmediate();
+                                d.dismiss();
+                            }
+                        });
+        builder.create().show();
+        */
     }
 
     /**
@@ -130,11 +164,13 @@ public class BaseFragmentContainerManager {
      * @param fragment the fragment to replace the current fragment
      */
     private void gotoFragmentUsingBackstack(Fragment fragment, String backStackTag) {
-        baseActivity.getSupportFragmentManager()
+        /*baseActivity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(containerId,fragment)
                 .addToBackStack(backStackTag)
-                .commit();
+                .commit();*/
+
+        replaceFragment(fragment);
     }
 
     /**
@@ -148,4 +184,28 @@ public class BaseFragmentContainerManager {
                 .replace(containerId, fragment)
                 .commit();
     }
+
+
+/*
+The bread and butter for transactions and backstacks
+ */
+    private void replaceFragment (Fragment fragment){
+        String backStateName = fragment.getClass().getName();
+
+        FragmentManager manager = baseActivity.getSupportFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped){ //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(containerId, fragment);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
+    }
+
+    public Context getBaseActivity(){
+        return baseActivity;
+
+    }
+
 }
