@@ -1,11 +1,11 @@
 package com.unimelbit.teamcobalt.tourlist;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
@@ -46,19 +46,26 @@ public class BaseFragmentContainerManager {
     }
 
     /**
+     * Takes the user to the register screen
+     */
+    public void gotoRegisterFragment() {
+        RegisterFragment fragment = new RegisterFragment();
+        gotoFragmentUsingBackstack(fragment, null);
+    }
+
+    /**
      * Takes the user to the home screen
      */
     public void gotoHomeFragment() {
 
         HomeFragment fragment = HomeFragment.newInstance();
-        gotoFragmentUsingBackstack(fragment);
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
      * Takes the user to trip details screen using a url
      */
     public void gotoTabbedTripFragment(String tripURL) {
-
         new TripGetRequest(tripURL, this);
     }
 
@@ -69,7 +76,7 @@ public class BaseFragmentContainerManager {
 
         baseActivity.setCurrentTrip(trip);
         TabbedTripFragment fragment = TabbedTripFragment.newInstance();
-        gotoFragmentUsingBackstack(fragment);
+        gotoFragment(fragment);
     }
 
     /**
@@ -78,7 +85,7 @@ public class BaseFragmentContainerManager {
     public void gotoTripSearchFragment() {
 
         TripSearchFragment fragment = TripSearchFragment.newInstance();
-        gotoFragmentUsingBackstack(fragment);
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
@@ -88,7 +95,7 @@ public class BaseFragmentContainerManager {
 
         TripSearchResultFragment fragment = TripSearchResultFragment.newInstance(text);
         fragment.setOnCreatedListener(request);
-        gotoFragmentUsingBackstack(fragment);
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
@@ -97,7 +104,7 @@ public class BaseFragmentContainerManager {
     public void gotoCreateFragment() {
 
         CreateTripFragment fragment = new CreateTripFragment();
-        gotoFragmentUsingBackstack(fragment);
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
@@ -105,10 +112,8 @@ public class BaseFragmentContainerManager {
      */
     public void gotoLoadingFragment(String loadingMsg) {
 
-        baseActivity.setLoading(true);
-
         LoadingFragment fragment = LoadingFragment.newInstance(loadingMsg);
-        gotoFragmentUsingBackstack(fragment);
+        gotoFragment(fragment);
     }
 
     /**
@@ -116,35 +121,20 @@ public class BaseFragmentContainerManager {
      */
     public void gotoErrorFragment(String errMsg) {
 
-        baseActivity.setLoading(true);
-
         ErrorFragment fragment = ErrorFragment.newInstance(errMsg);
-        //gotoFragment(fragment);
+        gotoFragment(fragment);
+    }
 
+    /**
+     * Clears the main fragment container
+     */
+    public void clearFragmentContainer() {
 
-        baseActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(containerId,fragment)
-                .addToBackStack(null)
-                .commit();
+        Fragment fragment = getCurrentFragment();
 
-/*
-        final AlertDialog.Builder builder = new AlertDialog.Builder(baseActivity);
-
-        //Dialogue to display
-        final String message = "The Following Error has occurred:\n\n" + errMsg;
-
-        //Direct user to location settings if they press OK, otherwise dismiss the display box
-        builder.setMessage(message)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                //baseActivity.getSupportFragmentManager().popBackStackImmediate();
-                                d.dismiss();
-                            }
-                        });
-        builder.create().show();
-        */
+        if (fragment != null) {
+            baseActivity.getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
     }
 
     /**
@@ -159,31 +149,23 @@ public class BaseFragmentContainerManager {
      * Does a fragment transaction replace the current fragment, adds it to the backstack
      * @param fragment the fragment to replace the current fragment
      */
-    private void gotoFragmentUsingBackstack(Fragment fragment) {
-
-        replaceFragment(fragment);
+    private void gotoFragmentUsingBackstack(Fragment fragment, String backStackTag) {
+        baseActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(containerId,fragment)
+                .addToBackStack(backStackTag)
+                .commit();
     }
 
-
-    /*
-    The bread and butter for transactions and backstacks
+    /**
+     * Does a fragment transaction replace the current fragment, doesn't add it to backstack
+     * @param fragment the fragment to replace the current fragment
      */
-    private void replaceFragment (Fragment fragment){
-        String backStateName = fragment.getClass().getName();
+    private void gotoFragment(Fragment fragment) {
 
-        FragmentManager manager = baseActivity.getSupportFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
-
-        if (!fragmentPopped){ //fragment not in back stack, create it.
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(containerId, fragment);
-            ft.addToBackStack(backStateName);
-            ft.commit();
-        }
-    }
-
-    public BaseActivity getBaseActivity(){
-        return baseActivity;
-
+        baseActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(containerId, fragment)
+                .commit();
     }
 }
