@@ -12,6 +12,7 @@ import com.google.android.gms.location.places.PlacePhotoResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Hong Lin on 17/09/2017.
@@ -75,6 +76,23 @@ public class PlaceImageLoader {
                 });
             }
         });
+    }
+
+
+    /*
+Adds a snapshot of a map to the image view
+ */
+    public void setMapImage(String latitude, String longitude, ImageView image) {
+
+        String mapURL = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," +
+                longitude + "&zoom=18&size=300x300&key="+"AIzaSyCzMPO3wufV3Ld4qVPquFVJbMcKBL-N80c";
+
+        if (image != null && latitude != null && longitude != null) {
+            Picasso.with(c).load(mapURL).into(image);
+        }else{
+
+            System.out.println("IMAGE IS NULL");
+        }
     }
 
 

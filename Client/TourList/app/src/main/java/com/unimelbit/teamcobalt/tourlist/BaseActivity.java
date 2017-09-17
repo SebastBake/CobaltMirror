@@ -151,11 +151,6 @@ public class BaseActivity extends AppCompatActivity
                 finish();
             } else {
 
-                if(fragments == 2 || f instanceof TabbedTripFragment){
-                    setTitle("Base Activity");
-
-                }
-
                 if (f instanceof BackButtonInterface){
 
                     Fragment fragmentInstance = new HomeFragment();
@@ -167,8 +162,6 @@ public class BaseActivity extends AppCompatActivity
                             .replace(R.id.fragment_container, fragmentInstance)
                             .addToBackStack(null)
                             .commit();
-
-                    setTitle("Base Activity");
 
                     setLoading(false);
 
