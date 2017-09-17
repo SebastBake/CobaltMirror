@@ -35,6 +35,7 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
@@ -46,7 +47,7 @@ public class BaseActivity extends AppCompatActivity
         // open home screen, no login
         mainContainer.gotoHomeFragment();
 
-        //Permission check when initiating app
+        // Permission check when initiating app
         permission = new PermissionManager() {};
         permission.checkAndRequestPermissions(this);
     }

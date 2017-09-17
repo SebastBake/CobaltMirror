@@ -53,10 +53,10 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".AugmentedReality.AugmentedRealityActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -67,18 +67,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.unimelbit.teamcobalt.tourlist.BaseActivity" />
         </activity>
+
         <activity
             android:name=".AugmentedReality.ARActivity"
             android:configChanges="screenSize|orientation"
             android:label="@string/title_activity_aug_reality" />
+
         <activity
             android:name=".AugmentedReality.POIDetailActivity"
             android:label="@string/title_activity_poidetail" />
 
-
-
         <activity android:name=".CreateTrips.CreateActivity" />
         <activity android:name=".CreateTrips.TripsActivity"></activity>
+
     </application>
 
 </manifest>

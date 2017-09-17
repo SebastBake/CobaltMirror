@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +52,8 @@ public class TripDetailsFragment extends Fragment {
 
         if ( ((BaseActivity)getActivity()).getCurrentTrip() != null) {
             initTextBoxes(rootView, ((BaseActivity)getActivity()).getCurrentTrip());
+        } else {
+            ((BaseActivity)getActivity()).getMainContainerManager().gotoErrorFragment("No current trip!");
         }
 
         initAugmentedRealityButton(rootView);
@@ -67,7 +68,8 @@ public class TripDetailsFragment extends Fragment {
         TextView tripName = (TextView)rootView.findViewById(R.id.trip_details_name);
         tripName.setText(trip.getName());
 
-        // TODO: Description currently not stored in database
+        TextView tripDescription = (TextView)rootView.findViewById(R.id.trip_details_description);
+        tripDescription.setText(trip.getDescription());
 
         TextView tripCost = (TextView)rootView.findViewById(R.id.trip_details_cost);
         tripCost.setText(trip.getCost());
@@ -100,7 +102,6 @@ public class TripDetailsFragment extends Fragment {
 
                 try {
                     Intent intent = builder.build(getActivity());
-
                     startActivityForResult(intent, PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -124,14 +125,6 @@ public class TripDetailsFragment extends Fragment {
             }
         }
 
-    }
-
-
-    public void replaceFragment(Fragment someFragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, someFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     /*
