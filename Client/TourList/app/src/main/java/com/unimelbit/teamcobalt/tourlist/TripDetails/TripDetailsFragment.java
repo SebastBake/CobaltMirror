@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
@@ -68,6 +71,8 @@ public class TripDetailsFragment extends Fragment {
         for(Location loc: trip.getLocations()) {
             locationsList.add(loc.toMap());
         }
+
+
 
         SimpleAdapter adapter = new SimpleAdapter(
                 getContext(),

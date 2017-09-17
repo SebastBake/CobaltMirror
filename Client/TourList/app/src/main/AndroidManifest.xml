@@ -1,60 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.unimelbit.teamcobalt.tourlist">
+    package="com.unimelbit.teamcobalt.tourlist">
 
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-<uses-permission android:name="android.permission.ACCESS_GPS" />
-<uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-<uses-feature android:name="android.hardware.camera" android:required="true" />
-<uses-feature android:name="android.hardware.location" android:required="true" />
-<uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
-<uses-feature android:name="android.hardware.sensor.compass" android:required="true" />
-<uses-feature android:glEsVersion="0x00020000" android:required="true" />
-<uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.compass"
+        android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:launchMode="singleTask"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCzMPO3wufV3Ld4qVPquFVJbMcKBL-N80c" />
 
-<application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name"
-    android:launchMode="singleTask" android:supportsRtl="true" android:theme="@style/AppTheme">
+        <activity
+            android:name=".BaseActivity"
+            android:label="@string/title_activity_base"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCzMPO3wufV3Ld4qVPquFVJbMcKBL-N80c" />
-
-    <activity android:name=".BaseActivity" android:label="@string/title_activity_base" android:theme="@style/AppTheme.NoActionBar">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-
-    <activity android:name="com.unimelbit.teamcobalt.tourlist.TripDetails.MapActivity" android:label="@string/title_activity_map">
-
-    </activity>
-
-    <activity android:name=".AugmentedReality.AugmentedRealityActivity" android:configChanges="orientation|keyboardHidden|screenSize"
-        android:label="@string/title_activity_augmented_reality" android:parentActivityName=".BaseActivity"
-        android:theme="@style/FullscreenTheme">
-        <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.unimelbit.teamcobalt.tourlist.BaseActivity" />
-    </activity>
-
-    <activity android:name=".AugmentedReality.ARActivity" android:configChanges="screenSize|orientation"
-        android:label="@string/title_activity_aug_reality" />
-    <activity android:name=".AugmentedReality.POIDetailActivity" android:label="@string/title_activity_poidetail" />
-
-    <activity android:name=".CreateTrips.TripsActivity"></activity>
-</application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".TripDetails.MapActivity"
+            android:label="@string/title_activity_map"></activity>
+        <activity
+            android:name=".AugmentedReality.AugmentedRealityActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_augmented_reality"
+            android:parentActivityName=".BaseActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.unimelbit.teamcobalt.tourlist.BaseActivity" />
+        </activity>
+        <activity
+            android:name=".AugmentedReality.ARActivity"
+            android:configChanges="screenSize|orientation"
+            android:label="@string/title_activity_aug_reality" />
+        <activity
+            android:name=".AugmentedReality.POIDetailActivity"
+            android:label="@string/title_activity_poidetail" />
+        <activity android:name=".CreateTrips.TripsActivity" />
+        <activity
+            android:name=".Tracking.TrackingActivity"
+            android:label="@string/title_activity_tracking"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
 
 </manifest>
-
-<<<<<<< HEAD
-        <activity android:name=".CreateTrips.TripsActivity"></activity>
-
-    </application>
-=======
->>>>>>> improve-trip-details-screen-ui
-
