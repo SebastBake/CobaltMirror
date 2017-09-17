@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
@@ -25,12 +26,15 @@ import org.json.JSONObject;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
+    private static final String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
     public static JSONObject PUT_OBJECT;
 
     // current trip and user
     private static Trip currentTrip;
     private static User currentUser;
+    private static Boolean locationSharing;
+    private static final String LOC_SHARING_ON_MSG = "Location sharing is ON";
+    private static final String LOC_SHARING_OFF_MSG = "Location sharing is OFF";
 
     // Permission manager
     private PermissionManager permission;
@@ -49,6 +53,7 @@ public class BaseActivity extends AppCompatActivity
 
         currentTrip = null;
         loading = false;
+        locationSharing = false;
         mainContainer = new BaseFragmentContainerManager(this, R.id.fragment_container);
 
         // Start nav drawer
@@ -107,6 +112,23 @@ public class BaseActivity extends AppCompatActivity
     }
     public void setLoading(boolean t){
         loading = t;
+    }
+    public void setlocationSharing(boolean share) {
+        locationSharing = share;
+    }
+    public void toggleLocationSharing() {
+        locationSharing = !locationSharing;
+
+        if(locationSharing) {
+            Toast.makeText(this,LOC_SHARING_ON_MSG,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this,LOC_SHARING_OFF_MSG,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+    public boolean isLocationSharingOn() {
+        return locationSharing;
     }
 
 

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.net.sip.SipAudioCall;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -30,7 +32,7 @@ import com.unimelbit.teamcobalt.tourlist.R;
 
 import static android.app.Activity.RESULT_OK;
 
-public class TabbedTripFragment extends Fragment implements BackButtonInterface {
+public class TabbedTripFragment extends Fragment implements BackButtonInterface, TabLayout.OnTabSelectedListener {
 
     private TripPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -41,6 +43,9 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface 
 
     private FloatingActionButton augmentedRealityButton;
     private FloatingActionButton locButton;
+    private FloatingActionButton mapButton;
+    private FloatingActionButton mainButton;
+    private boolean isMainFabActivated;
 
     public TabbedTripFragment() {
     }
@@ -51,19 +56,21 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_tabbed_trip, container, false);
-        initTabs(rootView);
 
         Trip currentTrip = ((BaseActivity)getActivity()).getCurrentTrip();
         String screenTitle = getResources().getText(R.string.title_fragment_current_trip) + ": ";
         getActivity().setTitle(screenTitle + currentTrip.getName() );
 
+        // Initialise views
+        initTabs(rootView);
+        initLocSharingButton(rootView);
         initAugmentedRealityButton(rootView);
-
-        initLocButton(rootView);
+        initMapButton(rootView);
+        initMainButton(rootView);
+        setIsMainFabActivated(false);
 
         return rootView;
     }
@@ -81,6 +88,35 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface 
         // Link the pager to the tabs
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.trip_tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.addOnTabSelectedListener(this);
+    }
+
+    public void setIsMainFabActivated(boolean isMainFabActivated) {
+        this.isMainFabActivated = isMainFabActivated;
+        if(isMainFabActivated) {
+            showSmallButtons();
+        } else {
+            hideSmallButtons();
+        }
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        if(tab.getPosition() == TripDetailsFragment.TRIP_SECTION_INDEX) {
+            showAllButtons();
+            setIsMainFabActivated(false);
+        } else {
+            hideAllButtons();
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
     }
 
 
@@ -126,12 +162,41 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface 
         }
     }
 
-
-    private void initLocButton(View rootView) {
+    private void initLocSharingButton(View rootView) {
 
         locButton = (FloatingActionButton) rootView.findViewById(R.id.loc_button);
+        resetLocSharingColor();
+        final TabbedTripFragment thisFragment = this;
 
-        locButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton.OnClickListener listener = new View.OnClickListener() {
+
+            final BaseActivity baseActivity = (BaseActivity)getActivity();
+            final TabbedTripFragment from = thisFragment;
+
+            @Override
+            public void onClick(View view) {
+                baseActivity.toggleLocationSharing();
+                from.resetLocSharingColor();
+            }
+        };
+
+        locButton.setOnClickListener(listener);
+    }
+
+    public void resetLocSharingColor() {
+        if(((BaseActivity)getActivity()).isLocationSharingOn()) {
+            locButton.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.scheme1_green, null)));
+        } else {
+            locButton.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.scheme1_red, null)));
+        }
+    }
+
+
+    private void initMapButton(View rootView) {
+
+        mapButton = (FloatingActionButton) rootView.findViewById(R.id.map_button);
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -150,13 +215,57 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface 
     }
 
     private void initAugmentedRealityButton(View rootView) {
+
         augmentedRealityButton = (FloatingActionButton) rootView.findViewById(R.id.ar_button);
+
         augmentedRealityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startAR();
             }
         });
+    }
+
+    private void initMainButton(View rootView) {
+        mainButton = (FloatingActionButton) rootView.findViewById(R.id.main_button);
+
+        mainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isMainFabActivated) {
+                    setIsMainFabActivated(!isMainFabActivated);
+                } else {
+                    setIsMainFabActivated(!isMainFabActivated);
+                }
+            }
+        });
+    }
+
+    private void hideAllButtons() {
+        locButton.setVisibility(View.GONE);
+        augmentedRealityButton.setVisibility(View.GONE);
+        mapButton.setVisibility(View.GONE);
+        mainButton.setVisibility(View.GONE);
+    }
+
+    private void showAllButtons() {
+        locButton.setVisibility(View.VISIBLE);
+        augmentedRealityButton.setVisibility(View.VISIBLE);
+        mainButton.setVisibility(View.VISIBLE);
+        mapButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSmallButtons() {
+
+        locButton.setVisibility(View.GONE);
+        augmentedRealityButton.setVisibility(View.GONE);
+        mapButton.setVisibility(View.GONE);
+    }
+
+    private void showSmallButtons() {
+        locButton.setVisibility(View.VISIBLE);
+        augmentedRealityButton.setVisibility(View.VISIBLE);
+        mapButton.setVisibility(View.VISIBLE);
     }
 
 
@@ -166,7 +275,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface 
         if (requestCode == PLACE_PICKER_REQUEST){
 
             if(resultCode == RESULT_OK){
-                //Place place = PlacePicker.getPlace(getActivity(), data);
+                // Place place = PlacePicker.getPlace(getActivity(), data);
             }
         }
 
