@@ -10,39 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/ar_button"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@android:drawable/ic_menu_view"
-            android:text="@string/ar_button"
-            android:textStyle="bold"
-            app:backgroundTint="@color/scheme1_blue"
-            app:elevation="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/loc_button"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/loc_button"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@android:drawable/ic_menu_mylocation"
-            android:text="@string/location_button"
-            android:textStyle="bold"
-            app:elevation="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:backgroundTint="@color/scheme1_green"/>
-
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="150dp"
@@ -95,7 +62,7 @@
             app:layout_constraintHorizontal_bias="0.511" />
 
         <ListView
-            android:id="@+id/container"
+            android:id="@+id/locations_list_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
