@@ -36,7 +36,6 @@ public class ARJSONListener implements ARListener{
                         case "present_poi_details":
                             //Send details and intiate the details activity
                             final Intent poiDetailIntent = new Intent(c, POIDetailActivity.class);
-                            poiDetailIntent.putExtra(POIDetailActivity.EXTRAS_KEY_POI_ID, jsonObject.getString("id"));
                             poiDetailIntent.putExtra(POIDetailActivity.EXTRAS_KEY_POI_TITILE, jsonObject.getString("title"));
                             poiDetailIntent.putExtra(POIDetailActivity.EXTRAS_KEY_POI_DESCR, jsonObject.getString("description"));
                             poiDetailIntent.putExtra(POIDetailActivity.EXTRAS_KEY_POI_LAT, jsonObject.getString("latitude"));
