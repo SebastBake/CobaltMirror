@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Sebastian on 14/9/17.
@@ -77,6 +78,19 @@ public class Location {
         } catch(JSONException e) {}
 
         return locations;
+    }
+
+    public HashMap<String, String> toMap() {
+
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put(JSON_TITLE, title);
+        map.put(JSON_DESC, description);
+        map.put(JSON_ALT, altitude.toString());
+        map.put(JSON_LAT, latitude.toString());
+        map.put(JSON_LON, longitude.toString());
+
+        return map;
     }
 
     public Double getLatitude() {

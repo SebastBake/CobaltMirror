@@ -34,7 +34,6 @@ import java.util.Map;
 /**
  * Created by spike on 8/9/2017.
  */
-
 public class TripSearchResultFragment extends Fragment implements BackButtonInterface {
 
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
@@ -94,7 +93,8 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
 
         textview.setText(header);
         getActivity().setTitle(R.string.title_fragment_searchresults);
-        final EditText filter = (EditText) rootView.findViewById(R.id.searchFilter);
+
+        final EditText filter = (EditText)rootView.findViewById(R.id.searchFilter);
         final ListView resultsList = (ListView)rootView.findViewById(R.id.results_list);
 
         ArrayList<Map<String, String>> tripMaps = new ArrayList<>();
