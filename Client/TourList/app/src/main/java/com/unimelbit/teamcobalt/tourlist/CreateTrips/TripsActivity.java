@@ -58,6 +58,9 @@ public class TripsActivity extends AppCompatActivity {
 
     }
 
+    /*
+    Floating button that starts the Places intent to get locations to add
+     */
     private void initLocButton() {
 
         locButton = (FloatingActionButton) findViewById(R.id.locButton);
@@ -84,6 +87,9 @@ public class TripsActivity extends AppCompatActivity {
     }
 
 
+    /*
+    Handles the Place objects returned from the Place intent and adds them into the place array
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -96,6 +102,7 @@ public class TripsActivity extends AppCompatActivity {
 
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
 
+                //List view will update accordingly
                 custAdapter.notifyDataSetChanged();
 
             }
@@ -109,13 +116,17 @@ public class TripsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle button activities
+    /* handle action bar button activities
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+
+        //User presses this button to finish everything
         if (id == R.id.mybutton) {
 
+            //send list to server
             send_to_server();
 
             finish();
@@ -126,7 +137,9 @@ public class TripsActivity extends AppCompatActivity {
     }
 
 
-    //Create JSON object with array of places to upload to server
+    /*Create JSON object with array of places to upload to server
+
+     */
     public void send_to_server(){
 
         String jsonPlaces = new Gson().toJson(placeArray);

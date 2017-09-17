@@ -4,57 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.unimelbit.teamcobalt.tourlist.AugmentedReality.POIDetailActivity">
+    tools:context="com.unimelbit.teamcobalt.tourlist.AugmentedReality.POIDetailActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
 
     <TextView
-        android:id="@+id/poi_title"
-        android:layout_width="0dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="48dp"
-        android:text="Title"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@+id/poi_id"
-        app:layout_constraintRight_toRightOf="@+id/poi_id"
-        app:layout_constraintTop_toBottomOf="@+id/poi_id"
+        android:id="@+id/poi_description"
+        android:layout_width="310dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="10dp"
+        android:text="Description"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/MapImage"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/poi_title"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
 
     <TextView
-        android:id="@+id/poi_description"
-        android:layout_width="0dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="263dp"
-        android:text="Description"
-        app:layout_constraintLeft_toLeftOf="@+id/poi_title"
-        app:layout_constraintRight_toRightOf="@+id/poi_title"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
-
-    <TextView
-        android:id="@+id/poi_id"
-        android:layout_width="249dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="85dp"
+        android:id="@+id/poi_title"
+        android:layout_width="248dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginStart="67dp"
         android:text="ID"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="25dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="0dp"
+        app:layout_constraintHorizontal_bias="0.503" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="0dp"
         android:layout_height="41dp"
+        android:text="Location Details"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_marginTop="16dp"
-        android:fontFamily="cursive"
-        android:text="POI Information"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/poi_id"
+        tools:layout_constraintLeft_creator="1" />
+
+    <ImageView
+        android:id="@+id/MapImage"
+        android:layout_width="0dp"
+        android:layout_height="223dp"
+        app:srcCompat="@android:drawable/ic_delete"
+        app:layout_constraintBottom_toTopOf="@+id/web_search_b"
+        android:layout_marginBottom="23dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="41dp"
+        android:layout_marginEnd="41dp"
+        tools:layout_constraintLeft_creator="1" />
+
+    <Button
+        android:id="@+id/web_search_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Web Search"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/poi_id" />
+        android:layout_marginBottom="39dp" />
+
 
 </android.support.constraint.ConstraintLayout>
