@@ -200,7 +200,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
     }
 
     public void Create_Trip(View view) {
-        Intent intent = new Intent(getActivity(),TripsActivity.class);
+        Intent intent = new Intent(getActivity(),AddLocationsToTripActivity.class);
         EditText NameText = (EditText) getView().findViewById(R.id.Name_field);
         EditText DateText =  (EditText) getView().findViewById(R.id.Date_field);
         name = NameText.getText().toString();

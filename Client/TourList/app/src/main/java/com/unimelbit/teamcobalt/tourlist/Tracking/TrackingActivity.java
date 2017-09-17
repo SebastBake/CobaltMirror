@@ -53,8 +53,6 @@ public class TrackingActivity extends AppCompatActivity implements OnMapReadyCal
         };
         // Start the initial runnable task by posting through the handler
         handler.post(runnableCode);
-
-
     }
 
 
@@ -64,5 +62,4 @@ public class TrackingActivity extends AppCompatActivity implements OnMapReadyCal
                 .position(new LatLng(0, 0))
                 .title("Marker"));
     }
-
 }

@@ -1,7 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
-
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,9 +10,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
-import com.squareup.picasso.Picasso;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
@@ -58,7 +53,6 @@ public class TripDetailsFragment extends Fragment {
             initLocationsList(rootView, currentTrip);
             imageLoaded = false;
 
-
         } else {
             ((BaseActivity) getActivity()).getMainContainerManager().gotoErrorFragment("No current trip!");
         }
@@ -84,22 +78,20 @@ public class TripDetailsFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.locations_list_view);
 
         ArrayList<HashMap<String, String>> locationsList = new ArrayList<>();
+
         for (Location loc : trip.getLocations()) {
             locationsList.add(loc.toMap());
 
+            // Add screenshot of the location on the map into the trip details image
             if (!imageLoaded) {
 
-                System.out.println("long: " + loc.getLongitude().toString());
-                System.out.println("lat: " + loc.getLatitude().toString());
-
+                // System.out.println("long: " + loc.getLongitude().toString());
+                // System.out.println("lat: " + loc.getLatitude().toString());
 
                 pILoader.setMapImage(loc.getLatitude().toString(), loc.getLongitude().toString(), imageDetail);
-
                 imageLoaded = true;
-
             }
         }
-
 
         SimpleAdapter adapter = new SimpleAdapter(
                 getContext(),

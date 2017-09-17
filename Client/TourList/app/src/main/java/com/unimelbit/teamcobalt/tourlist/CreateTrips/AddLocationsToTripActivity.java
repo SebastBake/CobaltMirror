@@ -1,22 +1,13 @@
 package com.unimelbit.teamcobalt.tourlist.CreateTrips;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -26,12 +17,10 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.Gson;
 import com.unimelbit.teamcobalt.tourlist.R;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 
-public class TripsActivity extends AppCompatActivity {
+public class AddLocationsToTripActivity extends AppCompatActivity {
 
     private int PLACE_PICKER_REQUEST = 1;
 
@@ -52,7 +41,7 @@ public class TripsActivity extends AppCompatActivity {
 
         initLocButton();
 
-        custAdapter = new CustomListAdapter(TripsActivity.this, R.layout.list_row, placeArray);
+        custAdapter = new CustomListAdapter(AddLocationsToTripActivity.this, R.layout.list_row, placeArray);
 
         listView.setAdapter(custAdapter);
 
@@ -72,7 +61,7 @@ public class TripsActivity extends AppCompatActivity {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
                 try {
-                    Intent intent = builder.build(TripsActivity.this);
+                    Intent intent = builder.build(AddLocationsToTripActivity.this);
 
                     startActivityForResult(intent, PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {

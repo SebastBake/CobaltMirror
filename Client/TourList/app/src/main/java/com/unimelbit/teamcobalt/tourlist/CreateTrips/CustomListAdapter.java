@@ -36,7 +36,6 @@ import java.util.Date;
 /**
  * Created by Hong Lin on 9/09/2017.
  */
-
 public class CustomListAdapter extends ArrayAdapter<Place> {
 
     private ArrayList<Place> items;

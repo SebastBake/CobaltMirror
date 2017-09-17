@@ -16,16 +16,15 @@ import com.squareup.picasso.Picasso;
 
 /**
  * Created by Hong Lin on 17/09/2017.
+ * Generates
  */
-
 public class PlaceImageLoader {
 
     private GeoDataClient mGeoDataClient;
 
     private Context c;
 
-
-    /*Initialise this class with the context which calls it
+    /** Initialise this class with the context which calls it
      */
     public PlaceImageLoader(Context c){
 
@@ -36,10 +35,10 @@ public class PlaceImageLoader {
     }
 
 
-    /*
-    Takes in a Place id from the Place object, and the image view that needs to be changed.
-    This function will try grab a photo of the first place with the id and try load on any images
-    into the view if it can
+    /**
+     * Takes in a Place id from the Place object, and the image view that needs to be changed.
+     * This function will try grab a photo of the first place with the id and try load on any images
+     * into the view if it can
      */
     private void getPhotos(String id, ImageView i) {
 
@@ -48,19 +47,26 @@ public class PlaceImageLoader {
         final ImageView image = i;
 
         final Task<PlacePhotoMetadataResponse> photoMetadataResponse = mGeoDataClient.getPlacePhotos(placeId);
+
         photoMetadataResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoMetadataResponse>() {
             @Override
             public void onComplete(Task<PlacePhotoMetadataResponse> task) {
+
                 // Get the list of photos.
                 PlacePhotoMetadataResponse photos = task.getResult();
+
                 // Get the PlacePhotoMetadataBuffer (metadata for all of the photos).
                 PlacePhotoMetadataBuffer photoMetadataBuffer = photos.getPhotoMetadata();
+
                 // Get the first photo in the list.
                 PlacePhotoMetadata photoMetadata = photoMetadataBuffer.get(0);
+
                 // Get the attribution text.
                 CharSequence attribution = photoMetadata.getAttributions();
+
                 // Get a full-size bitmap for the photo.
                 Task<PlacePhotoResponse> photoResponse = mGeoDataClient.getPhoto(photoMetadata);
+
                 photoResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoResponse>() {
                     @Override
                     public void onComplete( Task<PlacePhotoResponse> task) {
@@ -70,12 +76,11 @@ public class PlaceImageLoader {
                         if(bitmap != null) {
                             image.setImageBitmap(bitmap);
                         }
-
-
                     }
                 });
             }
         });
+
     }
 
 
@@ -88,7 +93,9 @@ Adds a snapshot of a map to the image view
                 longitude + "&zoom=18&size=300x300&key="+"AIzaSyCzMPO3wufV3Ld4qVPquFVJbMcKBL-N80c";
 
         if (image != null && latitude != null && longitude != null) {
+
             Picasso.with(c).load(mapURL).into(image);
+
         }else{
 
             System.out.println("IMAGE IS NULL");

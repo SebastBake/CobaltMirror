@@ -1,12 +1,9 @@
 package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
-import android.content.Intent;
-import android.os.Parcelable;
+
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -53,12 +50,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        // Add locations to map
         for(Location location: locationList) {
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             MarkerOptions marker = new MarkerOptions().position(latLng).title(location.getTitle());
             mMap.addMarker(marker);
         }
 
+        // Zoom in on the first location
         LatLng fstLatLng = new LatLng(locationList.get(0).getLatitude(), locationList.get(0).getLongitude());
         CameraPosition cameraPosition = new CameraPosition.Builder().target(fstLatLng).zoom(DEFAULT_ZOOM).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
