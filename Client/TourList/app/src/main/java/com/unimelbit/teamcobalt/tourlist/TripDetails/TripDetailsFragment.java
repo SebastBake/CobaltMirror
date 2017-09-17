@@ -65,17 +65,14 @@ public class TripDetailsFragment extends Fragment {
 
     private void initTextBoxes(View rootView, Trip trip) {
 
-        TextView tripName = (TextView)rootView.findViewById(R.id.trip_details_name);
-        tripName.setText(trip.getName());
-
         TextView tripDescription = (TextView)rootView.findViewById(R.id.trip_details_description);
         tripDescription.setText(trip.getDescription());
 
         TextView tripCost = (TextView)rootView.findViewById(R.id.trip_details_cost);
-        tripCost.setText(trip.getCost());
+        tripCost.setText("Cost:" + trip.getCost());
 
         TextView tripSize = (TextView)rootView.findViewById(R.id.trip_details_size);
-        tripSize.setText(trip.getSize());
+        tripSize.setText("Max Size: " + trip.getSize());
     }
 
     private void initAugmentedRealityButton(View rootView) {

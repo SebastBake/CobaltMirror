@@ -6,6 +6,7 @@ var express = require('express');
 var router = express.Router();
 
 var controller = require('../controllers/controller.js');
+var usercontroller = require('../controllers/Usercontroller.js')
 
 // Create new Trip
 router.post('/api/trips/create', controller.createTrip);
@@ -23,5 +24,16 @@ router.post('/api/trips/createlocation', controller.createlocation)
 router.get('/api/locations/all', controller.findAllLocations);
 
 router.get('/api/locations/search', controller.findTripsByText);
+
+// USER ROUTES //
+
+//Create User
+router.post('/api/user/create', usercontroller.createUser);
+
+//Find one User
+router.get('/api/user/:id', usercontroller.findOneUser);
+
+//Add saved trip
+router.put('/api/user/addtrip', usercontroller.Addtrip);
 
 module.exports = router;

@@ -89,9 +89,7 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
         ImageView image = (ImageView) convertView.findViewById(R.id.bitmap_image);
 
         //getPhotos(items.get(position).getId(), image);
-
         setImages(image, items.get(position).getPlaceTypes().get(0));
-
         delButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -388,6 +386,5 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
         }
 
     }
-
 
 }

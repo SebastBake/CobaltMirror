@@ -15,8 +15,8 @@ import com.unimelbit.teamcobalt.tourlist.R;
  */
 public class LoadingFragment extends Fragment {
 
-    public static final String ARG_LOADING_MSG = "LoadingMsgArg";
-    public static final String DEFAULT_MSG = "";
+    public static final String ARG_LOADING_MSG = "ARG_LOADING_MSG";
+    public static final String DEFAULT_MSG = "Loading...";
     private String loadingMsg;
 
     public static LoadingFragment newInstance(String loadingMsg) {

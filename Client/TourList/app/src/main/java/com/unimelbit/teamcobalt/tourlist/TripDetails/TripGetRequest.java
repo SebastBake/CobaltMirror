@@ -52,6 +52,4 @@ public class TripGetRequest implements GetRequest {
         e.printStackTrace();
         containerManager.gotoErrorFragment("TripGetRequest failed: " + msg);
     }
-
-
 }

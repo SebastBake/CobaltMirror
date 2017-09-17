@@ -5,6 +5,4 @@ package com.unimelbit.teamcobalt.tourlist;
  */
 
 public interface BackButtonInterface {
-
-
 }

@@ -2,7 +2,6 @@ package com.unimelbit.teamcobalt.tourlist;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -18,15 +17,16 @@ import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
-import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
+
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
-import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
+import org.json.JSONObject;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
+    public static JSONObject PUT_OBJECT;
 
     // current trip and user
     private static Trip currentTrip;
@@ -48,11 +48,11 @@ public class BaseActivity extends AppCompatActivity
         setContentView(R.layout.activity_base);
 
         currentTrip = null;
+        loading = false;
         mainContainer = new BaseFragmentContainerManager(this, R.id.fragment_container);
 
+        // Start nav drawer
         initNavDrawer();
-
-        loading = false;
 
         // open home screen, no login
         mainContainer.gotoHomeFragment();
@@ -60,6 +60,10 @@ public class BaseActivity extends AppCompatActivity
         // Permission check when initiating app
         permission = new PermissionManager() {};
         permission.checkAndRequestPermissions(this);
+    }
+
+    public static void setPutObject(JSONObject putObject) {
+        PUT_OBJECT = putObject;
     }
 
     /**
@@ -98,6 +102,12 @@ public class BaseActivity extends AppCompatActivity
     public User getCurrentUser() {
         return currentUser;
     }
+    public boolean isLoading(){
+        return loading;
+    }
+    public void setLoading(boolean t){
+        loading = t;
+    }
 
 
     /**
@@ -105,11 +115,15 @@ public class BaseActivity extends AppCompatActivity
      */
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
             Fragment f = getMainContainerManager().getCurrentFragment();
+
             int fragments = getSupportFragmentManager().getBackStackEntryCount();
             if (fragments == 1 || f instanceof HomeFragment) {
                 finish();
@@ -186,15 +200,4 @@ public class BaseActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         permission.checkResult(requestCode,permissions, grantResults);
     }
-
-    public boolean isLoading(){
-
-        return loading;
-    }
-
-    public void setLoading(boolean t){
-
-        loading = t;
-    }
-
 }

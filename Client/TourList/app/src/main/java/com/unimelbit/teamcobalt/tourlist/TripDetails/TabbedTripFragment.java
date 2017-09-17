@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 public class TabbedTripFragment extends Fragment implements BackButtonInterface {
@@ -34,7 +36,8 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface 
         View rootView = inflater.inflate(R.layout.fragment_tabbed_trip, container, false);
         initTabs(rootView);
 
-        getActivity().setTitle(R.string.title_fragment_current_trip);
+        Trip currentTrip = ((BaseActivity)getActivity()).getCurrentTrip();
+        getActivity().setTitle(R.string.title_fragment_current_trip + ": " + currentTrip.getName() );
 
         return rootView;
     }

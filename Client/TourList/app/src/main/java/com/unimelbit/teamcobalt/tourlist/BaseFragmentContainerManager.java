@@ -1,12 +1,8 @@
 package com.unimelbit.teamcobalt.tourlist;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
@@ -55,7 +51,7 @@ public class BaseFragmentContainerManager {
     public void gotoHomeFragment() {
 
         HomeFragment fragment = HomeFragment.newInstance();
-        gotoFragmentUsingBackstack(fragment, null);
+        gotoFragmentUsingBackstack(fragment);
     }
 
     /**
@@ -73,7 +69,7 @@ public class BaseFragmentContainerManager {
 
         baseActivity.setCurrentTrip(trip);
         TabbedTripFragment fragment = TabbedTripFragment.newInstance();
-        gotoFragmentUsingBackstack(fragment, null);
+        gotoFragmentUsingBackstack(fragment);
     }
 
     /**
@@ -82,7 +78,7 @@ public class BaseFragmentContainerManager {
     public void gotoTripSearchFragment() {
 
         TripSearchFragment fragment = TripSearchFragment.newInstance();
-        gotoFragmentUsingBackstack(fragment, null);
+        gotoFragmentUsingBackstack(fragment);
     }
 
     /**
@@ -92,7 +88,7 @@ public class BaseFragmentContainerManager {
 
         TripSearchResultFragment fragment = TripSearchResultFragment.newInstance(text);
         fragment.setOnCreatedListener(request);
-        gotoFragmentUsingBackstack(fragment, null);
+        gotoFragmentUsingBackstack(fragment);
     }
 
     /**
@@ -101,7 +97,7 @@ public class BaseFragmentContainerManager {
     public void gotoCreateFragment() {
 
         CreateTripFragment fragment = new CreateTripFragment();
-        gotoFragmentUsingBackstack(fragment, null);
+        gotoFragmentUsingBackstack(fragment);
     }
 
     /**
@@ -112,7 +108,7 @@ public class BaseFragmentContainerManager {
         baseActivity.setLoading(true);
 
         LoadingFragment fragment = LoadingFragment.newInstance(loadingMsg);
-        gotoFragmentUsingBackstack(fragment, null);
+        gotoFragmentUsingBackstack(fragment);
     }
 
     /**
@@ -163,32 +159,15 @@ public class BaseFragmentContainerManager {
      * Does a fragment transaction replace the current fragment, adds it to the backstack
      * @param fragment the fragment to replace the current fragment
      */
-    private void gotoFragmentUsingBackstack(Fragment fragment, String backStackTag) {
-        /*baseActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(containerId,fragment)
-                .addToBackStack(backStackTag)
-                .commit();*/
+    private void gotoFragmentUsingBackstack(Fragment fragment) {
 
         replaceFragment(fragment);
     }
 
-    /**
-     * Does a fragment transaction replace the current fragment, doesn't add it to backstack
-     * @param fragment the fragment to replace the current fragment
+
+    /*
+    The bread and butter for transactions and backstacks
      */
-    private void gotoFragment(Fragment fragment) {
-
-        baseActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(containerId, fragment)
-                .commit();
-    }
-
-
-/*
-The bread and butter for transactions and backstacks
- */
     private void replaceFragment (Fragment fragment){
         String backStateName = fragment.getClass().getName();
 
@@ -203,9 +182,8 @@ The bread and butter for transactions and backstacks
         }
     }
 
-    public Context getBaseActivity(){
+    public BaseActivity getBaseActivity(){
         return baseActivity;
 
     }
-
 }
