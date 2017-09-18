@@ -26,7 +26,7 @@ import org.json.JSONObject;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
+    public static final String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
     public static JSONObject PUT_OBJECT;
 
     // current trip and user
@@ -215,4 +215,12 @@ public class BaseActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         permission.checkResult(requestCode,permissions, grantResults);
     }
+
+    public BaseFragmentContainerManager getMainContainer(){
+
+        return mainContainer;
+
+    }
+
+
 }
