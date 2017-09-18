@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by Sebastian on 18/9/17.
  * Handler for the fabs on the tabbed trip fragment
  */
-public class TabbedTripFragmentButtonHandeler implements TabLayout.OnTabSelectedListener  {
+public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener  {
 
     private BaseActivity activity;
     private TabbedTripFragment fragment;
@@ -28,7 +28,7 @@ public class TabbedTripFragmentButtonHandeler implements TabLayout.OnTabSelected
     private FloatingActionButton mainButton;
     private boolean isMainFabActivated;
 
-    public TabbedTripFragmentButtonHandeler(View rootView, BaseActivity activity, TabbedTripFragment fragment) {
+    public TabbedTripFragmentButtonHandler(View rootView, BaseActivity activity, TabbedTripFragment fragment) {
 
         this.activity = activity;
         this.fragment = fragment;
@@ -73,12 +73,12 @@ public class TabbedTripFragmentButtonHandeler implements TabLayout.OnTabSelected
 
         locButton = (FloatingActionButton) rootView.findViewById(R.id.loc_button);
         resetLocSharingColor();
-        final TabbedTripFragmentButtonHandeler handeler = this;
+        final TabbedTripFragmentButtonHandler handeler = this;
 
         FloatingActionButton.OnClickListener listener = new View.OnClickListener() {
 
             final BaseActivity baseActivity = activity;
-            final TabbedTripFragmentButtonHandeler from = handeler;
+            final TabbedTripFragmentButtonHandler from = handeler;
 
             @Override
             public void onClick(View view) {

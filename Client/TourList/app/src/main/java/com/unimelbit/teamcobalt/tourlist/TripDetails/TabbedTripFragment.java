@@ -4,36 +4,23 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.net.sip.SipAudioCall;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
-
-import java.util.ArrayList;
-
-import static android.app.Activity.RESULT_OK;
 
 public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
@@ -41,7 +28,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
     private TripPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private TabbedTripFragmentButtonHandeler buttonHandeler;
+    private TabbedTripFragmentButtonHandler buttonHandeler;
 
     private ARTools arTool;
 
@@ -64,7 +51,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
         // Initialise views
         initTabs(rootView);
-        buttonHandeler = new TabbedTripFragmentButtonHandeler(rootView, (BaseActivity) getActivity(), this);
+        buttonHandeler = new TabbedTripFragmentButtonHandler(rootView, (BaseActivity) getActivity(), this);
 
         return rootView;
     }
