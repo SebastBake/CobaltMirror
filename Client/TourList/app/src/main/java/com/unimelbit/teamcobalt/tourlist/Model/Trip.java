@@ -95,9 +95,29 @@ public class Trip {
         map.put(JSON_NAME, name);
         map.put(JSON_COST, cost);
         map.put(JSON_SIZE, size);
+        map.put(JSON_DESC, description);
         map.put(JSON_LOC, locationString);
 
         return map;
+    }
+
+    public JSONObject toJSON() throws JSONException {
+
+        JSONObject trip = new JSONObject();
+        trip.put(JSON_NAME, name);
+        trip.put(JSON_COST, cost);
+        trip.put(JSON_SIZE, size);
+        trip.put(JSON_DESC, description);
+
+        JSONArray locationJSONArray = new JSONArray();
+
+        for(Location loc: locations) {
+            locationJSONArray.put(loc.toJSON());
+        }
+
+        trip.put(JSON_LOC, locationJSONArray);
+
+        return trip;
     }
 
     public ArrayList<Location> getLocations() {

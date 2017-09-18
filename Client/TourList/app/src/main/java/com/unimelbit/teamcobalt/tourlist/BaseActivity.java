@@ -28,7 +28,7 @@ import org.json.JSONObject;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
+    private static final String DEMOTRIP_NAME = "DemoTrip";
     public static JSONObject PUT_OBJECT;
 
     // current trip and user
@@ -217,7 +217,7 @@ public class BaseActivity extends AppCompatActivity
             if (currentTrip != null) {
                 mainContainer.gotoTabbedTripFragment(currentTrip);
             } else {
-                mainContainer.gotoTabbedTripFragment(DEMOTRIP_URL);
+                mainContainer.gotoTabbedTripFragment(DEMOTRIP_NAME);
             }
         }
 
