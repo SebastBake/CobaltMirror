@@ -63,14 +63,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         //Tracking other users
 
         LatLng latLng = new LatLng(-37.79867463499714, 144.96722038839107);
-        markerOne = new MarkerOptions().position(latLng)
+        markerOne = new MarkerOptions().position(latLng).title("User 1")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         latLng = new LatLng(-37.79859709859357, 144.965807367073);
-        markerThree = new MarkerOptions().position(latLng)
+        markerThree = new MarkerOptions().position(latLng).title("User 1")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
 
         latLng = new LatLng(-37.79840335143667, 144.9643450603271);
-        markerTwo = new MarkerOptions().position(latLng)
+        markerTwo = new MarkerOptions().position(latLng).title("User 1")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
 
         handler = new Handler();
@@ -88,14 +88,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                         count++;
                         reverse = false;
 
-                        mMap.addMarker(markerOne);
+                        mMap.addMarker(markerOne).showInfoWindow();
 
                         System.out.println("Marker 1");
                     } else if (count == 1) {
                         mMap.clear();
                         initLocationMarkers(locationList, mMap);
 
-                        mMap.addMarker(markerTwo);
+                        mMap.addMarker(markerTwo).showInfoWindow();
 
                         System.out.println("Markers 2");
 
@@ -105,7 +105,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                         mMap.clear();
                         initLocationMarkers(locationList, mMap);
 
-                        mMap.addMarker(markerThree);
+                        mMap.addMarker(markerThree).showInfoWindow();
 
                         System.out.println("Markers 3");
                         count = 0;
