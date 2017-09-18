@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 
 import com.unimelbit.teamcobalt.tourlist.R;
 
-public class HomeFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
-    public HomeFragment() {
+    public ProfileFragment() {
     }
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static ProfileFragment newInstance() {
+        ProfileFragment fragment = new ProfileFragment();
         return fragment;
     }
 
@@ -26,8 +26,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        getActivity().setTitle("Home");
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+        getActivity().setTitle("Profile");
+
         return rootView;
     }
 }

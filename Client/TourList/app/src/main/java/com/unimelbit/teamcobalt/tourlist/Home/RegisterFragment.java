@@ -1,21 +1,17 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.util.LogPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.CreateTrips.TripsActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import org.json.JSONException;
@@ -31,19 +27,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RegisterFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RegisterFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    // TODO: Rename and change types of parameters
     String username;
     String password;
     String email;
@@ -51,22 +36,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private String postresults;
     private Button apply;
 
-    private OnFragmentInteractionListener mListener;
-
     public RegisterFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RegisterFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RegisterFragment newInstance(String param1, String param2) {
+    public static RegisterFragment newInstance() {
         RegisterFragment fragment = new RegisterFragment();
         return fragment;
     }
@@ -80,64 +54,35 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_register, container, false);
-        apply = (Button) v.findViewById(R.id.buttonApplyRegister);
+        getActivity().setTitle("Register");
+        apply = (Button) v.findViewById(R.id.button_register);
         apply.setOnClickListener(this);
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     @Override
     public void onClick(View view) {
-
-        if (view.getId() == R.id.buttonApplyRegister) {
-                Create_User(view);
+        if (view.getId() == R.id.button_register) {
+                Create_User();
         }
-
     }
 
-    public void Create_User(View view) {
-        EditText UsernameText = (EditText) getView().findViewById(R.id.Username_field);
-        EditText PasswordText =  (EditText) getView().findViewById(R.id.Password_field);
-        username = UsernameText.getText().toString();
-        password = PasswordText.getText().toString();
+    public void Create_User() {
+
+        EditText usernameText = (EditText) getView().findViewById(R.id.register_username_field);
+        EditText passwordText =  (EditText) getView().findViewById(R.id.register_password_field);
+        EditText emailText =  (EditText) getView().findViewById(R.id.register_email_field);
+
+        username = usernameText.getText().toString();
+        password = passwordText.getText().toString();
+        email = emailText.getText().toString();
+
         new RegisterFragment.PostDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/create");
 
-        LoginFragment newFragment = new LoginFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.commit();
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
     //http post and its functions
     class PostDataTask extends AsyncTask<String, Void, String> {
-
-        ProgressBar progressDialog;
 
         @Override
         protected void onPreExecute() {
@@ -160,8 +105,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            postresults= result;
-            //add alert here
+            postresults = result;
+
+            new LogPrinter(0,null).println(postresults);
+
+            Toast.makeText(getActivity(),postresults, Toast.LENGTH_SHORT).show();
+            ((BaseActivity)getActivity()).getMainContainerManager().gotoLoginFragment();
         }
 
         private String postData(String urlPath) throws IOException, JSONException {
@@ -175,6 +124,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                 JSONObject dataToSend = new JSONObject();
                 dataToSend.put("username", username);
                 dataToSend.put("password", password);
+                dataToSend.put("email", email);
 
                 //Initialize and config request, then connect to server.
                 URL url = new URL(urlPath);

@@ -35,19 +35,15 @@ import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
-public class TabbedTripFragment extends Fragment implements BackButtonInterface, TabLayout.OnTabSelectedListener {
+public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
     public static final int NUM_TABS = 2;
 
     private TripPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private TabbedTripFragmentButtonHandeler buttonHandeler;
 
     private ARTools arTool;
-    private FloatingActionButton augmentedRealityButton;
-    private FloatingActionButton locButton;
-    private FloatingActionButton mapButton;
-    private FloatingActionButton mainButton;
-    private boolean isMainFabActivated;
 
     public TabbedTripFragment() {
     }
@@ -68,11 +64,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface,
 
         // Initialise views
         initTabs(rootView);
-        initLocSharingButton(rootView);
-        initAugmentedRealityButton(rootView);
-        initMapButton(rootView);
-        initMainButton(rootView);
-        setIsMainFabActivated(false);
+        buttonHandeler = new TabbedTripFragmentButtonHandeler(rootView, (BaseActivity) getActivity(), this);
 
         return rootView;
     }
@@ -90,35 +82,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface,
         // Link the pager to the tabs
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.trip_tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.addOnTabSelectedListener(this);
-    }
-
-    public void setIsMainFabActivated(boolean isMainFabActivated) {
-        this.isMainFabActivated = isMainFabActivated;
-        if(isMainFabActivated) {
-            showSmallButtons();
-        } else {
-            hideSmallButtons();
-        }
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        if(tab.getPosition() == TripDetailsFragment.TRIP_SECTION_INDEX) {
-            showAllButtons();
-            setIsMainFabActivated(false);
-        } else {
-            hideAllButtons();
-        }
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
+        tabLayout.addOnTabSelectedListener(buttonHandeler);
     }
 
 
@@ -163,114 +127,6 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface,
             return null;
         }
     }
-
-    private void initLocSharingButton(View rootView) {
-
-        locButton = (FloatingActionButton) rootView.findViewById(R.id.loc_button);
-        resetLocSharingColor();
-        final TabbedTripFragment thisFragment = this;
-
-        FloatingActionButton.OnClickListener listener = new View.OnClickListener() {
-
-            final BaseActivity baseActivity = (BaseActivity)getActivity();
-            final TabbedTripFragment from = thisFragment;
-
-            @Override
-            public void onClick(View view) {
-                baseActivity.toggleLocationSharing();
-                from.resetLocSharingColor();
-            }
-        };
-
-        locButton.setOnClickListener(listener);
-    }
-
-    public void resetLocSharingColor() {
-        if(((BaseActivity)getActivity()).isLocationSharingOn()) {
-
-            ColorStateList greenColour = ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.scheme1_green, null));
-            locButton.setBackgroundTintList(greenColour);
-
-        } else {
-
-            ColorStateList redColour = ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.scheme1_red, null));
-            locButton.setBackgroundTintList(redColour);
-        }
-    }
-
-
-    private void initMapButton(View rootView) {
-
-        mapButton = (FloatingActionButton) rootView.findViewById(R.id.map_button);
-
-        mapButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getActivity(), MapActivity.class);
-                ArrayList<Location> locations = ((BaseActivity)getActivity()).getCurrentTrip().getLocations();
-                intent.putParcelableArrayListExtra(Location.LOC_DEFAULT_PARCEL_KEY, locations);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void initAugmentedRealityButton(View rootView) {
-
-        augmentedRealityButton = (FloatingActionButton) rootView.findViewById(R.id.ar_button);
-
-        augmentedRealityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startAR();
-            }
-        });
-    }
-
-    private void initMainButton(View rootView) {
-        mainButton = (FloatingActionButton) rootView.findViewById(R.id.main_button);
-
-        mainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isMainFabActivated) {
-                    setIsMainFabActivated(!isMainFabActivated);
-                } else {
-                    setIsMainFabActivated(!isMainFabActivated);
-                }
-            }
-        });
-    }
-
-    private void hideAllButtons() {
-        locButton.setVisibility(View.GONE);
-        augmentedRealityButton.setVisibility(View.GONE);
-        mapButton.setVisibility(View.GONE);
-        mainButton.setVisibility(View.GONE);
-    }
-
-    private void showAllButtons() {
-        locButton.setVisibility(View.VISIBLE);
-        augmentedRealityButton.setVisibility(View.VISIBLE);
-        mainButton.setVisibility(View.VISIBLE);
-        mapButton.setVisibility(View.VISIBLE);
-    }
-
-    private void hideSmallButtons() {
-
-        locButton.setVisibility(View.GONE);
-        augmentedRealityButton.setVisibility(View.GONE);
-        mapButton.setVisibility(View.GONE);
-    }
-
-    private void showSmallButtons() {
-        locButton.setVisibility(View.VISIBLE);
-        augmentedRealityButton.setVisibility(View.VISIBLE);
-        mapButton.setVisibility(View.VISIBLE);
-    }
-
-
 
     /**
      * Start AR Activity after checking if GPS is enabled. Display a message to enable the GPS if
