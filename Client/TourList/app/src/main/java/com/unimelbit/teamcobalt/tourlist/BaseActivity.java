@@ -3,53 +3,74 @@ package com.unimelbit.teamcobalt.tourlist;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
-import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
+
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
+import org.json.JSONObject;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
+    private static final String DEMOTRIP_NAME = "DemoTrip";
+    public static JSONObject PUT_OBJECT;
 
     // current trip and user
     private static Trip currentTrip;
     private static User currentUser;
+    private static Boolean locationSharing;
+    private static final String LOC_SHARING_ON_MSG = "Location sharing is ON";
+    private static final String LOC_SHARING_OFF_MSG = "Location sharing is OFF";
 
     // Permission manager
     private PermissionManager permission;
+
+    //Flag for loading
+    private boolean loading;
 
     // Manager of main fragment
     private static BaseFragmentContainerManager mainContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
         currentTrip = null;
+        loading = false;
+        locationSharing = false;
         mainContainer = new BaseFragmentContainerManager(this, R.id.fragment_container);
 
+        // Start nav drawer
         initNavDrawer();
 
         // open home screen, no login
-        //mainContainer.gotoHomeFragment();
-        mainContainer.gotoRegisterFragment();
+        mainContainer.gotoLoginOrRegisterFragment();
 
-        //Permission check when initiating app
+        // Permission check when initiating app
         permission = new PermissionManager() {};
         permission.checkAndRequestPermissions(this);
+    }
+
+    public static void setPutObject(JSONObject putObject) {
+        PUT_OBJECT = putObject;
     }
 
     /**
@@ -88,6 +109,29 @@ public class BaseActivity extends AppCompatActivity
     public User getCurrentUser() {
         return currentUser;
     }
+    public boolean isLoading(){
+        return loading;
+    }
+    public void setLoading(boolean t){
+        loading = t;
+    }
+    public void setlocationSharing(boolean share) {
+        locationSharing = share;
+    }
+    public void toggleLocationSharing() {
+        locationSharing = !locationSharing;
+
+        if(locationSharing) {
+            Toast.makeText(this,LOC_SHARING_ON_MSG,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this,LOC_SHARING_OFF_MSG,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+    public boolean isLocationSharingOn() {
+        return locationSharing;
+    }
 
 
     /**
@@ -95,11 +139,49 @@ public class BaseActivity extends AppCompatActivity
      */
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
-            super.onBackPressed();
+            Fragment f = getMainContainerManager().getCurrentFragment();
+
+            int fragments = getSupportFragmentManager().getBackStackEntryCount();
+            if (fragments == 1 || f instanceof LoginOrRegisterFragment) {
+                finish();
+            } else {
+
+                if(fragments == 2 || f instanceof TabbedTripFragment){
+                    setTitle("Base Activity");
+
+                }
+
+                if (f instanceof BackButtonInterface){
+
+                    Fragment fragmentInstance = new LoginOrRegisterFragment();
+
+
+
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, fragmentInstance)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setTitle("Base Activity");
+
+                    setLoading(false);
+
+                }
+
+                else if (getFragmentManager().getBackStackEntryCount() > 1) {
+                    getSupportFragmentManager().popBackStackImmediate();
+                } else {
+                    super.onBackPressed();
+                }
+            }
         }
     }
 
@@ -113,8 +195,17 @@ public class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
         Fragment f = getSupportFragmentManager().findFragmentById(mainContainer.getContainerId());
 
-        if (id == R.id.nav_Profile && !(f instanceof HomeFragment) && !(f instanceof LoginFragment)) {
-            mainContainer.gotoHomeFragment();
+        if (id == R.id.nav_Profile &&
+                !(f instanceof LoginOrRegisterFragment) &&
+                !(f instanceof RegisterFragment) &&
+                !(f instanceof LoginFragment) &&
+                !(f instanceof ProfileFragment)
+                ) {
+            if (currentUser == null) {
+                mainContainer.gotoLoginOrRegisterFragment();
+            } else {
+                mainContainer.gotoProfileFragment();
+            }
 
         } else if (id == R.id.nav_search && !(f instanceof TripSearchFragment)) {
             mainContainer.gotoTripSearchFragment();
@@ -126,13 +217,13 @@ public class BaseActivity extends AppCompatActivity
             if (currentTrip != null) {
                 mainContainer.gotoTabbedTripFragment(currentTrip);
             } else {
-                mainContainer.gotoTabbedTripFragment(DEMOTRIP_URL);
+                mainContainer.gotoTabbedTripFragment(DEMOTRIP_NAME);
             }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
     /**
