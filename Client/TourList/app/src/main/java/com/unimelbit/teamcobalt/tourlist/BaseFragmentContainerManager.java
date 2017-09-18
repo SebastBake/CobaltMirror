@@ -1,10 +1,12 @@
 package com.unimelbit.teamcobalt.tourlist;
 
 import android.support.v4.app.Fragment;
-import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
-import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
@@ -36,20 +38,38 @@ public class BaseFragmentContainerManager {
     }
 
     /**
-     * Takes the user to the home screen
+     * Takes the user to the register screen
      */
-    public void gotoHomeFragment(User user) {
+    public void gotoRegisterFragment() {
 
-        baseActivity.setCurrentUser(user);
-        gotoHomeFragment();
+        RegisterFragment fragment = new RegisterFragment();
+        gotoFragmentUsingBackstack(fragment, null);
+    }
+
+    /**
+     * Takes the user to the register screen
+     */
+    public void gotoLoginFragment() {
+
+        LoginFragment fragment = new LoginFragment();
+        gotoFragmentUsingBackstack(fragment, null);
+    }
+
+    /**
+     * Takes the user to the register screen
+     */
+    public void gotoProfileFragment() {
+
+        ProfileFragment fragment = new ProfileFragment();
+        gotoFragmentUsingBackstack(fragment, null);
     }
 
     /**
      * Takes the user to the home screen
      */
-    public void gotoHomeFragment() {
+    public void gotoLoginOrRegisterFragment() {
 
-        HomeFragment fragment = HomeFragment.newInstance();
+        LoginOrRegisterFragment fragment = LoginOrRegisterFragment.newInstance();
         gotoFragmentUsingBackstack(fragment, null);
     }
 
@@ -57,7 +77,6 @@ public class BaseFragmentContainerManager {
      * Takes the user to trip details screen using a url
      */
     public void gotoTabbedTripFragment(String tripURL) {
-
         new TripGetRequest(tripURL, this);
     }
 
@@ -115,6 +134,18 @@ public class BaseFragmentContainerManager {
 
         ErrorFragment fragment = ErrorFragment.newInstance(errMsg);
         gotoFragment(fragment);
+    }
+
+    /**
+     * Clears the main fragment container
+     */
+    public void clearFragmentContainer() {
+
+        Fragment fragment = getCurrentFragment();
+
+        if (fragment != null) {
+            baseActivity.getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
     }
 
     /**

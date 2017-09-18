@@ -6,9 +6,10 @@
 
     <color name="black_overlay">#66000000</color>
 
-    <color name="scheme1_blue">#0E4375</color>
-    <color name="scheme1_orangeLight">#F5C851</color>
-    <color name="scheme1_orangeDark">#EF823F</color>
-    <color name="scheme1_green">#5BBC93</color>
+    <color name="scheme1_blue">#0e4375</color>
+    <color name="scheme1_orangeLight">#f5c851</color>
+    <color name="scheme1_orangeDark">#ef823f</color>
+    <color name="scheme1_green">#5bbc93</color>
+    <color name="scheme1_red">#bc4b4f</color>
 
 </resources>

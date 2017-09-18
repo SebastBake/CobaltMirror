@@ -36,7 +36,7 @@
     <string name="title_fragment_searchresults">Search Results</string>
     <string name="fragment_searchresults_header">Results for:</string>
 
-    <string name="name_title">Name</string>
+    <string name="name_title">Trip name</string>
     <string name="Date_title">Date</string>
     <string name="Name_field"></string>
     <string name="Date_field"></string>
@@ -51,6 +51,8 @@
     <string name="Apply_button">Apply</string>
     <string name="title_activity_trip">Trip</string>
     <string name="title_activity_search">Search</string>
+    <string name="title_activity_map">Map</string>
+    <string name="title_activity_tracking">TrackingActivity</string>
 
 
 </resources>

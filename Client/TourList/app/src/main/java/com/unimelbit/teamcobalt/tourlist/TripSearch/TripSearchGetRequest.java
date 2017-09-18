@@ -7,7 +7,7 @@ import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
-
+import org.json.JSONException;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +19,7 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
     private static String URL_SEARCH_BASE = "https://cobaltwebserver.herokuapp.com/api/locations/search?searchcontent=";
     private String searchQuery;
     private String url;
+
     private BaseFragmentContainerManager containerManager;
     ArrayList<Trip> trips;
 
@@ -49,12 +50,12 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
     @Override
     public void requestFailed(String msg, Exception e) {
 
-        Log.e("TripGetRequest failed",msg);
+        Log.e("TripGetRequest failed", msg);
         e.printStackTrace();
         containerManager.gotoErrorFragment("TripGetRequest failed: " + msg);
     }
 
-    public void onCreatedView(TripSearchResultFragment fragment,View rootView) {
+    public void onCreatedView(TripSearchResultFragment fragment,View rootView) throws JSONException {
         fragment.showResultsList(trips, rootView);
     }
 }

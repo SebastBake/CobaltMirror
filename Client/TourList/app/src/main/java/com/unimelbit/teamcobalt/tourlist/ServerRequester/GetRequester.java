@@ -27,7 +27,6 @@ public class GetRequester extends AsyncTask<String, Void, String> {
         try {
             return getData(params[0]);
         } catch (IOException ex) {
-
             String errorMsg = "Network error !";
             processor.requestFailed(errorMsg, ex);
             return errorMsg;
@@ -49,8 +48,8 @@ public class GetRequester extends AsyncTask<String, Void, String> {
             //Initialize and config request, then connect to server
             URL url = new URL(urlPath);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(2*1000 /* milliseconds */);
-            urlConnection.setConnectTimeout(2*1000 /* milliseconds */);
+            urlConnection.setReadTimeout(5 * 1000 /* milliseconds */);
+            urlConnection.setConnectTimeout(5 * 1000 /* milliseconds */);
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("Content-Type", "application/json");// set header
             urlConnection.connect();

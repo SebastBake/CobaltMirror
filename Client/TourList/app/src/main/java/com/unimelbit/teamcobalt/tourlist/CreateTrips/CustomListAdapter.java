@@ -36,7 +36,6 @@ import java.util.Date;
 /**
  * Created by Hong Lin on 9/09/2017.
  */
-
 public class CustomListAdapter extends ArrayAdapter<Place> {
 
     private ArrayList<Place> items;
@@ -89,7 +88,7 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
         ImageView image = (ImageView) convertView.findViewById(R.id.bitmap_image);
 
         //getPhotos(items.get(position).getId(), image);
-
+        setImages(image, items.get(position).getPlaceTypes().get(0));
         delButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -165,5 +164,226 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
         });
     }
 
+    public void setImages(ImageView i, int type) {
+
+        switch (type) {
+            case Place.TYPE_AIRPORT:
+
+                i.setImageResource(R.mipmap.airport);
+
+                break;
+
+            case Place.TYPE_AMUSEMENT_PARK:
+
+                i.setImageResource(R.mipmap.amusement);
+
+                break;
+
+            case Place.TYPE_ATM:
+
+                i.setImageResource(R.mipmap.bank_dollar);
+
+                break;
+
+            case Place.TYPE_BAKERY:
+
+                i.setImageResource(R.mipmap.restaurant);
+
+                break;
+
+            case Place.TYPE_BANK:
+
+                i.setImageResource(R.mipmap.bank_dollar);
+
+                break;
+
+            case Place.TYPE_BAR:
+
+                i.setImageResource(R.mipmap.bar);
+
+                break;
+
+            case Place.TYPE_LODGING:
+
+                i.setImageResource(R.mipmap.lodging);
+
+                break;
+
+            case Place.TYPE_BOOK_STORE:
+
+                i.setImageResource(R.mipmap.supermarket);
+
+                break;
+
+            case Place.TYPE_BUS_STATION:
+
+                i.setImageResource(R.mipmap.bus);
+
+                break;
+
+            case Place.TYPE_CAFE:
+
+                i.setImageResource(R.mipmap.cafe);
+
+                break;
+
+            case Place.TYPE_CLOTHING_STORE:
+
+                i.setImageResource(R.mipmap.supermarket);
+
+                break;
+
+            case Place.TYPE_CONVENIENCE_STORE:
+
+                i.setImageResource(R.mipmap.supermarket);
+
+                break;
+
+            case Place.TYPE_DENTIST:
+
+                i.setImageResource(R.mipmap.dentist);
+
+                break;
+
+            case Place.TYPE_DEPARTMENT_STORE:
+
+                i.setImageResource(R.mipmap.supermarket);
+
+                break;
+
+            case Place.TYPE_DOCTOR:
+
+                i.setImageResource(R.mipmap.doctor);
+
+                break;
+
+            case Place.TYPE_FINANCE:
+
+                i.setImageResource(R.mipmap.bank_dollar);
+
+                break;
+
+            case Place.TYPE_FOOD:
+
+                i.setImageResource(R.mipmap.restaurant);
+
+                break;
+
+            case Place.TYPE_GAS_STATION:
+
+                i.setImageResource(R.mipmap.gas_station);
+
+                break;
+
+            case Place.TYPE_GEOCODE:
+
+                i.setImageResource(R.mipmap.geocode);
+
+                break;
+
+            case Place.TYPE_HARDWARE_STORE:
+
+                i.setImageResource(R.mipmap.supermarket);
+
+                break;
+
+            case Place.TYPE_HOSPITAL:
+
+                i.setImageResource(R.mipmap.doctor);
+
+                break;
+
+            case Place.TYPE_JEWELRY_STORE:
+
+                i.setImageResource(R.mipmap.supermarket);
+
+                break;
+
+            case Place.TYPE_LIBRARY:
+
+                i.setImageResource(R.mipmap.library);
+
+                break;
+
+            case Place.TYPE_MOVIE_THEATER:
+
+                i.setImageResource(R.mipmap.movies);
+
+                break;
+
+            case Place.TYPE_NIGHT_CLUB:
+
+                i.setImageResource(R.mipmap.bar);
+
+                break;
+
+            case Place.TYPE_PHARMACY:
+
+                i.setImageResource(R.mipmap.doctor);
+
+                break;
+
+            case Place.TYPE_POLICE:
+
+                i.setImageResource(R.mipmap.post_office);
+
+                break;
+
+            case Place.TYPE_POST_OFFICE:
+
+                i.setImageResource(R.mipmap.post_office);
+
+                break;
+
+            case Place.TYPE_RESTAURANT:
+
+                i.setImageResource(R.mipmap.restaurant);
+
+                break;
+
+            case Place.TYPE_SCHOOL:
+
+                i.setImageResource(R.mipmap.school);
+
+                break;
+
+            case Place.TYPE_SHOPPING_MALL:
+
+                i.setImageResource(R.mipmap.shopping);
+
+                break;
+
+            case Place.TYPE_STADIUM:
+
+                i.setImageResource(R.mipmap.stadium);
+
+                break;
+
+            case Place.TYPE_STORE:
+
+                i.setImageResource(R.mipmap.supermarket);
+
+                break;
+
+            case Place.TYPE_UNIVERSITY:
+
+                i.setImageResource(R.mipmap.university);
+
+                break;
+
+            case Place.TYPE_PARK:
+
+                i.setImageResource(R.mipmap.mountain);
+
+                break;
+
+            default:
+
+                i.setImageResource(R.mipmap.geocode);
+
+                break;
+        }
+
+    }
 
 }

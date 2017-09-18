@@ -9,13 +9,16 @@ var Trip = mongoose.model('trips');
 var Location = mongoose.model('locations');
 
 var createTrip = function(req, res) {
+  
   var trip = new Trip({
     "name": req.body.name,
+    "description": "This is a placeholder description",
     "date": req.body.date,
     "size": req.body.size,
     "cost": req.body.cost,
     "locations": []
   });
+
   trip.save(function(err, newTrip) {
     if (!err) {
       res.send(newTrip);

@@ -30,8 +30,6 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -39,7 +37,6 @@
         android:launchMode="singleTask"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -58,6 +55,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".TripDetails.MapActivity"
+            android:label="@string/title_activity_map"></activity>
+        <activity
             android:name=".AugmentedReality.AugmentedRealityActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_augmented_reality"
@@ -74,11 +74,11 @@
         <activity
             android:name=".AugmentedReality.POIDetailActivity"
             android:label="@string/title_activity_poidetail" />
-
-
-
-        <activity android:name=".CreateTrips.CreateActivity" />
-        <activity android:name=".CreateTrips.TripsActivity"></activity>
+        <activity android:name=".CreateTrips.AddLocationsToTripActivity" />
+        <activity
+            android:name=".Tracking.TrackingActivity"
+            android:label="@string/title_activity_tracking"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

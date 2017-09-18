@@ -47,6 +47,7 @@ public class User {
         for (int i=0; i < userJSONArray.length(); i++) {
 
             JSONObject userJSON = userJSONArray.getJSONObject(i);
+
             String username = "";
             String password = "";
             String email = "";
@@ -88,5 +89,29 @@ public class User {
         }
 
         return users;
+    }
+
+    public String getUserRegistration() throws JSONException {
+        JSONObject dataToSend = new JSONObject();
+        dataToSend.put(User.JSON_USERNAME, username);
+        dataToSend.put(User.JSON_PASSWORD, password);
+        dataToSend.put(User.JSON_EMAIL, email);
+        return dataToSend.toString();
+    }
+
+    public ArrayList<String> getSavedtrips() {
+        return savedtrips;
+    }
+    public String getUsername() {
+        return username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public ArrayList<String> getFavouritetrips() {
+        return favouritetrips;
     }
 }

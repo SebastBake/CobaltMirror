@@ -5,6 +5,7 @@
 var mongoose = require('mongoose');
 var tripSchema = mongoose.Schema({
   "name": String,
+  "description": String,
   "date": String,
   "size": String,
   "cost": String,
