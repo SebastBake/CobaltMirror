@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public class AddLocationsToTripActivity extends AppCompatActivity {
 
+    public static final String DEFAULT_DESC = "This is a default description because we haven't totally completed the create a trip screen to include a description box";
 
     private int PLACE_PICKER_REQUEST = 1;
 
@@ -91,7 +92,7 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
 
         ArrayList<Location> locations = Location.newLocationArrayFromPlaceArray(placeArray);
 
-        return new Trip(name, date, cost, size, locations, TripGetRequest.DEFAULT_URL+name);
+        return new Trip(name, date,DEFAULT_DESC, cost, size, locations, TripGetRequest.DEFAULT_URL+name);
     }
 
 

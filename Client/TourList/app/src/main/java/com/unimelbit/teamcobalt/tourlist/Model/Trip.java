@@ -13,13 +13,15 @@ import java.util.HashMap;
  */
 public class Trip {
 
-    public static String JSON_NAME = "name";
-    public static String JSON_COST = "cost";
-    public static String JSON_SIZE = "size";
-    public static String JSON_LOC = "locations";
-    public static String JSON_DESC = "description";
+    public static final String JSON_NAME = "name";
+    public static final String JSON_COST = "cost";
+    public static final String JSON_SIZE = "size";
+    public static final String JSON_DATE = "date";
+    public static final String JSON_LOC = "locations";
+    public static final String JSON_DESC = "description";
 
     private String name;
+    private String date;
     private String description;
     private String cost;
     private String size;
@@ -30,6 +32,7 @@ public class Trip {
     public Trip(
             String name,
             String description,
+            String date,
             String cost,
             String size,
             ArrayList<Location> locations,
@@ -37,6 +40,7 @@ public class Trip {
     ) {
         this.name = name;
         this.description = description;
+        this.date = date;
         this.cost = cost;
         this.size = size;
         this.locations = locations;
@@ -54,12 +58,17 @@ public class Trip {
             String name = "";
             String cost = "";
             String size = "";
+            String date = "";
             String description = "";
             ArrayList<Location> locations = new ArrayList<>();
 
 
             try {
                 name = tripJSON.getString(JSON_NAME);
+            } catch (JSONException e) {}
+
+            try {
+                date = tripJSON.getString(JSON_DATE);
             } catch (JSONException e) {}
 
             try {
@@ -79,7 +88,7 @@ public class Trip {
                 locations = Location.newLocationArrayFromJSON(jsonLocations);
             } catch(JSONException e) {}
 
-            trips.add(new Trip(name, description, cost, size, locations, url));
+            trips.add(new Trip(name, date, description, cost, size, locations, url));
         }
 
         return trips;
@@ -93,6 +102,7 @@ public class Trip {
         for(Location location: locations) { locationString += location.getTitle() + "\n"; }
 
         map.put(JSON_NAME, name);
+        map.put(JSON_DATE, date);
         map.put(JSON_COST, cost);
         map.put(JSON_SIZE, size);
         map.put(JSON_DESC, description);
@@ -106,6 +116,7 @@ public class Trip {
         JSONObject trip = new JSONObject();
         trip.put(JSON_NAME, name);
         trip.put(JSON_COST, cost);
+        trip.put(JSON_DATE, date);
         trip.put(JSON_SIZE, size);
         trip.put(JSON_DESC, description);
 
