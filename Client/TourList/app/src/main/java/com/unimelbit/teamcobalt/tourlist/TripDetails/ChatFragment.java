@@ -19,7 +19,6 @@ public class ChatFragment extends Fragment {
     }
 
 
-    // TODO: Rename and change types and number of parameters
     public static ChatFragment newInstance() {
         ChatFragment fragment = new ChatFragment();
         return fragment;

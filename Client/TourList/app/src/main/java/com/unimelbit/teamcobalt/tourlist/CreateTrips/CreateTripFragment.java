@@ -21,11 +21,13 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
     public static final String INTENT_DATE = "com.example.spike.uitest.MESSAGE_TWO";
     public static final String INTENT_SIZE = "com.example.spike.uitest.MESSAGE_THREE";
     public static final String INTENT_COST = "com.example.spike.uitest.MESSAGE_FOUR";
+    public static final String INTENT_DESC = "com.example.spike.uitest.MESSAGE_FIVE";
 
-    String size;
-    String cost;
-    String name;
-    String date;
+    private String size;
+    private String cost;
+    private String name;
+    private String date;
+    private String desc;
 
     private RadioButton size_small;
     private RadioButton size_medium;
@@ -44,6 +46,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_create_trip, container, false);
         getActivity().setTitle( "Create a Trip");
@@ -135,12 +138,14 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
 
     private void gotoChooseLocationsActivity() {
 
-        EditText NameText = (EditText) getView().findViewById(R.id.create_trip_name_field);
-        EditText DateText =  (EditText) getView().findViewById(R.id.create_trip_date_field);
-        name = NameText.getText().toString();
-        date = DateText.getText().toString();
+        EditText nameText = (EditText) getView().findViewById(R.id.create_trip_name_field);
+        EditText dateText =  (EditText) getView().findViewById(R.id.create_trip_date_field);
+        EditText descText = (EditText) getView().findViewById(R.id.create_trip_desc_field);
+        name = nameText.getText().toString();
+        date = dateText.getText().toString();
+        desc = descText.getText().toString();
 
-         boolean notFilledOut = name.isEmpty() || date.isEmpty() || (size==null) || (cost==null);
+        boolean notFilledOut = name.isEmpty() || date.isEmpty() || (size==null) || (cost==null) || (desc.isEmpty());
 
         if (notFilledOut) {
             Toast.makeText(getActivity(), "Please fill out form correctly", Toast.LENGTH_SHORT).show();
@@ -152,6 +157,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         intent.putExtra(INTENT_DATE, date);
         intent.putExtra(INTENT_SIZE, size);
         intent.putExtra(INTENT_COST, cost);
+        intent.putExtra(INTENT_DESC, desc);
         startActivity(intent);
         getActivity().getSupportFragmentManager().popBackStack();
     }

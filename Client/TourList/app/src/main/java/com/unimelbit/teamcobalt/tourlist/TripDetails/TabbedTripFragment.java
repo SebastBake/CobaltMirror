@@ -50,8 +50,8 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
         getActivity().setTitle(screenTitle + currentTrip.getName() );
 
         // Initialise views
-        initTabs(rootView);
         buttonHandeler = new TabbedTripFragmentButtonHandler(rootView, (BaseActivity) getActivity(), this);
+        initTabs(rootView);
 
         return rootView;
     }
@@ -93,7 +93,6 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
         @Override
         public int getCount() {
-            // Show 3 total pages on the tab bar
             return NUM_TABS;
         }
 
