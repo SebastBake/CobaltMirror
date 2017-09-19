@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
         android:layout_marginTop="23dp"
-        android:text="CURRENT TRIPS"
+        android:text="CURRENT TRIP"
         app:layout_constraintLeft_toLeftOf="@+id/notifyingText"
         app:layout_constraintTop_toBottomOf="@+id/searchButtonMain"
         tools:layout_constraintLeft_creator="1"

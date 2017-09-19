@@ -1,5 +1,6 @@
 package com.unimelbit.teamcobalt.tourlist;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
@@ -28,7 +31,7 @@ import org.json.JSONObject;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String DEMOTRIP_NAME = "DemoTrip";
+    public static final String DEMOTRIP_NAME = "DemoTrip";
     public static final String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
     public static JSONObject PUT_OBJECT;
 
@@ -42,9 +45,6 @@ public class BaseActivity extends AppCompatActivity
     // Permission manager
     private PermissionManager permission;
 
-    //Flag for loading
-    private boolean loading;
-
     // Manager of main fragment
     private static BaseFragmentContainerManager mainContainer;
 
@@ -55,7 +55,6 @@ public class BaseActivity extends AppCompatActivity
         setContentView(R.layout.activity_base);
 
         currentTrip = null;
-        loading = false;
         locationSharing = false;
         mainContainer = new BaseFragmentContainerManager(this, R.id.fragment_container);
 
@@ -110,12 +109,6 @@ public class BaseActivity extends AppCompatActivity
     public User getCurrentUser() {
         return currentUser;
     }
-    public boolean isLoading(){
-        return loading;
-    }
-    public void setLoading(boolean t){
-        loading = t;
-    }
     public void setlocationSharing(boolean share) {
         locationSharing = share;
     }
@@ -150,30 +143,20 @@ public class BaseActivity extends AppCompatActivity
             Fragment f = getMainContainerManager().getCurrentFragment();
 
             int fragments = getSupportFragmentManager().getBackStackEntryCount();
-            if (fragments == 1 || f instanceof LoginOrRegisterFragment) {
+            if (fragments == 1 || f instanceof LoginOrRegisterFragment || f instanceof HomeFragment) {
                 finish();
             } else {
 
-                if(fragments == 2 || f instanceof TabbedTripFragment){
-                    setTitle("Base Activity");
-
-                }
 
                 if (f instanceof BackButtonInterface){
 
-                    Fragment fragmentInstance = new LoginOrRegisterFragment();
-
-
+                    Fragment fragmentInstance = new HomeFragment();
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, fragmentInstance)
                             .addToBackStack(null)
                             .commit();
-
-                    setTitle("Base Activity");
-
-                    setLoading(false);
 
                 }
 
@@ -220,6 +203,9 @@ public class BaseActivity extends AppCompatActivity
             } else {
                 mainContainer.gotoTabbedTripFragment(DEMOTRIP_NAME);
             }
+        }else if (id == R.id.nav_logout){
+
+            attemptLogOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -243,7 +229,62 @@ public class BaseActivity extends AppCompatActivity
 
     }
 
-    //Test comment
+
+    public void attemptLogOut(){
+
+        Fragment f = getMainContainerManager().getCurrentFragment();
+
+        if(f instanceof LoginFragment || f instanceof LoginOrRegisterFragment){
+
+            Toast.makeText(this, "Cannot logout without logging in", Toast.LENGTH_LONG).show();
+
+        }else {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            //Dialogue to display
+            String message = "Are you sure you wish to logout?";
+
+            //Direct user to location settings if they press OK, otherwise dismiss the display box
+            builder.setMessage(message)
+                    .setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface d, int id) {
+
+                                    logOut();
+
+                                    d.dismiss();
+                                }
+                            })
+
+                    //Do no nothing if user presses 'Cancel' and close dialogue
+                    .setNegativeButton("CANCEL",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface d, int id) {
+                                    d.cancel();
+                                }
+                            });
+            builder.create().show();
+        }
+
+
+
+    }
+
+    public void logOut(){
+
+        Fragment fragmentInstance = new LoginOrRegisterFragment();
+
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragmentInstance)
+                .addToBackStack(null)
+                .commit();
+
+        Toast.makeText(this, "Logged Out", Toast.LENGTH_LONG).show();
+
+
+    }
 
 
 }

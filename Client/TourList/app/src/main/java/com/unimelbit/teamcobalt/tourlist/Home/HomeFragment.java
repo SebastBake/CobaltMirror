@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), R.mipmap.umaru));
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setOnClickListener(this);
             layout.addView(imageView);
         }
 
@@ -86,8 +87,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             if (base.getCurrentTrip() != null) {
                 base.getMainContainer().gotoTabbedTripFragment(base.getCurrentTrip());
             } else {
-                base.getMainContainer().gotoTabbedTripFragment(BaseActivity.DEMOTRIP_URL);
+                base.getMainContainer().gotoTabbedTripFragment(BaseActivity.DEMOTRIP_NAME);
             }
+        } else{
+
+            base.getMainContainer().gotoTabbedTripFragment(BaseActivity.DEMOTRIP_NAME);
+
+
         }
     }
 }
