@@ -14,11 +14,6 @@ public interface PostRequest {
     void processResult(String result);
 
     /**
-     * getDataToSend() should return the data which is to be sent to the server
-     */
-    String getDataToSend();
-
-    /**
      * requestFailed() is called by the PostRequester when the request fails
      * Implementation should replace the loading screen.
      */

@@ -91,14 +91,6 @@ public class User {
         return users;
     }
 
-    public String getUserRegistration() throws JSONException {
-        JSONObject dataToSend = new JSONObject();
-        dataToSend.put(User.JSON_USERNAME, username);
-        dataToSend.put(User.JSON_PASSWORD, password);
-        dataToSend.put(User.JSON_EMAIL, email);
-        return dataToSend.toString();
-    }
-
     public ArrayList<String> getSavedtrips() {
         return savedtrips;
     }
