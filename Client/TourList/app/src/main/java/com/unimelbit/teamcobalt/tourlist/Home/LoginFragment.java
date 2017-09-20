@@ -1,5 +1,6 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private Button apply;
 
+    private final static int NULL_RESULT_LEN = 3;
+
 
     BaseFragmentContainerManager mainContainer;
 
@@ -68,6 +71,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         this.password = passwordText.getText().toString();
 
         new LoginFragment.GetDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/find/"+username+"/"+password);
+
     }
 
     @Override
@@ -107,12 +111,20 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
             new LogPrinter(0, null).println(getresults);
             try {
-                //ArrayList<User> user = User.newUserArrayFromJSON(getresults);
 
-                String tmp = getresults;
-                Toast.makeText(getActivity(), tmp, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getActivity(), (CharSequence) user.get(1), Toast.LENGTH_SHORT).show();
-                ((BaseActivity) getActivity()).getMainContainerManager().gotoProfileFragment();
+
+                if (getresults.length() > NULL_RESULT_LEN) {
+                    //Toast.makeText(getActivity(), tmp.toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), getresults, Toast.LENGTH_SHORT).show();
+                    User user = new User(username,password, null,null,null);
+                    Toast.makeText(getActivity(), user.getUsername(), Toast.LENGTH_SHORT).show();
+                    ((BaseActivity) getActivity()).setCurrentUser(user);
+                    ((BaseActivity) getActivity()).getMainContainerManager().gotoProfileFragment();
+
+                } else {
+                    Toast.makeText(getActivity(), "NO USER FOUND", Toast.LENGTH_SHORT).show();
+                }
+
             } catch (Exception e) {
                 requestFailed("Something failed for url and result: " + result, e);
             }
