@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatActivity;
+import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
@@ -58,9 +60,17 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         if(id == R.id.button_chat){
 
-            Intent chatIntent = new Intent(getActivity(), ChatActivity.class);
+            System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEE: "+base.getCurrentTrip().getName() );
+
+            Toast.makeText(getActivity(), base.getCurrentTrip().getName(), Toast.LENGTH_LONG).show();
+
+            Intent chatIntent = new Intent(getActivity(), ChatroomActivity.class);
 
             chatIntent.putExtra("Name", base.getUserName());
+
+            chatIntent.putExtra("Room_name", base.getCurrentTrip().getName());
+
+
 
             getActivity().startActivity(chatIntent);
 
