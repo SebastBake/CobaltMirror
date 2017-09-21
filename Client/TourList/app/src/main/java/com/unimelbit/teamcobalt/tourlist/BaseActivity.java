@@ -48,6 +48,10 @@ public class BaseActivity extends AppCompatActivity
     // Manager of main fragment
     private static BaseFragmentContainerManager mainContainer;
 
+    //UserName
+
+    private String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -286,5 +290,16 @@ public class BaseActivity extends AppCompatActivity
 
     }
 
+
+    public void setUserName(String s){
+
+        this.userName = s;
+
+    }
+
+    public String getUserName(){
+
+        return this.userName;
+    }
 
 }

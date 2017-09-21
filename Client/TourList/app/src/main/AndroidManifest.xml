@@ -56,7 +56,7 @@
         </activity>
         <activity
             android:name=".TripDetails.MapActivity"
-            android:label="@string/title_activity_map"></activity>
+            android:label="@string/title_activity_map" />
         <activity
             android:name=".AugmentedReality.AugmentedRealityActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -78,7 +78,8 @@
         <activity
             android:name=".Tracking.TrackingActivity"
             android:label="@string/title_activity_tracking"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Chat.ChatActivity"></activity>
     </application>
 
 </manifest>

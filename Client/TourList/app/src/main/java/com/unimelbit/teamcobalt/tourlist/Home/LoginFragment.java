@@ -18,6 +18,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private EditText userName;
 
+    private BaseActivity base;
 
     public LoginFragment() {
     }
@@ -45,6 +46,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
         userName = (EditText) rootView.findViewById(R.id.login_username_field);
 
+        base = (BaseActivity) getActivity();
+
         return rootView;
     }
 
@@ -61,9 +64,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             if(enteredUser.isEmpty()){
 
                 enteredUser = "Demo User";
+
+                base.setUserName("Demo User");
             }
 
             String message = "Logged in as: "+ enteredUser;
+
+            base.setUserName(enteredUser);
 
             BaseActivity base = (BaseActivity) getActivity();
 
