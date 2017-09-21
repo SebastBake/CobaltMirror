@@ -168,7 +168,7 @@ public class Location implements Parcelable{
         return 0;
     }
 
-    static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+    public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
 
         @Override
         public Location[] newArray(int size) {

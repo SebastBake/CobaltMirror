@@ -24,12 +24,9 @@ import java.util.ArrayList;
 
 public class AddLocationsToTripActivity extends AppCompatActivity {
 
-    public static final String DEFAULT_DESC = "This is a default description because we haven't totally completed the create a trip screen to include a description box";
-
     private int PLACE_PICKER_REQUEST = 1;
 
     private ArrayList<Place> placeArray;
-
     private Button addLocationButton;
     private Button doneAddingLocationsButton;
     private CustomListAdapter listAdapter;
@@ -40,6 +37,7 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_trip_add_location);
+        this.setTitle( "Add Locations to the Trip");
 
         placeArray = new ArrayList<Place>();
 
@@ -89,10 +87,10 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         String cost = getIntent().getStringExtra(CreateTripFragment.INTENT_COST);
         String size = getIntent().getStringExtra(CreateTripFragment.INTENT_SIZE);
         String date = getIntent().getStringExtra(CreateTripFragment.INTENT_DATE);
+        String desc = getIntent().getStringExtra(CreateTripFragment.INTENT_DESC);
 
         ArrayList<Location> locations = Location.newLocationArrayFromPlaceArray(placeArray);
-
-        return new Trip(name, date,DEFAULT_DESC, cost, size, locations, TripGetRequest.DEFAULT_URL+name);
+        return new Trip(name, desc,  date, cost, size, locations, TripGetRequest.DEFAULT_URL+name);
     }
 
 

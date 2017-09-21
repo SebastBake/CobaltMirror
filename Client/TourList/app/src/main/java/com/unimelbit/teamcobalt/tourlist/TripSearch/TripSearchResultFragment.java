@@ -126,8 +126,7 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
                         TextView tv = (TextView)rl.findViewById(R.id.name);
                         String text = tv.getText().toString();
                         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-                        String url = "https://cobaltwebserver.herokuapp.com/api/trips/"+text;
-                        new TripGetRequest(url, ((BaseActivity)getActivity()).getMainContainerManager());
+                        new TripGetRequest(text, ((BaseActivity)getActivity()).getMainContainerManager());
                     }
                 });
                 saveButton.setOnClickListener(new View.OnClickListener() {

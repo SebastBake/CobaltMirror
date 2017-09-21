@@ -1,25 +1,31 @@
 package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Chat.ChatActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements View.OnClickListener{
     public static final int TRIP_SECTION_INDEX = 1;
 
+    private Button chatButton;
+
+    private BaseActivity base;
 
     public ChatFragment() {
         // Required empty public constructor
     }
 
 
-    // TODO: Rename and change types and number of parameters
     public static ChatFragment newInstance() {
         ChatFragment fragment = new ChatFragment();
         return fragment;
@@ -34,7 +40,32 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+        View v =  inflater.inflate(R.layout.fragment_chat, container, false);
+
+        base = (BaseActivity) getActivity();
+
+        chatButton = (Button) v.findViewById(R.id.button_chat);
+
+        chatButton.setOnClickListener(this);
+
+        return v;
     }
 
+    @Override
+    public void onClick(View view) {
+
+        int id = view.getId();
+
+        if(id == R.id.button_chat){
+
+            Intent chatIntent = new Intent(getActivity(), ChatActivity.class);
+
+            chatIntent.putExtra("Name", base.getUserName());
+
+            getActivity().startActivity(chatIntent);
+
+
+        }
+
+    }
 }

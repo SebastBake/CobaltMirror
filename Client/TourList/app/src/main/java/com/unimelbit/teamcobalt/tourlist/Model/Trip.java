@@ -88,7 +88,7 @@ public class Trip {
                 locations = Location.newLocationArrayFromJSON(jsonLocations);
             } catch(JSONException e) {}
 
-            trips.add(new Trip(name, date, description, cost, size, locations, url));
+            trips.add(new Trip(name, description, date, cost, size, locations, url));
         }
 
         return trips;
