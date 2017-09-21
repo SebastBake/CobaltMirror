@@ -26,8 +26,6 @@ import java.util.Map;
 
 public class ChatroomActivity extends AppCompatActivity {
 
-    private FirebaseListAdapter<Chat> adapter;
-
     private String userName = "No name";
 
     private String roomName;

@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Chat.ChatActivity;
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -69,8 +68,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
             chatIntent.putExtra("Name", base.getUserName());
 
             chatIntent.putExtra("Room_name", base.getCurrentTrip().getName());
-
-
 
             getActivity().startActivity(chatIntent);
 
