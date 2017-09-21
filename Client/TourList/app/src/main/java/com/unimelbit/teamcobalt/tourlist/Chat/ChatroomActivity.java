@@ -1,57 +1,96 @@
 package com.unimelbit.teamcobalt.tourlist.Chat;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.unimelbit.teamcobalt.tourlist.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.R;
 
 
 public class ChatroomActivity extends AppCompatActivity {
 
-    private String userName = "No name";
+    private FirebaseAuth mAuth;
+
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private FirebaseListAdapter<Chat> adapter;
+
+    private String userName;
 
     private String roomName;
 
-    private DatabaseReference root;
-
-    private String key;
-
-    private TextView messageText;
-    private TextView messageUser;
-    private TextView messageTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
 
+        //mAuth = FirebaseAuth.getInstance();
+
         userName = getIntent().getExtras().getString("Name");
+
+        if(userName.isEmpty() || userName == null){
+
+            userName = "Didn't login properly";
+
+        }
 
         roomName = getIntent().getExtras().getString("Room_name");
 
-        root = FirebaseDatabase.getInstance().getReference().child(roomName);
+       /* mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Minge", "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d("Minge", "onAuthStateChanged:signed_out");
+                }
 
-        messageText = (TextView)findViewById(R.id.message_text);
-        messageUser = (TextView)findViewById(R.id.message_user);
-        messageTime = (TextView)findViewById(R.id.message_time);
+            }
+        };
+
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(Task<AuthResult> task) {
+                        Log.d("logs", "OnComplete : " +task.isSuccessful());
+
+                        displayChatMessages();
+
+                        if (!task.isSuccessful()) {
+                            Log.w("logs", "Failed : ", task.getException());
+                            Toast.makeText(ChatroomActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                });*/
+
+       displayChatMessages();
+
 
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
@@ -61,88 +100,69 @@ public class ChatroomActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText input = (EditText)findViewById(R.id.input);
 
-                java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Date date = new Date();
-                System.out.println(dateFormat.format(date));
-
-                Map<String, Object> map = new HashMap<String, Object>();
-                key = root.push().getKey();
-                root.updateChildren(map);
-
-                DatabaseReference mRoot = root.child(key);
-
-                Map<String, Object> messageMap = new HashMap<String, Object>();
-
-                messageMap.put("user",userName);
-                messageMap.put("message", input.getText().toString());
-                messageMap.put("time", dateFormat.format(date));
-
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
-
-                mRoot.updateChildren(messageMap);
+                FirebaseDatabase.getInstance()
+                        .getReference().child(roomName)
+                        .push()
+                        .setValue(new Chat(input.getText().toString(),
+                                userName)
+                        );
 
                 // Clear the input
                 input.setText("");
             }
         });
 
-        root.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                addToConversation(dataSnapshot);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                addToConversation(dataSnapshot);
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-
-            }
-        });
-
     }
 
 
-    public void addToConversation(DataSnapshot dataSnapshot){
 
-        String message, user, time;
+    @Override
+    public void onStart() {
+        super.onStart();
+       // mAuth.addAuthStateListener(mAuthListener);
+    }
 
-        Iterator i = dataSnapshot.getChildren().iterator();
-
-        while(i.hasNext()){
-
-            user = (String) ((DataSnapshot)i.next()).getValue();
-            message = (String) ((DataSnapshot)i.next()).getValue();
-            time = (String) ((DataSnapshot)i.next()).getValue();
-
-            messageText.setText(message);
-
-            messageUser.setText(user);
-
-            messageTime.setText(time);
-
+    // release listener in onStop
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            //mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
 
+    private void displayChatMessages() {
+
+        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
+
+        adapter = new FirebaseListAdapter<Chat>(this, Chat.class,
+                R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomName)) {
+            @Override
+            protected void populateView(View v, Chat model, int position) {
+                // Get references to the views of message.xml
+                TextView messageText = (TextView)v.findViewById(R.id.message_text);
+                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
+                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+
+                // Set their text
+                messageText.setText(model.getMessageText());
+                messageUser.setText(model.getMessageUser());
+
+                // Format the date before showing it
+                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                        model.getMessageTime()));
+            }
+        };
+
+        listOfMessages.setAdapter(adapter);
 
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chat_menu, menu);
+        return true;
+    }
 }
