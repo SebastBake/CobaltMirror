@@ -93,6 +93,8 @@ public class ChatroomActivity extends AppCompatActivity {
 
         displayChatMessages();
 
+        setTitle(roomName+" Chat");
+
 
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
