@@ -83,15 +83,17 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         if(id == R.id.button_chat){
 
-            System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEE: "+base.getCurrentTrip().getName() );
-
-            Toast.makeText(getActivity(), base.getCurrentTrip().getName(), Toast.LENGTH_LONG).show();
+            String name = base.getUserName();
 
             Intent chatIntent = new Intent(getActivity(), ChatroomActivity.class);
 
+            if(name == null){
 
+                name = "User did not login";
 
-            chatIntent.putExtra("Name", base.getUserName());
+            }
+
+            chatIntent.putExtra("Name", name);
 
             chatIntent.putExtra("Room_name", base.getCurrentTrip().getName());
 

@@ -162,4 +162,5 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         startActivity(intent);
         getActivity().getSupportFragmentManager().popBackStack();
     }
+
 }

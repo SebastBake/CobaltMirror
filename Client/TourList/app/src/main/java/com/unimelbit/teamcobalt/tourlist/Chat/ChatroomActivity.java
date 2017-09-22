@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
@@ -89,7 +91,7 @@ public class ChatroomActivity extends AppCompatActivity {
                     }
                 });*/
 
-       displayChatMessages();
+        displayChatMessages();
 
 
         FloatingActionButton fab =
@@ -165,4 +167,7 @@ public class ChatroomActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.chat_menu, menu);
         return true;
     }
+
+
+
 }
