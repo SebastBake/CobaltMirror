@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -94,6 +95,9 @@ public class ChatroomActivity extends AppCompatActivity {
         displayChatMessages();
 
         setTitle(roomName+" Chat");
+
+        EditText input = (EditText) findViewById(R.id.input);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
 
         FloatingActionButton fab =
