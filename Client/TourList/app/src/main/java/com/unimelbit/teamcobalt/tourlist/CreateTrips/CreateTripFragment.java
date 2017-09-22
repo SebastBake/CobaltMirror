@@ -146,16 +146,12 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         date = dateText.getText().toString();
         desc = descText.getText().toString();
 
-        ChatroomCreator chatRoom = new ChatroomCreator();
-
         boolean notFilledOut = name.isEmpty() || date.isEmpty() || (size==null) || (cost==null) || (desc.isEmpty());
 
         if (notFilledOut) {
             Toast.makeText(getActivity(), "Please fill out form correctly", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        chatRoom.generateRoom(name);
 
         Intent intent = new Intent(getActivity(), AddLocationsToTripActivity.class);
         intent.putExtra(INTENT_NAME, name);

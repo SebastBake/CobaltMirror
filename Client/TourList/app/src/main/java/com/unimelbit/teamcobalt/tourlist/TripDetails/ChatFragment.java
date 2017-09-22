@@ -10,8 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomActivity;
+import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomCreator;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
@@ -49,6 +55,24 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         chatButton.setOnClickListener(this);
 
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.hasChild(base.getCurrentTrip().getName())) {
+
+                    ChatroomCreator create = new ChatroomCreator();
+
+                    create.generateRoom(base.getCurrentTrip().getName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         return v;
     }
 
@@ -65,6 +89,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
             Intent chatIntent = new Intent(getActivity(), ChatroomActivity.class);
 
+
+
             chatIntent.putExtra("Name", base.getUserName());
 
             chatIntent.putExtra("Room_name", base.getCurrentTrip().getName());
@@ -75,4 +101,5 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
         }
 
     }
+
 }
