@@ -4,18 +4,17 @@
   "description": "back-end server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -e js,json app.js"
   },
   "author": "Cobalt",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "express": "^4.15.4",
     "mongoose": "^4.11.6",
     "nodemon": "^1.11.0",
-    "body-parser": "^1.17.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -e js,json app.js"
+    "socket.io": "^2.0.3",
+    "mongoose-simple-random": "^0.4.1"
   }
 }

@@ -35,6 +35,8 @@ public class TripSearchFragment extends Fragment implements View.OnClickListener
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         Button b = (Button) v.findViewById(R.id.Search_button);
+        Button random = (Button) v.findViewById(R.id.Random_button);
+        random.setOnClickListener(this);
         b.setOnClickListener(this);
         getActivity().setTitle(R.string.title_fragment_search);
         return v;
@@ -43,9 +45,23 @@ public class TripSearchFragment extends Fragment implements View.OnClickListener
     @Override
     public void  onClick(View v){
 
-        EditText searchText = (EditText) getView().findViewById(R.id.Search_input);
-        String text = searchText.getText().toString();
-        new TripSearchGetRequest(text, ((BaseActivity)getActivity()).getMainContainerManager());
+        switch (v.getId()) {
+
+            case R.id.Search_button:
+                EditText searchText = (EditText) getView().findViewById(R.id.Search_input);
+                String text = searchText.getText().toString();
+                new TripSearchGetRequest(text, ((BaseActivity)getActivity()).getMainContainerManager());
+                break;
+
+            case R.id.Random_button:
+                String randomtext = "Random_trips";
+                new TripSearchGetRequest(randomtext, ((BaseActivity)getActivity()).getMainContainerManager());
+                break;
+
+            default:
+                break;
+        }
+
     }
 }
 

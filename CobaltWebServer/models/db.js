@@ -13,7 +13,8 @@ mongoose.connect(
     }
   });
 
-//trips Schema
+//Schema
 require('./trips.js');
 require('./locations.js');
 require('./users.js');
+require('./chat.js');

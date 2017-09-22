@@ -30,7 +30,34 @@ var createUser = function(req, res) {
 
 };
 
+var retrieveOneUser = function(req, res) {
+  var query=User.find();
+    //get the Query String here
+    var filterUsername=req.params.username;
+    var filterPassword=req.params.password;
+    if(filterUsername.length>0 && filterPassword.length>0){
+      query.where({$and:[{username:filterUsername},{ password:filterPassword}]});
+    }
+    query.exec(function (error, user) {
+    //send the result back to front-end
+    if (error) {
+      return res.status(400).send({message: 'Server error:' + JSON.stringify(error)});
+    } else {
+    res.send(user);
+    }
+    });
+  };
 
+// find all users
+var findAllUsers = function(req,res){
+  User.find(function(err,users){
+    if(!err){
+      res.send(users);
+    }else{
+      res.sendStatus(404);
+    }
+  });
+};
 
 // find a single person document
 var findOneUser = function(req, res) {
@@ -64,8 +91,51 @@ var Addtrip = function(req, res) {
   });
 };
 
+// add trip to current user's saved list
+var Removetrip = function(req, res) {
+  var TripInx = req.body.tripid;
+  User.findOneAndUpdate({
+    _id: req.body.userid
+  }, {
+    $pull: {
+      'savedtrips': TripInx
+    }
+  }, function(err, data) {
+    if (err) {
+      return res.status(500).json({
+        'error': 'error in removing'
+      });
+    }
+    console.log(data);
+    res.json(data);
+  });
+};
+
+// Send user data back to client if it matches database entry
+// var loginUser = function(req, res) {
+
+//     // Find matching user
+//     var query = {
+//       username: req.username,
+//       password: req.password
+//     }
+
+//     User.findOne(query, function(err, user) {
+//       if (!err) {
+//         res.send(user);
+//       } else {
+//         return res.status(500).json({
+//           'error': 'Incorrect username or password.'
+//         });
+//       }
+//   });
+// }
+
+
 
 module.exports.createUser = createUser;
-
+module.exports.Removetrip = Removetrip;
 module.exports.findOneUser = findOneUser;
 module.exports.Addtrip = Addtrip;
+module.exports.retrieveOneUser = retrieveOneUser;
+module.exports.findAllUsers = findAllUsers;
