@@ -26,6 +26,8 @@ import com.unimelbit.teamcobalt.tourlist.Model.User;
 
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
+
 import org.json.JSONObject;
 
 public class BaseActivity extends AppCompatActivity
@@ -75,6 +77,9 @@ public class BaseActivity extends AppCompatActivity
         // Permission check when initiating app
         permission = new PermissionManager() {};
         permission.checkAndRequestPermissions(this);
+
+        //No user name set
+        userName = "";
     }
 
     public static void setPutObject(JSONObject putObject) {
@@ -155,7 +160,6 @@ public class BaseActivity extends AppCompatActivity
                 finish();
             } else {
 
-
                 if (f instanceof BackButtonInterface){
 
                     Fragment fragmentInstance = new HomeFragment();
@@ -165,6 +169,12 @@ public class BaseActivity extends AppCompatActivity
                             .replace(R.id.fragment_container, fragmentInstance)
                             .addToBackStack(null)
                             .commit();
+
+                //Go back to the search instead of home from the search results fragment
+                }else if(f instanceof TripSearchResultFragment){
+
+                    getSupportFragmentManager().popBackStackImmediate();
+                    getSupportFragmentManager().popBackStackImmediate();
 
                 }
 
@@ -214,6 +224,9 @@ public class BaseActivity extends AppCompatActivity
         }else if (id == R.id.nav_logout){
 
             attemptLogOut();
+        }else if (id == R.id.nav_chat_rooms){
+
+            mainContainer.goToChatRooms();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -32,10 +32,6 @@ import com.unimelbit.teamcobalt.tourlist.R;
 
 public class ChatroomActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-
-    private FirebaseAuth.AuthStateListener mAuthListener;
-
     private FirebaseListAdapter<Chat> adapter;
 
     private String userName;
@@ -60,38 +56,6 @@ public class ChatroomActivity extends AppCompatActivity {
 
         roomName = getIntent().getExtras().getString("Room_name");
 
-       /* mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d("Minge", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("Minge", "onAuthStateChanged:signed_out");
-                }
-
-            }
-        };
-
-        mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(Task<AuthResult> task) {
-                        Log.d("logs", "OnComplete : " +task.isSuccessful());
-
-                        displayChatMessages();
-
-                        if (!task.isSuccessful()) {
-                            Log.w("logs", "Failed : ", task.getException());
-                            Toast.makeText(ChatroomActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    }
-                });*/
-
         displayChatMessages();
 
         setTitle(roomName+" Chat");
@@ -108,38 +72,24 @@ public class ChatroomActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText input = (EditText)findViewById(R.id.input);
 
-                // Read the input field and push a new instance
-                // of ChatMessage to the Firebase database
-                FirebaseDatabase.getInstance()
-                        .getReference().child(roomName)
-                        .push()
-                        .setValue(new Chat(input.getText().toString(),
-                                userName)
-                        );
+                if(!input.getText().toString().isEmpty()) {
+                    // Read the input field and push a new instance
+                    // of ChatMessage to the Firebase database
+                    FirebaseDatabase.getInstance()
+                            .getReference().child(roomName)
+                            .push()
+                            .setValue(new Chat(input.getText().toString(),
+                                    userName)
+                            );
 
-                // Clear the input
-                input.setText("");
+                    // Clear the input
+                    input.setText("");
+                }
             }
         });
 
     }
 
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-       // mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    // release listener in onStop
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            //mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
 
     private void displayChatMessages() {
 

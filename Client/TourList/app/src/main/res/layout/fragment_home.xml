@@ -37,7 +37,7 @@
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -50,18 +50,33 @@
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="@+id/createButtonMain"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@+id/createButtonMain"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/createButtonMain" />
+        app:layout_constraintLeft_toLeftOf="@+id/createButtonMain"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <Button
         android:id="@+id/curTripButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="78dp"
         android:text="CURRENT TRIP"
+        app:layout_constraintLeft_toLeftOf="@+id/notifyingText"
+        app:layout_constraintTop_toBottomOf="@+id/searchButtonMain"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginLeft="11dp" />
+
+    <Button
+        android:id="@+id/generalChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="19dp"
+        android:text="CHAT ROOMS"
         app:layout_constraintLeft_toLeftOf="@+id/notifyingText"
         app:layout_constraintTop_toBottomOf="@+id/searchButtonMain"
         tools:layout_constraintLeft_creator="1"
@@ -111,6 +126,7 @@
         android:layout_marginTop="160dp"
         tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="159dp"
-        app:layout_constraintTop_toTopOf="@+id/searchButtonMain" />
+        app:layout_constraintTop_toTopOf="@+id/searchButtonMain"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
