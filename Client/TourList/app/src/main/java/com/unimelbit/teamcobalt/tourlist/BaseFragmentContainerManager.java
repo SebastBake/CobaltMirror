@@ -12,6 +12,7 @@ import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchGetRequest;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
@@ -119,6 +120,13 @@ public class BaseFragmentContainerManager {
 
         TripSearchFragment fragment = TripSearchFragment.newInstance();
         gotoFragmentUsingBackstack(fragment);
+    }
+
+    public void gotoSearchedTripDetailsFragment(Trip trip){
+        baseActivity.setSearchedTrip(trip);
+        SearchedTripDetailsFragment fragment = SearchedTripDetailsFragment.newInstance();
+        gotoFragmentUsingBackstack(fragment);
+
     }
 
     /**

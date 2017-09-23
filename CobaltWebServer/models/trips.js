@@ -3,7 +3,7 @@
  */
 
 var mongoose = require('mongoose');
-var tripSchema = mongoose.Schema({
+var tripSchema = new mongoose.Schema({
   "name": String,
   "description": String,
   "date": String,
@@ -15,6 +15,15 @@ var tripSchema = mongoose.Schema({
     "longitude": Number,
     "altitude": Number,
     "description": String
-  }]
+  }],
+  "users": [String],
+  "owner": String
 });
+//Helps with search
+tripSchema.index({
+  name: 'text',
+  'locations.title': 'text',
+  description: 'text'
+});
+
 mongoose.model('trips', tripSchema);

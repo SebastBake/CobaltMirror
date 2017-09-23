@@ -17,8 +17,10 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
 
     private static String LOADING_MSG = "Loading trips...";
     private static String URL_SEARCH_BASE = "https://cobaltwebserver.herokuapp.com/api/locations/search?searchcontent=";
+    private static String URL_SEARCH_RANDOM = "https://cobaltwebserver.herokuapp.com/api/trips/findrandom";
     private String searchQuery;
     private String url;
+    private String random_url;
 
     private BaseFragmentContainerManager containerManager;
     ArrayList<Trip> trips;
@@ -28,19 +30,29 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
         this.searchQuery = searchQuery;
         this.url = URL_SEARCH_BASE + searchQuery;
         this.containerManager = containerManager;
+        this.random_url = URL_SEARCH_RANDOM;
 
         // Start loading fragment
         containerManager.gotoLoadingFragment(LOADING_MSG);
 
         // Start get request
-        new GetRequester(this).execute(url);
+        if ( searchQuery == "Random_trips"){
+            new GetRequester(this).execute(random_url);
+        }else{
+            new GetRequester(this).execute(url);
+        }
+
     }
 
     @Override
     public void processResult(String result) {
 
         try {
-            trips = Trip.newTripArrayFromJSON(result, url);
+            if ( searchQuery == "Random_trips"){
+                trips = Trip.newTripArrayFromJSON(result, random_url);
+            }else{
+                trips = Trip.newTripArrayFromJSON(result, url);
+            }
             containerManager.gotoTripSearchResultFragment(searchQuery, this);
         } catch (Exception e) {
             requestFailed("Something failed for url: " + url + " and result: " + result, e);

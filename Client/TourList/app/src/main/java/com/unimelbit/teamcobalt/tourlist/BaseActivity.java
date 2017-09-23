@@ -42,6 +42,10 @@ public class BaseActivity extends AppCompatActivity
     private static final String LOC_SHARING_ON_MSG = "Location sharing is ON";
     private static final String LOC_SHARING_OFF_MSG = "Location sharing is OFF";
 
+
+    //Searched Trip
+    private static Trip searchedTrip;
+
     // Permission manager
     private PermissionManager permission;
 
@@ -301,5 +305,14 @@ public class BaseActivity extends AppCompatActivity
 
         return this.userName;
     }
+
+    public static Trip getSearchedTrip() {
+        return searchedTrip;
+    }
+
+    public static void setSearchedTrip(Trip searchedTrip) {
+        BaseActivity.searchedTrip = searchedTrip;
+    }
+
 
 }

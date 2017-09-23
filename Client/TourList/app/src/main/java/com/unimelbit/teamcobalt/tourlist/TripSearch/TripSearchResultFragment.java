@@ -126,7 +126,7 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
                         TextView tv = (TextView)rl.findViewById(R.id.name);
                         String text = tv.getText().toString();
                         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-                        new TripGetRequest(text, ((BaseActivity)getActivity()).getMainContainerManager());
+                        new SearchedTripGetRequest(text, ((BaseActivity)getActivity()).getMainContainerManager());
                     }
                 });
                 saveButton.setOnClickListener(new View.OnClickListener() {
