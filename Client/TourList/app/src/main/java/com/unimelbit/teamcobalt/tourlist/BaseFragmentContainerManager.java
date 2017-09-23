@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.unimelbit.teamcobalt.tourlist.Chat.ChatListRoomFragment;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
@@ -154,6 +155,13 @@ public class BaseFragmentContainerManager {
     public void gotoLoadingFragment(String loadingMsg) {
 
         LoadingFragment fragment = LoadingFragment.newInstance(loadingMsg);
+        gotoFragmentUsingBackstack(fragment);
+    }
+
+
+    public void goToChatRooms() {
+
+        ChatListRoomFragment fragment = new ChatListRoomFragment();
         gotoFragmentUsingBackstack(fragment);
     }
 

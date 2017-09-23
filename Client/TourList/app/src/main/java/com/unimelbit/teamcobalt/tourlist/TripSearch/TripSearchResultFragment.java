@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * Created by spike on 8/9/2017.
  */
-public class TripSearchResultFragment extends Fragment implements BackButtonInterface {
+public class TripSearchResultFragment extends Fragment{
 
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
     private String searchQuery;

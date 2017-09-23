@@ -21,7 +21,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private BaseActivity base;
 
-    private Button searchB, createB, currTripB;
+    private Button searchB, createB, currTripB, chatRoomB;
 
 
     public HomeFragment() {
@@ -57,11 +57,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         createB.setOnClickListener(this);
 
+        chatRoomB = (Button) rootView.findViewById(R.id.generalChat);
+
+        chatRoomB.setOnClickListener(this);
+
         LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.linear);
         for (int i = 0; i < 20; i++) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setId(i);
-            imageView.setPadding(50, 50, 50, 50);
+            //left, top, right, bottom
+            imageView.setPadding(30, 10, 30, 10);
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), R.mipmap.umaru));
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -90,6 +95,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             } else {
                 base.getMainContainer().gotoTabbedTripFragment(BaseActivity.DEMOTRIP_NAME);
             }
+        } else if (id == R.id.generalChat){
+
+            base.getMainContainer().goToChatRooms();
+
         }
 
         else{
