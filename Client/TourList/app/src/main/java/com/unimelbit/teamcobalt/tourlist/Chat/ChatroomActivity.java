@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +30,7 @@ import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatroomActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
@@ -37,17 +40,27 @@ public class ChatActivity extends AppCompatActivity {
 
     private String userName;
 
+    private String roomName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chatroom);
 
-        mAuth = FirebaseAuth.getInstance();
+        //mAuth = FirebaseAuth.getInstance();
 
         userName = getIntent().getExtras().getString("Name");
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+        if(userName.isEmpty() || userName == null){
+
+            userName = "Didn't login properly";
+
+        }
+
+        roomName = getIntent().getExtras().getString("Room_name");
+
+       /* mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -72,12 +85,19 @@ public class ChatActivity extends AppCompatActivity {
 
                         if (!task.isSuccessful()) {
                             Log.w("logs", "Failed : ", task.getException());
-                            Toast.makeText(ChatActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChatroomActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
 
 
                     }
-                });
+                });*/
+
+        displayChatMessages();
+
+        setTitle(roomName+" Chat");
+
+        EditText input = (EditText) findViewById(R.id.input);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
 
         FloatingActionButton fab =
@@ -91,7 +111,7 @@ public class ChatActivity extends AppCompatActivity {
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
                 FirebaseDatabase.getInstance()
-                        .getReference()
+                        .getReference().child(roomName)
                         .push()
                         .setValue(new Chat(input.getText().toString(),
                                 userName)
@@ -109,7 +129,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+       // mAuth.addAuthStateListener(mAuthListener);
     }
 
     // release listener in onStop
@@ -117,7 +137,7 @@ public class ChatActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+            //mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
@@ -126,7 +146,7 @@ public class ChatActivity extends AppCompatActivity {
         ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
         adapter = new FirebaseListAdapter<Chat>(this, Chat.class,
-                R.layout.message, FirebaseDatabase.getInstance().getReference()) {
+                R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomName)) {
             @Override
             protected void populateView(View v, Chat model, int position) {
                 // Get references to the views of message.xml
@@ -153,8 +173,6 @@ public class ChatActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.chat_menu, menu);
         return true;
     }
-
-
 
 
 

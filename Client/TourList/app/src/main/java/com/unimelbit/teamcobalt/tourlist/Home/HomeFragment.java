@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomCreator;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
@@ -89,7 +90,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             } else {
                 base.getMainContainer().gotoTabbedTripFragment(BaseActivity.DEMOTRIP_NAME);
             }
-        } else{
+        }
+
+        else{
 
             base.getMainContainer().gotoTabbedTripFragment(BaseActivity.DEMOTRIP_NAME);
 

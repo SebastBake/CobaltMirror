@@ -3,7 +3,7 @@ package com.unimelbit.teamcobalt.tourlist.Chat;
 import java.util.Date;
 
 /**
- * Created by Hong Lin on 19/09/2017.
+ * Created by Hong Lin on 22/09/2017.
  */
 
 public class Chat {
@@ -47,4 +47,5 @@ public class Chat {
     public void setMessageTime(long messageTime) {
         this.messageTime = messageTime;
     }
+
 }

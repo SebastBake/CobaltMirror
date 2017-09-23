@@ -123,6 +123,7 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         public void onClick(View view) {
             Trip newTrip = getTrip();
             new CreateTripPostRequest(activity, newTrip);
+            finish();
         }
     }
 

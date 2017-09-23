@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
+import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomCreator;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
@@ -161,4 +162,5 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         startActivity(intent);
         getActivity().getSupportFragmentManager().popBackStack();
     }
+
 }
