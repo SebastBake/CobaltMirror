@@ -2,6 +2,7 @@ package com.unimelbit.teamcobalt.tourlist;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
+import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
@@ -62,6 +64,10 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        //Simulate a cold start
+        SystemClock.sleep(1000);
+
         setContentView(R.layout.activity_base);
 
         currentTrip = null;
@@ -171,7 +177,7 @@ public class BaseActivity extends AppCompatActivity
                             .commit();
 
                 //Go back to the search instead of home from the search results fragment
-                }else if(f instanceof TripSearchResultFragment){
+                }else if(f instanceof TripSearchResultFragment || f instanceof SearchedTripDetailsFragment){
 
                     getSupportFragmentManager().popBackStackImmediate();
                     getSupportFragmentManager().popBackStackImmediate();

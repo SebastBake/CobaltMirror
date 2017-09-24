@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -70,6 +71,10 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
         chatController = new ChatRoomController(base);
 
         base.setTitle("Chat Rooms");
+
+        TextView userText = (TextView) v.findViewById(R.id.chatroom_username_text);
+
+        userText.setText(base.getUserName());
 
         return v;
     }
