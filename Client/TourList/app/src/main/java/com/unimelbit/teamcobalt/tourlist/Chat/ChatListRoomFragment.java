@@ -16,11 +16,8 @@ import com.unimelbit.teamcobalt.tourlist.R;
 
 
 public class ChatListRoomFragment extends Fragment implements View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
+    //Chatroom adaptor
     private ChatAdaptor chatServices;
 
     private BaseActivity base;
@@ -34,8 +31,6 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
     public static ChatListRoomFragment newInstance(String param1, String param2) {
         ChatListRoomFragment fragment = new ChatListRoomFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,12 +55,15 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
 
         TextView userText = (TextView) v.findViewById(R.id.chatroom_username_text);
 
+        //Set user name
         userText.setText(base.getUserName());
 
+        //Initiate the handler
         chatServices = AppServicesFactory
                 .getServicesFactory()
                 .getFirebaseChatService(getActivity());
 
+        //Check if rooms are present
         chatServices.checkRoom("General");
 
         chatServices.checkRoom("Random");
@@ -74,7 +72,10 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
     }
 
 
-
+    /**
+     * Simply takes user to relevant chat room depending on the button they select
+     * @param view
+     */
     @Override
     public void onClick(View view) {
 

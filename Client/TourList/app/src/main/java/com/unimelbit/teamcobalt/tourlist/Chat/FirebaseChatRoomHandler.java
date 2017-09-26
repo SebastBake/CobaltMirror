@@ -14,10 +14,16 @@ import java.util.Map;
 
 /**
  * Created by Hong Lin on 26/09/2017.
+ *
  */
 
+/**
+ * Handler for chat in the app using Firebase. Implements the ChatAdaptor interface and
+ * will offer services needed to function using firebase
+ */
 public class FirebaseChatRoomHandler implements ChatAdaptor {
 
+    //References to database
     private DatabaseReference root, rootRef;
 
     private Context context;
@@ -33,6 +39,10 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
     }
 
 
+    /**
+     * Generates a chat room based on the name it receives
+     * @param name
+     */
     @Override
     public void generateChatRoom(String name) {
 
@@ -45,6 +55,12 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
     }
 
+
+    /**
+     * Creates an intent and takes user to the chat room given with a user name
+     * @param userName
+     * @param room
+     */
     @Override
     public void enterChatRoom(String userName, String room) {
 
@@ -58,11 +74,16 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
     }
 
+    /**
+     * Checks and generates a chat room when invoked with given name
+     * @param room
+     */
     @Override
     public void checkRoom(String room) {
 
         final String roomName = room;
 
+        //Listener for changes and seeing if chat room present or not
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
