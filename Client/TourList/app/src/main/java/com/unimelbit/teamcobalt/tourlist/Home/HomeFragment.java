@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
-import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,10 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomCreator;
-import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.R;
-import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
 

@@ -10,26 +10,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.vision.text.Text;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomActivity;
-import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomCreator;
+import com.unimelbit.teamcobalt.tourlist.Chat.ChatAdaptor;
 import com.unimelbit.teamcobalt.tourlist.Profile.UserProfile;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ChatFragment extends Fragment implements View.OnClickListener{
@@ -114,26 +104,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         setTextView(info, "You will be signed in Chat as: "+ name);
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (!snapshot.hasChild(base.getCurrentTrip().getName())) {
-
-                    ChatroomCreator create = new ChatroomCreator();
-
-                    create.generateRoom(base.getCurrentTrip().getName());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
         return v;
     }
 
@@ -144,14 +114,15 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         if(id == R.id.button_chat){
 
-            Intent chatIntent = new Intent(getActivity(), ChatroomActivity.class);
+            String roomName = base.getCurrentTrip().getName();
 
-            chatIntent.putExtra("Name", name);
+            ChatAdaptor chatService = AppServicesFactory
+                    .getServicesFactory()
+                    .getFirebaseChatService(getActivity());
 
-            chatIntent.putExtra("Room_name", base.getCurrentTrip().getName());
+            chatService.checkRoom(roomName);
 
-            getActivity().startActivity(chatIntent);
-
+            chatService.enterChatRoom(base.getUserName(), roomName);
 
         }
 
