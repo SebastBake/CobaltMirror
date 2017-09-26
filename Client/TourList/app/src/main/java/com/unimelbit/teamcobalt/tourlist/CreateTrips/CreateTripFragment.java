@@ -12,7 +12,6 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
-import com.unimelbit.teamcobalt.tourlist.Chat.ChatroomCreator;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
