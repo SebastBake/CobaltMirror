@@ -1,9 +1,9 @@
 package com.unimelbit.teamcobalt.tourlist;
 
 
-import android.os.Bundle;
 
-import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
+
+import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,28 +11,26 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import static junit.framework.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
+
 
 
 /**
  * Created by spike on 9/9/2017.
  */
 
+//For some reason, need to run test from this specific class for it to not error out.
 @RunWith(RobolectricTestRunner.class)
 @Config( constants = BuildConfig.class)
 public class SearchTest {
 
-
+        //Simple test that search is not null
+        // Robo can help test fragments or individual activities if needed.
         @Test
         public void shouldNotBeNull() throws Exception
         {
-            TripSearchResultFragment fragment = new TripSearchResultFragment();
-            Bundle args = new Bundle();
-            args.putString(TripSearchResultFragment.ARG_SEARCH_QUERY, "demo");
-            fragment.setArguments(args);
+            TripSearchFragment fragment = new TripSearchFragment();
             SupportFragmentTestUtil.startFragment(fragment);
             assertNotNull(fragment);
         }

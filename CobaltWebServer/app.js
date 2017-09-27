@@ -100,3 +100,5 @@ io.on('connection', function(socket) {
     }
   });
 });
+
+module.exports = server // For testing
