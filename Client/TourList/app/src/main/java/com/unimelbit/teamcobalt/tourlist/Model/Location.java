@@ -28,6 +28,7 @@ public class Location implements Parcelable{
     public static final String JSON_ALT = "altitude";
     public static final double DEFAULT_ALTITUDE = 100.0;
 
+
     private String title;
     private String description;
     private Double latitude;
@@ -57,6 +58,7 @@ public class Location implements Parcelable{
         longitude = parcel.readDouble();
         altitude = parcel.readDouble();
     }
+
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

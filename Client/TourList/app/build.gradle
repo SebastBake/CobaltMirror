@@ -19,11 +19,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         //I used this to do unit test (Spike)
-        //debug {
+        debug {
         //   applicationIdSuffix ".debug"
-        //   proguardFile 'proguard/debug.pro'
+           proguardFile 'proguard/debug.pro'
 
-        // }
+         }
     }
 }
 
