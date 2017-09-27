@@ -35,13 +35,13 @@ public class Location implements Parcelable{
     private Double longitude;
     private Double altitude;
 
-    Location(
+     Location(
             String title,
             String description,
             Double latitude,
             Double longitude,
             Double altitude
-            ) {
+    ) {
 
         this.title = title;
         this.description = description;
