@@ -17,12 +17,14 @@ import com.unimelbit.teamcobalt.tourlist.R;
 
 public class CreateTripFragment extends Fragment implements View.OnClickListener, BackButtonInterface {
 
+    public static final String INTENT_ID = "com.example.spike.uitest.MESSAGE_ID";
     public static final String INTENT_NAME = "com.example.spike.uitest.MESSAGE";
     public static final String INTENT_DATE = "com.example.spike.uitest.MESSAGE_TWO";
     public static final String INTENT_SIZE = "com.example.spike.uitest.MESSAGE_THREE";
     public static final String INTENT_COST = "com.example.spike.uitest.MESSAGE_FOUR";
     public static final String INTENT_DESC = "com.example.spike.uitest.MESSAGE_FIVE";
 
+    private String id="temp id";
     private String size;
     private String cost;
     private String name;
@@ -153,6 +155,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         }
 
         Intent intent = new Intent(getActivity(), AddLocationsToTripActivity.class);
+        intent.putExtra(INTENT_ID, id);
         intent.putExtra(INTENT_NAME, name);
         intent.putExtra(INTENT_DATE, date);
         intent.putExtra(INTENT_SIZE, size);

@@ -23,7 +23,14 @@ var createTrip = function(req, res) {
   });
 
   for (var i = 0; i < req.body.locations.length; i++) {
-    trip.locations[i] = req.body.locations[i];
+    var newlocation = {
+      "title": req.body.locations[i].title,
+      "description": req.body.locations[i].description,
+      "latitude": req.body.locations[i].latitude,
+      "longitude": req.body.locations[i].longitude,
+      "altitude": req.body.locations[i].altitude
+    };
+    trip.locations[i] = newlocation;
   }
 
   console.log(JSON.stringify(trip));

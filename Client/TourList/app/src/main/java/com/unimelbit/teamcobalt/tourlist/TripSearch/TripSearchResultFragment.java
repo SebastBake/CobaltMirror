@@ -89,7 +89,6 @@ public class TripSearchResultFragment extends Fragment{
 
         String header = trips.size() + " " + getResources().getString(R.string.fragment_searchresults_header) + " " + searchQuery;
 
-        new TripSearchUserRequest(((BaseActivity)getActivity()));
 
         textview.setText(header);
         getActivity().setTitle(R.string.title_fragment_searchresults);

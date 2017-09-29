@@ -58,13 +58,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         EditText passwordText =  (EditText) getView().findViewById(R.id.register_password_field);
         EditText emailText =  (EditText) getView().findViewById(R.id.register_email_field);
 
+        String id = "temp id";
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
         String email = emailText.getText().toString();
 
         BaseFragmentContainerManager manager = ((BaseActivity)getActivity()).getMainContainerManager();
 
-        User newUser = new User(username, password, email, null, null);
+        User newUser = new User(id,username, password, email, null, null);
 
         new RegisterUserPostRequest(manager, newUser, (BaseActivity) getActivity());
     }
