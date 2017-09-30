@@ -13,12 +13,14 @@ import java.util.ArrayList;
  */
 public class User {
 
+    public static final String JSON_ID = "_id";
     public static final String JSON_USERNAME  = "username";
     public static final String JSON_PASSWORD  = "password";
     public static final String JSON_EMAIL  = "email";
     public static final String JSON_SAVEDTRIPS  = "savedtrips";
     public static final String JSON_FAVOURITETRIPS  = "favouritetrips";
 
+    private String id;
     private String username ;
     private String password ;
     private String email ;
@@ -26,12 +28,14 @@ public class User {
     private ArrayList<String> favouritetrips ;
 
     public User(
+            String id,
             String username,
             String password,
             String email,
             ArrayList<String> savedtrips,
             ArrayList<String> favouritetrips
     ) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -47,14 +51,16 @@ public class User {
         for (int i=0; i < userJSONArray.length(); i++) {
 
             JSONObject userJSON = userJSONArray.getJSONObject(i);
-
+            String id = "";
             String username = "";
             String password = "";
             String email = "";
             ArrayList<String> savedtrips = new ArrayList<>();
             ArrayList<String> favouritetrips = new ArrayList<>();
 
-
+            try {
+                id = userJSON.getString(JSON_ID);
+            } catch (JSONException e) {}
             try {
                 username = userJSON.getString(JSON_USERNAME);
             } catch (JSONException e) {}
@@ -85,7 +91,7 @@ public class User {
 
             } catch(JSONException e) {}
 
-            users.add(new User(username, password, email, savedtrips, favouritetrips) );
+            users.add(new User(id,username, password, email, savedtrips, favouritetrips) );
         }
 
         return users;
@@ -99,6 +105,8 @@ public class User {
         return dataToSend.toString();
     }
 
+    public String getId(){return id;
+    }
     public ArrayList<String> getSavedtrips() {
         return savedtrips;
     }

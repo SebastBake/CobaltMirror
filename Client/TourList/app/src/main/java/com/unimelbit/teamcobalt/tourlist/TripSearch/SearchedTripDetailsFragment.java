@@ -5,10 +5,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
@@ -16,12 +18,16 @@ import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.PlaceImageLoader;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class SearchedTripDetailsFragment extends Fragment implements BackButtonInterface {
+public class SearchedTripDetailsFragment extends Fragment implements BackButtonInterface, View.OnClickListener {
 
     public static final int TRIP_SECTION_INDEX = 0;
 
@@ -30,6 +36,7 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
     private ImageView imageDetail;
 
     private PlaceImageLoader pILoader;
+    private Trip currentTrip;
 
     public SearchedTripDetailsFragment() {
     }
@@ -42,7 +49,7 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_trip_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_searched_trip_details, container, false);
 
         imageDetail = (ImageView) rootView.findViewById(R.id.imageView2);
 
@@ -50,14 +57,18 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
 
         if (((BaseActivity) getActivity()).getSearchedTrip() != null) {
 
-            Trip currentTrip = ((BaseActivity) getActivity()).getSearchedTrip();
+             currentTrip = ((BaseActivity) getActivity()).getSearchedTrip();
             initTextBoxes(rootView, currentTrip);
             initLocationsList(rootView, currentTrip);
+            getActivity().setTitle( currentTrip.getName() );
             imageLoaded = false;
 
         } else {
             ((BaseActivity) getActivity()).getMainContainerManager().gotoErrorFragment("No current trip!");
         }
+
+        Button save = (Button) rootView.findViewById(R.id.save_button);
+        save.setOnClickListener(this);
 
         return rootView;
     }
@@ -66,7 +77,7 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
     private void initTextBoxes(View rootView, Trip trip) {
 
         TextView tripDescription = (TextView) rootView.findViewById(R.id.trip_details_description);
-        tripDescription.setText(trip.getDescription());
+        tripDescription.setText(trip.getId());
 
         TextView tripCost = (TextView) rootView.findViewById(R.id.trip_details_cost);
         tripCost.setText("Cost: " + trip.getCost());
@@ -103,6 +114,17 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
                 new int[]{R.id.location_name});
 
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+        try {
+            new TripSearchSaveTripRequest(currentTrip.getId(),((BaseActivity)getActivity()).getUserName());
+            new TripGetRequestByID(currentTrip.getId(),((BaseActivity)getActivity()).getMainContainerManager());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
 

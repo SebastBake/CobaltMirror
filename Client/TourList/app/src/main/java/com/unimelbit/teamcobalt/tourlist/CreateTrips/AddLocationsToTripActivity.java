@@ -82,7 +82,7 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
     }
 
     private Trip getTrip() {
-
+        String id = getIntent().getStringExtra(CreateTripFragment.INTENT_ID);
         String name = getIntent().getStringExtra(CreateTripFragment.INTENT_NAME);
         String cost = getIntent().getStringExtra(CreateTripFragment.INTENT_COST);
         String size = getIntent().getStringExtra(CreateTripFragment.INTENT_SIZE);
@@ -90,7 +90,9 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         String desc = getIntent().getStringExtra(CreateTripFragment.INTENT_DESC);
 
         ArrayList<Location> locations = Location.newLocationArrayFromPlaceArray(placeArray);
-        return new Trip(name, desc,  date, cost, size, locations, TripGetRequest.DEFAULT_URL+name);
+        ArrayList<String> users = new ArrayList<>();
+        users.add(getIntent().getStringExtra(CreateTripFragment.INTENT_USER));
+        return new Trip(id,name, desc,  date, cost, size, locations,users, TripGetRequest.DEFAULT_URL+name);
     }
 
 
