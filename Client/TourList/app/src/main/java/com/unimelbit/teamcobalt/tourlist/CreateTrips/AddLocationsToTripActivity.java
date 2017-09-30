@@ -90,7 +90,9 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         String desc = getIntent().getStringExtra(CreateTripFragment.INTENT_DESC);
 
         ArrayList<Location> locations = Location.newLocationArrayFromPlaceArray(placeArray);
-        return new Trip(id,name, desc,  date, cost, size, locations, TripGetRequest.DEFAULT_URL+name);
+        ArrayList<String> users = new ArrayList<>();
+        users.add(getIntent().getStringExtra(CreateTripFragment.INTENT_USER));
+        return new Trip(id,name, desc,  date, cost, size, locations,users, TripGetRequest.DEFAULT_URL+name);
     }
 
 

@@ -19,6 +19,7 @@ import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.PlaceImageLoader;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
 
 import org.json.JSONException;
 
@@ -119,8 +120,8 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
     public void onClick(View v) {
         Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         try {
-            new TripSearchSaveTripRequest(currentTrip.getName());
-            new TripGetRequest(currentTrip.getName(),((BaseActivity)getActivity()).getMainContainerManager());
+            new TripSearchSaveTripRequest(currentTrip.getId(),((BaseActivity)getActivity()).getUserName());
+            new TripGetRequestByID(currentTrip.getId(),((BaseActivity)getActivity()).getMainContainerManager());
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -14,6 +14,8 @@ import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
+import java.util.ArrayList;
+
 
 public class ChatListRoomFragment extends Fragment implements View.OnClickListener {
 
@@ -80,15 +82,16 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
     public void onClick(View view) {
 
         int id = view.getId();
+        ArrayList<String> users= new ArrayList<>();
 
         if(id == R.id.gen_chat_button){
 
-            chatServices.enterChatRoom(base.getUserName(), "General");
+            chatServices.enterChatRoom(base.getUserName(), "General",users);
 
         }
         else if(id == R.id.rand_chat_button){
 
-            chatServices.enterChatRoom(base.getUserName(), "Random");
+            chatServices.enterChatRoom(base.getUserName(), "Random",users);
         }
 
     }

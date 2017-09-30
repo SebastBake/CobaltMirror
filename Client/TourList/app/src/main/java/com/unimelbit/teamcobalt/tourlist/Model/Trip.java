@@ -19,6 +19,7 @@ public class Trip {
     public static final String JSON_DATE = "date";
     public static final String JSON_LOC = "locations";
     public static final String JSON_DESC = "description";
+    public static final String JSON_USERS = "users";
 
     private String id;
     private String name;
@@ -27,6 +28,7 @@ public class Trip {
     private String cost;
     private String size;
     private ArrayList<Location> locations;
+    private ArrayList<String> users;
 
     private String url;
 
@@ -38,6 +40,7 @@ public class Trip {
             String cost,
             String size,
             ArrayList<Location> locations,
+            ArrayList<String> users,
             String url
     ) {
         this.id = id;
@@ -47,6 +50,7 @@ public class Trip {
         this.cost = cost;
         this.size = size;
         this.locations = locations;
+        this.users = users;
         this.url = url;
     }
 
@@ -65,6 +69,7 @@ public class Trip {
             String date = "";
             String description = "";
             ArrayList<Location> locations = new ArrayList<>();
+            ArrayList<String> users = new ArrayList<>();
 
             try {
                 id = tripJSON.getString(JSON_ID);
@@ -93,8 +98,14 @@ public class Trip {
                 JSONArray jsonLocations = tripJSON.getJSONArray(JSON_LOC);
                 locations = Location.newLocationArrayFromJSON(jsonLocations);
             } catch(JSONException e) {}
+            try {
+                JSONArray jsonUsers = tripJSON.getJSONArray(JSON_USERS);
+                for (int j=0; i<jsonUsers.length();j++){
+                    users.add(jsonUsers.get(j).toString());
+                }
+            } catch(JSONException e) {}
 
-            trips.add(new Trip(id,name, description, date, cost, size, locations, url));
+            trips.add(new Trip(id,name, description, date, cost, size, locations,users, url));
         }
 
         return trips;
@@ -106,6 +117,10 @@ public class Trip {
 
         String locationString = "";
         for(Location location: locations) { locationString += location.getTitle() + "\n"; }
+        String userString = "";
+        for (String user : users){
+            userString += user + "\n";
+        }
 
         map.put(JSON_ID,id);
         map.put(JSON_NAME, name);
@@ -113,6 +128,7 @@ public class Trip {
         map.put(JSON_COST, cost);
         map.put(JSON_SIZE, size);
         map.put(JSON_DESC, description);
+        map.put(JSON_USERS,userString);
         map.put(JSON_LOC, locationString);
 
         return map;
@@ -134,6 +150,12 @@ public class Trip {
             locationJSONArray.put(loc.toJSON());
         }
 
+        JSONArray userJSONArray = new JSONArray();
+        for(String user: users) {
+            userJSONArray.put(user);
+        }
+
+        trip.put(JSON_USERS,userJSONArray);
         trip.put(JSON_LOC, locationJSONArray);
 
         return trip;
@@ -166,4 +188,6 @@ public class Trip {
     public String getUrl() {
         return url;
     }
+
+    public ArrayList<String> getUsers() {return users;}
 }

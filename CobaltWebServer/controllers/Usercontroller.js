@@ -6,6 +6,7 @@
 // will update if need once mlab moves to 3.4
 var mongoose = require('mongoose');
 var User = mongoose.model('users');
+var Trip = mongoose.model('trips');
 
 
 
@@ -31,29 +32,37 @@ var createUser = function(req, res) {
 };
 
 var retrieveOneUser = function(req, res) {
-  var query=User.find();
-    //get the Query String here
-    var filterUsername=req.params.username;
-    var filterPassword=req.params.password;
-    if(filterUsername.length>0 && filterPassword.length>0){
-      query.where({$and:[{username:filterUsername},{ password:filterPassword}]});
-    }
-    query.exec(function (error, user) {
+  var query = User.find();
+  //get the Query String here
+  var filterUsername = req.params.username;
+  var filterPassword = req.params.password;
+  if (filterUsername.length > 0 && filterPassword.length > 0) {
+    query.where({
+      $and: [{
+        username: filterUsername
+      }, {
+        password: filterPassword
+      }]
+    });
+  }
+  query.exec(function(error, user) {
     //send the result back to front-end
     if (error) {
-      return res.status(400).send({message: 'Server error:' + JSON.stringify(error)});
+      return res.status(400).send({
+        message: 'Server error:' + JSON.stringify(error)
+      });
     } else {
-    res.send(user);
+      res.send(user);
     }
-    });
-  };
+  });
+};
 
 // find all users
-var findAllUsers = function(req,res){
-  User.find(function(err,users){
-    if(!err){
+var findAllUsers = function(req, res) {
+  User.find(function(err, users) {
+    if (!err) {
       res.send(users);
-    }else{
+    } else {
       res.sendStatus(404);
     }
   });
@@ -86,6 +95,19 @@ var Addtrip = function(req, res) {
         'error': 'error in adding'
       });
     }
+    Trip.findOneAndUpdate({
+      _id: TripInx
+    }, {
+      $push: {
+        'users': req.body.username
+      }
+    }, function(err, trip) {
+      if (err) {
+        return res.status(500).json({
+          'error': 'error in adding'
+        });
+      }
+    });
     console.log(data);
     res.json(data);
   });
@@ -106,6 +128,19 @@ var Removetrip = function(req, res) {
         'error': 'error in removing'
       });
     }
+    Trip.findOneAndUpdate({
+      _id: TripInx
+    }, {
+      $pull: {
+        'users': req.body.username
+      }
+    }, function(err, trip) {
+      if (err) {
+        return res.status(500).json({
+          'error': 'error in adding'
+        });
+      }
+    });
     console.log(data);
     res.json(data);
   });

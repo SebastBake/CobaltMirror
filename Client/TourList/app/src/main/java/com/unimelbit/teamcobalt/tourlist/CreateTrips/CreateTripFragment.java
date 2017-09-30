@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
@@ -23,6 +24,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
     public static final String INTENT_SIZE = "com.example.spike.uitest.MESSAGE_THREE";
     public static final String INTENT_COST = "com.example.spike.uitest.MESSAGE_FOUR";
     public static final String INTENT_DESC = "com.example.spike.uitest.MESSAGE_FIVE";
+    public static final String INTENT_USER = "com.example.spike.uitest.MESSAGE_SIX";
 
     private String id="temp id";
     private String size;
@@ -30,6 +32,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
     private String name;
     private String date;
     private String desc;
+    private String user;
 
     private RadioButton size_small;
     private RadioButton size_medium;
@@ -146,6 +149,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         name = nameText.getText().toString();
         date = dateText.getText().toString();
         desc = descText.getText().toString();
+        user = ((BaseActivity)getActivity()).getUserName();
 
         boolean notFilledOut = name.isEmpty() || date.isEmpty() || (size==null) || (cost==null) || (desc.isEmpty());
 
@@ -161,6 +165,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         intent.putExtra(INTENT_SIZE, size);
         intent.putExtra(INTENT_COST, cost);
         intent.putExtra(INTENT_DESC, desc);
+        intent.putExtra(INTENT_USER,user);
         startActivity(intent);
         getActivity().getSupportFragmentManager().popBackStack();
     }

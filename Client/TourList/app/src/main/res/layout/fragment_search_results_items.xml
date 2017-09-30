@@ -119,4 +119,13 @@
         tools:layout_editor_absoluteX="174dp"
         tools:layout_editor_absoluteY="0dp" />
 
+    <TextView
+        android:id="@+id/ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/locations"
+        android:text="TextView"
+        android:visibility="invisible" />
+
 </android.widget.RelativeLayout>
