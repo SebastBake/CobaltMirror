@@ -59,8 +59,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         chatRoomB.setOnClickListener(this);
 
-        Button getLocationBtn = (Button) rootView.findViewById(R.id.startButton);
-
         TextView lat = (TextView) rootView.findViewById(R.id.latView);
 
         TextView lon = (TextView) rootView.findViewById(R.id.longView);
@@ -79,14 +77,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         }
 
         base.setLatLong(lat, lon);
-
-        getLocationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                base.getLocation();
-            }
-        });
-
 
         return rootView;
     }
