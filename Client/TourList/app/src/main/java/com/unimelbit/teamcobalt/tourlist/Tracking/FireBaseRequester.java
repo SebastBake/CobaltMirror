@@ -36,14 +36,20 @@ public class FireBaseRequester implements CoordinateDBPostRequester{
         FirebaseChatRoomHandler fbHandler = (FirebaseChatRoomHandler) AppServicesFactory
                 .getServicesFactory().getFirebaseChatService(c);
 
-        fbHandler.checkRoom(ref);
-
+        //Coordinates to push to DB
         Map coordinates = new HashMap<>();
 
         coordinates.put("lat", latitude);
 
         coordinates.put("long", longitude);
 
+        //Check if node exists
+        fbHandler.checkRoom(ref);
+
+        //Remove old values
+        fbHandler.deleteRoom(ref);
+
+        //Push coordinates to DB
         FirebaseDatabase.getInstance()
                 .getReference().child(ref).push().setValue(coordinates);
     }
