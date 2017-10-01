@@ -74,6 +74,7 @@ public class ChatroomActivity extends AppCompatActivity {
 
         setTitle(roomName+" Chat");
 
+        //Capitalise words at the start of sentences
         EditText input = (EditText) findViewById(R.id.input);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 

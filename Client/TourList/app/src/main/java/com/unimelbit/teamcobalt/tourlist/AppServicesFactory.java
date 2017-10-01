@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatAdaptor;
 import com.unimelbit.teamcobalt.tourlist.Chat.FirebaseChatRoomHandler;
+import com.unimelbit.teamcobalt.tourlist.Tracking.CoordinateDBPostRequester;
+import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
 
 /**
  * Created by Hong Lin on 26/09/2017.
@@ -17,6 +19,8 @@ public class AppServicesFactory {
     private static AppServicesFactory servicesInstance;
 
     private ChatAdaptor firebaseChatService;
+
+    private FireBaseRequester firebasePoster;
 
     /**
      * Return itself as it is a singleton class
@@ -48,6 +52,18 @@ public class AppServicesFactory {
         }
 
         return firebaseChatService;
+
+    }
+
+
+    public CoordinateDBPostRequester getFirebasePostRequester(Context c){
+
+        if(firebasePoster == null){
+
+            firebasePoster = new FireBaseRequester(c);
+        }
+
+        return firebasePoster;
 
     }
 

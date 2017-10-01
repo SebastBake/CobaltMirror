@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
+import com.google.firebase.database.FirebaseDatabase;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
@@ -45,6 +46,9 @@ import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -126,9 +130,15 @@ public class BaseActivity extends AppCompatActivity
                         Log.i("MY CURRENT LOCATION", String.valueOf(location));
 
                         if (longText != null && latText != null) {
+
                             longText.setText(String.valueOf(location.getLongitude()));
 
                             latText.setText(String.valueOf(location.getLatitude()));
+
+                            AppServicesFactory.getServicesFactory()
+                                    .getFirebasePostRequester(getApplicationContext())
+                                    .postToDb(location.getLatitude(), location.getLongitude()
+                                            , "TestUser");
 
                         }
                     }

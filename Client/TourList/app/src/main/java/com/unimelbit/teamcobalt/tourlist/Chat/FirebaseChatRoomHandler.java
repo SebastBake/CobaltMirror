@@ -116,4 +116,16 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
     }
 
+
+    /**
+     * Delete the room from firebase db
+     * @param room
+     */
+    @Override
+    public void deleteRoom(String room){
+
+        rootRef.child(room).setValue("");
+
+    }
+
 }

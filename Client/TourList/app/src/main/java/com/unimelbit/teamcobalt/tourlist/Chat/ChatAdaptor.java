@@ -23,5 +23,7 @@ public interface ChatAdaptor {
     //Checks if the room is present in DB
     void checkRoom(String room);
 
+    //Delete chat room
+    void deleteRoom(String rooom);
 
 }
