@@ -75,6 +75,8 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
         Intent chatIntent = new Intent(context, ChatroomActivity.class);
 
+        chatIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         chatIntent.putExtra("Name", userName);
 
         chatIntent.putExtra("Room_name", room);
