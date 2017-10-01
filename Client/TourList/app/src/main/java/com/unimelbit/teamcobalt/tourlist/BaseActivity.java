@@ -1,9 +1,16 @@
 package com.unimelbit.teamcobalt.tourlist;
 
+import android.*;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +19,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationResult;
+import com.google.firebase.database.FirebaseDatabase;
+import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
+import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
@@ -31,6 +46,9 @@ import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,6 +78,15 @@ public class BaseActivity extends AppCompatActivity
 
     private String userName;
 
+    TextView longText, latText;
+
+    LocationManager locationManager;
+
+    private ARTools arTool;
+
+    private LocationCallback mLocationCallback;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -86,6 +113,41 @@ public class BaseActivity extends AppCompatActivity
 
         //No user name set
         userName = "";
+
+        arTool = new ARTools(this);
+
+        arTool.createLocationRequest();
+
+        //Location to be sent to the view
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                //Loop through the results
+                for (Location location : locationResult.getLocations()) {
+                    // Update UI with location data
+                    // ...
+                    if (location != null) {
+                        Log.i("MY CURRENT LOCATION", String.valueOf(location));
+
+                        if (longText != null && latText != null) {
+
+                            longText.setText(String.valueOf(location.getLongitude()));
+
+                            latText.setText(String.valueOf(location.getLatitude()));
+
+                            AppServicesFactory.getServicesFactory()
+                                    .getFirebasePostRequester(getApplicationContext())
+                                    .postToDb(location.getLatitude(), location.getLongitude()
+                                            , "TestUser");
+
+                        }
+                    }
+                }
+            }
+
+        };
+
+
     }
 
     public static void setPutObject(JSONObject putObject) {
@@ -331,6 +393,54 @@ public class BaseActivity extends AppCompatActivity
 
     public static void setSearchedTrip(Trip searchedTrip) {
         BaseActivity.searchedTrip = searchedTrip;
+    }
+
+    public void setLatLong(TextView lat, TextView lon){
+
+        latText = lat;
+
+        longText = lon;
+
+    }
+
+
+    protected void onResume() {
+        super.onResume();
+        if (!arTool.isRequestingLocation()) {
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+        arTool.setmRequestingLocationUpdates(false);
+
+    }
+
+
+    /*
+    Starts requesting the location updates
+     */
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        arTool.getLocationClient().requestLocationUpdates(arTool.getLocationRequest(),
+                mLocationCallback,
+                null);
+    }
+
+    /*
+    Stop the location updates
+     */
+    private void stopLocationUpdates() {
+        arTool.getLocationClient().removeLocationUpdates(mLocationCallback);
+        arTool.setmRequestingLocationUpdates(false);
+
     }
 
 
