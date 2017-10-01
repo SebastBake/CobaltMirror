@@ -1,6 +1,10 @@
 package com.unimelbit.teamcobalt.tourlist;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
@@ -13,8 +17,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
@@ -33,7 +38,7 @@ import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 import org.json.JSONObject;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
     public static final String DEMOTRIP_NAME = "DemoTrip";
     public static final String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
@@ -59,6 +64,10 @@ public class BaseActivity extends AppCompatActivity
     //UserName
 
     private String userName;
+
+    TextView longText, latText;
+
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -333,5 +342,47 @@ public class BaseActivity extends AppCompatActivity
         BaseActivity.searchedTrip = searchedTrip;
     }
 
+    public void getLocation() {
+        try {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 5, this);
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        if(longText != null && latText != null) {
+            longText.setText(String.valueOf(location.getLongitude()));
+
+            latText.setText(String.valueOf(location.getLatitude()));
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+        Toast.makeText(BaseActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+    }
+
+    public void setLatLong(TextView lat, TextView lon){
+
+        latText = lat;
+
+        longText = lon;
+
+    }
 
 }
