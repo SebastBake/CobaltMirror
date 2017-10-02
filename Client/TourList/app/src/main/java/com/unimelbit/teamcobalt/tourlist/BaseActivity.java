@@ -40,6 +40,8 @@ import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 
+import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
+import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
@@ -60,7 +62,7 @@ public class BaseActivity extends AppCompatActivity
     // current trip and user
     private static Trip currentTrip;
     private static User currentUser;
-    private static Boolean locationSharing;
+    public static Boolean locationSharing;
     private static final String LOC_SHARING_ON_MSG = "Location sharing is ON";
     private static final String LOC_SHARING_OFF_MSG = "Location sharing is OFF";
 
@@ -135,12 +137,25 @@ public class BaseActivity extends AppCompatActivity
 
                             latText.setText(String.valueOf(location.getLatitude()));
 
+                            double latitude = location.getLatitude();
+
+                            double longitude = location.getLongitude();
+
+                            if(!locationSharing){
+
+                                latitude = UserTracker.NO_VALUE;
+
+                                longitude = UserTracker.NO_VALUE;
+
+                            }
+
                             AppServicesFactory.getServicesFactory()
                                     .getFirebasePostRequester(getApplicationContext())
-                                    .postToDb(location.getLatitude(), location.getLongitude()
+                                    .postToDb(latitude, longitude
                                             , "TestUser");
-
                         }
+
+
                     }
                 }
             }
@@ -414,6 +429,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        stopTrack();
         stopLocationUpdates();
         arTool.setmRequestingLocationUpdates(false);
 
@@ -443,5 +459,13 @@ public class BaseActivity extends AppCompatActivity
 
     }
 
+    public void stopTrack(){
+
+        AppServicesFactory.getServicesFactory()
+                .getFirebasePostRequester(getApplicationContext())
+                .postToDb(UserTracker.NO_VALUE, UserTracker.NO_VALUE
+                        , "TestUser");
+
+    }
 
 }
