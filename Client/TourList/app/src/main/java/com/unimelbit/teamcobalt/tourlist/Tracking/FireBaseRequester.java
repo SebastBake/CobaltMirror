@@ -25,9 +25,14 @@ public class FireBaseRequester implements CoordinateDBPostRequester{
 
     public final static int LAT_INDEX = 0, LONG_INDEX = 1;
 
+    private FirebaseChatRoomHandler fbHandler;
+
     public FireBaseRequester(Context c){
 
         this.c = c;
+
+        this.fbHandler = (FirebaseChatRoomHandler) AppServicesFactory
+                .getServicesFactory().getFirebaseChatService(c);
 
     }
 
@@ -39,9 +44,6 @@ public class FireBaseRequester implements CoordinateDBPostRequester{
      */
     @Override
     public void postToDb(double latitude, double longitude, String ref) {
-
-        FirebaseChatRoomHandler fbHandler = (FirebaseChatRoomHandler) AppServicesFactory
-                .getServicesFactory().getFirebaseChatService(c);
 
         //Coordinates to push to DB
         Map coordinates = new HashMap<>();
@@ -71,6 +73,8 @@ public class FireBaseRequester implements CoordinateDBPostRequester{
     public double[] getCoordinates(String userRef) {
 
         final double[] coordinates = {};
+
+        fbHandler.checkRoom(userRef);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 

@@ -41,6 +41,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private ArrayList<Location> locationList;
 
+    private ArrayList<String> userList;
+
+    private ArrayList<MarkerOptions> markerList;
+
     private boolean isMapReady;
 
     private Handler handler;
@@ -66,6 +70,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         locationList = getIntent().getParcelableArrayListExtra(Location.LOC_DEFAULT_PARCEL_KEY);
 
         isMapReady = false;
+
+        userList = new ArrayList<String>();
+
+        markerList = new ArrayList<MarkerOptions>();
+
+        userList.add("TestUser");
 
         locationSharing = getIntent().getExtras().getBoolean("location_sharing");
 
@@ -110,10 +120,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 // Do something here on the main thread
                 if (isMapReady) {
 
-                        mMap.clear();
-                        initLocationMarkers(locationList, mMap);
 
-                        mMap.addMarker(markerOne).showInfoWindow();
 
                     Log.d("Handlers", "Called on main thread");
                     // Repeat this the same runnable code block again another 2 seconds
@@ -236,7 +243,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
      * @param user
      * @return
      */
-    public MarkerOptions getMarker(String user){
+    public MarkerOptions getUserMarker(String user){
 
         double[] coordinates = coordinateRequester.getCoordinates(user);
 
@@ -253,6 +260,34 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
 
         return null;
+
+    }
+
+
+    /**
+     * Get a list of all markers based on the user array
+     * @param users
+     * @param markerList
+     * @return
+     */
+    public ArrayList<MarkerOptions> getAllMarkers(ArrayList<String> users, ArrayList<MarkerOptions> markerList){
+
+        markerList.clear();
+
+        for (String user : users){
+
+            MarkerOptions userMarker = getUserMarker(user);
+
+            if(userMarker != null){
+
+                markerList.add(userMarker);
+
+            }
+
+
+        }
+
+        return markerList;
 
     }
 
