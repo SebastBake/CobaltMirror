@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.Intent;
+
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,7 +48,6 @@ import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
-
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -93,10 +94,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        //Simulate a cold start
-        SystemClock.sleep(1000);
-
+        setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_base);
 
         currentTrip = null;
@@ -108,6 +106,7 @@ public class BaseActivity extends AppCompatActivity
 
         // open home screen, no login
         mainContainer.gotoLoginOrRegisterFragment();
+
 
         // Permission check when initiating app
         permission = new PermissionManager() {};

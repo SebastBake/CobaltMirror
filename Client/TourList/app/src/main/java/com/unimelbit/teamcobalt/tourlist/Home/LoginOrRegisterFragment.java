@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -32,10 +34,12 @@ public class LoginOrRegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_login_or_register, container, false);
+
         getActivity().setTitle("Login Or Register");
 
         initLoginMessageText(rootView);
         initLoginAndRegisterButtons(rootView);
+
 
         return rootView;
     }
@@ -53,14 +57,27 @@ public class LoginOrRegisterFragment extends Fragment {
     }
 
     private void initLoginAndRegisterButtons(View rootView) {
+        final Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
 
         Button loginButton = (Button) rootView.findViewById(R.id.go_to_login_fragment);
+        loginButton.setAnimation(shake);
         Button registerButton = (Button) rootView.findViewById(R.id.go_to_register_fragment);
+        registerButton.setAnimation(shake);
 
         BaseFragmentContainerManager manager = ((BaseActivity)getActivity()).getMainContainerManager();
 
-        loginButton.setOnClickListener(new loginButtonListener(manager));
-        registerButton.setOnClickListener(new registerButtonListener(manager));
+        loginButton.setOnClickListener(new loginButtonListener(manager){
+            public void onClick(View v){
+                v.startAnimation(shake);
+                manager.gotoLoginFragment();
+            }
+        });
+        registerButton.setOnClickListener(new registerButtonListener(manager){
+            public void onClick(View v){
+                v.startAnimation(shake);
+                manager.gotoRegisterFragment();
+            }
+        });
     }
 
     class loginButtonListener implements Button.OnClickListener {
