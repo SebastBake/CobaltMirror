@@ -116,7 +116,6 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
                 Intent intent = new Intent(activity, MapActivity.class);
                 ArrayList<Location> locations = activity.getCurrentTrip().getLocations();
                 intent.putParcelableArrayListExtra(Location.LOC_DEFAULT_PARCEL_KEY, locations);
-                intent.putExtra("location_sharing", activity.isLocationSharingOn());
                 fragment.startActivity(intent);
             }
         });

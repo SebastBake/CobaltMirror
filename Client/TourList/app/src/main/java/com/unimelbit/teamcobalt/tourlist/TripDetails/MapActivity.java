@@ -24,15 +24,21 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.Tracking.CoordinateDBPostRequester;
 import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
+import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -41,9 +47,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private ArrayList<Location> locationList;
 
-    private ArrayList<String> userList;
+    private HashMap<String, UserTracker> userList;
 
     private ArrayList<MarkerOptions> markerList;
+
+    private ArrayList<Marker> markersOnMap;
 
     private boolean isMapReady;
 
@@ -55,9 +63,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private LocationCallback mLocationCallback;
 
-    private boolean locationSharing;
-
-    private CoordinateDBPostRequester coordinateRequester;
+    private BaseActivity base;
 
     public static final int DEFAULT_ZOOM = 12;
 
@@ -71,15 +77,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         isMapReady = false;
 
-        userList = new ArrayList<String>();
+        userList = new HashMap<>();
 
         markerList = new ArrayList<MarkerOptions>();
 
-        userList.add("TestUser");
+        markersOnMap = new ArrayList<Marker>();
 
-        locationSharing = getIntent().getExtras().getBoolean("location_sharing");
-
-        coordinateRequester = AppServicesFactory.getServicesFactory().getFirebasePostRequester(this);
+        userList.put("TestUser", new UserTracker(this));
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -98,15 +102,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     // Update UI with location data
                     // ...
                     if (location != null) {
-                        Log.i("MY CURRENT LOCATION", String.valueOf(location));
 
-                        if(locationSharing) {
+                        double latitude = location.getLatitude();
 
-                            AppServicesFactory.getServicesFactory()
-                                    .getFirebasePostRequester(getApplicationContext())
-                                    .postToDb(location.getLatitude(), location.getLongitude()
-                                            , "TestUser");
+                        double longitude = location.getLongitude();
+
+                        if(!BaseActivity.locationSharing){
+
+                            latitude = UserTracker.NO_VALUE;
+
+                            longitude = UserTracker.NO_VALUE;
+
                         }
+
+                        AppServicesFactory.getServicesFactory()
+                                .getFirebasePostRequester(getApplicationContext())
+                                .postToDb(latitude, longitude
+                                        , "TestUser");
                     }
                 }
             }
@@ -120,12 +132,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 // Do something here on the main thread
                 if (isMapReady) {
 
+                    getAllMarkers(userList, markerList);
 
+                    removeUserMarkers(markersOnMap);
+
+                    initUserMarkers(markerList, markersOnMap, mMap);
 
                     Log.d("Handlers", "Called on main thread");
                     // Repeat this the same runnable code block again another 2 seconds
                     // 'this' is referencing the Runnable object
-                    handler.postDelayed(this, 3000);
+                    handler.postDelayed(this, 1000);
                 }
             }
         };
@@ -243,14 +259,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
      * @param user
      * @return
      */
-    public MarkerOptions getUserMarker(String user){
+    public MarkerOptions getUserMarker(String user, UserTracker coordinateRequester){
 
-        double[] coordinates = coordinateRequester.getCoordinates(user);
+        ArrayList<Double> coordinates = coordinateRequester.getCoordinates(user);
 
-        if(coordinates[FireBaseRequester.LAT_INDEX] != FireBaseRequester.NO_VALUE) {
+        if(!coordinates.isEmpty() && coordinates.get(UserTracker.LAT_INDEX) != UserTracker.NO_VALUE) {
 
+            Log.i("User marker", "User marker lat: "+coordinates.get(0));
 
-            LatLng latLng = new LatLng(coordinates[FireBaseRequester.LAT_INDEX], coordinates[FireBaseRequester.LONG_INDEX]);
+            LatLng latLng = new LatLng(coordinates.get(UserTracker.LAT_INDEX),
+                    coordinates.get(UserTracker.LONG_INDEX));
 
             MarkerOptions marker = new MarkerOptions().position(latLng).title(user)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
@@ -270,13 +288,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
      * @param markerList
      * @return
      */
-    public ArrayList<MarkerOptions> getAllMarkers(ArrayList<String> users, ArrayList<MarkerOptions> markerList){
+    public void getAllMarkers(HashMap<String, UserTracker> users, ArrayList<MarkerOptions> markerList){
+
+        Iterator it = users.entrySet().iterator();
 
         markerList.clear();
 
-        for (String user : users){
+        for (Map.Entry<String, UserTracker> entry : users.entrySet()){
 
-            MarkerOptions userMarker = getUserMarker(user);
+            String user = entry.getKey();
+
+            UserTracker tracker = entry.getValue();
+
+            MarkerOptions userMarker = getUserMarker(user, tracker);
 
             if(userMarker != null){
 
@@ -287,10 +311,40 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         }
 
-        return markerList;
-
     }
 
+
+    /**
+     * Add the markers to the map
+     * @param markers
+     * @param markersAdded
+     * @param mMap
+     */
+    public void initUserMarkers(ArrayList<MarkerOptions> markers, ArrayList<Marker> markersAdded, GoogleMap mMap){
+
+        for(MarkerOptions marker : markers){
+
+            markersAdded.add(mMap.addMarker(marker));
+
+
+        }
+    }
+
+    /**
+     * Remove all markers that were added to the map
+     * @param markers
+     */
+    public void removeUserMarkers(ArrayList<Marker> markers){
+
+        for(Marker marker : markers){
+
+            marker.remove();
+
+        }
+
+        markers.clear();
+
+    }
 
 
 }
