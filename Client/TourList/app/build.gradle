@@ -20,10 +20,10 @@ android {
         }
         //I used this to do unit test (Spike)
         debug {
-        //   applicationIdSuffix ".debug"
-           proguardFile 'proguard/debug.pro'
+            //   applicationIdSuffix ".debug"
+            proguardFile 'proguard/debug.pro'
 
-         }
+        }
     }
 }
 
@@ -61,6 +61,7 @@ repositories {
         url "https://maven.google.com"
     }
 }
+
 
 
 

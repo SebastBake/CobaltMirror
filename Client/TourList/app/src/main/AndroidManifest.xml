@@ -43,27 +43,16 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCzMPO3wufV3Ld4qVPquFVJbMcKBL-N80c" />
-        <activity
-
-            android:name=".SplashActivity"
-
-            android:theme="@style/SplashTheme">
-
-            <intent-filter>
-
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
-            </intent-filter>
-
-        </activity>
-
 
         <activity
             android:name=".BaseActivity"
             android:label="@string/title_activity_base"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".TripDetails.MapActivity"
@@ -91,7 +80,7 @@
             android:label="@string/title_activity_tracking"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Chat.ChatroomActivity" />
-        <activity android:name=".Profile.UserProfile"></activity>
+        <activity android:name=".Profile.UserProfile" />
     </application>
 
 </manifest>

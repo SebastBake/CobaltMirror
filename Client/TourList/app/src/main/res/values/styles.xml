@@ -35,4 +35,43 @@
 
     </style>
 
+    <style name="button_style">
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">15dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="button_style_b">
+        <item name="android:background">@drawable/button_background_b</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="button_style_g">
+        <item name="android:background">@drawable/button_background_g</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="editText_style">
+        <item name="android:background">@drawable/edittext_background</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColorHint">@color/scheme1_blue</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_margin">15dp</item>
+    </style>
+
+    <style name="orangeBackground">
+        <item name="android:background">@drawable/orange_background</item>
+    </style>
+
+    <style name="circleWhiteBackground">
+        <item name="android:background">@drawable/circle_white_background</item>
+    </style>
+
+
 </resources>

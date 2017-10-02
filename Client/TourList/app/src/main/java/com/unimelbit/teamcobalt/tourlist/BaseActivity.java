@@ -1,6 +1,7 @@
 package com.unimelbit.teamcobalt.tourlist;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
@@ -64,10 +65,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        //Simulate a cold start
-        SystemClock.sleep(1000);
-
+        setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_base);
 
         currentTrip = null;
@@ -79,6 +77,7 @@ public class BaseActivity extends AppCompatActivity
 
         // open home screen, no login
         mainContainer.gotoLoginOrRegisterFragment();
+
 
         // Permission check when initiating app
         permission = new PermissionManager() {};
