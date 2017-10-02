@@ -216,6 +216,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     protected void onPause() {
         super.onPause();
+
+        stopTrack();
+
         stopLocationUpdates();
         arTool.setmRequestingLocationUpdates(false);
 
@@ -343,6 +346,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
 
         markers.clear();
+
+    }
+
+
+
+    public void stopTrack(){
+
+        AppServicesFactory.getServicesFactory()
+                .getFirebasePostRequester(getApplicationContext())
+                .postToDb(UserTracker.NO_VALUE, UserTracker.NO_VALUE
+                        , "TestUser");
 
     }
 

@@ -429,6 +429,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        stopTrack();
         stopLocationUpdates();
         arTool.setmRequestingLocationUpdates(false);
 
@@ -458,5 +459,13 @@ public class BaseActivity extends AppCompatActivity
 
     }
 
+    public void stopTrack(){
+
+        AppServicesFactory.getServicesFactory()
+                .getFirebasePostRequester(getApplicationContext())
+                .postToDb(UserTracker.NO_VALUE, UserTracker.NO_VALUE
+                        , "TestUser");
+
+    }
 
 }
