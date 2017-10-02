@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,17 +27,24 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
     //References to database
     private DatabaseReference root, rootRef;
 
+
     private Context context;
 
     public FirebaseChatRoomHandler(Context c){
 
         root = FirebaseDatabase.getInstance().getReference().getRoot();
 
+
+
         rootRef = FirebaseDatabase.getInstance().getReference();
 
         this.context = c;
 
     }
+
+
+
+
 
 
     /**
@@ -60,19 +68,27 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
      * Creates an intent and takes user to the chat room given with a user name
      * @param userName
      * @param room
+     * @param users
      */
     @Override
-    public void enterChatRoom(String userName, String room) {
+    public void enterChatRoom(String userName, String room,ArrayList<String> users) {
 
         Intent chatIntent = new Intent(context, ChatroomActivity.class);
+
+        chatIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         chatIntent.putExtra("Name", userName);
 
         chatIntent.putExtra("Room_name", room);
 
+        chatIntent.putStringArrayListExtra("users",users);
+
         context.startActivity(chatIntent);
 
     }
+
+
+
 
     /**
      * Checks and generates a chat room when invoked with given name
@@ -99,6 +115,18 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
             }
         });
+
+    }
+
+
+    /**
+     * Delete the room from firebase db
+     * @param room
+     */
+    @Override
+    public void deleteRoom(String room){
+
+        rootRef.child(room).setValue("");
 
     }
 

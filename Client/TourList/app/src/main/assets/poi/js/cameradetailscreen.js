@@ -7,11 +7,17 @@ var ServerNearbyInformation = {
 };
 
 var ServerTripInformation = {
-   POIDATA_SERVER: "https://cobaltwebserver.herokuapp.com/api/trips/findall",
+   POIDATA_SERVER: "https://cobaltwebserver.herokuapp.com/api/trips/findbyid/",
    //	POIDATA_SERVER_ARG_LAT: "lat",
    //	POIDATA_SERVER_ARG_LON: "lon",
    //	POIDATA_SERVER_ARG_NR_POIS: "nrPois"
 }
+
+
+var tripid;
+
+
+
 
 var nearby = 0;
 
@@ -40,6 +46,11 @@ var World = {
 
 	locationUpdateCounter: 0,
 	updatePlacemarkDistancesEveryXLocationUpdates: 10,
+
+    //Get Trip id from android app
+	 newData : function newDataFn(string){
+    	    tripid = string;
+    	},
 
 	// called to inject new POI data
 	loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
@@ -355,6 +366,7 @@ var World = {
 		}
 	},
 
+
 	// request POI data
 	requestDataFromTripServer: function requestDataFromServerFn(lat, lon) {
 
@@ -363,7 +375,7 @@ var World = {
 		World.updateStatusMessage('Requesting places from web-service');
 
 		// server-url to JSON content provider
-		var serverUrl = ServerTripInformation.POIDATA_SERVER;
+		var serverUrl = ServerTripInformation.POIDATA_SERVER + tripid;
 
 		var jqxhr = $.getJSON(serverUrl, function(data) {
 		         console.log(data[0]);

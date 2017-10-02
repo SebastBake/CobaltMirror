@@ -17,7 +17,10 @@ router.get('/api/trips/findall', controller.findAllTrips);
 //Random search
 router.get('/api/trips/findrandom', controller.findRandomTrips);
 
-// Find one Trip by id
+//Find trip by mongo id
+router.get('/api/trips/findbyid/:id', controller.findOneTripByID);
+
+// Find one Trip by name
 router.get('/api/trips/:name', controller.findOneTrip);
 
 //Create a location in a trip
@@ -26,6 +29,7 @@ router.post('/api/trips/createlocation', controller.createlocation);
 //Find all Locations (temp for testing AR)
 router.get('/api/locations/all', controller.findAllLocations);
 
+//Search all trips with text
 router.get('/api/locations/search', controller.findTripsByText);
 
 

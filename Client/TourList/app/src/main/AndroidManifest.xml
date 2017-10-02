@@ -75,10 +75,6 @@
             android:name=".AugmentedReality.POIDetailActivity"
             android:label="@string/title_activity_poidetail" />
         <activity android:name=".CreateTrips.AddLocationsToTripActivity" />
-        <activity
-            android:name=".Tracking.TrackingActivity"
-            android:label="@string/title_activity_tracking"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Chat.ChatroomActivity" />
         <activity android:name=".Profile.UserProfile" />
     </application>

@@ -14,7 +14,9 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.wikitude.architect.ArchitectJavaScriptInterfaceListener;
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
@@ -33,6 +35,8 @@ public class ARActivity extends AppCompatActivity {
     //For callbacks
     private LocationCallback mLocationCallback;
 
+    private String id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,9 @@ public class ARActivity extends AppCompatActivity {
         arTool = new ARTools(this);
 
         arListener = new ARJSONListener();
+
+        //Get Trip id for AR
+        id = getIntent().getStringExtra(TabbedTripFragment.INTENT_TRIPID);
 
         //Initialise the request
         arTool.createLocationRequest();
@@ -87,6 +94,8 @@ public class ARActivity extends AppCompatActivity {
     }
 
 
+
+
     /*
     Create view with the JS and assets provided in this function
      */
@@ -96,6 +105,7 @@ public class ARActivity extends AppCompatActivity {
         architectView.onPostCreate();
         try {
             this.architectView.load("file:///android_asset/poi/index.html");
+            this.architectView.callJavascript("World.newData('" + id +"')");
         } catch (Exception e) {
 
         }
@@ -122,13 +132,6 @@ public class ARActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         arTool.getLocationClient().requestLocationUpdates(arTool.getLocationRequest(),

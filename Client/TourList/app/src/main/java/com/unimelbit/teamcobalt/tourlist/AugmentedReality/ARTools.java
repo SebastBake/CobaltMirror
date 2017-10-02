@@ -48,11 +48,11 @@ public class ARTools {
     /*
 Location request settings.
  */
-    protected void createLocationRequest() {
+    public void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         //Can change interval depending on how much battery you want
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(3000);
         //Accuracy of location
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }

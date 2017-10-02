@@ -19,11 +19,19 @@ var createTrip = function(req, res) {
     "date": req.body.date,
     "size": req.body.size,
     "cost": req.body.cost,
-    "locations": []
+    "locations": [],
+    "users": [req.body.users]
   });
 
   for (var i = 0; i < req.body.locations.length; i++) {
-    trip.locations[i] = req.body.locations[i];
+    var newlocation = {
+      "title": req.body.locations[i].title,
+      "description": req.body.locations[i].description,
+      "latitude": req.body.locations[i].latitude,
+      "longitude": req.body.locations[i].longitude,
+      "altitude": req.body.locations[i].altitude
+    };
+    trip.locations[i] = newlocation;
   }
 
   console.log(JSON.stringify(trip));
@@ -94,6 +102,22 @@ var findOneTrip = function(req, res) {
   var tripInx = req.params.name;
   Trip.find({
     name: req.params.name
+
+  }, (function(err, trip) {
+    if (!err) {
+      console.log(trip);
+      res.send(trip);
+
+    } else {
+      res.sendStatus(404);
+    }
+  }));
+};
+
+var findOneTripByID = function(req, res) {
+  var tripInx = req.params.id;
+  Trip.find({
+    _id: req.params.id
 
   }, (function(err, trip) {
     if (!err) {
@@ -237,3 +261,4 @@ module.exports.findTripsByText = findTripsByText;
 module.exports.showallmsg = showallmsg;
 module.exports.addmsg = addmsg;
 module.exports.findRandomTrips = findRandomTrips;
+module.exports.findOneTripByID = findOneTripByID;
