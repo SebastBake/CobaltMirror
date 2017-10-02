@@ -30,6 +30,7 @@ import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.Tracking.CoordinateDBPostRequester;
+import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
 
 import java.util.ArrayList;
 
@@ -49,8 +50,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private ARTools arTool;
 
     private LocationCallback mLocationCallback;
-
-    private MarkerOptions markerOne, markerTwo, markerThree;
 
     private boolean locationSharing;
 
@@ -75,13 +74,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        //Tracking other users
-
-        LatLng latLng = new LatLng(-37.79867463499714, 144.96722038839107);
-
-        markerOne = new MarkerOptions().position(latLng).title("User 1")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
 
         arTool = new ARTools(this);
 
@@ -232,15 +224,37 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     @Override
     public void onDestroy() {
-        super.onDestroy();  // Always call the superclass method first
+        super.onDestroy();
 
         handler.removeCallbacks(runnableCode);
 
     }
 
 
+    /**
+     * Get marker for user to use on map
+     * @param user
+     * @return
+     */
+    public MarkerOptions getMarker(String user){
+
+        double[] coordinates = coordinateRequester.getCoordinates(user);
+
+        if(coordinates[FireBaseRequester.LAT_INDEX] != FireBaseRequester.NO_VALUE) {
 
 
+            LatLng latLng = new LatLng(coordinates[FireBaseRequester.LAT_INDEX], coordinates[FireBaseRequester.LONG_INDEX]);
+
+            MarkerOptions marker = new MarkerOptions().position(latLng).title(user)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+
+
+            return marker;
+        }
+
+        return null;
+
+    }
 
 
 

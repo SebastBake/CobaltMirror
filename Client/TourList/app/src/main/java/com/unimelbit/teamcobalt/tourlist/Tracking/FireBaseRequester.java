@@ -21,7 +21,7 @@ public class FireBaseRequester implements CoordinateDBPostRequester{
 
     private Context c;
 
-    private final int NO_VALUE = 0;
+    public final static int NO_VALUE = 0;
 
     public final static int LAT_INDEX = 0, LONG_INDEX = 1;
 
