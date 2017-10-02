@@ -11,9 +11,12 @@ import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompatBase;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,8 +25,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
+import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.R;
+import com.unimelbit.teamcobalt.tourlist.Tracking.CoordinateDBPostRequester;
 
 import java.util.ArrayList;
 
@@ -31,6 +37,7 @@ import java.util.ArrayList;
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
     private ArrayList<Location> locationList;
 
     private boolean isMapReady;
@@ -39,11 +46,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private Runnable runnableCode;
 
-    private boolean reverse;
+    private ARTools arTool;
+
+    private LocationCallback mLocationCallback;
 
     private MarkerOptions markerOne, markerTwo, markerThree;
 
-    private int count = 0;
+    private boolean locationSharing;
+
+    private CoordinateDBPostRequester coordinateRequester;
 
     public static final int DEFAULT_ZOOM = 12;
 
@@ -57,6 +68,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         isMapReady = false;
 
+        locationSharing = getIntent().getExtras().getBoolean("location_sharing");
+
+        coordinateRequester = AppServicesFactory.getServicesFactory().getFirebasePostRequester(this);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -64,15 +79,36 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         //Tracking other users
 
         LatLng latLng = new LatLng(-37.79867463499714, 144.96722038839107);
+
         markerOne = new MarkerOptions().position(latLng).title("User 1")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        latLng = new LatLng(-37.79859709859357, 144.965807367073);
-        markerThree = new MarkerOptions().position(latLng).title("User 1")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
 
-        latLng = new LatLng(-37.79840335143667, 144.9643450603271);
-        markerTwo = new MarkerOptions().position(latLng).title("User 1")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        arTool = new ARTools(this);
+
+        arTool.createLocationRequest();
+
+        //Location to be sent to the view
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                //Loop through the results
+                for (android.location.Location location : locationResult.getLocations()) {
+                    // Update UI with location data
+                    // ...
+                    if (location != null) {
+                        Log.i("MY CURRENT LOCATION", String.valueOf(location));
+
+                        if(locationSharing) {
+
+                            AppServicesFactory.getServicesFactory()
+                                    .getFirebasePostRequester(getApplicationContext())
+                                    .postToDb(location.getLatitude(), location.getLongitude()
+                                            , "TestUser");
+                        }
+                    }
+                }
+            }
+        };
 
         handler = new Handler();
         // Define the code block to be executed
@@ -82,43 +118,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 // Do something here on the main thread
                 if (isMapReady) {
 
-                    if (count == 0) {
                         mMap.clear();
                         initLocationMarkers(locationList, mMap);
-
-                        count++;
-                        reverse = false;
 
                         mMap.addMarker(markerOne).showInfoWindow();
-
-                        System.out.println("Marker 1");
-                    } else if (count == 1) {
-                        mMap.clear();
-                        initLocationMarkers(locationList, mMap);
-
-                        mMap.addMarker(markerTwo).showInfoWindow();
-
-                        System.out.println("Markers 2");
-
-                        count++;
-
-                    }else{
-                        mMap.clear();
-                        initLocationMarkers(locationList, mMap);
-
-                        mMap.addMarker(markerThree).showInfoWindow();
-
-                        System.out.println("Markers 3");
-                        count = 0;
-
-                    }
-
-                    System.out.println("Count: "+count);
 
                     Log.d("Handlers", "Called on main thread");
                     // Repeat this the same runnable code block again another 2 seconds
                     // 'this' is referencing the Runnable object
-                    handler.postDelayed(this, 500);
+                    handler.postDelayed(this, 3000);
                 }
             }
         };
@@ -183,29 +191,44 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     }
 
+    protected void onResume() {
+        super.onResume();
+        if (!arTool.isRequestingLocation()) {
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+        arTool.setmRequestingLocationUpdates(false);
+
+    }
+
 
     /*
-    @Override
-    public void onResume() {
-        super.onResume();  // Always call the superclass method first
-
-        if(!refreshLocs) {
-            handler.post(runnableCode);
-            refreshLocs = true;
+    Starts requesting the location updates
+     */
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
+        arTool.getLocationClient().requestLocationUpdates(arTool.getLocationRequest(),
+                mLocationCallback,
+                null);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();  // Always call the superclass method first
+    /*
+    Stop the location updates
+     */
+    private void stopLocationUpdates() {
+        arTool.getLocationClient().removeLocationUpdates(mLocationCallback);
+        arTool.setmRequestingLocationUpdates(false);
 
-        if(refreshLocs) {
-            handler.removeCallbacks(runnableCode);
-            refreshLocs = false;
-        }
     }
-
-    */
 
     @Override
     public void onDestroy() {
@@ -214,6 +237,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         handler.removeCallbacks(runnableCode);
 
     }
+
+
+
 
 
 

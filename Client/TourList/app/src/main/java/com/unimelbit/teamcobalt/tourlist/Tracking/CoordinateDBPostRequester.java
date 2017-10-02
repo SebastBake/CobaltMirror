@@ -9,4 +9,7 @@ public interface CoordinateDBPostRequester {
     //Post coordinates to the DB
     void postToDb(double latitude, double longitude, String ref);
 
+    //Coordinates of user reference with [latitude, longitude] array structure
+    double[] getCoordinates(String userRef);
+
 }
