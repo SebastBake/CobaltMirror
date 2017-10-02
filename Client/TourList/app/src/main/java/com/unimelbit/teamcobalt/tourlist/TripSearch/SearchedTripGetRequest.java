@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class SearchedTripGetRequest implements GetRequest {
-    public static final String DEFAULT_URL = "https://cobaltwebserver.herokuapp.com/api/trips/";
+    public static final String DEFAULT_URL = "https://cobaltwebserver.herokuapp.com/api/trips/findbyid/";
     private static final String LOADING_MSG = "Loading trip...";
 
     private String url;

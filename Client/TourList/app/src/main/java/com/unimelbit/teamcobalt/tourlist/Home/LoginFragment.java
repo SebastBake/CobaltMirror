@@ -63,9 +63,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
             if(enteredUser.isEmpty()){
 
-                enteredUser = "Demo User";
+                enteredUser = "DemoUser";
 
-                base.setUserName("Demo User");
+                base.setUserName("DemoUser");
             }
 
             String message = "Logged in as: "+ enteredUser;
