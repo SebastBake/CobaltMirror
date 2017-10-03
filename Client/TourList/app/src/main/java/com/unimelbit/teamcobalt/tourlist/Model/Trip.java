@@ -1,5 +1,8 @@
 package com.unimelbit.teamcobalt.tourlist.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +14,7 @@ import java.util.HashMap;
  * Created by Sebastian on 12/9/17.
  * Simple class to hold trip details, can be constructed using JSON from the server
  */
-public class Trip {
+public class Trip implements Parcelable {
     public static final String JSON_ID = "_id";
     public static final String JSON_NAME = "name";
     public static final String JSON_COST = "cost";
@@ -52,6 +55,28 @@ public class Trip {
         this.locations = locations;
         this.users = users;
         this.url = url;
+    }
+
+    Trip(Parcel parcel) {
+        id = parcel.readString();
+        name = parcel.readString();
+        date = parcel.readString();
+        description = parcel.readString();
+        cost = parcel.readString();
+        size = parcel.readString();
+        locations = new ArrayList<>();
+        parcel.readTypedList(locations, Location.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(date);
+        dest.writeString(description);
+        dest.writeString(cost);
+        dest.writeString(size);
+        dest.writeTypedList(locations);
     }
 
     public static ArrayList<Trip> newTripArrayFromJSON(String result, String url) throws JSONException {
@@ -190,4 +215,22 @@ public class Trip {
     }
 
     public ArrayList<String> getUsers() {return users;}
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<Trip> CREATOR = new Parcelable.Creator<Trip>() {
+
+        @Override
+        public Trip[] newArray(int size) {
+            return new Trip[size];
+        }
+
+        @Override
+        public Trip createFromParcel(Parcel source) {
+            return new Trip(source);
+        }
+    };
 }

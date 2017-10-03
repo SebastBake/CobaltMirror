@@ -62,7 +62,6 @@ public class Location implements Parcelable{
         altitude = parcel.readDouble();
     }
 
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
@@ -121,8 +120,8 @@ public class Location implements Parcelable{
         ArrayList<Location> locations = new ArrayList<>();
 
         for(Place place: placeArray) {
-           //Temp id to post to server
-            String id = "temp id";
+
+            String id = "temp id"; //Temp id to post to server
             LatLng latLng = place.getLatLng();
             String title = place.getName().toString();
             String desc = DEFAULT_DESC;
@@ -183,7 +182,7 @@ public class Location implements Parcelable{
         return 0;
     }
 
-   public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+    public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
 
         @Override
         public Location[] newArray(int size) {

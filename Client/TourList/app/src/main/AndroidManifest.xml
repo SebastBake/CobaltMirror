@@ -77,6 +77,10 @@
         <activity android:name=".CreateTrips.AddLocationsToTripActivity" />
         <activity android:name=".Chat.ChatroomActivity" />
         <activity android:name=".Profile.UserProfile" />
+        <activity
+            android:name=".EditTrip.EditTripActivity"
+            android:label="@string/title_activity_edit_trip"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

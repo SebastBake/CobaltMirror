@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
@@ -26,6 +27,7 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
     private FloatingActionButton locButton;
     private FloatingActionButton mapButton;
     private FloatingActionButton mainButton;
+    private FloatingActionButton editButton;
     private boolean isMainFabActivated;
 
     public TabbedTripFragmentButtonHandler(View rootView, BaseActivity activity, TabbedTripFragment fragment) {
@@ -37,6 +39,7 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         initAugmentedRealityButton(rootView);
         initMapButton(rootView);
         initMainButton(rootView);
+        initEditButton(rootView);
         setIsMainFabActivated(false);
     }
 
@@ -67,6 +70,18 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         } else {
             hideSmallButtons();
         }
+    }
+
+    private void initEditButton(View rootView) {
+
+        editButton = (FloatingActionButton) rootView.findViewById(R.id.edit_button);
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(activity, "edit thing", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initLocSharingButton(View rootView) {
@@ -153,6 +168,7 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         augmentedRealityButton.setVisibility(View.GONE);
         mapButton.setVisibility(View.GONE);
         mainButton.setVisibility(View.GONE);
+        editButton.setVisibility(View.GONE);
     }
 
     private void showAllButtons() {
@@ -160,6 +176,7 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         augmentedRealityButton.setVisibility(View.VISIBLE);
         mainButton.setVisibility(View.VISIBLE);
         mapButton.setVisibility(View.VISIBLE);
+        editButton.setVisibility(View.VISIBLE);
     }
 
     private void hideSmallButtons() {
@@ -167,11 +184,13 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         locButton.setVisibility(View.GONE);
         augmentedRealityButton.setVisibility(View.GONE);
         mapButton.setVisibility(View.GONE);
+        editButton.setVisibility(View.GONE);
     }
 
     private void showSmallButtons() {
         locButton.setVisibility(View.VISIBLE);
         augmentedRealityButton.setVisibility(View.VISIBLE);
         mapButton.setVisibility(View.VISIBLE);
+        editButton.setVisibility(View.VISIBLE);
     }
 }
