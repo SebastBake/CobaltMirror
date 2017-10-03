@@ -24,10 +24,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class ChatroomActivity extends AppCompatActivity {
@@ -38,6 +45,8 @@ public class ChatroomActivity extends AppCompatActivity {
 
     private String roomName;
 
+    private ArrayList<String> users;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,9 @@ public class ChatroomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chatroom);
 
         //mAuth = FirebaseAuth.getInstance();
+
+        users = getIntent().getExtras().getStringArrayList("users");
+        Toast.makeText(this,"Result: " + users, Toast.LENGTH_SHORT).show();
 
         userName = getIntent().getExtras().getString("Name");
 
@@ -54,12 +66,15 @@ public class ChatroomActivity extends AppCompatActivity {
 
         }
 
+        FirebaseMessaging.getInstance().subscribeToTopic("user_"+userName);
+
         roomName = getIntent().getExtras().getString("Room_name");
 
         displayChatMessages();
 
         setTitle(roomName+" Chat");
 
+        //Capitalise words at the start of sentences
         EditText input = (EditText) findViewById(R.id.input);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
@@ -82,6 +97,20 @@ public class ChatroomActivity extends AppCompatActivity {
                                     userName)
                             );
 
+                   if (!users.isEmpty() || users != null){
+                        for (String user : users){
+                            Map notification = new HashMap<>();
+                            notification.put("username", user);
+                            notification.put("message", input.getText().toString());
+                            notification.put("fromUser",userName);
+
+                           FirebaseDatabase.getInstance()
+                                    .getReference().child("notificationRequests").push().setValue(notification);
+                        }
+                   }
+
+
+
                     // Clear the input
                     input.setText("");
                 }
@@ -91,6 +120,8 @@ public class ChatroomActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
     private void displayChatMessages() {
@@ -125,7 +156,6 @@ public class ChatroomActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.chat_menu, menu);
         return true;
     }
-
 
 
 }

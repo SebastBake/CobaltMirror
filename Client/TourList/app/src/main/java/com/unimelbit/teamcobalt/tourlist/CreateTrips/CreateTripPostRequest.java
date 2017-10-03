@@ -41,7 +41,7 @@ public class CreateTripPostRequest implements PostRequest {
     @Override
     public void processResult(String result) {
         Toast.makeText(activity,"Result: " + result, Toast.LENGTH_SHORT).show();
-
+        Log.e("Result:", result);
         Intent intent = new Intent(activity, BaseActivity.class);
         activity.startActivity(intent);
         activity.getSupportFragmentManager().popBackStack();

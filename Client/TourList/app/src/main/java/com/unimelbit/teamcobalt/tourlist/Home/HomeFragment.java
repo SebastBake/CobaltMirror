@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.google.android.gms.vision.text.Text;
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -17,7 +20,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private BaseActivity base;
 
-    private Button searchB, createB, currTripB, chatRoomB;
+    private Button searchB, createB, currTripB, chatRoomB, startB;
 
 
     public HomeFragment() {
@@ -57,6 +60,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         chatRoomB.setOnClickListener(this);
 
+        startB = (Button) rootView.findViewById(R.id.startButton);
+
+        startB.setOnClickListener(this);
+
+        TextView lat = (TextView) rootView.findViewById(R.id.latView);
+
+        TextView lon = (TextView) rootView.findViewById(R.id.longView);
+
         LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.linear);
         for (int i = 0; i < 20; i++) {
             ImageView imageView = new ImageView(getActivity());
@@ -69,6 +80,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             imageView.setOnClickListener(this);
             layout.addView(imageView);
         }
+
+        base.setLatLong(lat, lon);
 
         return rootView;
     }
@@ -94,6 +107,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         } else if (id == R.id.generalChat){
 
             base.getMainContainer().goToChatRooms();
+
+        }else if (id == R.id.startButton){
+
+            AppServicesFactory.getServicesFactory().getFirebaseChatService(getActivity()).deleteRoom("TestUser");
 
         }
 

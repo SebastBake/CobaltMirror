@@ -12,22 +12,27 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
 public class CreateTripFragment extends Fragment implements View.OnClickListener, BackButtonInterface {
 
+    public static final String INTENT_ID = "com.example.spike.uitest.MESSAGE_ID";
     public static final String INTENT_NAME = "com.example.spike.uitest.MESSAGE";
     public static final String INTENT_DATE = "com.example.spike.uitest.MESSAGE_TWO";
     public static final String INTENT_SIZE = "com.example.spike.uitest.MESSAGE_THREE";
     public static final String INTENT_COST = "com.example.spike.uitest.MESSAGE_FOUR";
     public static final String INTENT_DESC = "com.example.spike.uitest.MESSAGE_FIVE";
+    public static final String INTENT_USER = "com.example.spike.uitest.MESSAGE_SIX";
 
+    private String id="temp id";
     private String size;
     private String cost;
     private String name;
     private String date;
     private String desc;
+    private String user;
 
     private RadioButton size_small;
     private RadioButton size_medium;
@@ -144,6 +149,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         name = nameText.getText().toString();
         date = dateText.getText().toString();
         desc = descText.getText().toString();
+        user = ((BaseActivity)getActivity()).getUserName();
 
         boolean notFilledOut = name.isEmpty() || date.isEmpty() || (size==null) || (cost==null) || (desc.isEmpty());
 
@@ -153,11 +159,13 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         }
 
         Intent intent = new Intent(getActivity(), AddLocationsToTripActivity.class);
+        intent.putExtra(INTENT_ID, id);
         intent.putExtra(INTENT_NAME, name);
         intent.putExtra(INTENT_DATE, date);
         intent.putExtra(INTENT_SIZE, size);
         intent.putExtra(INTENT_COST, cost);
         intent.putExtra(INTENT_DESC, desc);
+        intent.putExtra(INTENT_USER,user);
         startActivity(intent);
         getActivity().getSupportFragmentManager().popBackStack();
     }

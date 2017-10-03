@@ -122,7 +122,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
             chatService.checkRoom(roomName);
 
-            chatService.enterChatRoom(base.getUserName(), roomName);
+            chatService.enterChatRoom(base.getUserName(), roomName,base.getCurrentTrip().getUsers());
 
         }
 
