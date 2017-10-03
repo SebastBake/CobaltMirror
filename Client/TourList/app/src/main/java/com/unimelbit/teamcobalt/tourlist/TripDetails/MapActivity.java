@@ -268,6 +268,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         ArrayList<Double> coordinates = coordinateRequester.getCoordinates(user);
 
+        //Only create the marker if the user has a location or has location enabled
         if(!coordinates.isEmpty() && coordinates.get(UserTracker.LAT_INDEX) != UserTracker.NO_VALUE) {
 
             Log.i("User marker", "User marker lat: "+coordinates.get(0));
@@ -275,6 +276,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             LatLng latLng = new LatLng(coordinates.get(UserTracker.LAT_INDEX),
                     coordinates.get(UserTracker.LONG_INDEX));
 
+            //Get the custom icon to set to the marker
             Bitmap userIcon = coordinateRequester.getUserIcon();
 
             MarkerOptions marker = new MarkerOptions().position(latLng)
@@ -296,10 +298,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
      */
     public void getAllMarkers(HashMap<String, UserTracker> users, ArrayList<MarkerOptions> markerList){
 
-        Iterator it = users.entrySet().iterator();
-
         markerList.clear();
 
+        //Iterate through all the users in the trip and create markers for them
         for (Map.Entry<String, UserTracker> entry : users.entrySet()){
 
             String user = entry.getKey();
@@ -363,7 +364,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     }
 
-    
+
+    /**
+     * Create a user tracker object for the user
+     * @param userName
+     * @param c
+     * @return
+     */
     public UserTracker makeUserTracker(String userName, Context c){
 
         UserTracker userTracker = new UserTracker(c);

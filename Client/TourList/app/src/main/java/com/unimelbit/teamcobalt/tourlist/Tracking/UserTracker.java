@@ -2,14 +2,11 @@ package com.unimelbit.teamcobalt.tourlist.Tracking;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Icon;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.maps.android.ui.BubbleIconFactory;
 import com.google.maps.android.ui.IconGenerator;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.Chat.FirebaseChatRoomHandler;
@@ -60,6 +57,7 @@ public class UserTracker {
 
         final DatabaseReference coordinateRef = ref.child(userRef);
 
+        //Get the current location when calling this listener
         coordinateRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -91,7 +89,11 @@ public class UserTracker {
     }
 
 
-
+    /**
+     * Create a map icon based on the user name
+     * @param userName
+     * @return
+     */
     public Bitmap createUserIcon(String userName){
 
         IconGenerator iconFactory = new IconGenerator(c);
