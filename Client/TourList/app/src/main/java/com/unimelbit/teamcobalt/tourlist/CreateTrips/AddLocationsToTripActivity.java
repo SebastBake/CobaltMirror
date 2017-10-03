@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,7 +14,10 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.Gson;
+import com.unimelbit.teamcobalt.tourlist.Model.Location;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
 
 import java.util.ArrayList;
 
@@ -24,37 +26,33 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
 
     private int PLACE_PICKER_REQUEST = 1;
 
-    private ArrayList <Place> placeArray;
+    private ArrayList<Place> placeArray;
+    private Button addLocationButton;
+    private Button doneAddingLocationsButton;
+    private CustomListAdapter listAdapter;
 
-    private FloatingActionButton locButton;
-
-    private CustomListAdapter custAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trips);
+
+        setContentView(R.layout.activity_create_trip_add_location);
+        this.setTitle( "Add Locations to the Trip");
 
         placeArray = new ArrayList<Place>();
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-
-        initLocButton();
-
-        custAdapter = new CustomListAdapter(AddLocationsToTripActivity.this, R.layout.list_row, placeArray);
-
-        listView.setAdapter(custAdapter);
-
+        initButtons();
+        initLocationsList();
     }
 
-    /*
-    Floating button that starts the Places intent to get locations to add
+    /**
+     * Floating button that starts the Places intent to get locations to add
      */
-    private void initLocButton() {
+    private void initButtons() {
 
-        locButton = (FloatingActionButton) findViewById(R.id.locButton);
+        addLocationButton = (Button) findViewById(R.id.add_location_button);
+        addLocationButton.setOnClickListener(new View.OnClickListener() {
 
-        locButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -69,71 +67,66 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
                 } catch (GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
                 }
-
             }
         });
 
+        doneAddingLocationsButton = (Button) findViewById(R.id.done_adding_location_button);
+        doneAddingLocationsButton.setOnClickListener(new DoneButtonOnClickListener(this, getTrip()));
+    }
+
+    private void initLocationsList() {
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listAdapter = new CustomListAdapter(AddLocationsToTripActivity.this, R.layout.list_row, placeArray);
+        listView.setAdapter(listAdapter);
+    }
+
+    private Trip getTrip() {
+        String id = getIntent().getStringExtra(CreateTripFragment.INTENT_ID);
+        String name = getIntent().getStringExtra(CreateTripFragment.INTENT_NAME);
+        String cost = getIntent().getStringExtra(CreateTripFragment.INTENT_COST);
+        String size = getIntent().getStringExtra(CreateTripFragment.INTENT_SIZE);
+        String date = getIntent().getStringExtra(CreateTripFragment.INTENT_DATE);
+        String desc = getIntent().getStringExtra(CreateTripFragment.INTENT_DESC);
+
+        ArrayList<Location> locations = Location.newLocationArrayFromPlaceArray(placeArray);
+        ArrayList<String> users = new ArrayList<>();
+        users.add(getIntent().getStringExtra(CreateTripFragment.INTENT_USER));
+        return new Trip(id,name, desc,  date, cost, size, locations,users, TripGetRequest.DEFAULT_URL+name);
     }
 
 
-    /*
-    Handles the Place objects returned from the Place intent and adds them into the place array
+    /**
+     * Handles the Place objects returned from the Place intent and adds them into the location array
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                Place place = PlacePicker.getPlace(this, data);
-
-                placeArray.add(place);
-
-                String toastMsg = String.format("Place: %s", place.getName());
-
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-
-                //List view will update accordingly
-                custAdapter.notifyDataSetChanged();
-
+                // Add new place into place list
+                Place location = PlacePicker.getPlace(this, data);
+                placeArray.add(location);
+                listAdapter.notifyDataSetChanged();
             }
         }
     }
 
-    // create an action bar button
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_trip_list, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+    private class DoneButtonOnClickListener implements View.OnClickListener {
 
-    /* handle action bar button activities
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        AddLocationsToTripActivity activity;
+        Trip newTrip;
 
-
-        //User presses this button to finish everything
-        if (id == R.id.mybutton) {
-
-            //send list to server
-            send_to_server();
-
-            finish();
-
+        DoneButtonOnClickListener(AddLocationsToTripActivity activity, Trip trip) {
+            this.activity = activity;
+            this.newTrip = trip;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    /*Create JSON object with array of places to upload to server
-
-     */
-    public void send_to_server(){
-
-        String jsonPlaces = new Gson().toJson(placeArray);
-
-
+        @Override
+        public void onClick(View view) {
+            Trip newTrip = getTrip();
+            new CreateTripPostRequest(activity, newTrip);
+            finish();
+        }
     }
 
 

@@ -16,8 +16,8 @@ import org.json.JSONException;
  */
 public class RegisterUserPostRequest implements PostRequest {
 
-    private static String LOADING_MSG = "Registering User ...";
-    private static String REGISTER_URL = "https://cobaltwebserver.herokuapp.com/api/user/create";
+    private static final String LOADING_MSG = "Registering User ...";
+    private static final String REGISTER_URL = "https://cobaltwebserver.herokuapp.com/api/user/create";
 
     private BaseFragmentContainerManager containerManager;
     private BaseActivity activity;

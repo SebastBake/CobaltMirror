@@ -79,6 +79,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
         new RegisterFragment.PostDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/create");
 
+
     }
 
     //http post and its functions
@@ -93,6 +94,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         @Override
         protected String doInBackground(String... params) {
 
+
             try {
                 return postData(params[0]);
             } catch (IOException ex) {
@@ -101,6 +103,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                 return "Data Invalid !";
             }
         }
+
 
         @Override
         protected void onPostExecute(String result) {

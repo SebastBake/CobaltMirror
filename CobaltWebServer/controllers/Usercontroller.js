@@ -6,6 +6,7 @@
 // will update if need once mlab moves to 3.4
 var mongoose = require('mongoose');
 var User = mongoose.model('users');
+var Trip = mongoose.model('trips');
 
 
 
@@ -31,6 +32,7 @@ var createUser = function(req, res) {
 };
 
 var retrieveOneUser = function(req, res) {
+
   var query=User.find();
     //get the Query String here
     var filterUsername=req.params.username;
@@ -86,6 +88,19 @@ var Addtrip = function(req, res) {
         'error': 'error in adding'
       });
     }
+    Trip.findOneAndUpdate({
+      _id: TripInx
+    }, {
+      $push: {
+        'users': req.body.username
+      }
+    }, function(err, trip) {
+      if (err) {
+        return res.status(500).json({
+          'error': 'error in adding'
+        });
+      }
+    });
     console.log(data);
     res.json(data);
   });
@@ -106,6 +121,21 @@ var Removetrip = function(req, res) {
         'error': 'error in removing'
       });
     }
+
+    Trip.findOneAndUpdate({
+      _id: TripInx
+    }, {
+      $pull: {
+        'users': req.body.username
+      }
+    }, function(err, trip) {
+      if (err) {
+        return res.status(500).json({
+          'error': 'error in adding'
+        });
+      }
+    });
+
     console.log(data);
     res.json(data);
   });
@@ -120,6 +150,7 @@ var Removetrip = function(req, res) {
 //       password: req.password
 //     }
 
+
 //     User.findOne(query, function(err, user) {
 //       if (!err) {
 //         res.send(user);
@@ -130,6 +161,7 @@ var Removetrip = function(req, res) {
 //       }
 //   });
 // }
+
 
 
 

@@ -14,10 +14,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
+
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
+
 
 import org.json.JSONException;
 
@@ -47,6 +50,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         LoginFragment fragment = new LoginFragment();
         return fragment;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -170,4 +175,5 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             return result.toString();
         }
     }
+
 }

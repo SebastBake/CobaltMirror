@@ -17,14 +17,15 @@ import java.util.ArrayList;
  */
 public class TripGetRequest implements GetRequest {
 
-    private static String LOADING_MSG = "Loading trip...";
+    public static final String DEFAULT_URL = "https://cobaltwebserver.herokuapp.com/api/trips/";
+    private static final String LOADING_MSG = "Loading trip...";
 
     private String url;
     private BaseFragmentContainerManager containerManager;
 
-    public TripGetRequest(String url, BaseFragmentContainerManager containerManager) {
+    public TripGetRequest(String query, BaseFragmentContainerManager containerManager) {
 
-        this.url = url;
+        this.url = DEFAULT_URL + query;
         this.containerManager = containerManager;
 
         // Start loading fragment

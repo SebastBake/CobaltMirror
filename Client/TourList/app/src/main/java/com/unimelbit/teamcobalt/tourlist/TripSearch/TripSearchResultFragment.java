@@ -34,10 +34,11 @@ import java.util.Map;
 /**
  * Created by spike on 8/9/2017.
  */
-public class TripSearchResultFragment extends Fragment implements BackButtonInterface {
+public class TripSearchResultFragment extends Fragment{
 
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
     private String searchQuery;
+    private String username;
 
     private onFragmentCreatedListener listener;
 
@@ -89,7 +90,6 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
 
         String header = trips.size() + " " + getResources().getString(R.string.fragment_searchresults_header) + " " + searchQuery;
 
-        new TripSearchUserRequest(((BaseActivity)getActivity()));
 
         textview.setText(header);
         getActivity().setTitle(R.string.title_fragment_searchresults);
@@ -106,8 +106,8 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
                 getContext(),
                 tripMaps,
                 R.layout.fragment_search_results_items,
-                new String[]{Trip.JSON_NAME, Trip.JSON_SIZE, Trip.JSON_COST, Trip.JSON_LOC},
-                new int[]{R.id.name, R.id.size, R.id.cost, R.id.locations}) {
+                new String[]{Trip.JSON_NAME, Trip.JSON_SIZE, Trip.JSON_COST, Trip.JSON_LOC,Trip.JSON_ID},
+                new int[]{R.id.name, R.id.size, R.id.cost, R.id.locations,R.id.ID}) {
 
             @Override
             public View getView (int position, final View convertView, ViewGroup parent)
@@ -116,7 +116,10 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
 
                 Button b = (Button)v.findViewById(R.id.Go_to_trip);
 
+
                 final Button saveButton = (Button) v.findViewById(R.id.Save_trip);
+
+                username = ((BaseActivity)getActivity()).getUserName();
 
                 b.setOnClickListener(new View.OnClickListener() {
 
@@ -124,10 +127,11 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
                     public void onClick(View arg0) {
                         RelativeLayout rl = (RelativeLayout)arg0.getParent();
                         TextView tv = (TextView)rl.findViewById(R.id.name);
-                        String text = tv.getText().toString();
-                        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-                        String url = "https://cobaltwebserver.herokuapp.com/api/trips/"+text;
-                        new TripGetRequest(url, ((BaseActivity)getActivity()).getMainContainerManager());
+                        TextView tripID = (TextView)rl.findViewById(R.id.ID);
+                        String nameText = tv.getText().toString();
+                        String idText = tripID.getText().toString();
+                        Toast.makeText(getContext(), nameText, Toast.LENGTH_SHORT).show();
+                        new SearchedTripGetRequest(idText, ((BaseActivity)getActivity()).getMainContainerManager());
                     }
                 });
                 saveButton.setOnClickListener(new View.OnClickListener() {
@@ -136,14 +140,14 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
                     public void onClick(View arg0) {
                         String saveText = (String) saveButton.getText();
                         RelativeLayout rl = (RelativeLayout)arg0.getParent();
-                        TextView tv = (TextView)rl.findViewById(R.id.name);
-                        String text = tv.getText().toString();
+                        TextView tripID = (TextView)rl.findViewById(R.id.ID);
+                        String idText = tripID.getText().toString();
                         if (saveText == "Saved") {
                             saveButton.getBackground().setColorFilter(Color.parseColor("#0E4375"), PorterDuff.Mode.MULTIPLY);
                             saveButton.setText("Save");
                             Toast.makeText(getContext(), "Removed From Saved", Toast.LENGTH_SHORT).show();
                             try {
-                                new TripSearchRemoveTripRequest(text);
+                                new TripSearchRemoveTripRequest(idText,username);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -152,7 +156,7 @@ public class TripSearchResultFragment extends Fragment implements BackButtonInte
                             saveButton.setText("Saved");
                             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
                             try {
-                                new TripSearchSaveTripRequest(text);
+                                new TripSearchSaveTripRequest(idText,username);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

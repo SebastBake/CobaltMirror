@@ -25,13 +25,14 @@ public class TripSearchRemoveTripRequest implements PutRequest {
     private String userid ="59bb1e098ea417001f71abaf";
 
 
-    TripSearchRemoveTripRequest(String searchQuery) throws JSONException {
+    TripSearchRemoveTripRequest(String searchQuery,String username) throws JSONException {
 
         this.searchQuery = searchQuery;
         this.url = URL_SEARCH_BASE;
         JSONObject object = new JSONObject();
         object.put("tripid", searchQuery);
         object.put("userid",userid);
+        object.put("username",username);
         BaseActivity.setPutObject(object);
         // Start get request
         new PutRequester(this).execute(url);

@@ -39,6 +39,8 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
     public static final int NUM_TABS = 2;
 
+    public static final String INTENT_TRIPID = "com.example.spike.uitest.MESSAGE";
+
     private TripPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private TabbedTripFragmentButtonHandeler buttonHandeler;
@@ -63,6 +65,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
         getActivity().setTitle(screenTitle + currentTrip.getName() );
 
         // Initialise views
+
         initTabs(rootView);
         buttonHandeler = new TabbedTripFragmentButtonHandeler(rootView, (BaseActivity) getActivity(), this);
 
@@ -106,7 +109,6 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
         @Override
         public int getCount() {
-            // Show 3 total pages on the tab bar
             return NUM_TABS;
         }
 
@@ -139,7 +141,10 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
         //Proceed and open activity if GPS is on
         if(arTool.isGPSEnable(getActivity())){
 
-            startActivity(new Intent(getActivity(), ARActivity.class));
+            Intent intent = new Intent(getActivity(), ARActivity.class);
+            String id = ((BaseActivity)getActivity()).getCurrentTrip().getId();
+            intent.putExtra(INTENT_TRIPID, id);
+            startActivity(intent);
 
             //Notify the user to turn on the GPS settings
         } else {
