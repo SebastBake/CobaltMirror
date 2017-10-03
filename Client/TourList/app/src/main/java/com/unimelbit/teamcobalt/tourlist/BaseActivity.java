@@ -78,7 +78,6 @@ public class BaseActivity extends AppCompatActivity
     private static BaseFragmentContainerManager mainContainer;
 
     //UserName
-
     private String userName;
 
     TextView longText, latText;
@@ -123,45 +122,37 @@ public class BaseActivity extends AppCompatActivity
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+
                 //Loop through the results
-                for (Location location : locationResult.getLocations()) {
-                    // Update UI with location data
-                    // ...
-                    if (location != null) {
-                        Log.i("MY CURRENT LOCATION", String.valueOf(location));
+            for (Location location : locationResult.getLocations()) {
 
-                        if (longText != null && latText != null) {
+                // Update UI with location data
+                if (location != null) {
+                    Log.i("MY CURRENT LOCATION", String.valueOf(location));
 
-                            longText.setText(String.valueOf(location.getLongitude()));
+                    if (longText != null && latText != null) {
 
-                            latText.setText(String.valueOf(location.getLatitude()));
+                        longText.setText(String.valueOf(location.getLongitude()));
+                        latText.setText(String.valueOf(location.getLatitude()));
 
-                            double latitude = location.getLatitude();
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
 
-                            double longitude = location.getLongitude();
+                        if(!locationSharing){
 
-                            if(!locationSharing){
-
-                                latitude = UserTracker.NO_VALUE;
-
-                                longitude = UserTracker.NO_VALUE;
-
-                            }
-
-                            AppServicesFactory.getServicesFactory()
-                                    .getFirebasePostRequester(getApplicationContext())
-                                    .postToDb(latitude, longitude
-                                            , "TestUser");
+                            latitude = UserTracker.NO_VALUE;
+                            longitude = UserTracker.NO_VALUE;
                         }
 
-
+                        AppServicesFactory.getServicesFactory()
+                                .getFirebasePostRequester(getApplicationContext())
+                                .postToDb(latitude, longitude, "TestUser");
                     }
                 }
             }
+            }
 
         };
-
-
     }
 
     public static void setPutObject(JSONObject putObject) {
@@ -188,7 +179,7 @@ public class BaseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    // Assorted getters/setter
+    // Assorted getters/setters
     public BaseFragmentContainerManager getMainContainerManager() {
         return mainContainer;
     }

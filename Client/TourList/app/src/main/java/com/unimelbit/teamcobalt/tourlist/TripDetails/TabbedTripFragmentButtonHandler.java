@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.CreateTrips.AddLocationsToTripActivity;
+import com.unimelbit.teamcobalt.tourlist.EditTrip.EditTripActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
@@ -79,7 +82,22 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, "edit thing", Toast.LENGTH_SHORT).show();
+
+                Intent goToEditTripInterface = new Intent(activity, EditTripActivity.class);
+
+                if (activity.getCurrentTrip() == null || activity.getUserName() == null) {
+
+                    Toast.makeText(activity, "Error, missing trip data or username", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    String userName = activity.getUserName();
+                    Trip currentTrip = activity.getCurrentTrip();
+
+                    goToEditTripInterface.putExtra(EditTripActivity.INTENT_USER_EXTRA, userName);
+                    goToEditTripInterface.putExtra(EditTripActivity.INTENT_TRIP_EXTRA, currentTrip);
+                    activity.startActivity(goToEditTripInterface);
+                }
             }
         });
     }
@@ -88,12 +106,12 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
 
         locButton = (FloatingActionButton) rootView.findViewById(R.id.loc_button);
         resetLocSharingColor();
-        final TabbedTripFragmentButtonHandler handeler = this;
+        final TabbedTripFragmentButtonHandler handler = this;
 
         FloatingActionButton.OnClickListener listener = new View.OnClickListener() {
 
             final BaseActivity baseActivity = activity;
-            final TabbedTripFragmentButtonHandler from = handeler;
+            final TabbedTripFragmentButtonHandler from = handler;
 
             @Override
             public void onClick(View view) {

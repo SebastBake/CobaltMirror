@@ -48,8 +48,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
         View rootView = inflater.inflate(R.layout.fragment_tabbed_trip, container, false);
 
         Trip currentTrip = ((BaseActivity)getActivity()).getCurrentTrip();
-        String screenTitle = getResources().getText(R.string.title_fragment_current_trip) + ": ";
-        getActivity().setTitle(screenTitle + currentTrip.getName() );
+        getActivity().setTitle("Current Trip");
 
         // Initialise views
         buttonHandeler = new TabbedTripFragmentButtonHandler(rootView, (BaseActivity) getActivity(), this);

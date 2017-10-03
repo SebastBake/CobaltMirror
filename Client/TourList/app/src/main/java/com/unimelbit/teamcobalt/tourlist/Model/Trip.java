@@ -189,32 +189,47 @@ public class Trip implements Parcelable {
     public String getId(){
        return id;
     }
-
     public ArrayList<Location> getLocations() {
         return locations;
     }
-
     public String getDescription() {
         return description;
     }
-
+    public String getDate() { return date; }
     public String getSize() {
         return size;
     }
-
     public String getName() {
         return name;
     }
-
     public String getCost() {
         return cost;
     }
-
     public String getUrl() {
         return url;
     }
-
     public ArrayList<String> getUsers() {return users;}
+    public void setId(String id) {
+        this.id = id;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setDate(String date) {
+        this.date = date;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setCost(String cost) {
+        this.cost = cost;
+    }
+    public void setSize(String size) {
+        this.size = size;
+    }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     @Override
     public int describeContents() {

@@ -57,7 +57,7 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
 
         if (((BaseActivity) getActivity()).getSearchedTrip() != null) {
 
-             currentTrip = ((BaseActivity) getActivity()).getSearchedTrip();
+            currentTrip = ((BaseActivity) getActivity()).getSearchedTrip();
             initTextBoxes(rootView, currentTrip);
             initLocationsList(rootView, currentTrip);
             getActivity().setTitle( currentTrip.getName() );

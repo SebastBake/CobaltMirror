@@ -1,19 +1,18 @@
-package com.unimelbit.teamcobalt.tourlist.CreateTrips;
+package com.unimelbit.teamcobalt.tourlist.EditTrip;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.gson.Gson;
+import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.CreateTrips.CustomListAdapter;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -22,7 +21,7 @@ import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
 import java.util.ArrayList;
 
 
-public class AddLocationsToTripActivity extends AppCompatActivity {
+public class EditTripLocationsActivity extends AppCompatActivity {
 
     private int PLACE_PICKER_REQUEST = 1;
 
@@ -30,7 +29,6 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
     private Button addLocationButton;
     private Button doneAddingLocationsButton;
     private CustomListAdapter listAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +57,7 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
                 try {
-                    Intent intent = builder.build(AddLocationsToTripActivity.this);
+                    Intent intent = builder.build(EditTripLocationsActivity.this);
 
                     startActivityForResult(intent, PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
@@ -71,13 +69,13 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         });
 
         doneAddingLocationsButton = (Button) findViewById(R.id.done_adding_location_button);
-        doneAddingLocationsButton.setOnClickListener(new DoneButtonOnClickListener(this, getTrip()));
+        doneAddingLocationsButton.setOnClickListener(new EditTripLocationsActivity.DoneButtonOnClickListener(this, getTrip()));
     }
 
     private void initLocationsList() {
 
         ListView listView = (ListView) findViewById(R.id.listView);
-        listAdapter = new CustomListAdapter(AddLocationsToTripActivity.this, R.layout.list_row, placeArray);
+        listAdapter = new CustomListAdapter(EditTripLocationsActivity.this, R.layout.list_row, placeArray);
         listView.setAdapter(listAdapter);
     }
 
@@ -111,12 +109,12 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         }
     }
 
-    private class DoneButtonOnClickListener implements View.OnClickListener {
+    public class DoneButtonOnClickListener implements View.OnClickListener {
 
-        AddLocationsToTripActivity activity;
+        EditTripLocationsActivity activity;
         Trip newTrip;
 
-        DoneButtonOnClickListener(AddLocationsToTripActivity activity, Trip trip) {
+        DoneButtonOnClickListener(EditTripLocationsActivity activity, Trip trip) {
             this.activity = activity;
             this.newTrip = trip;
         }
@@ -124,7 +122,7 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Trip newTrip = getTrip();
-            new CreateTripPostRequest(activity, newTrip);
+            new EditTripPutRequest(activity, newTrip);
             finish();
         }
     }

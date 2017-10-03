@@ -138,6 +138,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
                 gotoChooseLocationsActivity();
                 break;
         }
+
     }
 
     private void gotoChooseLocationsActivity() {
