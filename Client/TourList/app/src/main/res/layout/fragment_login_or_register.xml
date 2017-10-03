@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment">
+    tools:context="com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment"
+    android:id="@+id/home_screen_fragment_container">
 
 
     <android.support.constraint.ConstraintLayout
