@@ -37,10 +37,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private String password;
     private String getresults;
 
+
     private Button apply;
 
     private final static int NULL_RESULT_LEN = 3;
-
 
     BaseFragmentContainerManager mainContainer;
 
@@ -91,6 +91,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     class GetDataTask extends AsyncTask<String, Void, String> {
 
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -131,7 +132,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 } else {
                     Toast.makeText(getActivity(), "NO USER FOUND", Toast.LENGTH_SHORT).show();
                 }
-
             } catch (Exception e) {
                 requestFailed("Something failed for url and result: " + result, e);
             }

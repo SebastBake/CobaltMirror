@@ -10,6 +10,7 @@ var userSchema = mongoose.Schema({
   "savedtrips": [String],
   "createdtrips": [String],
   "favouritetrips": [String],
+  "currenttrip": String,
   "latitude": Number,
   "longitude": Number,
 
