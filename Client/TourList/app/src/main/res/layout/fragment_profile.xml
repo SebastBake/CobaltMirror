@@ -18,7 +18,6 @@
              android:layout_marginLeft="16dp"
              android:layout_marginTop="16dp"
              android:text="Login to see username here"
-             android:textAppearance="@android:style/TextAppearance.Material.Headline"
              app:layout_constraintLeft_toLeftOf="parent"
              app:layout_constraintTop_toBottomOf="@+id/profile_you_are_signed_in_message" />
  
@@ -29,8 +28,8 @@
              android:layout_marginLeft="16dp"
              android:layout_marginTop="16dp"
              android:text="Login to see email here"
-            android:textAppearance="@android:style/TextAppearance.Material.Headline"
-           app:layout_constraintLeft_toLeftOf="parent"
+             app:layout_constraintLeft_toLeftOf="parent"
+
              app:layout_constraintTop_toBottomOf="@+id/profile_username" />
  
          <TextView
@@ -40,7 +39,7 @@
              android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
            android:text="Are you logged in?"
-           android:textAppearance="@android:style/TextAppearance.Material.Medium"
+
              app:layout_constraintLeft_toLeftOf="parent"
              app:layout_constraintTop_toTopOf="parent" />
      </android.support.constraint.ConstraintLayout>

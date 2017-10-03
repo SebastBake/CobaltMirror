@@ -37,10 +37,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private String password;
     private String getresults;
 
+
     private Button apply;
 
     private final static int NULL_RESULT_LEN = 3;
-
 
     BaseFragmentContainerManager mainContainer;
 
@@ -91,6 +91,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     class GetDataTask extends AsyncTask<String, Void, String> {
 
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -113,6 +114,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             getresults = result;
+            BaseActivity base = (BaseActivity) getActivity();
 
             new LogPrinter(0, null).println(getresults);
             try {
@@ -121,15 +123,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 if (getresults.length() > NULL_RESULT_LEN) {
                     //Toast.makeText(getActivity(), tmp.toString(), Toast.LENGTH_SHORT).show();
                     //Toast.makeText(getActivity(), getresults, Toast.LENGTH_SHORT).show();
-                    User user = new User(username,password, null,null,null);
+                    User user = new User(username,password, null,null,null, null);
                     Toast.makeText(getActivity(), user.getUsername(), Toast.LENGTH_SHORT).show();
-                    ((BaseActivity) getActivity()).setCurrentUser(user);
-                    ((BaseActivity) getActivity()).getMainContainerManager().gotoProfileFragment();
+                    base.setCurrentUser(user);
+                    base.setUserName(username);
+                    base.getMainContainer().gotoHomeFragment();
 
                 } else {
                     Toast.makeText(getActivity(), "NO USER FOUND", Toast.LENGTH_SHORT).show();
                 }
-
             } catch (Exception e) {
                 requestFailed("Something failed for url and result: " + result, e);
             }
