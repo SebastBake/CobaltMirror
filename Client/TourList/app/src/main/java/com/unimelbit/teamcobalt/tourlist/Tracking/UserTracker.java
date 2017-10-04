@@ -1,12 +1,13 @@
 package com.unimelbit.teamcobalt.tourlist.Tracking;
 
 import android.content.Context;
-
+import android.graphics.Bitmap;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.android.ui.IconGenerator;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.Chat.FirebaseChatRoomHandler;
 
@@ -23,6 +24,8 @@ public class UserTracker {
     public final static int LAT_INDEX = 0, LONG_INDEX = 1;
 
     private ArrayList<Double> coordinates;
+
+    private Bitmap userIcon;
 
     private FirebaseChatRoomHandler fbHandler;
 
@@ -54,6 +57,7 @@ public class UserTracker {
 
         final DatabaseReference coordinateRef = ref.child(userRef);
 
+        //Get the current location when calling this listener
         coordinateRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -85,5 +89,28 @@ public class UserTracker {
     }
 
 
+    /**
+     * Create a map icon based on the user name
+     * @param userName
+     * @return
+     */
+    public Bitmap createUserIcon(String userName){
 
+        IconGenerator iconFactory = new IconGenerator(c);
+
+        iconFactory.setStyle(IconGenerator.STYLE_ORANGE);
+
+        Bitmap userIcon = iconFactory.makeIcon(userName);
+
+        return userIcon;
+
+    }
+
+    public void setUserIcon(Bitmap userIcon) {
+        this.userIcon = userIcon;
+    }
+
+    public Bitmap getUserIcon() {
+        return userIcon;
+    }
 }

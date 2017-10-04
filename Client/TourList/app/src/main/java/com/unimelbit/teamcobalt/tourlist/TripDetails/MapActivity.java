@@ -1,5 +1,7 @@
 package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.Manifest;
@@ -83,7 +85,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         markersOnMap = new ArrayList<Marker>();
 
-        userList.put("TestUser", new UserTracker(this));
+        userList.put("TestUser", makeUserTracker("TestUser", this));
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -266,6 +268,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         ArrayList<Double> coordinates = coordinateRequester.getCoordinates(user);
 
+        //Only create the marker if the user has a location or has location enabled
         if(!coordinates.isEmpty() && coordinates.get(UserTracker.LAT_INDEX) != UserTracker.NO_VALUE) {
 
             Log.i("User marker", "User marker lat: "+coordinates.get(0));
@@ -273,9 +276,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             LatLng latLng = new LatLng(coordinates.get(UserTracker.LAT_INDEX),
                     coordinates.get(UserTracker.LONG_INDEX));
 
-            MarkerOptions marker = new MarkerOptions().position(latLng).title(user)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            //Get the custom icon to set to the marker
+            Bitmap userIcon = coordinateRequester.getUserIcon();
 
+            MarkerOptions marker = new MarkerOptions().position(latLng)
+                    .icon(BitmapDescriptorFactory.fromBitmap(userIcon));
 
             return marker;
         }
@@ -293,10 +298,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
      */
     public void getAllMarkers(HashMap<String, UserTracker> users, ArrayList<MarkerOptions> markerList){
 
-        Iterator it = users.entrySet().iterator();
-
         markerList.clear();
 
+        //Iterate through all the users in the trip and create markers for them
         for (Map.Entry<String, UserTracker> entry : users.entrySet()){
 
             String user = entry.getKey();
@@ -358,6 +362,24 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .postToDb(UserTracker.NO_VALUE, UserTracker.NO_VALUE
                         , "TestUser");
 
+    }
+
+
+    /**
+     * Create a user tracker object for the user
+     * @param userName
+     * @param c
+     * @return
+     */
+    public UserTracker makeUserTracker(String userName, Context c){
+
+        UserTracker userTracker = new UserTracker(c);
+
+        Bitmap icon = userTracker.createUserIcon(userName);
+
+        userTracker.setUserIcon(icon);
+
+        return userTracker;
     }
 
 
