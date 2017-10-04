@@ -1,14 +1,10 @@
 package com.unimelbit.teamcobalt.tourlist;
 
-import android.*;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -21,37 +17,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.content.Intent;
-
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
-import com.google.firebase.database.FirebaseDatabase;
-import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
-import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
-
-import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
 import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
-import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
-import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONObject;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
