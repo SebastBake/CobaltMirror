@@ -1,45 +1,68 @@
 package com.unimelbit.teamcobalt.tourlist;
 
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
+
+import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by awhite on 4/10/17.
  */
 public class BaseActivityTest {
 
-    @Test
-    public void onCreate() throws Exception {
+    BaseActivity base;
 
+    @Before
+    public void setUp() {
+        this.base = new BaseActivity();
     }
 
     @Test
     public void setPutObject() throws Exception {
+        assertNull(base.PUT_OBJECT);
 
+        JSONObject testObj = new JSONObject();
+        JSONObject testObj2 = new JSONObject();
+
+        base.setPutObject(testObj);
+        assertEquals(base.PUT_OBJECT, testObj);
+        assertNotEquals(base.PUT_OBJECT, testObj2);
+
+        base.setPutObject(testObj2);
+        assertEquals(base.PUT_OBJECT, testObj2);
     }
 
     @Test
     public void getMainContainerManager() throws Exception {
+        BaseFragmentContainerManager manager = base.getMainContainerManager();
+        assertNotNull(manager);
+    }
+
+    @Test
+    public void setGetCurrentTrip() throws Exception {
+        Trip trip = mock(Trip.class);
+        assertNull(base.getCurrentTrip());
+
+        base.setCurrentTrip(trip);
+        assertEquals(trip, base.getCurrentTrip());
 
     }
 
     @Test
-    public void setCurrentTrip() throws Exception {
+    public void setGetCurrentUser() throws Exception {
+        User user = mock(User.class);
+        assertNull(base.getCurrentUser());
 
-    }
-
-    @Test
-    public void getCurrentTrip() throws Exception {
-
-    }
-
-    @Test
-    public void setCurrentUser() throws Exception {
-
-    }
-
-    @Test
-    public void getCurrentUser() throws Exception {
-
+        base.setCurrentUser(user);
+        assertEquals(user, base.getCurrentUser());
     }
 
     @Test
@@ -112,19 +135,5 @@ public class BaseActivityTest {
 
     }
 
-    @Test
-    public void onResume() throws Exception {
-
-    }
-
-    @Test
-    public void onPause() throws Exception {
-
-    }
-
-    @Test
-    public void stopTrack() throws Exception {
-
-    }
 
 }
