@@ -5,17 +5,10 @@ import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.support.v4.app.NotificationCompatBase;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
@@ -29,17 +22,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
-import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.R;
-import com.unimelbit.teamcobalt.tourlist.Tracking.CoordinateDBPostRequester;
-import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
 import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -61,11 +51,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private Runnable runnableCode;
 
-    private ARTools arTool;
-
-    private LocationCallback mLocationCallback;
-
-    private BaseActivity base;
+    private GoogleGpsProvider gpsTool;
 
     public static final int DEFAULT_ZOOM = 12;
 
@@ -91,40 +77,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        arTool = new ARTools(this);
+        gpsTool = AppServicesFactory.getServicesFactory().getFirebaseGpsProvider(this);
 
-        arTool.createLocationRequest();
+        gpsTool.createLocationRequest();
 
-        //Location to be sent to the view
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                //Loop through the results
-                for (android.location.Location location : locationResult.getLocations()) {
-                    // Update UI with location data
-                    // ...
-                    if (location != null) {
+        gpsTool.setUser("TestUser");
 
-                        double latitude = location.getLatitude();
-
-                        double longitude = location.getLongitude();
-
-                        if(!BaseActivity.locationSharing){
-
-                            latitude = UserTracker.NO_VALUE;
-
-                            longitude = UserTracker.NO_VALUE;
-
-                        }
-
-                        AppServicesFactory.getServicesFactory()
-                                .getFirebasePostRequester(getApplicationContext())
-                                .postToDb(latitude, longitude
-                                        , "TestUser");
-                    }
-                }
-            }
-        };
+        gpsTool.callback();
 
         handler = new Handler();
         // Define the code block to be executed
@@ -210,7 +169,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     protected void onResume() {
         super.onResume();
-        if (!arTool.isRequestingLocation()) {
+        if (!gpsTool.isRequestingLocation()) {
             startLocationUpdates();
         }
     }
@@ -222,7 +181,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         stopTrack();
 
         stopLocationUpdates();
-        arTool.setmRequestingLocationUpdates(false);
+        gpsTool.setmRequestingLocationUpdates(false);
 
     }
 
@@ -236,8 +195,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        arTool.getLocationClient().requestLocationUpdates(arTool.getLocationRequest(),
-                mLocationCallback,
+        gpsTool.getLocationClient().requestLocationUpdates(gpsTool.getLocationRequest(),
+                gpsTool.getmLocationCallback(),
                 null);
     }
 
@@ -245,8 +204,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     Stop the location updates
      */
     private void stopLocationUpdates() {
-        arTool.getLocationClient().removeLocationUpdates(mLocationCallback);
-        arTool.setmRequestingLocationUpdates(false);
+        gpsTool.getLocationClient().removeLocationUpdates(gpsTool.getmLocationCallback());
+        gpsTool.setmRequestingLocationUpdates(false);
 
     }
 

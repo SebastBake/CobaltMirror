@@ -64,15 +64,19 @@ public class UserTracker {
 
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
 
-                    double latVal = (double) snapshot.child("lat").getValue(Double.class);
+                    Double latVal = snapshot.child("lat").getValue(Double.class);
 
-                    double longVal = (double) snapshot.child("long").getValue(Double.class);
+                    Double longVal = snapshot.child("long").getValue(Double.class);
 
                     coordinates.clear();
 
-                    coordinates.add(latVal);
+                    if (latVal != null && longVal != null) {
 
-                    coordinates.add(longVal);
+                        coordinates.add(latVal);
+
+                        coordinates.add(longVal);
+
+                    }
 
                 }
             }
