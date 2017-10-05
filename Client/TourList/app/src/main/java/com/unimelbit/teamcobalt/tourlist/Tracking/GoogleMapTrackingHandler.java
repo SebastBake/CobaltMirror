@@ -2,6 +2,7 @@ package com.unimelbit.teamcobalt.tourlist.Tracking;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;

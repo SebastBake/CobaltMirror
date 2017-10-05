@@ -45,7 +45,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private Handler handler;
 
-    private Runnable runnableCode;
+    private Runnable updateMarkerLocations;
 
     private GoogleGpsProvider gpsTool;
 
@@ -81,27 +81,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         handler = new Handler();
         // Define the code block to be executed
-        runnableCode = new Runnable() {
-            @Override
-            public void run() {
-                // Do something here on the main thread
-                if (isMapReady) {
+        setPeriodicTask();
 
-                    mapHandler.getAllMarkers(mapHandler.getUserList(), mapHandler.getMarkerList());
-
-                    mapHandler.removeUserMarkers(mapHandler.getMarkersOnMap());
-
-                    mapHandler.initUserMarkers(mapHandler.getMarkerList(), mapHandler.getMarkersOnMap(), mMap);
-
-                    Log.d("Handlers", "Called on main thread");
-                    // Repeat this the same runnable code block again another 2 seconds
-                    // 'this' is referencing the Runnable object
-                    handler.postDelayed(this, 1500);
-                }
-            }
-        };
         // Start the initial runnable task by posting through the handler
-        handler.post(runnableCode);
+        handler.post(updateMarkerLocations);
 
 
     }
@@ -113,24 +96,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add locations to map
-        for(Location location: locationList) {
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            MarkerOptions marker = new MarkerOptions().position(latLng).title(location.getTitle());
-            mMap.addMarker(marker);
-        }
+        addLocationToMap(locationList, mMap);
 
         mapHandler.initLocationMarkers(this.locationList, this.mMap);
 
-        // Zoom in on the first location
-        LatLng fstLatLng = new LatLng(locationList.get(0).getLatitude(), locationList.get(0).getLongitude());
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(fstLatLng).zoom(DEFAULT_ZOOM).build();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        Location firstLocation = locationList.get(0);
+
+        centerCameraGoogleMap(firstLocation, mMap, DEFAULT_ZOOM);
+
+        //Show user location
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
         }
-        //Show user location
         mMap.setMyLocationEnabled(true);
 
         //Show compass thingy
@@ -167,7 +146,70 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onDestroy() {
         super.onDestroy();
 
-        handler.removeCallbacks(runnableCode);
+        handler.removeCallbacks(updateMarkerLocations);
+
+    }
+
+
+    /**
+     * Add locations from a list of lcoations to a given google map
+     * @param locationList
+     * @param mMap
+     */
+    public void addLocationToMap(ArrayList<Location> locationList, GoogleMap mMap){
+
+        for(Location location: locationList) {
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            MarkerOptions marker = new MarkerOptions().position(latLng).title(location.getTitle());
+            mMap.addMarker(marker);
+        }
+
+
+    }
+
+
+    /**
+     * Center the google map on a given location
+     * @param loc
+     * @param mMap
+     */
+    public void centerCameraGoogleMap(Location loc, GoogleMap mMap, int zoom){
+
+        // Zoom in on the given location
+        LatLng fstLatLng = new LatLng(loc.getLatitude(), loc.getLongitude());
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(fstLatLng).zoom(zoom).build();
+
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+    }
+
+
+    /**
+     * Periodically run the code to update markers on the map
+     */
+    private void setPeriodicTask(){
+
+        final int DELAY = 1500;
+
+        updateMarkerLocations = new Runnable() {
+            @Override
+            public void run() {
+                // Do something here on the main thread
+                if (isMapReady) {
+
+                    mapHandler.getAllMarkers(mapHandler.getUserList(), mapHandler.getMarkerList());
+
+                    mapHandler.removeUserMarkers(mapHandler.getMarkersOnMap());
+
+                    mapHandler.initUserMarkers(mapHandler.getMarkerList(), mapHandler.getMarkersOnMap(), mMap);
+
+                    // Delay the task for 1.5 seconds
+                    handler.postDelayed(this, DELAY);
+                }
+            }
+        };
 
     }
 
