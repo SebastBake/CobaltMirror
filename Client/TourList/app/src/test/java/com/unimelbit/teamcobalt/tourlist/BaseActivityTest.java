@@ -6,16 +6,20 @@ import com.unimelbit.teamcobalt.tourlist.Model.User;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
  * Created by awhite on 4/10/17.
  */
+@RunWith(RobolectricTestRunner.class)
 public class BaseActivityTest {
 
     BaseActivity base;
@@ -23,6 +27,7 @@ public class BaseActivityTest {
     @Before
     public void setUp() {
         this.base = new BaseActivity();
+        base.locationSharing = false;
     }
 
     @Test
@@ -40,11 +45,11 @@ public class BaseActivityTest {
         assertEquals(base.PUT_OBJECT, testObj2);
     }
 
-    @Test
-    public void getMainContainerManager() throws Exception {
-        BaseFragmentContainerManager manager = base.getMainContainerManager();
-        assertNotNull(manager);
-    }
+//    @Test
+//    public void getMainContainerManager() throws Exception {
+//        BaseFragmentContainerManager manager = base.getMainContainerManager();
+//        assertNotNull(manager);
+//    }
 
     @Test
     public void setGetCurrentTrip() throws Exception {
@@ -67,26 +72,36 @@ public class BaseActivityTest {
 
     @Test
     public void setlocationSharing() throws Exception {
+        assertFalse(base.locationSharing);
+
+        base.setlocationSharing(true);
+        assertTrue(base.locationSharing);
+
+        base.setlocationSharing(false);
+        assertFalse(base.locationSharing);
 
     }
 
     @Test
     public void toggleLocationSharing() throws Exception {
+        assertFalse(base.locationSharing);
 
+        base.toggleLocationSharing();
+        assertTrue(base.locationSharing);
+
+        base.toggleLocationSharing();
+        assertFalse(base.locationSharing);
     }
 
     @Test
     public void isLocationSharingOn() throws Exception {
+        assertFalse(base.isLocationSharingOn());
 
-    }
+        base.setlocationSharing(true);
+        assertTrue(base.isLocationSharingOn());
 
-    @Test
-    public void onBackPressed() throws Exception {
-
-    }
-
-    @Test
-    public void onNavigationItemSelected() throws Exception {
+        base.setlocationSharing(false);
+        assertFalse(base.isLocationSharingOn());
 
     }
 
