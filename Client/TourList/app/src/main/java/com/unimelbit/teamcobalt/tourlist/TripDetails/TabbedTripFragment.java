@@ -15,8 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
-import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
@@ -32,7 +33,7 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
     private ViewPager mViewPager;
     private TabbedTripFragmentButtonHandler buttonHandeler;
 
-    private ARTools arTool;
+    private GoogleGpsProvider gpsTool;
 
     public TabbedTripFragment() {
     }
@@ -122,10 +123,10 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
      */
     public void startAR() {
 
-        arTool = new ARTools(getActivity());
+        gpsTool = AppServicesFactory.getServicesFactory().getFirebaseGpsProvider(getActivity());
 
         //Proceed and open activity if GPS is on
-        if(arTool.isGPSEnable(getActivity())){
+        if(gpsTool.isGPSEnable(getActivity())){
 
             Intent intent = new Intent(getActivity(), ARActivity.class);
             String id = ((BaseActivity)getActivity()).getCurrentTrip().getId();
