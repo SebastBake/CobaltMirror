@@ -44,7 +44,7 @@ public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String DEMOTRIP_NAME = "DemoTrip";
-    public static final String DEMOTRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/DemoTrip";
+
     public static JSONObject PUT_OBJECT;
 
     // current trip and user
@@ -365,19 +365,9 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        stopTrack();
+        ((FirebaseGoogleGpsProbvider)gpsTool).stopTrack();
         gpsTool.stopLocationUpdates();
         gpsTool.setmRequestingLocationUpdates(false);
-
-    }
-
-
-    public void stopTrack(){
-
-        AppServicesFactory.getServicesFactory()
-                .getFirebasePostRequester(getApplicationContext())
-                .postToDb(UserTracker.NO_VALUE, UserTracker.NO_VALUE
-                        , "TestUser");
 
     }
 
