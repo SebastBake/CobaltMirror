@@ -63,4 +63,14 @@ public class FirebaseGoogleGpsProbvider extends GoogleGpsProvider {
 
     }
 
+
+    public void stopTrack(){
+
+        AppServicesFactory.getServicesFactory()
+                .getFirebasePostRequester(c)
+                .postToDb(UserTracker.NO_VALUE, UserTracker.NO_VALUE
+                        , "TestUser");
+
+    }
+
 }

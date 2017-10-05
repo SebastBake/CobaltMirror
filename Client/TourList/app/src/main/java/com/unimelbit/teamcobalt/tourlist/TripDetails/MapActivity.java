@@ -22,10 +22,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProbvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.R;
+import com.unimelbit.teamcobalt.tourlist.Tracking.GoogleMapTrackingHandler;
 import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
 
 import java.util.ArrayList;
@@ -39,12 +41,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private ArrayList<Location> locationList;
 
-    private HashMap<String, UserTracker> userList;
-
-    private ArrayList<MarkerOptions> markerList;
-
-    private ArrayList<Marker> markersOnMap;
-
     private boolean isMapReady;
 
     private Handler handler;
@@ -52,6 +48,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private Runnable runnableCode;
 
     private GoogleGpsProvider gpsTool;
+
+    private GoogleMapTrackingHandler mapHandler;
 
     public static final int DEFAULT_ZOOM = 12;
 
@@ -65,13 +63,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         isMapReady = false;
 
-        userList = new HashMap<>();
+        mapHandler = new GoogleMapTrackingHandler(this);
 
-        markerList = new ArrayList<MarkerOptions>();
-
-        markersOnMap = new ArrayList<Marker>();
-
-        userList.put("TestUser", makeUserTracker("TestUser", this));
+        mapHandler.putIntoUserList("TestUser");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -93,11 +87,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 // Do something here on the main thread
                 if (isMapReady) {
 
-                    getAllMarkers(userList, markerList);
+                    mapHandler.getAllMarkers(mapHandler.getUserList(), mapHandler.getMarkerList());
 
-                    removeUserMarkers(markersOnMap);
+                    mapHandler.removeUserMarkers(mapHandler.getMarkersOnMap());
 
-                    initUserMarkers(markerList, markersOnMap, mMap);
+                    mapHandler.initUserMarkers(mapHandler.getMarkerList(), mapHandler.getMarkersOnMap(), mMap);
 
                     Log.d("Handlers", "Called on main thread");
                     // Repeat this the same runnable code block again another 2 seconds
@@ -114,12 +108,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     /**
      * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -131,7 +119,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             MarkerOptions marker = new MarkerOptions().position(latLng).title(location.getTitle());
             mMap.addMarker(marker);
         }
-        initLocationMarkers(this.locationList, this.mMap);
+
+        mapHandler.initLocationMarkers(this.locationList, this.mMap);
 
         // Zoom in on the first location
         LatLng fstLatLng = new LatLng(locationList.get(0).getLatitude(), locationList.get(0).getLongitude());
@@ -153,24 +142,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
 
-    /*
-    Place the markers for each location
-     */
-    protected void initLocationMarkers(ArrayList<Location> locList, GoogleMap map){
 
-        for(Location location: locList) {
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            MarkerOptions marker = new MarkerOptions().position(latLng).title(location.getTitle());
-            map.addMarker(marker);
-        }
-
-
-    }
 
     protected void onResume() {
         super.onResume();
         if (!gpsTool.isRequestingLocation()) {
-            startLocationUpdates();
+            gpsTool.startLocationUpdates();
         }
     }
 
@@ -178,36 +155,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onPause() {
         super.onPause();
 
-        stopTrack();
+        ((FirebaseGoogleGpsProbvider)gpsTool).stopTrack();
 
-        stopLocationUpdates();
+        gpsTool.stopLocationUpdates();
         gpsTool.setmRequestingLocationUpdates(false);
 
     }
 
-
-    /*
-    Starts requesting the location updates
-     */
-    private void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        gpsTool.getLocationClient().requestLocationUpdates(gpsTool.getLocationRequest(),
-                gpsTool.getmLocationCallback(),
-                null);
-    }
-
-    /*
-    Stop the location updates
-     */
-    private void stopLocationUpdates() {
-        gpsTool.getLocationClient().removeLocationUpdates(gpsTool.getmLocationCallback());
-        gpsTool.setmRequestingLocationUpdates(false);
-
-    }
 
     @Override
     public void onDestroy() {
@@ -215,130 +169,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         handler.removeCallbacks(runnableCode);
 
-    }
-
-
-    /**
-     * Get marker for user to use on map
-     * @param user
-     * @return
-     */
-    public MarkerOptions getUserMarker(String user, UserTracker coordinateRequester){
-
-        ArrayList<Double> coordinates = coordinateRequester.getCoordinates(user);
-
-        //Only create the marker if the user has a location or has location enabled
-        if(!coordinates.isEmpty() && coordinates.get(UserTracker.LAT_INDEX) != UserTracker.NO_VALUE) {
-
-            Log.i("User marker", "User marker lat: "+coordinates.get(0));
-
-            LatLng latLng = new LatLng(coordinates.get(UserTracker.LAT_INDEX),
-                    coordinates.get(UserTracker.LONG_INDEX));
-
-            //Get the custom icon to set to the marker
-            Bitmap userIcon = coordinateRequester.getUserIcon();
-
-            MarkerOptions marker = new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.fromBitmap(userIcon));
-
-            return marker;
-        }
-
-        return null;
-
-    }
-
-
-    /**
-     * Get a list of all markers based on the user array
-     * @param users
-     * @param markerList
-     * @return
-     */
-    public void getAllMarkers(HashMap<String, UserTracker> users, ArrayList<MarkerOptions> markerList){
-
-        markerList.clear();
-
-        //Iterate through all the users in the trip and create markers for them
-        for (Map.Entry<String, UserTracker> entry : users.entrySet()){
-
-            String user = entry.getKey();
-
-            UserTracker tracker = entry.getValue();
-
-            MarkerOptions userMarker = getUserMarker(user, tracker);
-
-            if(userMarker != null){
-
-                markerList.add(userMarker);
-
-            }
-
-
-        }
-
-    }
-
-
-    /**
-     * Add the markers to the map
-     * @param markers
-     * @param markersAdded
-     * @param mMap
-     */
-    public void initUserMarkers(ArrayList<MarkerOptions> markers, ArrayList<Marker> markersAdded, GoogleMap mMap){
-
-        for(MarkerOptions marker : markers){
-
-            markersAdded.add(mMap.addMarker(marker));
-
-
-        }
-    }
-
-    /**
-     * Remove all markers that were added to the map
-     * @param markers
-     */
-    public void removeUserMarkers(ArrayList<Marker> markers){
-
-        for(Marker marker : markers){
-
-            marker.remove();
-
-        }
-
-        markers.clear();
-
-    }
-
-
-
-    public void stopTrack(){
-
-        AppServicesFactory.getServicesFactory()
-                .getFirebasePostRequester(getApplicationContext())
-                .postToDb(UserTracker.NO_VALUE, UserTracker.NO_VALUE
-                        , "TestUser");
-
-    }
-
-
-    /**
-     * Create a user tracker object for the user
-     * @param userName
-     * @param c
-     * @return
-     */
-    public UserTracker makeUserTracker(String userName, Context c){
-
-        UserTracker userTracker = new UserTracker(c);
-
-        Bitmap icon = userTracker.createUserIcon(userName);
-
-        userTracker.setUserIcon(icon);
-
-        return userTracker;
     }
 
 
