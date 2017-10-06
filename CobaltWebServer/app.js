@@ -21,6 +21,7 @@ app.use('/', routes);
 var port = process.env.PORT || 3000;
 
 var server = require('http').createServer(app);
+
 var firebase = require('firebase-admin');
 var request = require('request');
 
@@ -85,6 +86,8 @@ function sendNotificationToUser(username, message, fromUser, onSuccess) {
 
 // start listening
 listenForNotificationRequests();
+
+
 
 server.listen(port, function() {
   console.log('Express server listening on port ' + port);

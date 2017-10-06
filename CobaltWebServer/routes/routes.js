@@ -23,14 +23,12 @@ router.get('/api/trips/findbyid/:id', controller.findOneTripByID);
 // Find one Trip by name
 router.get('/api/trips/:name', controller.findOneTrip);
 
-//Create a location in a trip
-router.post('/api/trips/createlocation', controller.createlocation);
-
-//Find all Locations (temp for testing AR)
-router.get('/api/locations/all', controller.findAllLocations);
 
 //Search all trips with text
 router.get('/api/locations/search', controller.findTripsByText);
+
+//Delete Trip
+router.put('/api/trips/delete', controller.deleteTrip);
 
 
 
@@ -54,8 +52,11 @@ router.put('/api/user/removetrip', usercontroller.Removetrip);
 //Retrieve one User
 router.get('/api/user/find/:username/:password', usercontroller.retrieveOneUser);
 
+//Find all users
 router.get('/api/users', usercontroller.findAllUsers);
 
+//update current trip of user
+router.put('/api/user/updateCurrentTrip/', usercontroller.updateCurrentTripUser)
 
 
 module.exports = router;

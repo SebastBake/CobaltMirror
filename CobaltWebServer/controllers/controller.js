@@ -1,13 +1,8 @@
 /**
  *  Created by Spike lee on 11/08/2017.
  */
-// all the different methods and stuff
-// remember the code uses 3.2 mongo stuff for now
-// will update if need once mlab moves to 3.4
 var mongoose = require('mongoose');
 var Trip = mongoose.model('trips');
-var Location = mongoose.model('locations');
-var Chat = mongoose.model('chat');
 var User = mongoose.model('users');
 
 var createTrip = function(req, res) {
@@ -21,7 +16,7 @@ var createTrip = function(req, res) {
     "size": req.body.size,
     "cost": req.body.cost,
     "locations": [],
-    "usernames": [req.body.users],
+    "usernames": [req.body.usernames[0]],
     "userids": [req.body.userids],
     "owner": req.body.userids[0]
   });
@@ -45,7 +40,7 @@ var createTrip = function(req, res) {
         _id: req.body.userids[0]
       }, {
         $push: {
-          'savedtrips': TripInx
+          'savedtrips': newTrip._id
         }
       }, function(err, data) {
         if (err) {
@@ -59,29 +54,6 @@ var createTrip = function(req, res) {
       res.sendStatus(400);
     }
   });
-};
-
-var createlocation = function(req, res) {
-  Trip.findOneAndUpdate({
-      name: "DemoTrip"
-    }, {
-      $push: {
-        locations: {
-          "title": req.body.title,
-          "latitude": req.body.latitude,
-          "longitude": req.body.longitude,
-          "altitude": req.body.altitude,
-          "description": req.body.description
-        } //inserted data is the object to be inserted
-      }
-    }, {
-      safe: true,
-      upsert: true
-    },
-    function(err, trip) {
-      console.log(err);
-    }
-  );
 };
 
 
@@ -102,16 +74,6 @@ var findAllTrips = function(req, res) {
   });
 };
 
-// there should only be one location so anyone can use this to find it
-var findAllLocations = function(req, res) {
-  Location.find(function(err, locations) {
-    if (!err) {
-      res.send(locations);
-    } else {
-      res.sendStatus(404);
-    }
-  });
-};
 
 // Find trip by name
 var findOneTrip = function(req, res) {
@@ -231,16 +193,29 @@ var findRandomTrips = function(req, res) {
   });
 };
 
-module.exports.createlocation = createlocation;
+var deleteTrip = function(req, res) {
+  Trip.findOneAndRemove({
+    name: req.body.tripname
+  }, (function(err, trip) {
+    if (!err) {
+      console.log(trip);
+      res.send(trip);
+
+    } else {
+      res.sendStatus(404);
+    }
+  }));
+};
+
 module.exports.createTrip =
   createTrip;
 module.exports.findAllTrips = findAllTrips;
 module.exports.findOneTrip =
   findOneTrip;
-module.exports.findAllLocations = findAllLocations;
 module
   .exports.findTripsByText = findTripsByText;
 
 module.exports.findRandomTrips =
   findRandomTrips;
 module.exports.findOneTripByID = findOneTripByID;
+module.exports.deleteTrip = deleteTrip;
