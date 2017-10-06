@@ -50,6 +50,8 @@ public class ChatroomActivity extends AppCompatActivity {
 
     private FirebaseChatRoomHandler chatRoomHandler;
 
+    private ListView listOfMessages;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +65,7 @@ public class ChatroomActivity extends AppCompatActivity {
 
         userName = getIntent().getExtras().getString("Name");
 
-        if(userName.isEmpty() || userName == null){
-
-            userName = "Didn't login properly";
-
-        }
+        listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
         FirebaseMessaging.getInstance().subscribeToTopic("user_"+userName);
 
@@ -122,38 +120,28 @@ public class ChatroomActivity extends AppCompatActivity {
 
     private void displayChatMessages() {
 
-        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
-
         adapter = new FirebaseListAdapter<Chat>(this, Chat.class,
                 R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomName)) {
             @Override
-            protected void populateView(View v, Chat model, int position) {
-                // Get references to the views of message.xml
-                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
-                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+            protected void populateView(View v, Chat chat, int position) {
+
+                TextView messageText = (TextView) v.findViewById(R.id.message_text);
+                TextView userNameText = (TextView) v.findViewById(R.id.message_user);
+                TextView timeText = (TextView) v.findViewById(R.id.message_time);
 
                 // Set their text
-                messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
+                messageText.setText(chat.getMessage());
+                userNameText.setText(chat.getUserName());
 
                 // Format the date before showing it
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        model.getMessageTime()));
+                timeText.setText(DateFormat.format("EEE, MMM d yyyy (h:mm a)",
+                        chat.getTime()));
             }
         };
 
         listOfMessages.setAdapter(adapter);
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.chat_menu, menu);
-        return true;
-    }
-
-
 
 
 }
