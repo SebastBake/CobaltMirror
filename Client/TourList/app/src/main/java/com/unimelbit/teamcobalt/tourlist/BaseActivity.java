@@ -102,8 +102,6 @@ public class BaseActivity extends AppCompatActivity
 
         gpsTool.createLocationRequest();
 
-        gpsTool.setUser("TestUser");
-
         gpsTool.callback();
 
 
@@ -368,6 +366,12 @@ public class BaseActivity extends AppCompatActivity
         ((FirebaseGoogleGpsProbvider)gpsTool).stopTrack();
         gpsTool.stopLocationUpdates();
         gpsTool.setmRequestingLocationUpdates(false);
+
+    }
+
+    public static User getcurrentUser(){
+
+        return currentUser;
 
     }
 

@@ -27,6 +27,7 @@ public class FirebaseGoogleGpsProbvider extends GoogleGpsProvider {
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+
                 //Loop through the results
                 for (Location location : locationResult.getLocations()) {
                     // Update UI with location data
@@ -37,18 +38,7 @@ public class FirebaseGoogleGpsProbvider extends GoogleGpsProvider {
 
                         double longitude = location.getLongitude();
 
-                        if(!BaseActivity.locationSharing){
-
-                            latitude = UserTracker.NO_VALUE;
-
-                            longitude = UserTracker.NO_VALUE;
-
-                        }
-
-                        AppServicesFactory.getServicesFactory()
-                                .getFirebasePostRequester(c)
-                                .postToDb(latitude, longitude
-                                        , user);
+                        postToFireBase(latitude, longitude);
 
 
                     }
@@ -56,9 +46,6 @@ public class FirebaseGoogleGpsProbvider extends GoogleGpsProvider {
             }
 
         };
-
-
-
 
 
     }
