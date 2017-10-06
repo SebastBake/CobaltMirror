@@ -22,10 +22,10 @@ public class TripSearchRemoveTripRequest implements PutRequest {
     private static String URL_SEARCH_BASE = "https://cobaltwebserver.herokuapp.com/api/user/removetrip/";
     private String searchQuery;
     private String url;
-    private String userid ="59bb1e098ea417001f71abaf";
 
 
-    TripSearchRemoveTripRequest(String searchQuery,String username) throws JSONException {
+
+    TripSearchRemoveTripRequest(String searchQuery,String username,String userid) throws JSONException {
 
         this.searchQuery = searchQuery;
         this.url = URL_SEARCH_BASE;

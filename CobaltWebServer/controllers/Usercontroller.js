@@ -32,30 +32,37 @@ var createUser = function(req, res) {
 };
 
 var retrieveOneUser = function(req, res) {
-
-  var query=User.find();
-    //get the Query String here
-    var filterUsername=req.params.username;
-    var filterPassword=req.params.password;
-    if(filterUsername.length>0 && filterPassword.length>0){
-      query.where({$and:[{username:filterUsername},{ password:filterPassword}]});
-    }
-    query.exec(function (error, user) {
+  var query = User.find();
+  //get the Query String here
+  var filterUsername = req.params.username;
+  var filterPassword = req.params.password;
+  if (filterUsername.length > 0 && filterPassword.length > 0) {
+    query.where({
+      $and: [{
+        username: filterUsername
+      }, {
+        password: filterPassword
+      }]
+    });
+  }
+  query.exec(function(error, user) {
     //send the result back to front-end
     if (error) {
-      return res.status(400).send({message: 'Server error:' + JSON.stringify(error)});
+      return res.status(400).send({
+        message: 'Server error:' + JSON.stringify(error)
+      });
     } else {
-    res.send(user);
+      res.send(user);
     }
-    });
-  };
+  });
+};
 
 // find all users
-var findAllUsers = function(req,res){
-  User.find(function(err,users){
-    if(!err){
+var findAllUsers = function(req, res) {
+  User.find(function(err, users) {
+    if (!err) {
       res.send(users);
-    }else{
+    } else {
       res.sendStatus(404);
     }
   });
@@ -76,6 +83,7 @@ var findOneUser = function(req, res) {
 // add trip to current user's saved list
 var Addtrip = function(req, res) {
   var TripInx = req.body.tripid;
+  console.log(req.body);
   User.findOneAndUpdate({
     _id: req.body.userid
   }, {
@@ -92,7 +100,8 @@ var Addtrip = function(req, res) {
       _id: TripInx
     }, {
       $push: {
-        'users': req.body.username
+        'usernames': req.body.username,
+        'userids': req.body.userid
       }
     }, function(err, trip) {
       if (err) {
@@ -121,12 +130,12 @@ var Removetrip = function(req, res) {
         'error': 'error in removing'
       });
     }
-
     Trip.findOneAndUpdate({
       _id: TripInx
     }, {
       $pull: {
-        'users': req.body.username
+        'usernames': req.body.username,
+        'userids': req.body.userid
       }
     }, function(err, trip) {
       if (err) {
@@ -135,7 +144,6 @@ var Removetrip = function(req, res) {
         });
       }
     });
-
     console.log(data);
     res.json(data);
   });
@@ -150,7 +158,6 @@ var Removetrip = function(req, res) {
 //       password: req.password
 //     }
 
-
 //     User.findOne(query, function(err, user) {
 //       if (!err) {
 //         res.send(user);
@@ -161,7 +168,6 @@ var Removetrip = function(req, res) {
 //       }
 //   });
 // }
-
 
 
 

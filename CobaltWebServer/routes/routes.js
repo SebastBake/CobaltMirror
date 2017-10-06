@@ -56,9 +56,6 @@ router.get('/api/user/find/:username/:password', usercontroller.retrieveOneUser)
 
 router.get('/api/users', usercontroller.findAllUsers);
 
-//Chat
-router.get('/api/allmsg', controller.showallmsg);
-router.post('/api/putmsg', controller.addmsg);
 
 
 module.exports = router;

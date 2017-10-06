@@ -120,7 +120,7 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
     public void onClick(View v) {
         Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         try {
-            new TripSearchSaveTripRequest(currentTrip.getId(),((BaseActivity)getActivity()).getUserName());
+            new TripSearchSaveTripRequest(currentTrip.getId(),((BaseActivity)getActivity()).getUserName(),((BaseActivity)getActivity()).getCurrentUser().getId());
             new TripGetRequestByID(currentTrip.getId(),((BaseActivity)getActivity()).getMainContainerManager());
         } catch (JSONException e) {
             e.printStackTrace();
