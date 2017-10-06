@@ -1,5 +1,8 @@
 package com.unimelbit.teamcobalt.tourlist.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
  * Simple class to hold user data, can be constructed using JSON from the server
  * TODO: Figure out what to do with passwords
  */
-public class User {
+public class User implements Parcelable{
 
     public static final String JSON_ID = "_id";
     public static final String JSON_USERNAME  = "username";
@@ -42,6 +45,31 @@ public class User {
         this.savedtrips = savedtrips;
         this.favouritetrips = favouritetrips;
     }
+
+    public User (String id, String username){
+
+        this.username = username;
+
+        this.id = id;
+
+    }
+
+    protected User(Parcel in) {
+        id = in.readString();
+        username = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public static ArrayList<User> newUserArrayFromJSON(String result) throws JSONException {
 
@@ -121,5 +149,19 @@ public class User {
     }
     public ArrayList<String> getFavouritetrips() {
         return favouritetrips;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+        parcel.writeString(id);
+
+        parcel.writeString(username);
+
     }
 }

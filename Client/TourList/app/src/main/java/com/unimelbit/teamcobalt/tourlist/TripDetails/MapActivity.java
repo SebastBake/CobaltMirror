@@ -22,10 +22,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
-import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProbvider;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.Tracking.GoogleMapTrackingHandler;
 import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
@@ -40,6 +42,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private GoogleMap mMap;
 
     private ArrayList<Location> locationList;
+
+    private ArrayList<User> userList;
 
     private boolean isMapReady;
 
@@ -61,11 +65,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         locationList = getIntent().getParcelableArrayListExtra(Location.LOC_DEFAULT_PARCEL_KEY);
 
+        userList = getIntent().getParcelableArrayListExtra(Trip.USERLIST_TRIPS);
+
         isMapReady = false;
 
         mapHandler = new GoogleMapTrackingHandler(this);
 
-        mapHandler.putIntoUserList("TestUser");
+        mapHandler.putIntoUserList(userList);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -74,8 +80,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         gpsTool = AppServicesFactory.getServicesFactory().getFirebaseGpsProvider(this);
 
         gpsTool.createLocationRequest();
-
-        gpsTool.setUser("TestUser");
 
         gpsTool.callback();
 
@@ -134,7 +138,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onPause() {
         super.onPause();
 
-        ((FirebaseGoogleGpsProbvider)gpsTool).stopTrack();
+        ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(BaseActivity.getcurrentUser());
 
         gpsTool.stopLocationUpdates();
         gpsTool.setmRequestingLocationUpdates(false);

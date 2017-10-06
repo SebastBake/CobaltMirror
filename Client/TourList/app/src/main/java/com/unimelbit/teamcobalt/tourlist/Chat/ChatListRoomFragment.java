@@ -86,12 +86,12 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
 
         if(id == R.id.gen_chat_button){
 
-            chatServices.enterChatRoom(base.getUserName(), "General",users);
+            chatServices.enterChatRoom(base.getUserName(), "General", "General",users);
 
         }
         else if(id == R.id.rand_chat_button){
 
-            chatServices.enterChatRoom(base.getUserName(), "Random",users);
+            chatServices.enterChatRoom(base.getUserName(), "Random", "Random",users);
         }
 
     }

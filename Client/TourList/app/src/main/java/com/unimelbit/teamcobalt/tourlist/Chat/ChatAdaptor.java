@@ -17,7 +17,7 @@ public interface ChatAdaptor {
     void generateChatRoom(String name);
 
     //Takes uer into the chat room
-    void enterChatRoom(String userName, String room,ArrayList<String> users);
+    void enterChatRoom(String userName, String room, String id,ArrayList<String> users);
 
 
     //Checks if the room is present in DB

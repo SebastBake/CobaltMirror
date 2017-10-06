@@ -8,6 +8,11 @@ import android.support.v4.app.ActivityCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
+import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
+
 import static android.content.Context.LOCATION_SERVICE;
 
 /**
@@ -24,8 +29,6 @@ public abstract class GoogleGpsProvider implements GPSProviderAdaptor{
     protected Boolean mRequestingLocationUpdates = false;
 
     protected Context c;
-
-    protected String user;
 
     private final int MIN_CALLBACK_TIME = 3000, MAX_CALLBACK_TIME = 5000;
 
@@ -109,12 +112,6 @@ Location request settings.
         return mLocationCallback;
     }
 
-    public void setUser(String user){
-
-        this.user = user;
-
-    }
-
     /*
  Starts requesting the location updates
   */
@@ -135,6 +132,34 @@ Location request settings.
     public void stopLocationUpdates() {
         getLocationClient().removeLocationUpdates(getmLocationCallback());
         setmRequestingLocationUpdates(false);
+
+    }
+
+
+    protected void postToFireBase(double latitude, double longitude){
+
+        String userId = "USER_NOT_SET";
+
+        if(!BaseActivity.locationSharing){
+
+            latitude = UserTracker.NO_VALUE;
+
+            longitude = UserTracker.NO_VALUE;
+
+        }
+
+        User currentUser = BaseActivity.getcurrentUser();
+
+        if(currentUser != null){
+
+            userId = currentUser.getId();
+
+        }
+
+        AppServicesFactory.getServicesFactory()
+                .getFirebasePostRequester(c)
+                .postToDb(latitude, longitude
+                        , userId);
 
     }
 

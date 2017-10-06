@@ -1,5 +1,7 @@
 package com.unimelbit.teamcobalt.tourlist.Model;
 
+import android.support.design.internal.ParcelableSparseArray;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +23,8 @@ public class Trip {
     public static final String JSON_DESC = "description";
     public static final String JSON_USERS_NAMES = "usernames";
     public static final String JSON_USERS_IDS = "userids";
+
+    public static final String USERLIST_TRIPS = "users_trip";
 
     private String id;
     private String name;
@@ -214,5 +218,25 @@ public class Trip {
     }
 
     public ArrayList<String> getUsernames() {return usernames;}
-    public ArrayList<String> getUserids() {return userids;}
+
+    public ArrayList<User> getUsers(){
+
+        ArrayList<String> useridsList = this.userids;
+
+        ArrayList<String> usernamesList = this.usernames;
+
+        ArrayList<User> userList = new ArrayList<User>();
+
+        for (int i = 0; i < useridsList.size(); i++){
+
+            User user = new User(useridsList.get(i), usernamesList.get(i));
+
+            userList.add(user);
+
+        }
+
+        return userList;
+
+    }
+
 }
