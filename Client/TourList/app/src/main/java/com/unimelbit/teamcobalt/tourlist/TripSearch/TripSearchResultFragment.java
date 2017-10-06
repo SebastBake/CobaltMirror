@@ -39,6 +39,7 @@ public class TripSearchResultFragment extends Fragment{
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
     private String searchQuery;
     private String username;
+    private String userid;
 
     private onFragmentCreatedListener listener;
 
@@ -120,6 +121,8 @@ public class TripSearchResultFragment extends Fragment{
                 final Button saveButton = (Button) v.findViewById(R.id.Save_trip);
 
                 username = ((BaseActivity)getActivity()).getUserName();
+                userid = ((BaseActivity)getActivity()).getCurrentUser().getId();
+                Toast.makeText(getContext(),userid , Toast.LENGTH_SHORT).show();
 
                 b.setOnClickListener(new View.OnClickListener() {
 
@@ -147,7 +150,7 @@ public class TripSearchResultFragment extends Fragment{
                             saveButton.setText("Save");
                             Toast.makeText(getContext(), "Removed From Saved", Toast.LENGTH_SHORT).show();
                             try {
-                                new TripSearchRemoveTripRequest(idText,username);
+                                new TripSearchRemoveTripRequest(idText,username,userid);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -156,7 +159,7 @@ public class TripSearchResultFragment extends Fragment{
                             saveButton.setText("Saved");
                             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
                             try {
-                                new TripSearchSaveTripRequest(idText,username);
+                                new TripSearchSaveTripRequest(idText,username,userid);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

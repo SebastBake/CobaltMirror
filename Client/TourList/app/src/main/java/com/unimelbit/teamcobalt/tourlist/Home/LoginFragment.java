@@ -123,8 +123,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 if (getresults.length() > NULL_RESULT_LEN) {
                     //Toast.makeText(getActivity(), tmp.toString(), Toast.LENGTH_SHORT).show();
                     //Toast.makeText(getActivity(), getresults, Toast.LENGTH_SHORT).show();
-                    User user = new User(username,password, null,null,null, null);
-                    Toast.makeText(getActivity(), user.getUsername(), Toast.LENGTH_SHORT).show();
+                    ArrayList<User> users = User.newUserArrayFromJSON(getresults);
+                    User user = users.get(0);
+                    Toast.makeText(getActivity(), username, Toast.LENGTH_SHORT).show();
                     base.setCurrentUser(user);
                     base.setUserName(username);
                     base.getMainContainer().gotoHomeFragment();

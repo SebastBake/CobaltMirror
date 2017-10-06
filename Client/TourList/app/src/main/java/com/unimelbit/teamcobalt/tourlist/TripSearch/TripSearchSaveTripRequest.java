@@ -20,10 +20,10 @@ public class TripSearchSaveTripRequest implements PutRequest {
     private static String URL_SEARCH_BASE = "https://cobaltwebserver.herokuapp.com/api/user/addtrip/";
     private String searchQuery;
     private String url;
-    private String userid ="59bb1e098ea417001f71abaf";
 
 
-    TripSearchSaveTripRequest(String searchQuery, String username) throws JSONException {
+
+    TripSearchSaveTripRequest(String searchQuery, String username,String userid) throws JSONException {
 
         this.searchQuery = searchQuery;
         this.url = URL_SEARCH_BASE;

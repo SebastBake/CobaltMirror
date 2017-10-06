@@ -1,9 +1,6 @@
 /**
  *  Created by Spike lee on 15/09/2017.
  */
-// all the different methods and stuff
-// remember the code uses 3.2 mongo stuff for now
-// will update if need once mlab moves to 3.4
 var mongoose = require('mongoose');
 var User = mongoose.model('users');
 var Trip = mongoose.model('trips');
@@ -12,19 +9,20 @@ var Trip = mongoose.model('trips');
 
 // create a person document
 var createUser = function(req, res) {
-
+  console.log(JSON.stringify(req.body));
   var user = new User({
     "username": req.body.username,
     "password": req.body.password,
     "email": req.body.email,
     "savedtrips": [],
     "createdtrips": [],
-    "favouritetrips": []
+    "currenttrip": ""
   });
   user.save(function(err, newUser) {
     if (!err) {
       res.send(newUser);
     } else {
+      console.log(err);
       res.sendStatus(400);
     }
   });
@@ -32,30 +30,37 @@ var createUser = function(req, res) {
 };
 
 var retrieveOneUser = function(req, res) {
-
-  var query=User.find();
-    //get the Query String here
-    var filterUsername=req.params.username;
-    var filterPassword=req.params.password;
-    if(filterUsername.length>0 && filterPassword.length>0){
-      query.where({$and:[{username:filterUsername},{ password:filterPassword}]});
-    }
-    query.exec(function (error, user) {
+  var query = User.find();
+  //get the Query String here
+  var filterUsername = req.params.username;
+  var filterPassword = req.params.password;
+  if (filterUsername.length > 0 && filterPassword.length > 0) {
+    query.where({
+      $and: [{
+        username: filterUsername
+      }, {
+        password: filterPassword
+      }]
+    });
+  }
+  query.exec(function(error, user) {
     //send the result back to front-end
     if (error) {
-      return res.status(400).send({message: 'Server error:' + JSON.stringify(error)});
+      return res.status(400).send({
+        message: 'Server error:' + JSON.stringify(error)
+      });
     } else {
-    res.send(user);
+      res.send(user);
     }
-    });
-  };
+  });
+};
 
 // find all users
-var findAllUsers = function(req,res){
-  User.find(function(err,users){
-    if(!err){
+var findAllUsers = function(req, res) {
+  User.find(function(err, users) {
+    if (!err) {
       res.send(users);
-    }else{
+    } else {
       res.sendStatus(404);
     }
   });
@@ -76,12 +81,15 @@ var findOneUser = function(req, res) {
 // add trip to current user's saved list
 var Addtrip = function(req, res) {
   var TripInx = req.body.tripid;
+  console.log(req.body);
   User.findOneAndUpdate({
     _id: req.body.userid
   }, {
     $push: {
       'savedtrips': TripInx
     }
+  }, {
+    new: true
   }, function(err, data) {
     if (err) {
       return res.status(500).json({
@@ -92,8 +100,11 @@ var Addtrip = function(req, res) {
       _id: TripInx
     }, {
       $push: {
-        'users': req.body.username
+        'usernames': req.body.username,
+        'userids': req.body.userid
       }
+    }, {
+      new: true
     }, function(err, trip) {
       if (err) {
         return res.status(500).json({
@@ -115,18 +126,20 @@ var Removetrip = function(req, res) {
     $pull: {
       'savedtrips': TripInx
     }
+  }, {
+    new: true
   }, function(err, data) {
     if (err) {
       return res.status(500).json({
         'error': 'error in removing'
       });
     }
-
     Trip.findOneAndUpdate({
       _id: TripInx
     }, {
       $pull: {
-        'users': req.body.username
+        'usernames': req.body.username,
+        'userids': req.body.userid
       }
     }, function(err, trip) {
       if (err) {
@@ -135,34 +148,31 @@ var Removetrip = function(req, res) {
         });
       }
     });
-
     console.log(data);
     res.json(data);
   });
 };
 
-// Send user data back to client if it matches database entry
-// var loginUser = function(req, res) {
+// Get currenttrip and sends back updated user
+var updateCurrentTripUser = function(req, res) {
+  User.findOneAndUpdate({
+    _id: req.body.userid
+  }, {
+    $set: {
+      'currenttrip': req.body.tripid
+    }
+  }, {
+    new: true
+  }, function(err, data) {
+    if (!err) {
+      console.log(data);
+      res.send(data);
 
-//     // Find matching user
-//     var query = {
-//       username: req.username,
-//       password: req.password
-//     }
-
-
-//     User.findOne(query, function(err, user) {
-//       if (!err) {
-//         res.send(user);
-//       } else {
-//         return res.status(500).json({
-//           'error': 'Incorrect username or password.'
-//         });
-//       }
-//   });
-// }
-
-
+    } else {
+      res.sendStatus(404);
+    }
+  });
+}
 
 
 module.exports.createUser = createUser;
@@ -171,3 +181,4 @@ module.exports.findOneUser = findOneUser;
 module.exports.Addtrip = Addtrip;
 module.exports.retrieveOneUser = retrieveOneUser;
 module.exports.findAllUsers = findAllUsers;
+module.exports.updateCurrentTripUser = updateCurrentTripUser;

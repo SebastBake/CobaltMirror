@@ -16,7 +16,8 @@ var tripSchema = new mongoose.Schema({
     "altitude": Number,
     "description": String
   }],
-  "users": [String],
+  "usernames": [String],
+  "userids": [String],
   "owner": String
 });
 //Helps with search
