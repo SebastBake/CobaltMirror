@@ -94,12 +94,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         name = base.getUserName();
 
-        if(name == null){
-
-            name = "User did not login";
-
-        }
-
         setTextView(title, base.getCurrentTrip().getName()+" Chat");
 
         setTextView(info, "You will be signed in Chat as: "+ name);
@@ -116,13 +110,15 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
             String roomName = base.getCurrentTrip().getName();
 
+            String roomId = base.getCurrentTrip().getId();
+
             ChatAdaptor chatService = AppServicesFactory
                     .getServicesFactory()
                     .getFirebaseChatService(getActivity());
 
-            chatService.checkRoom(roomName);
+            chatService.checkRoom(roomId);
 
-            chatService.enterChatRoom(base.getUserName(), roomName,base.getCurrentTrip().getUsernames());
+            chatService.enterChatRoom(base.getUserName(), roomName, roomId,base.getCurrentTrip().getUsernames());
 
         }
 

@@ -44,7 +44,7 @@ public class ChatroomActivity extends AppCompatActivity {
 
     private String userName;
 
-    private String roomName;
+    private String roomName, roomId;
 
     private ArrayList<String> users;
 
@@ -74,6 +74,8 @@ public class ChatroomActivity extends AppCompatActivity {
 
         roomName = getIntent().getExtras().getString("Room_name");
 
+        roomId = getIntent().getExtras().getString("Id");
+
         displayChatMessages();
 
         setTitle(roomName+" Chat");
@@ -97,7 +99,7 @@ public class ChatroomActivity extends AppCompatActivity {
                 if(!message.isEmpty()) {
                     // Read the input field and push a new instance
                     // of ChatMessage to the Firebase database
-                    chatRoomHandler.sendMessage(message, userName, roomName);
+                    chatRoomHandler.sendMessage(message, userName, roomId);
 
 
                    if (!users.isEmpty() || users != null){
@@ -121,7 +123,7 @@ public class ChatroomActivity extends AppCompatActivity {
     private void displayChatMessages() {
 
         adapter = new FirebaseListAdapter<Chat>(this, Chat.class,
-                R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomName)) {
+                R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomId)) {
             @Override
             protected void populateView(View v, Chat chat, int position) {
 
