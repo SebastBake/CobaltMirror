@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
-import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProbvider;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
@@ -138,7 +138,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onPause() {
         super.onPause();
 
-        ((FirebaseGoogleGpsProbvider)gpsTool).stopTrack();
+        ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(BaseActivity.getcurrentUser());
 
         gpsTool.stopLocationUpdates();
         gpsTool.setmRequestingLocationUpdates(false);

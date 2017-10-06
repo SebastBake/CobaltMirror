@@ -5,7 +5,7 @@ import android.content.Context;
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatAdaptor;
 import com.unimelbit.teamcobalt.tourlist.Chat.FirebaseChatRoomHandler;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.ARGoogleGpsProvider;
-import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProbvider;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Tracking.CoordinateDBPostRequester;
 import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
@@ -78,7 +78,7 @@ public class AppServicesFactory {
      */
     public GoogleGpsProvider getFirebaseGpsProvider(Context c){
 
-        return new FirebaseGoogleGpsProbvider(c);
+        return new FirebaseGoogleGpsProvider(c);
 
     }
 

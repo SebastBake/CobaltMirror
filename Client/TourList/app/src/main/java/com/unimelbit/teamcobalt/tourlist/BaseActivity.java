@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.google.android.gms.location.LocationCallback;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
-import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProbvider;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
@@ -363,7 +363,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        ((FirebaseGoogleGpsProbvider)gpsTool).stopTrack();
+        ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(currentUser);
         gpsTool.stopLocationUpdates();
         gpsTool.setmRequestingLocationUpdates(false);
 
