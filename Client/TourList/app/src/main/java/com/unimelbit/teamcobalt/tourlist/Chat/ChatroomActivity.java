@@ -136,7 +136,7 @@ public class ChatroomActivity extends AppCompatActivity {
                 userNameText.setText(chat.getUserName());
 
                 // Format the date before showing it
-                timeText.setText(DateFormat.format("EEE, MMM d yyyy (h:mm a)",
+                timeText.setText(DateFormat.format("EEE, d MMM yyyy (h:mm a)",
                         chat.getTime()));
             }
         };
