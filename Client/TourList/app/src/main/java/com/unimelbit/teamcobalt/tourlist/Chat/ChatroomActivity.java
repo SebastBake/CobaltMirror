@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -46,6 +47,8 @@ public class ChatroomActivity extends AppCompatActivity {
     private String roomName;
 
     private ArrayList<String> users;
+
+    private FirebaseChatRoomHandler chatRoomHandler;
 
 
     @Override
@@ -68,6 +71,9 @@ public class ChatroomActivity extends AppCompatActivity {
 
         FirebaseMessaging.getInstance().subscribeToTopic("user_"+userName);
 
+        chatRoomHandler = (FirebaseChatRoomHandler) AppServicesFactory.getServicesFactory()
+                .getFirebaseChatService(this);
+
         roomName = getIntent().getExtras().getString("Room_name");
 
         displayChatMessages();
@@ -85,30 +91,22 @@ public class ChatroomActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 EditText input = (EditText)findViewById(R.id.input);
 
-                if(!input.getText().toString().isEmpty()) {
+                String message = input.getText().toString();
+
+                if(!message.isEmpty()) {
                     // Read the input field and push a new instance
                     // of ChatMessage to the Firebase database
-                    FirebaseDatabase.getInstance()
-                            .getReference().child(roomName)
-                            .push()
-                            .setValue(new Chat(input.getText().toString(),
-                                    userName)
-                            );
+                    chatRoomHandler.sendMessage(message, userName, roomName);
+
 
                    if (!users.isEmpty() || users != null){
-                        for (String user : users){
-                            Map notification = new HashMap<>();
-                            notification.put("username", user);
-                            notification.put("message", input.getText().toString());
-                            notification.put("fromUser",userName);
 
-                           FirebaseDatabase.getInstance()
-                                    .getReference().child("notificationRequests").push().setValue(notification);
-                        }
+                       chatRoomHandler.sendNotification(users, message, userName);
+
                    }
-
 
 
                     // Clear the input
@@ -120,8 +118,6 @@ public class ChatroomActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
     private void displayChatMessages() {
@@ -156,6 +152,8 @@ public class ChatroomActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.chat_menu, menu);
         return true;
     }
+
+
 
 
 }
