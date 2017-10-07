@@ -219,6 +219,8 @@ public class Trip {
 
     public ArrayList<String> getUsernames() {return usernames;}
 
+    public ArrayList<String> getUserids() {return userids;}
+
     public ArrayList<User> getUsers(){
 
         ArrayList<String> useridsList = this.userids;

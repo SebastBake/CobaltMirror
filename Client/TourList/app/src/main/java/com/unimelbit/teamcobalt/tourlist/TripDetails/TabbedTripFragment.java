@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,13 +22,21 @@ import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
+
+import java.util.ArrayList;
 
 public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
     public static final int NUM_TABS = 2;
 
     public static final String INTENT_TRIPID = "com.example.spike.uitest.MESSAGE";
+    public static final String INTENT_USER = "com.example.spike.uitest.MESSAGEONE";
+    public static final String INTENT_TRIP_USERNAMES = "com.example.spike.uitest.MESSAGETHREE";
+    public static final String INTENT_TRIP_USERIDS = "com.example.spike.uitest.MESSAGEFOUR";
+
+
 
     private TripPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -130,7 +139,13 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
             Intent intent = new Intent(getActivity(), ARActivity.class);
             String id = ((BaseActivity)getActivity()).getCurrentTrip().getId();
+            ArrayList<String > usernames = ((BaseActivity)getActivity()).getCurrentTrip().getUsernames();
+            ArrayList<String > userids = ((BaseActivity)getActivity()).getCurrentTrip().getUserids();
+            User user = ((BaseActivity)getActivity()).getCurrentUser();
             intent.putExtra(INTENT_TRIPID, id);
+            intent.putExtra(INTENT_TRIP_USERIDS,userids);
+            intent.putExtra(INTENT_TRIP_USERNAMES,usernames);
+            intent.putExtra(INTENT_USER,user);
             startActivity(intent);
 
             //Notify the user to turn on the GPS settings

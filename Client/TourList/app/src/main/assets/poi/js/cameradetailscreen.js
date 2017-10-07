@@ -1,4 +1,4 @@
-// information about server communication. This sample webservice is provided by Wikitude and returns random dummy places near given location
+
 var ServerNearbyInformation = {
 	POIDATA_SERVER: "https://maps.googleapis.com/maps/api/place/nearbysearch/",
 	POIDATA_SERVER_ARG_LAT: "lat",
@@ -7,19 +7,22 @@ var ServerNearbyInformation = {
 };
 
 var ServerTripInformation = {
-   POIDATA_SERVER: "https://cobaltwebserver.herokuapp.com/api/trips/findbyid/",
-   //	POIDATA_SERVER_ARG_LAT: "lat",
-   //	POIDATA_SERVER_ARG_LON: "lon",
-   //	POIDATA_SERVER_ARG_NR_POIS: "nrPois"
+   POIDATA_SERVER: "https://cobaltwebserver.herokuapp.com/api/trips/findbyid/"
 }
 
-
+/**
+var ServerUserInformation = {
+     POIDATA_SERVER: "https://colbalt-179409.firebaseio.com/"
+}
+**/
 var tripid;
+var users;
 
 
 
 
-var nearby = 0;
+
+var markerGroup = 0;
 
 // implementation of AR-Experience (aka "World")
 var World = {
@@ -52,6 +55,100 @@ var World = {
     	    tripid = string;
     	},
 
+   //Get user data from android app
+   userMarkers : function userMarkersFn(array){
+        users = JSON.parse(array);
+   },
+
+/**
+   updateUserLocations : function updateUserLocationsFn() {
+
+        for(var j=0;j < World.markerList.length; j++ ){
+        // server-url to JSON content provider
+                          var serverUrl = ServerUserInformation.POIDATA_SERVER + World.markerList[j].userid +".json";
+                          var data;
+                          var jqxhr = $.ajax({
+                                               dataType: "json",
+                                               url:  serverUrl,
+                                               data: data,
+                                               success: function(data) {
+                            	 var lat;
+                            	 var long;
+                            	  for ( var key in data){
+                                     lat = data[key].lat;
+                                     long = data[key].long;
+                                  }
+                                if(lat == 0 && long == 0){
+                                    World.updateStatusMessage((World.markerList.length - 1) + ' places loaded');
+                                }
+                                    World.markerList[j].latitude = lat;
+                                    World.markerList[j].longitude = long;
+
+                           }})
+                            .error(function(err) {
+
+                            	World.updateStatusMessage("Invalid web-service response.", true);
+
+                            	})
+
+                    }
+
+   },
+
+   displayUsers : function displayUsersFn(){
+
+        	// set helper var to avoid requesting places while loading
+        	World.isRequestingData = true;
+        	console.log(users);
+        	World.updateStatusMessage('Requesting users from web-service');
+        	var userArray = [];
+        	var markerGroup = 2;
+            for(var i=0;i < users.length; i++ ){
+            // server-url to JSON content provider
+                  var serverUrl = ServerUserInformation.POIDATA_SERVER + users[i].userid +".json";
+                  var username = users[i].username;
+                  var id = users[i].userid;
+                  var data;
+                  var jqxhr = $.ajax({
+                                       dataType: "json",
+                                       url:  serverUrl,
+                                       data: data,
+                                       async: false,
+                                       success: function(data) {
+                    	 var lat;
+                    	 var long;
+                    	  for ( var key in data){
+                    	     console.log(key);
+                    	     console.log(data[key]);
+                             lat = data[key].lat;
+                             long = data[key].long;
+                              console.log(data[key].lat);
+                          }
+                         userArray.push({
+                                           "name": username,
+                                            "lat": lat,
+                                            "lon": long,
+                                            "userid": id
+                                         });
+                         console.log(userArray);
+
+
+                   }})
+                    .error(function(err) {
+
+                    	World.updateStatusMessage("Invalid web-service response.", true);
+
+                    	})
+
+            }
+            console.log(userArray);
+            World.isRequestingData = false;
+            World.loadPoisFromJsonData(userArray);
+
+   },
+
+   **/
+
 	// called to inject new POI data
 	loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
 
@@ -72,7 +169,7 @@ var World = {
 		World.markerDrawable_directionIndicator = new AR.ImageResource("assets/indi.png");
 		// loop through POI-information and create an AR.GeoObject (=Marker) per POI
 
-		if (nearby == 1){
+		if (markerGroup == 1){
 		for (var currentPlaceNr = 0; currentPlaceNr < poiData.length; currentPlaceNr++) {
 			var Poi = {
             				"id": currentPlaceNr,
@@ -81,12 +178,13 @@ var World = {
                              //"altitude":parseFloat(poiData[currentPlaceNr].altitude),
             				"title": poiData[currentPlaceNr].name,
             				"description": poiData[currentPlaceNr].vicinity
+
             			};
             			World.markerList.push(new Marker(Poi));
 			}
 
 
-		}else{
+		}else if (markerGroup == 0){
 		for (var currentPlaceNr = 0; currentPlaceNr < poiData.length; currentPlaceNr++) {
                  var singlePoi = {
                                     	"id": currentPlaceNr,
@@ -100,6 +198,21 @@ var World = {
         			}
 
 
+		}
+		else{
+		    for (var currentPlaceNr = 0; currentPlaceNr < poiData.length; currentPlaceNr++) {
+                             var singleUserPoi = {
+                                                	"id": currentPlaceNr,
+                                                	"latitude": parseFloat(poiData[currentPlaceNr].lat),
+                                                	"longitude": parseFloat(poiData[currentPlaceNr].lon),
+                                                    //"altitude":parseFloat(poiData[currentPlaceNr].altitude),
+                                                	"title": poiData[currentPlaceNr].name,
+                                                	"description": "User",
+                                                	"userid": poiData[currentPlaceNr].userid
+                                                	};
+                                                	 console.log(poiData[currentPlaceNr].lat);
+                                                		World.markerList.push(new Marker(singleUserPoi));
+                    			}
 		}
 
 
@@ -163,7 +276,7 @@ var World = {
 
 	},
 
-		// user clicked "map button in POI-detail panel -> open google maps
+		// user clicked map button in POI-detail panel -> open google maps
     	onPoiDetailMapButtonClicked: function onPoiDetailMapButtonClickedFn() {
     		var currentMarker = World.currentMarker;
     		var lat_lon = currentMarker.poiData.latitude + "," + currentMarker.poiData.longitude
@@ -173,10 +286,10 @@ var World = {
     	},
 
 
-	// location updates, fired every time you call architectView.setLocation() in native environment
+	// location updates
 	locationChanged: function locationChangedFn(lat, lon, alt, acc) {
 
-		// store user's current location in World.userLocation, so you always know where user is
+		// store user's current location in World.userLocation
 		World.userLocation = {
 			'latitude': lat,
 			'longitude': lon,
@@ -185,16 +298,21 @@ var World = {
 		};
 
 
+
+
 		// request data if not already present
 		if (!World.initiallyLoadedData) {
 			World.requestDataFromTripServer(lat, lon);
 			World.initiallyLoadedData = true;
 		} else if (World.locationUpdateCounter === 0) {
-			// update placemark distance information frequently
 			World.updateDistanceToUserValues();
+			//if (markerGroup == "User"){
+			  //  World.updateUserLocations();
+			//}
+
 		}
 
-		// helper used to update placemark information every now and then (e.g. every 10 location updates fired)
+		// helper used to update information every now and then (e.g. every 10 location updates fired)
 		World.locationUpdateCounter = (++World.locationUpdateCounter % World.updatePlacemarkDistancesEveryXLocationUpdates);
 	},
 
@@ -274,7 +392,7 @@ var World = {
 		// sort markers by distance
 		World.markerList.sort(World.sortByDistanceSorting);
 
-		// loop through list and stop once a placemark is out of range ( -> very basic implementation )
+		// loop through list and stop once a placemark is out of range
 		for (var i = 0; i < World.markerList.length; i++) {
 			if (World.markerList[i].distanceToUser > maxRangeMeters) {
 				return i;
@@ -326,7 +444,7 @@ var World = {
     		if (!World.isRequestingData) {
     			if (World.userLocation) {
     				World.requestDataFromNearbyServer(World.userLocation.latitude, World.userLocation.longitude);
-    				nearby = 1;
+    				markerGroup = 1;
     			} else {
     				World.updateStatusMessage('Unknown user-location.', true);
     			}
@@ -339,7 +457,7 @@ var World = {
         		if (!World.isRequestingData) {
         			if (World.userLocation) {
         				World.requestDataFromTripServer(World.userLocation.latitude, World.userLocation.longitude);
-        				nearby = 0;
+        				markerGroup = 0;
         			} else {
         				World.updateStatusMessage('Unknown user-location.', true);
         			}
@@ -352,7 +470,7 @@ var World = {
 	reloadPlaces: function reloadPlacesFn() {
 		if (!World.isRequestingData) {
 			if (World.userLocation) {
-			    if(nearby == 0){
+			    if(markerGroup == 0){
 			        World.requestDataFromTripServer(World.userLocation.latitude, World.userLocation.longitude);
 			    }else{
 			        World.requestDataFromNearbyServer(World.userLocation.latitude, World.userLocation.longitude);
@@ -374,7 +492,7 @@ var World = {
 		World.isRequestingData = true;
 		World.updateStatusMessage('Requesting places from web-service');
 
-		// server-url to JSON content provider
+		// server-url
 		var serverUrl = ServerTripInformation.POIDATA_SERVER + tripid;
 
 		var jqxhr = $.getJSON(serverUrl, function(data) {
@@ -382,11 +500,6 @@ var World = {
 				World.loadPoisFromJsonData(data[0].locations);
 			})
 			.error(function(err) {
-				/*
-					In certain circumstances your web service may not be available or other connection issues can occur. 
-					To notify the user about connection problems a status message is updated.
-					In your own implementation you may e.g. use an info popup or similar.
-				*/
 				World.updateStatusMessage("Invalid web-service response.", true);
 				World.isRequestingData = false;
 			})
@@ -395,6 +508,7 @@ var World = {
 			});
 	},
 
+
 	requestDataFromNearbyServer: function requestDataFromServerFn(lat, lon) {
 
     		// set helper var to avoid requesting places while loading
@@ -402,7 +516,7 @@ var World = {
     		World.updateStatusMessage('Requesting places from web-service');
              console.log(lat);
              console.log(lon);
-    		// server-url to JSON content provider
+    		// server-url
     		var serverUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat +","+lon+"&radius=1500&key=AIzaSyDUTuXspBHRrHyFDPzWZ4gtcKP-xYbo4g0";
 
     		var jqxhr = $.getJSON(serverUrl, function(data) {
@@ -411,11 +525,6 @@ var World = {
     				World.loadPoisFromJsonData(data.results);
     			})
     			.error(function(err) {
-    				/*
-    					In certain circumstances your web service may not be available or other connection issues can occur.
-    					To notify the user about connection problems a status message is updated.
-    					In your own implementation you may e.g. use an info popup or similar.
-    				*/
     				World.updateStatusMessage("Invalid web-service response.", true);
     				World.isRequestingData = false;
     			})
@@ -426,12 +535,12 @@ var World = {
 
 
 
-	// helper to sort places by distance
+
 	sortByDistanceSorting: function(a, b) {
 		return a.distanceToUser - b.distanceToUser;
 	},
 
-	// helper to sort places by distance, descending
+
 	sortByDistanceSortingDescending: function(a, b) {
 		return b.distanceToUser - a.distanceToUser;
 	}
@@ -439,8 +548,7 @@ var World = {
 };
 
 
-/* forward locationChanges to custom function */
+
 AR.context.onLocationChanged = World.locationChanged;
 
-/* forward clicks in empty area to World */
 AR.context.onScreenClick = World.onScreenClick;

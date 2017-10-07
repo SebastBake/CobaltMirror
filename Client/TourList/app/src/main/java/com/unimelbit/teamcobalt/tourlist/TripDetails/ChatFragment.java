@@ -72,7 +72,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         ListView listV = (ListView) v.findViewById(R.id.userListChat);
 
-        userList = initUsers(15);
+        userList = base.getCurrentTrip().getUsernames();
 
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, userList);
 
