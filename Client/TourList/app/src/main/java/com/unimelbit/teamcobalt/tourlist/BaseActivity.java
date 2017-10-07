@@ -360,8 +360,11 @@ public class BaseActivity extends AppCompatActivity
         Fragment fragmentInstance = new LoginOrRegisterFragment();
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
-        editor.clear();
+        editor.remove("nameKey");
+        editor.remove("passwordKey");
         editor.commit();
+
+        setCurrentUser(null);
 
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportFragmentManager().beginTransaction()
