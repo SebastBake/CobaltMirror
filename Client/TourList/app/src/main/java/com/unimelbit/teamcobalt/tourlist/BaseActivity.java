@@ -2,6 +2,8 @@ package com.unimelbit.teamcobalt.tourlist;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -38,7 +40,11 @@ import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
+
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,6 +77,13 @@ public class BaseActivity extends AppCompatActivity
     private GoogleGpsProvider gpsTool;
 
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Name = "nameKey";
+    public static final String Phone = "phoneKey";
+    public static final String Email = "emailKey";
+
+    public static SharedPreferences sharedpreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +99,29 @@ public class BaseActivity extends AppCompatActivity
         // Start nav drawer
         initNavDrawer();
 
-        // open home screen, no login
-        mainContainer.gotoLoginOrRegisterFragment();
+        //Create Shared Preferences
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+//        // open home screen, no login
+//        mainContainer.gotoLoginOrRegisterFragment();
+//        Toast.makeText(this, sharedpreferences.getString("aUser",""), Toast.LENGTH_SHORT).show();
+        if (sharedpreferences.getString("nameKey","")!= null) {
+            ArrayList<User> users = null;
+            try {
+                users = User.newUserArrayFromJSON(sharedpreferences.getString("aUser",""));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            User user = users.get(0);
+            setCurrentUser(user);
+            setUserName(sharedpreferences.getString("nameKey",""));
+            Toast.makeText(this, "THIS IS" + getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
+            mainContainer.gotoHomeFragment();
+
+
+        } else {
+            mainContainer.gotoLoginOrRegisterFragment();
+        }
 
 
         // Permission check when initiating app
@@ -105,6 +139,10 @@ public class BaseActivity extends AppCompatActivity
         gpsTool.callback();
 
 
+    }
+
+    public SharedPreferences getSharedPreferences () {
+        return sharedpreferences;
     }
 
     public static void setPutObject(JSONObject putObject) {
@@ -320,6 +358,10 @@ public class BaseActivity extends AppCompatActivity
     public void logOut(){
 
         Fragment fragmentInstance = new LoginOrRegisterFragment();
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        editor.clear();
+        editor.commit();
 
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportFragmentManager().beginTransaction()
