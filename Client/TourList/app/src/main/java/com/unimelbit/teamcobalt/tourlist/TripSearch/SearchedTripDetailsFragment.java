@@ -77,13 +77,17 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
     private void initTextBoxes(View rootView, Trip trip) {
 
         TextView tripDescription = (TextView) rootView.findViewById(R.id.trip_details_description);
-        tripDescription.setText(trip.getId());
+        tripDescription.setText(trip.getDescription());
 
         TextView tripCost = (TextView) rootView.findViewById(R.id.trip_details_cost);
         tripCost.setText("Cost: " + trip.getCost());
 
         TextView tripSize = (TextView) rootView.findViewById(R.id.trip_details_size);
         tripSize.setText("Max Size: " + trip.getSize());
+
+        TextView tripUserCount = (TextView) rootView.findViewById(R.id.trip_details_count);
+        tripSize.setText("Group Members: " + trip.getUsernames().size());
+
     }
 
     private void initLocationsList(View rootView, Trip trip) {

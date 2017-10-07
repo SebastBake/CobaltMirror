@@ -9,123 +9,38 @@
     tools:layout_editor_absoluteX="0dp">
 
     <TextView
-        android:id="@+id/cost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/Cost_title"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="49dp" />
-
-    <TextView
-        android:id="@+id/size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/Size_title"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="49dp" />
-
-    <TextView
-        android:id="@+id/Name_title"
-        android:layout_width="79dp"
-        android:layout_height="17dp"
-        android:text="Trip Name:"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/name" />
-
-    <TextView
-        android:id="@+id/Size_title"
-        android:layout_width="77dp"
-        android:layout_height="16dp"
-        android:text="Size of Trip:"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteY="33dp"
-        tools:layout_editor_absoluteX="8dp"
-        android:layout_alignBaseline="@+id/Go_to_trip"
-        android:layout_alignBottom="@+id/Go_to_trip"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/Name_title"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/Go_to_trip"
         android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="49dp" />
-
-    <TextView
-        android:id="@+id/locations"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="49dp"
-        android:layout_below="@+id/Locations_Title"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/Locations_Title"
-        android:layout_width="67dp"
-        android:layout_height="17dp"
-        android:text="Locations:"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteY="99dp"
-        tools:layout_editor_absoluteX="8dp"
-        android:layout_below="@+id/cost"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/Cost_title"
-        android:layout_width="67dp"
-        android:layout_height="17dp"
-        android:text="Costs"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="99dp"
-        android:layout_below="@+id/size"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/Go_to_trip"
         android:layout_width="88dp"
         android:layout_height="48dp"
-        android:layout_below="@+id/Name_title"
-        android:layout_centerHorizontal="true"
         android:backgroundTint="@color/scheme1_blue"
         android:text="Go To"
         android:textColor="@android:color/white"
         tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <Button
-        android:id="@+id/Save_trip"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
-        android:layout_alignBaseline="@+id/Go_to_trip"
-        android:layout_alignBottom="@+id/Go_to_trip"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="25dp"
-        android:backgroundTint="@color/scheme1_blue"
-        android:text="Save"
-        android:textColor="@android:color/white"
-        tools:layout_editor_absoluteX="174dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginEnd="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/locations"
         android:text="TextView"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true" />
 
 </android.widget.RelativeLayout>

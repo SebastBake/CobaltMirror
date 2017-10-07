@@ -7,16 +7,27 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.ARGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class ARActivity extends AppCompatActivity {
 
@@ -27,7 +38,11 @@ public class ARActivity extends AppCompatActivity {
     //Listener for JSON objects from AR sdk
     private ARJSONListener arListener;
 
-    private String id;
+    private String tripId;
+    private ArrayList<String> tripUsernames;
+    private ArrayList<String> tripUserids;
+    private User user;
+
 
 
     @Override
@@ -39,8 +54,11 @@ public class ARActivity extends AppCompatActivity {
 
         arListener = new ARJSONListener();
 
-        //Get Trip id for AR
-        id = getIntent().getStringExtra(TabbedTripFragment.INTENT_TRIPID);
+        //Get values for AR
+        tripId = getIntent().getStringExtra(TabbedTripFragment.INTENT_TRIPID);
+        tripUserids = getIntent().getStringArrayListExtra(TabbedTripFragment.INTENT_TRIP_USERIDS);
+        tripUsernames = getIntent().getStringArrayListExtra(TabbedTripFragment.INTENT_TRIP_USERNAMES);
+        user = getIntent().getParcelableExtra(TabbedTripFragment.INTENT_USER);
 
         //Initialise the request
         arGpsTool.createLocationRequest();
@@ -75,12 +93,29 @@ public class ARActivity extends AppCompatActivity {
         architectView.onPostCreate();
         try {
             this.architectView.load("file:///android_asset/poi/index.html");
-            this.architectView.callJavascript("World.newData('" + id +"')");
+            this.architectView.callJavascript("World.newData('" + tripId +"')");
+            sendUserList(this.architectView);
+
+
         } catch (Exception e) {
 
         }
 
     }
+
+    private void sendUserList(ArchitectView architectView) throws JSONException {
+        JSONArray array = new JSONArray();
+        for(int i = 0;i < tripUsernames.size();i++){
+            if(!Objects.equals(tripUsernames.get(i),user.getUsername()) && !Objects.equals(tripUserids.get(i),user.getId()) ){
+                JSONObject object = new JSONObject();
+                object.put("username",tripUsernames.get(i));
+                object.put("userid",tripUserids.get(i));
+                array.put(object);
+            }
+        }
+        architectView.callJavascript("World.userMarkers('" + array +"')");
+    }
+
 
     /*
     Resume app settings

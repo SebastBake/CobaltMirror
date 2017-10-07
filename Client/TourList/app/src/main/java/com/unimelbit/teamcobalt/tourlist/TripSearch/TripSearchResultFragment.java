@@ -107,8 +107,8 @@ public class TripSearchResultFragment extends Fragment{
                 getContext(),
                 tripMaps,
                 R.layout.fragment_search_results_items,
-                new String[]{Trip.JSON_NAME, Trip.JSON_SIZE, Trip.JSON_COST, Trip.JSON_LOC,Trip.JSON_ID},
-                new int[]{R.id.name, R.id.size, R.id.cost, R.id.locations,R.id.ID}) {
+                new String[]{Trip.JSON_NAME,Trip.JSON_ID},
+                new int[]{R.id.name,R.id.ID}) {
 
             @Override
             public View getView (int position, final View convertView, ViewGroup parent)
@@ -117,8 +117,6 @@ public class TripSearchResultFragment extends Fragment{
 
                 Button b = (Button)v.findViewById(R.id.Go_to_trip);
 
-
-                final Button saveButton = (Button) v.findViewById(R.id.Save_trip);
 
                 username = ((BaseActivity)getActivity()).getUserName();
                 userid = ((BaseActivity)getActivity()).getCurrentUser().getId();
@@ -137,37 +135,7 @@ public class TripSearchResultFragment extends Fragment{
                         new SearchedTripGetRequest(idText, ((BaseActivity)getActivity()).getMainContainerManager());
                     }
                 });
-                saveButton.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onClick(View arg0) {
-                        String saveText = (String) saveButton.getText();
-                        RelativeLayout rl = (RelativeLayout)arg0.getParent();
-                        TextView tripID = (TextView)rl.findViewById(R.id.ID);
-                        String idText = tripID.getText().toString();
-                        if (saveText == "Saved") {
-                            saveButton.getBackground().setColorFilter(Color.parseColor("#0E4375"), PorterDuff.Mode.MULTIPLY);
-                            saveButton.setText("Save");
-                            Toast.makeText(getContext(), "Removed From Saved", Toast.LENGTH_SHORT).show();
-                            try {
-                                new TripSearchRemoveTripRequest(idText,username,userid);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            saveButton.getBackground().setColorFilter(Color.parseColor("#5BBC93"), PorterDuff.Mode.MULTIPLY);
-                            saveButton.setText("Saved");
-                            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-                            try {
-                                new TripSearchSaveTripRequest(idText,username,userid);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-
-                });
                 return v;
 
             }
