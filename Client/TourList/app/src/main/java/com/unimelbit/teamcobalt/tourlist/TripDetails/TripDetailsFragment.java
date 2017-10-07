@@ -90,8 +90,6 @@ public class TripDetailsFragment extends Fragment {
 
                 pILoader.setMapImage(loc.getLatitude().toString(), loc.getLongitude().toString(), imageDetail);
                 imageLoaded = true;
-
-                return;
             }
         }
 
