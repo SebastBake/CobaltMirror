@@ -67,6 +67,7 @@
         <activity android:name=".CreateTrips.AddLocationsToTripActivity" />
         <activity android:name=".Chat.ChatroomActivity" />
         <activity android:name=".Profile.UserProfile" />
+        <activity android:name=".Error.ErrorActivity"></activity>
     </application>
 
 </manifest>

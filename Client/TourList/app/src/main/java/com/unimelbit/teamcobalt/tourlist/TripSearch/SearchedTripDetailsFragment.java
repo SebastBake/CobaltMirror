@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -64,7 +65,7 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
             imageLoaded = false;
 
         } else {
-            ((BaseActivity) getActivity()).getMainContainerManager().gotoErrorFragment("No current trip!");
+            ErrorActivity.newError(getActivity(),"No current trip!");
         }
 
         Button save = (Button) rootView.findViewById(R.id.save_button);
@@ -102,9 +103,6 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
             // Add screenshot of the location on the map into the trip details image
             if (!imageLoaded) {
 
-                // System.out.println("long: " + loc.getLongitude().toString());
-                // System.out.println("lat: " + loc.getLatitude().toString());
-
                 pILoader.setMapImage(loc.getLatitude().toString(), loc.getLongitude().toString(), imageDetail);
                 imageLoaded = true;
             }
@@ -123,11 +121,20 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
     @Override
     public void onClick(View v) {
         Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+
+        String username;
+        if (BaseActivity.getCurrentUser() == null) {
+            username = "anonymous";
+        } else {
+            username = BaseActivity.getCurrentUser().getUsername();
+        }
+
         try {
-            new TripSearchSaveTripRequest(currentTrip.getId(),((BaseActivity)getActivity()).getUserName(),((BaseActivity)getActivity()).getCurrentUser().getId());
+            new TripSearchSaveTripRequest(currentTrip.getId(),username, BaseActivity.getCurrentUser().getId());
             new TripGetRequestByID(currentTrip.getId(),((BaseActivity)getActivity()).getMainContainerManager());
         } catch (JSONException e) {
             e.printStackTrace();
+            ErrorActivity.newError(getActivity(), e);
         }
     }
 }

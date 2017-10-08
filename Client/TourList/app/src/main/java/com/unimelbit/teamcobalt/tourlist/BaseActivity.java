@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.gms.location.LocationCallback;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
@@ -49,40 +50,30 @@ import java.util.ArrayList;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String DEMOTRIP_NAME = "DemoTrip";
+    public static final String DEMOTRIP_NAME = "DemoTrip"; // this will be removed eventually
+    private static final String STARTUP_FAIL_MESSAGE = "Couldn't start BaseActivity";
+    private static final String RESUME_FAIL_MESSAGE = "Couldn't resume BaseActivity";
+    private static final String PAUSE_FAIL_MESSAGE = "Couldn't pause BaseActivity";
 
-    public static JSONObject PUT_OBJECT;
+    public static JSONObject PUT_OBJECT; // what's this?
 
-    // current trip and user
     private static Trip currentTrip;
     private static User currentUser;
-    public static Boolean locationSharing;
-    private static final String LOC_SHARING_ON_MSG = "Location sharing is ON";
-    private static final String LOC_SHARING_OFF_MSG = "Location sharing is OFF";
-
-
-    //Searched Trip
     private static Trip searchedTrip;
 
-    // Permission manager
-    private PermissionManager permission;
+    private static final String LOC_SHARING_ON_MSG = "Location sharing is ON";
+    private static final String LOC_SHARING_OFF_MSG = "Location sharing is OFF";
+    public static Boolean locationSharing;
 
-    // Manager of main fragment
-    private static BaseFragmentContainerManager mainContainer;
-
-    //UserName
-
-    private String userName;
-
-    private GoogleGpsProvider gpsTool;
-
-
+    public static SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Name = "nameKey";
     public static final String Phone = "phoneKey";
     public static final String Email = "emailKey";
 
-    public static SharedPreferences sharedpreferences;
+    private static BaseFragmentContainerManager mainContainer;
+    private PermissionManager permission;
+    private GoogleGpsProvider gpsTool;
 
 
     @Override
@@ -96,57 +87,35 @@ public class BaseActivity extends AppCompatActivity
         locationSharing = false;
         mainContainer = new BaseFragmentContainerManager(this, R.id.fragment_container);
 
-        // Start nav drawer
-        initNavDrawer();
+        try {
+            initNavDrawer();
+            initUserPreferencesAndLogin();
+            initPermissions();
+            initGPSTools();
 
-        //Create Shared Preferences
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
-//        // open home screen, no login
-//        mainContainer.gotoLoginOrRegisterFragment();
-//        Toast.makeText(this, sharedpreferences.getString("aUser",""), Toast.LENGTH_SHORT).show();
-        if (sharedpreferences.getString("nameKey","")!= null) {
-            ArrayList<User> users = null;
-            try {
-                users = User.newUserArrayFromJSON(sharedpreferences.getString("aUser",""));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            User user = users.get(0);
-            setCurrentUser(user);
-            setUserName(sharedpreferences.getString("nameKey",""));
-            Toast.makeText(this, "THIS IS" + getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
-            mainContainer.gotoHomeFragment();
-
-
-        } else {
-            mainContainer.gotoLoginOrRegisterFragment();
+        } catch (Exception e) {
+            ErrorActivity.newError(this, e, STARTUP_FAIL_MESSAGE);
         }
+    }
 
-
+    /**
+     * Initializes the permissions manager
+     */
+    private void initPermissions() {
         // Permission check when initiating app
         permission = new PermissionManager() {};
         permission.checkAndRequestPermissions(this);
+    }
 
-        //No user name set
-        userName = "";
+    /**
+     * Initializes the location update system
+     */
+    private void initGPSTools() {
 
         //Set up location updates
         gpsTool = AppServicesFactory.getServicesFactory().getFirebaseGpsProvider(this);
-
         gpsTool.createLocationRequest();
-
         gpsTool.callback();
-
-
-    }
-
-    public SharedPreferences getSharedPreferences () {
-        return sharedpreferences;
-    }
-
-    public static void setPutObject(JSONObject putObject) {
-        PUT_OBJECT = putObject;
     }
 
     /**
@@ -169,29 +138,75 @@ public class BaseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * Initializes the user preferences and/or directs the user to login on startup
+     */
+    private void initUserPreferencesAndLogin() {
+
+        //Create Shared Preferences
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        // open home screen, no login
+        if (!sharedpreferences.getString("nameKey","").isEmpty()) {
+
+            ArrayList<User> users;
+
+            try {
+                users = User.newUserArrayFromJSON(sharedpreferences.getString("aUser",""));
+                setCurrentUser(users.get(0));
+
+                Toast.makeText(this, "Logged in as:" + getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
+                mainContainer.gotoHomeFragment();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                Toast.makeText(this, "Failed to load user preferences.", Toast.LENGTH_LONG).show();
+                mainContainer.gotoLoginOrRegisterFragment();
+                return;
+            }
+
+        } else {
+            mainContainer.gotoLoginOrRegisterFragment();
+        }
+    }
+
     // Assorted getters/setter
     public BaseFragmentContainerManager getMainContainerManager() {
         return mainContainer;
     }
-    public void setCurrentTrip(Trip trip) {
+    public static void setCurrentTrip(Trip trip) {
         currentTrip = trip;
     }
-    public Trip getCurrentTrip() {
+    public static Trip getCurrentTrip() {
         return currentTrip;
     }
-    public void setCurrentUser(User user) {
+    public static void setCurrentUser(User user) {
         currentUser = user;
     }
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return currentUser;
     }
-    public void setlocationSharing(boolean share) {
+    public static void setLocationSharing(boolean share) {
         locationSharing = share;
     }
-    public void toggleLocationSharing() {
-        locationSharing = !locationSharing;
+    public static boolean isLocationSharingOn() {
+        return locationSharing;
+    }
+    public static Trip getSearchedTrip() {
+        return searchedTrip;
+    }
+    public static void setSearchedTrip(Trip searchedTrip) {
+        BaseActivity.searchedTrip = searchedTrip;
+    }
+    public static void setPutObject(JSONObject putObject) {
+        PUT_OBJECT = putObject;
+    } // what's this?
 
-        if(locationSharing) {
+    public void toggleLocationSharing() {
+        setLocationSharing(!locationSharing);
+
+        if(isLocationSharingOn()) {
             Toast.makeText(this,LOC_SHARING_ON_MSG,
                     Toast.LENGTH_SHORT).show();
         } else {
@@ -199,10 +214,13 @@ public class BaseActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
         }
     }
-    public boolean isLocationSharingOn() {
-        return locationSharing;
+    public SharedPreferences getSharedPreferences () {
+        return sharedpreferences;
     }
+    public BaseFragmentContainerManager getMainContainer(){
 
+        return mainContainer;
+    }
 
     /**
      * Closes nav drawer when back button pressed
@@ -228,17 +246,18 @@ public class BaseActivity extends AppCompatActivity
                     Fragment fragmentInstance = new HomeFragment();
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    getSupportFragmentManager().beginTransaction()
+
+                    getSupportFragmentManager()
+                            .beginTransaction()
                             .replace(R.id.fragment_container, fragmentInstance)
                             .addToBackStack(null)
                             .commit();
 
                 //Go back to the search instead of home from the search results fragment
-                }else if(f instanceof TripSearchResultFragment || f instanceof SearchedTripDetailsFragment){
+                } else if(f instanceof TripSearchResultFragment || f instanceof SearchedTripDetailsFragment){
 
                     getSupportFragmentManager().popBackStackImmediate();
                     getSupportFragmentManager().popBackStackImmediate();
-
                 }
 
                 else if (getFragmentManager().getBackStackEntryCount() > 1) {
@@ -306,21 +325,13 @@ public class BaseActivity extends AppCompatActivity
     }
 
 
-
-    public BaseFragmentContainerManager getMainContainer(){
-
-        return mainContainer;
-
-    }
-
-
     public void attemptLogOut(){
 
         Fragment f = getMainContainerManager().getCurrentFragment();
 
         if(f instanceof LoginFragment || f instanceof LoginOrRegisterFragment){
 
-            Toast.makeText(this, "Cannot logout without logging in", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Cannot log out without logging in", Toast.LENGTH_LONG).show();
 
         }else {
 
@@ -336,7 +347,6 @@ public class BaseActivity extends AppCompatActivity
                                 public void onClick(DialogInterface d, int id) {
 
                                     logOut();
-
                                     d.dismiss();
                                 }
                             })
@@ -350,9 +360,6 @@ public class BaseActivity extends AppCompatActivity
                             });
             builder.create().show();
         }
-
-
-
     }
 
     public void logOut(){
@@ -362,7 +369,7 @@ public class BaseActivity extends AppCompatActivity
 
         editor.remove("nameKey");
         editor.remove("passwordKey");
-        editor.commit();
+        editor.apply();
 
         setCurrentUser(null);
 
@@ -373,51 +380,29 @@ public class BaseActivity extends AppCompatActivity
                 .commit();
 
         Toast.makeText(this, "Logged Out", Toast.LENGTH_LONG).show();
-
-
     }
-
-
-    public void setUserName(String s){
-
-        this.userName = s;
-
-    }
-
-    public String getUserName(){
-
-        return this.userName;
-    }
-
-    public static Trip getSearchedTrip() {
-        return searchedTrip;
-    }
-
-    public static void setSearchedTrip(Trip searchedTrip) {
-        BaseActivity.searchedTrip = searchedTrip;
-    }
-
 
     protected void onResume() {
         super.onResume();
-        if (!gpsTool.isRequestingLocation()) {
-            gpsTool.startLocationUpdates();
+        try {
+            if (!gpsTool.isRequestingLocation()) {
+                gpsTool.startLocationUpdates();
+            }
+        } catch (Exception e) {
+            ErrorActivity.newError(this, e, RESUME_FAIL_MESSAGE);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(currentUser);
-        gpsTool.stopLocationUpdates();
-        gpsTool.setmRequestingLocationUpdates(false);
+        try {
+            ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(currentUser);
+            gpsTool.stopLocationUpdates();
+            gpsTool.setmRequestingLocationUpdates(false);
 
+        } catch(Exception e) {
+            ErrorActivity.newError(this, e, PAUSE_FAIL_MESSAGE);
+        }
     }
-
-    public static User getcurrentUser(){
-
-        return currentUser;
-
-    }
-
 }

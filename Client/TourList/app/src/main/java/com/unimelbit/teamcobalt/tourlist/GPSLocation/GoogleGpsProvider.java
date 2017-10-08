@@ -23,8 +23,10 @@ public abstract class GoogleGpsProvider implements GPSProviderAdaptor{
 
     //Location provider and other utilities
     protected FusedLocationProviderClient mFusedLocationClient;
+
     //Location requests
     protected LocationRequest mLocationRequest;
+
     //Flag to see if location is being updated
     protected Boolean mRequestingLocationUpdates = false;
 
@@ -50,8 +52,7 @@ public abstract class GoogleGpsProvider implements GPSProviderAdaptor{
         final Context con = c;
 
         LocationManager service = (LocationManager) con.getSystemService(LOCATION_SERVICE);
-        boolean enabled = service
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (!enabled) {
             return false;
         }else{
@@ -65,10 +66,13 @@ public abstract class GoogleGpsProvider implements GPSProviderAdaptor{
 Location request settings.
  */
     public void createLocationRequest() {
+
         mLocationRequest = new LocationRequest();
+
         //Can change interval depending on how much battery you want
         mLocationRequest.setInterval(MAX_CALLBACK_TIME);
         mLocationRequest.setFastestInterval(MIN_CALLBACK_TIME);
+
         //Accuracy of location
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
@@ -79,7 +83,6 @@ Location request settings.
     public LocationRequest getLocationRequest(){
 
         return this.mLocationRequest;
-
     }
 
 
@@ -90,19 +93,16 @@ Location request settings.
     public FusedLocationProviderClient getLocationClient(){
 
         return this.mFusedLocationClient;
-
     }
 
     public Boolean isRequestingLocation(){
 
         return this.mRequestingLocationUpdates;
-
     }
 
     public void setmRequestingLocationUpdates(Boolean b){
 
         this.mRequestingLocationUpdates = b;
-
     }
 
     public abstract void callback();
@@ -121,9 +121,7 @@ Location request settings.
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        getLocationClient().requestLocationUpdates(getLocationRequest(),
-                getmLocationCallback(),
-                null);
+        getLocationClient().requestLocationUpdates(getLocationRequest(), getmLocationCallback(), null);
     }
 
     /*
@@ -148,7 +146,7 @@ Location request settings.
 
         }
 
-        User currentUser = BaseActivity.getcurrentUser();
+        User currentUser = BaseActivity.getCurrentUser();
 
         if(currentUser != null){
 
@@ -162,5 +160,4 @@ Location request settings.
                         , userId);
 
     }
-
 }

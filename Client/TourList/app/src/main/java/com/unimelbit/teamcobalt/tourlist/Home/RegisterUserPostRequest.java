@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequester;
@@ -59,6 +60,6 @@ public class RegisterUserPostRequest implements PostRequest {
     public void requestFailed(String msg, Exception e) {
         Log.e("RegUserPostReq failed", msg);
         e.printStackTrace();
-        containerManager.gotoErrorFragment("RegisterUserPostRequest failed: " + msg + "\n Here's the exception: " + e.toString());
+        ErrorActivity.newError(activity,e,"RegisterUserPostRequest failed: " + msg);
     }
 }

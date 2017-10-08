@@ -37,7 +37,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private Button apply;
 
     public RegisterFragment() {
-        // Required empty public constructor
     }
 
     public static RegisterFragment newInstance() {
@@ -46,17 +45,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_register, container, false);
         getActivity().setTitle("Register");
+
         apply = (Button) v.findViewById(R.id.button_register);
         apply.setOnClickListener(this);
+
         return v;
     }
 
@@ -78,8 +74,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         email = emailText.getText().toString();
 
         new RegisterFragment.PostDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/create");
-
-
     }
 
     //http post and its functions

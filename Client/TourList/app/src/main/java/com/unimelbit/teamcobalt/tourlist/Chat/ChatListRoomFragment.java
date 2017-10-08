@@ -1,7 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.Chat;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,6 +24,8 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
 
     private Button genChatButton, randChatButton;
 
+    private String username;
+
     public ChatListRoomFragment() {
         // Required empty public constructor
     }
@@ -38,36 +38,35 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_chat_list_room, container, false);
 
         base = (BaseActivity) getActivity();
 
+        if (BaseActivity.getCurrentUser() == null) {
+            username = "anonymous user";
+        } else {
+            username = BaseActivity.getCurrentUser().getUsername();
+        }
+
         genChatButton = (Button) v.findViewById(R.id.gen_chat_button);
-
         genChatButton.setOnClickListener(this);
-
         randChatButton = (Button) v.findViewById(R.id.rand_chat_button);
-
         randChatButton.setOnClickListener(this);
-
         base.setTitle("Chat Rooms");
 
         TextView userText = (TextView) v.findViewById(R.id.chatroom_username_text);
 
         //Set user name
-        userText.setText(base.getUserName());
+        userText.setText(username);
 
         //Initiate the handler
-        chatServices = AppServicesFactory
-                .getServicesFactory()
-                .getFirebaseChatService(getActivity());
+        chatServices = AppServicesFactory.getServicesFactory().getFirebaseChatService(getActivity());
 
         //Check if rooms are present
         chatServices.checkRoom("General");
-
         chatServices.checkRoom("Random");
 
         return v;
@@ -86,18 +85,13 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
 
         if(id == R.id.gen_chat_button){
 
-            chatServices.enterChatRoom(base.getUserName(), "General", "General",users);
+            chatServices.enterChatRoom(username, "General", "General",users);
 
         }
+
         else if(id == R.id.rand_chat_button){
 
-            chatServices.enterChatRoom(base.getUserName(), "Random", "Random",users);
+            chatServices.enterChatRoom(username, "Random", "Random",users);
         }
-
     }
-
-
-
-
-
 }
