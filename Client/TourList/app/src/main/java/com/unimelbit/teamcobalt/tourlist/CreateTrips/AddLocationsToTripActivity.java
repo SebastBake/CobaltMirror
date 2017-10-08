@@ -1,19 +1,16 @@
 package com.unimelbit.teamcobalt.tourlist.CreateTrips;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.gson.Gson;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -77,7 +74,7 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
     private void initLocationsList() {
 
         ListView listView = (ListView) findViewById(R.id.listView);
-        listAdapter = new CustomListAdapter(AddLocationsToTripActivity.this, R.layout.list_row, placeArray);
+        listAdapter = new CustomListAdapter(AddLocationsToTripActivity.this, R.layout.list_row_create_trip_location, placeArray);
         listView.setAdapter(listAdapter);
     }
 

@@ -11,6 +11,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -54,7 +55,7 @@ public class TripDetailsFragment extends Fragment {
             imageLoaded = false;
 
         } else {
-            ((BaseActivity) getActivity()).getMainContainerManager().gotoErrorFragment("No current trip!");
+            ErrorActivity.newError(getActivity(),"No current trip!");
         }
 
         return rootView;

@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
@@ -64,7 +65,7 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
 
         Log.e("TripGetRequest failed", msg);
         e.printStackTrace();
-        containerManager.gotoErrorFragment("TripGetRequest failed: " + msg);
+        ErrorActivity.newError(containerManager.getBaseActivity(),e,"TripGetRequest failed: " + msg);
     }
 
     public void onCreatedView(TripSearchResultFragment fragment,View rootView) throws JSONException {

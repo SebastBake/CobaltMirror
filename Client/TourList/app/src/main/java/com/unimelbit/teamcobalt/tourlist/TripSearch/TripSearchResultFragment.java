@@ -118,8 +118,8 @@ public class TripSearchResultFragment extends Fragment{
                 Button b = (Button)v.findViewById(R.id.Go_to_trip);
 
 
-                username = ((BaseActivity)getActivity()).getUserName();
-                userid = ((BaseActivity)getActivity()).getCurrentUser().getId();
+                username = BaseActivity.getCurrentUser().getUsername();
+                userid = BaseActivity.getCurrentUser().getId();
                 Toast.makeText(getContext(),userid , Toast.LENGTH_SHORT).show();
 
                 b.setOnClickListener(new View.OnClickListener() {

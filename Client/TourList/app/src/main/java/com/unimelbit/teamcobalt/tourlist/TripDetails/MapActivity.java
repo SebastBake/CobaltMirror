@@ -138,11 +138,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onPause() {
         super.onPause();
 
-        ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(BaseActivity.getcurrentUser());
+        ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(BaseActivity.getCurrentUser());
 
         gpsTool.stopLocationUpdates();
         gpsTool.setmRequestingLocationUpdates(false);
-
     }
 
 
@@ -167,8 +166,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             MarkerOptions marker = new MarkerOptions().position(latLng).title(location.getTitle());
             mMap.addMarker(marker);
         }
-
-
     }
 
 

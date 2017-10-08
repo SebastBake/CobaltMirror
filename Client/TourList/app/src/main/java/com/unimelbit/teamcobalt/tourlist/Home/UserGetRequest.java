@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
@@ -47,7 +48,7 @@ public class UserGetRequest implements GetRequest {
     public void requestFailed(String msg, Exception e) {
         Log.e("UserGetRequest failed",msg);
         e.printStackTrace();
-        containerManager.gotoErrorFragment("TripGetRequest failed: " + msg);
+        ErrorActivity.newError(containerManager.getBaseActivity(),e,"TripGetRequest failed: " + msg);
 
     }
 }

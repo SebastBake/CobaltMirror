@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
-import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -11,6 +10,8 @@ import android.util.LogPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -34,66 +36,68 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class LoginFragment extends Fragment implements View.OnClickListener{
+public class LoginFragment extends Fragment implements View.OnClickListener {
+
     private String username;
     private String password;
     private String getresults;
 
-
     private Button apply;
 
     private final static int NULL_RESULT_LEN = 3;
-
-    BaseFragmentContainerManager mainContainer;
-
+    public static final String LOGGING_IN_LOADING_MESSAGE = "Logging in...";
+    public static final String FILL_FORM_MESSAGE = "Enter username and password";
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Name = "nameKey";
     public static final String Password = "passwordKey";
 
     public LoginFragment() {
     }
+
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
         return fragment;
     }
 
-
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        getActivity().setTitle("Login");
+
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        apply = (Button) rootView.findViewById(R.id.button_login);
+        apply.setOnClickListener(this);
+
+        return rootView;
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_login) {
             try {
-                Verify_User();
+                attemptLogin();
             } catch (IOException e) {
                 e.printStackTrace();
+                ErrorActivity.newError(getActivity(), e);
             }
         }
     }
 
-    public void Verify_User () throws IOException {
+    public void attemptLogin() throws IOException {
+
         EditText usernameText = (EditText) getView().findViewById(R.id.login_username_field);
         EditText passwordText =  (EditText) getView().findViewById(R.id.login_password_field);
         this.username = usernameText.getText().toString();
         this.password = passwordText.getText().toString();
 
-        new LoginFragment.GetDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/find/"+username+"/"+password);
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(getActivity(), FILL_FORM_MESSAGE , Toast.LENGTH_SHORT).show();
 
-    }
+        } else {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
-        getActivity().setTitle("Login");
-        apply = (Button) rootView.findViewById(R.id.button_login);
-        apply.setOnClickListener(this);
-        return rootView;
+            ((BaseActivity)getActivity()).getMainContainerManager().gotoLoadingFragment(LOGGING_IN_LOADING_MESSAGE);
+            new LoginFragment.GetDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/find/"+username+"/"+password);
+        }
     }
 
     class GetDataTask extends AsyncTask<String, Void, String> {
@@ -102,7 +106,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //add alert here
         }
 
         @Override
@@ -124,8 +127,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             BaseActivity base = (BaseActivity) getActivity();
 
             new LogPrinter(0, null).println(getresults);
-            try {
 
+            try {
 
                 if (getresults.length() > NULL_RESULT_LEN) {
                     //Toast.makeText(getActivity(), tmp.toString(), Toast.LENGTH_SHORT).show();
@@ -133,20 +136,20 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     ArrayList<User> users = User.newUserArrayFromJSON(getresults);
                     User user = users.get(0);
                     Toast.makeText(getActivity(), username, Toast.LENGTH_SHORT).show();
-                    base.setCurrentUser(user);
-                    base.setUserName(username);
+                    BaseActivity.setCurrentUser(user);
 
                     SharedPreferences.Editor editor = BaseActivity.sharedpreferences.edit();
 
                     editor.putString(Name, username);
                     editor.putString(Password, password);
                     editor.putString("aUser", getresults);
-                    editor.commit();
+                    editor.apply();
 
                     base.getMainContainer().gotoHomeFragment();
 
                 } else {
-                    Toast.makeText(getActivity(), "NO USER FOUND", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                    base.getMainContainer().gotoLoginOrRegisterFragment();
                 }
             } catch (Exception e) {
                 requestFailed("Something failed for url and result: " + result, e);
@@ -157,8 +160,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         public void requestFailed(String msg, Exception e) {
             Log.e("UserGetRequest failed",msg);
             e.printStackTrace();
-            ((BaseActivity) getActivity()).getMainContainerManager().gotoErrorFragment("UserGetRequest failed: " + msg);
-
+            ErrorActivity.newError(getActivity(),e,"UserGetRequest failed: " + msg);
         }
 
         private String getData(String urlPath) throws IOException {

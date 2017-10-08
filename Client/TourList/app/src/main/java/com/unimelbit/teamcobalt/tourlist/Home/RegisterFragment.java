@@ -29,15 +29,17 @@ import java.net.URL;
 
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
-    String username;
-    String password;
-    String email;
+    public static final String FILL_FORM_MESSAGE = "Enter details";
+    public static final String REGISTER_LOADING_MESSAGE = "Registering new user...";
+
+    private String username;
+    private String password;
+    private String email;
 
     private String postresults;
     private Button apply;
 
     public RegisterFragment() {
-        // Required empty public constructor
     }
 
     public static RegisterFragment newInstance() {
@@ -46,40 +48,38 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_register, container, false);
         getActivity().setTitle("Register");
+
         apply = (Button) v.findViewById(R.id.button_register);
         apply.setOnClickListener(this);
+
         return v;
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_register) {
-                Create_User();
+
+            EditText usernameText = (EditText) getView().findViewById(R.id.register_username_field);
+            EditText passwordText =  (EditText) getView().findViewById(R.id.register_password_field);
+            EditText emailText =  (EditText) getView().findViewById(R.id.register_email_field);
+
+            username = usernameText.getText().toString();
+            password = passwordText.getText().toString();
+            email = emailText.getText().toString();
+
+            if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+                Toast.makeText(getActivity(), FILL_FORM_MESSAGE , Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                ((BaseActivity)getActivity()).getMainContainerManager().gotoLoadingFragment(REGISTER_LOADING_MESSAGE);
+                new RegisterFragment.PostDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/create");
+            }
         }
-    }
-
-    public void Create_User() {
-
-        EditText usernameText = (EditText) getView().findViewById(R.id.register_username_field);
-        EditText passwordText =  (EditText) getView().findViewById(R.id.register_password_field);
-        EditText emailText =  (EditText) getView().findViewById(R.id.register_email_field);
-
-        username = usernameText.getText().toString();
-        password = passwordText.getText().toString();
-        email = emailText.getText().toString();
-
-        new RegisterFragment.PostDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/create");
-
-
     }
 
     //http post and its functions
