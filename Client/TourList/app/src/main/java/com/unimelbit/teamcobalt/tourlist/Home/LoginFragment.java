@@ -46,6 +46,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private final static int NULL_RESULT_LEN = 3;
     public static final String LOGGING_IN_LOADING_MESSAGE = "Logging in...";
+    public static final String FILL_FORM_MESSAGE = "Enter username and password";
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Name = "nameKey";
     public static final String Password = "passwordKey";
@@ -84,21 +85,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public void attemptLogin() throws IOException {
 
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         EditText usernameText = (EditText) getView().findViewById(R.id.login_username_field);
         EditText passwordText =  (EditText) getView().findViewById(R.id.login_password_field);
         this.username = usernameText.getText().toString();
         this.password = passwordText.getText().toString();
 
         if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(getActivity(), "Incorrect login", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            Toast.makeText(getActivity(), FILL_FORM_MESSAGE , Toast.LENGTH_SHORT).show();
 
-        ((BaseActivity)getActivity()).getMainContainerManager().gotoLoadingFragment(LOGGING_IN_LOADING_MESSAGE);
-        new LoginFragment.GetDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/find/"+username+"/"+password);
+        } else {
+
+            ((BaseActivity)getActivity()).getMainContainerManager().gotoLoadingFragment(LOGGING_IN_LOADING_MESSAGE);
+            new LoginFragment.GetDataTask().execute("https://cobaltwebserver.herokuapp.com/api/user/find/"+username+"/"+password);
+        }
     }
 
     class GetDataTask extends AsyncTask<String, Void, String> {
