@@ -12,6 +12,8 @@ import java.net.SocketException;
 
 /**
  * Created by awhite on 6/10/17.
+ *
+ * Basic local server to test the code that connects to the heroku server
  */
 
 public class MockServer implements Runnable {
@@ -58,31 +60,34 @@ public class MockServer implements Runnable {
             // The server was stopped; ignore.
         } catch (IOException e) {
             Log.e("server", "Web server error.", e);
+            //e.printStackTrace();
         }
 
     }
 
     private void handle(Socket socket) throws IOException {
+
+        // Sets up IO
         BufferedReader reader = null;
         PrintStream output = null;
+
         try {
             String result = null;
 
+            // Reads the input from the client
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String line;
+            String line = reader.readLine();
 
-            line = reader.readLine();
             while (line != null) {
 
+                // Checks what type of request was received
                 if (line.startsWith("GET /")) {
                     result = "GET";
                     break;
-                }
-                if (line.startsWith("POST /")) {
+                } else if (line.startsWith("POST /")) {
                     result = "POST";
                     break;
-                }
-                if (line.startsWith("PUT /")) {
+                } else if (line.startsWith("PUT /")) {
                     result = "PUT";
                     break;
                 }
@@ -98,7 +103,6 @@ public class MockServer implements Runnable {
                 writeServerError(output);
                 return;
             }
-            byte[] bytes = new byte[1024];
 
             // Send out the content.
             output.println("HTTP/1.0 200 OK");
@@ -107,7 +111,9 @@ public class MockServer implements Runnable {
             output.println();
             output.println(result);
             output.flush();
+
         } finally {
+            // Closes the connection with the client
             if (null != output) {
                 output.close();
             }

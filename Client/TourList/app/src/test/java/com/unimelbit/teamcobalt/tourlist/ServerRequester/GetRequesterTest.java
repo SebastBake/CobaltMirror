@@ -28,8 +28,11 @@ public class GetRequesterTest {
 
     @Test
     public void doInBackground() throws Exception {
+        // runs a local server and sends a get request
         MockServer server = new MockServer(5000);
         server.start();
+
+        // verifies that the get request was successful
         String result = this.requester.doInBackground("http://localhost:5000");
         assertEquals("GET\n", result);
         server.stop();

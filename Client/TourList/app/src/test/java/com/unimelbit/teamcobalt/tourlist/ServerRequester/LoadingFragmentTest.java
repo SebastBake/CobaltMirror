@@ -9,6 +9,8 @@ import static junit.framework.Assert.assertNotNull;
 
 /**
  * Created by awhite on 6/10/17.
+ *
+ * Not much to test as Fragments are mostly interface/UI
  */
 
 @RunWith(RobolectricTestRunner.class)
@@ -23,6 +25,7 @@ public class LoadingFragmentTest {
 
     @Test
     public void newInstance() throws Exception {
+        // verifies that an instance is returned
         assertNotNull(loadingFragment.newInstance("loading"));
     }
 

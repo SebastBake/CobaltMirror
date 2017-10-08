@@ -16,28 +16,18 @@ import static org.mockito.Mockito.mock;
 public class ARJSONListenerTest {
 
     ARJSONListener listener;
+    Context context;
 
     @Before
     public void setUp() {
         this.listener = new ARJSONListener();
+        this.context = mock(Context.class);
     }
 
     @Test
     public void getArchitectJavaScriptInterfaceListener() throws Exception {
-        Context context = mock(Context.class);
         ArchitectJavaScriptInterfaceListener temp = listener.getArchitectJavaScriptInterfaceListener(context);
         assertNotNull(temp);
-
-    }
-
-    @Test
-    public void createListener() throws Exception {
-
-    }
-
-    @Test
-    public void setListener() throws Exception {
-
     }
 
 }

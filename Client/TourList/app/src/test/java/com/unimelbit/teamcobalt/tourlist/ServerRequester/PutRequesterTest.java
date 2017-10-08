@@ -41,6 +41,7 @@ public class PutRequesterTest {
 
     @Test
     public void onPostExecute() throws Exception {
+        // verifies that onPostExecute runs processResult
         requester.onPostExecute("result");
         verify(request).processResult("result");
     }
