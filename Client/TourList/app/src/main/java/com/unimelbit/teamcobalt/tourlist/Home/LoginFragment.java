@@ -1,6 +1,8 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
 import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,6 +46,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     BaseFragmentContainerManager mainContainer;
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Name = "nameKey";
+    public static final String Password = "passwordKey";
+
     public LoginFragment() {
     }
     public static LoginFragment newInstance() {
@@ -56,6 +62,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -128,6 +135,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     Toast.makeText(getActivity(), username, Toast.LENGTH_SHORT).show();
                     base.setCurrentUser(user);
                     base.setUserName(username);
+
+                    SharedPreferences.Editor editor = BaseActivity.sharedpreferences.edit();
+
+                    editor.putString(Name, username);
+                    editor.putString(Password, password);
+                    editor.putString("aUser", getresults);
+                    editor.commit();
+
                     base.getMainContainer().gotoHomeFragment();
 
                 } else {
