@@ -36,7 +36,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(RobolectricTestRunner.class)
 @Config( constants = BuildConfig.class)
 public class ModelTest {
-   private String title = "test title";
+    private String title = "test title";
     private String description = "test description";
     private Double  lat = 10.0;
     private Double  lo = 20.0;
@@ -54,7 +54,6 @@ public class ModelTest {
         array.put(object);
 
         assertNotNull(Location.newLocationArrayFromJSON(array));
-
     }
 
     @Test

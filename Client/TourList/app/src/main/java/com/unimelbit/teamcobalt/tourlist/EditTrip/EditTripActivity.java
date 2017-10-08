@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.EditTrip;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
-import com.unimelbit.teamcobalt.tourlist.CreateTrips.AddLocationsToTripActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -21,13 +19,15 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
     public static final String INTENT_TRIP_EXTRA = "com.unimelbit.teamcobalt.tourlist.EditTrip.TRIP_EXTRA";
     public static final String INTENT_USER_EXTRA = "com.example.spike.uitest.USER_EXTRA";
 
+    public static final String TITLE = "Edit trip";
+    public static final String FORM_INCORRECTLY_FILLED_OUT = "Please fill out form correctly";
+
     private static final String SIZE_SML = "1-5";
     private static final String SIZE_MED = "5-10";
     private static final String SIZE_LRG = ">10";
     private static final String COST_LOW = "$";
     private static final String COST_MED = "$$";
     private static final String COST_LRG = "$$$";
-
 
     private RadioButton size_small;
     private RadioButton size_medium;
@@ -51,7 +51,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
 
         setContentView(R.layout.activity_edit_trip);
 
-        this.setTitle( "Edit Trip");
+        this.setTitle(TITLE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -129,21 +129,21 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
             case R.id.edit_trip_Size_small:
                 checked = ((RadioButton) view).isChecked();
                 if (checked)
-                    trip.setSize("1-5");
+                    trip.setSize(SIZE_SML);
                 size_medium.setChecked(false);
                 size_large.setChecked(false);
                 break;
             case R.id.edit_trip_Size_medium:
                 checked = ((RadioButton) view).isChecked();
                 if (checked)
-                    trip.setSize("5-10");
+                    trip.setSize(SIZE_MED);
                 size_small.setChecked(false);
                 size_large.setChecked(false);
                 break;
             case R.id.edit_trip_Size_large:
                 checked = ((RadioButton) view).isChecked();
                 if (checked)
-                    trip.setSize(">10");
+                    trip.setSize(SIZE_LRG);
                 size_medium.setChecked(false);
                 size_small.setChecked(false);
                 break;
@@ -152,21 +152,21 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
             case R.id.edit_trip_Cost_small:
                 checked = ((RadioButton) view).isChecked();
                 if (checked)
-                    trip.setCost("$");
+                    trip.setCost(COST_LOW);
                 cost_medium.setChecked(false);
                 cost_large.setChecked(false);
                 break;
             case R.id.edit_trip_Cost_medium:
                 checked = ((RadioButton) view).isChecked();
                 if (checked)
-                    trip.setCost("$$");
+                    trip.setCost(COST_MED);
                 cost_small.setChecked(false);
                 cost_large.setChecked(false);
                 break;
             case R.id.edit_trip_Cost_large:
                 checked = ((RadioButton) view).isChecked();
                 if (checked)
-                    trip.setCost("$$$");
+                    trip.setCost(COST_LRG);
                 cost_medium.setChecked(false);
                 cost_small.setChecked(false);
                 break;
@@ -187,11 +187,11 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         boolean notFilledOut = trip.getName().isEmpty() || trip.getDate().isEmpty() || (trip.getDescription().isEmpty());
 
         if (notFilledOut) {
-            Toast.makeText(this, "Please fill out form correctly", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, FORM_INCORRECTLY_FILLED_OUT, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Intent intent = new Intent(this, AddLocationsToTripActivity.class);
+        Intent intent = new Intent(this, EditTripLocationsActivity.class);
         intent.putExtra(INTENT_TRIP_EXTRA, trip);
         intent.putExtra(INTENT_USER_EXTRA, userName);
         startActivity(intent);

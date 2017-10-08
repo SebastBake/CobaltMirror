@@ -24,7 +24,8 @@ import java.util.ArrayList;
 
 public class AddLocationsToTripActivity extends AppCompatActivity {
 
-    private int PLACE_PICKER_REQUEST = 1;
+    private static final int PLACE_PICKER_REQUEST = 1;
+    private static final String TITLE =  "Add Locations";
 
     private ArrayList<Place> placeArray;
     private Button addLocationButton;
@@ -37,9 +38,9 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_trip_add_location);
-        this.setTitle( "Add Locations to the Trip");
+        this.setTitle(TITLE);
 
-        placeArray = new ArrayList<Place>();
+        placeArray = new ArrayList<>();
 
         initButtons();
         initLocationsList();
@@ -56,15 +57,12 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
                 try {
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                     Intent intent = builder.build(AddLocationsToTripActivity.this);
-
                     startActivityForResult(intent, PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -104,8 +102,8 @@ public class AddLocationsToTripActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 // Add new place into place list
-                Place location = PlacePicker.getPlace(this, data);
-                placeArray.add(location);
+                Place place = PlacePicker.getPlace(this, data);
+                placeArray.add(place);
                 listAdapter.notifyDataSetChanged();
             }
         }

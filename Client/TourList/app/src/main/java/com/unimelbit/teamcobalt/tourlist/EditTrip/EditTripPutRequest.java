@@ -46,7 +46,7 @@ public class EditTripPutRequest implements PostRequest {
 
         try {
             out = trip.toJSON().toString();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             requestFailed("Failed to convert trip into JSON", e);
         }
         return out;

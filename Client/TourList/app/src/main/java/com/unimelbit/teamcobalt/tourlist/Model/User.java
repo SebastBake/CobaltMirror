@@ -105,8 +105,7 @@ public class User {
         return dataToSend.toString();
     }
 
-    public String getId(){return id;
-    }
+    public String getId(){return id;}
     public ArrayList<String> getSavedtrips() {
         return savedtrips;
     }
