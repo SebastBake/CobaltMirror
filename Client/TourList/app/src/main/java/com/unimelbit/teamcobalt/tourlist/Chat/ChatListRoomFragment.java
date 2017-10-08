@@ -17,13 +17,12 @@ import java.util.ArrayList;
 
 public class ChatListRoomFragment extends Fragment implements View.OnClickListener {
 
+    private static final String LOGGED_OUT_CHAT_USERNAME = "anon";
+
     //Chatroom adaptor
     private ChatAdaptor chatServices;
-
     private BaseActivity base;
-
     private Button genChatButton, randChatButton;
-
     private String username;
 
     public ChatListRoomFragment() {
@@ -46,7 +45,7 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
         base = (BaseActivity) getActivity();
 
         if (BaseActivity.getCurrentUser() == null) {
-            username = "anonymous user";
+            username = LOGGED_OUT_CHAT_USERNAME;
         } else {
             username = BaseActivity.getCurrentUser().getUsername();
         }

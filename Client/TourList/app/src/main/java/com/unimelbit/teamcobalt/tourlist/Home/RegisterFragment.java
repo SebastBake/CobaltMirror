@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import org.json.JSONException;
@@ -31,6 +32,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     public static final String FILL_FORM_MESSAGE = "Enter details";
     public static final String REGISTER_LOADING_MESSAGE = "Registering new user...";
+    public static final String REGISTER_FAIL_MSG = "Registration failed";
 
     private String username;
     private String password;
@@ -94,16 +96,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         @Override
         protected String doInBackground(String... params) {
 
-
             try {
                 return postData(params[0]);
             } catch (IOException ex) {
                 return "Network error !";
             } catch (JSONException ex) {
                 return "Data Invalid !";
+            } catch (Exception e) {
+                ErrorActivity.newError(getActivity(), e, REGISTER_FAIL_MSG);
+                return REGISTER_FAIL_MSG;
             }
         }
-
 
         @Override
         protected void onPostExecute(String result) {

@@ -41,15 +41,10 @@ import java.util.Objects;
 public class ChatroomActivity extends AppCompatActivity {
 
     private FirebaseListAdapter<Chat> adapter;
-
     private String userName;
-
     private String roomName, roomId;
-
     private ArrayList<String> users;
-
     private FirebaseChatRoomHandler chatRoomHandler;
-
     private ListView listOfMessages;
 
 

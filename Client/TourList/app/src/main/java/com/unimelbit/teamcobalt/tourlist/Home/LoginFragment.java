@@ -129,7 +129,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             new LogPrinter(0, null).println(getresults);
 
             try {
-
                 if (getresults.length() > NULL_RESULT_LEN) {
                     //Toast.makeText(getActivity(), tmp.toString(), Toast.LENGTH_SHORT).show();
                     //Toast.makeText(getActivity(), getresults, Toast.LENGTH_SHORT).show();
@@ -154,7 +153,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             } catch (Exception e) {
                 requestFailed("Something failed for url and result: " + result, e);
             }
-
         }
 
         public void requestFailed(String msg, Exception e) {
