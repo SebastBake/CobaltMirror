@@ -64,6 +64,7 @@ class RegisterUserPostRequest implements PostRequest {
 
     @Override
     public String getDataToSend() {
+
         try {
             //Create data to send to server
             JSONObject dataToSend = new JSONObject();
@@ -73,7 +74,10 @@ class RegisterUserPostRequest implements PostRequest {
             String out = dataToSend.toString();
             return out;
         } catch (Exception e) {
-            requestFailed(GET_DATA_FAILED , e);
+            
+            // massive error lol
+            e.printStackTrace();
+            ErrorActivity.newError(activity, e, GET_DATA_FAILED);
         }
         return null;
     }

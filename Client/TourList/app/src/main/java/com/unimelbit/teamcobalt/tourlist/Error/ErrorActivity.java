@@ -44,8 +44,7 @@ public class ErrorActivity extends AppCompatActivity {
         }
 
         if (stackTrace.equals(INTENT_EMPTY_FIELD_FLAG)) {
-            findViewById(R.id.error_message_container).setVisibility(View.GONE);
-            ((EditText) findViewById(R.id.error_stacktrace_out)).setText(stackTrace);
+            findViewById(R.id.error_stacktrace_container).setVisibility(View.GONE);
         } else {
             ((EditText) findViewById(R.id.error_stacktrace_out)).setText(stackTrace);
         }
