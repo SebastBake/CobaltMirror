@@ -68,9 +68,6 @@ public class BaseActivity extends AppCompatActivity
 
     public static SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
-    public static final String Name = "nameKey";
-    public static final String Phone = "phoneKey";
-    public static final String Email = "emailKey";
 
     private static BaseFragmentContainerManager mainContainer;
     private PermissionManager permission;
@@ -155,16 +152,11 @@ public class BaseActivity extends AppCompatActivity
             try {
                 users = User.newUserArrayFromJSON(sharedpreferences.getString("aUser",""));
                 setCurrentUser(users.get(0));
-
-                Toast.makeText(this, "Logged in as:" + getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
-                mainContainer.gotoHomeFragment();
+                mainContainer.gotoHomeFragmentWithMessage("Logged in as: " + getCurrentUser().getUsername());
 
             } catch (Exception e) {
-
                 e.printStackTrace();
-                Toast.makeText(this, "Failed to load user preferences.", Toast.LENGTH_LONG).show();
-                mainContainer.gotoLoginOrRegisterFragment();
-                return;
+                mainContainer.gotoLoginOrRegisterFragmentWithMessage("Failed to load user preferences.");
             }
 
         } else {
@@ -282,8 +274,6 @@ public class BaseActivity extends AppCompatActivity
 
         if (id == R.id.nav_Profile &&
                 !(f instanceof LoginOrRegisterFragment) &&
-                !(f instanceof RegisterFragment) &&
-                !(f instanceof LoginFragment) &&
                 !(f instanceof ProfileFragment)
                 ) {
             if (currentUser == null) {
@@ -307,7 +297,7 @@ public class BaseActivity extends AppCompatActivity
         }else if (id == R.id.nav_logout){
 
             attemptLogOut();
-        }else if (id == R.id.nav_chat_rooms){
+        } else if (id == R.id.nav_chat_rooms){
 
             mainContainer.goToChatRooms();
         }

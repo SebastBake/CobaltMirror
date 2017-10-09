@@ -23,23 +23,20 @@ public class GetRequester extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-
-        try {
-            return getData(params[0]);
-        } catch (IOException ex) {
-            String errorMsg = "Network error !";
-            processor.requestFailed(errorMsg, ex);
-            return errorMsg;
-        }
+        return getData(params[0]);
     }
 
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        processor.processResult(result);
+        try {
+            processor.processResult(result);
+        } catch (Exception e) {
+            processor.requestFailed(result, e);
+        }
     }
 
-    private String getData(String urlPath) throws IOException {
+    private String getData(String urlPath) {
 
         StringBuilder result = new StringBuilder();
         BufferedReader bufferedReader = null;
@@ -62,10 +59,10 @@ public class GetRequester extends AsyncTask<String, Void, String> {
                 result.append(line).append("\n");
             }
 
-        } finally {
-            if (bufferedReader != null) {
-                bufferedReader.close();
-            }
+            bufferedReader.close();
+
+        } catch (Exception e) {
+            return e.getMessage();
         }
 
         return result.toString();

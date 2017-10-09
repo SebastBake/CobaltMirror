@@ -12,7 +12,6 @@ import java.util.ArrayList;
 /**
  * Created by Sebastian on 14/9/17.
  * Simple class to hold user data, can be constructed using JSON from the server
- * TODO: Figure out what to do with passwords
  */
 public class User implements Parcelable{
 
@@ -38,6 +37,7 @@ public class User implements Parcelable{
             ArrayList<String> savedtrips,
             ArrayList<String> favouritetrips
     ) {
+
         this.id = id;
         this.username = username;
         this.password = password;
@@ -46,12 +46,14 @@ public class User implements Parcelable{
         this.favouritetrips = favouritetrips;
     }
 
-    public User (String id, String username){
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
 
-        this.username = username;
-
-        this.id = id;
-
+        parcel.writeString(id);
+        parcel.writeString(username);
+        parcel.writeString(password);
+        parcel.writeStringArray((String[])savedtrips.toArray());
+        parcel.writeStringArray((String[])favouritetrips.toArray());
     }
 
     protected User(Parcel in) {
@@ -71,97 +73,76 @@ public class User implements Parcelable{
         }
     };
 
-    public static ArrayList<User> newUserArrayFromJSON(String result) throws JSONException {
+    public static User newUserFromJSON(JSONObject userJSON) throws JSONException {
+
+        String id = "";
+        String username = "";
+        String password = "";
+        String email = "";
+        ArrayList<String> savedtrips = new ArrayList<>();
+        ArrayList<String> favouritetrips = new ArrayList<>();
+
+        try {
+            id = userJSON.getString(JSON_ID);
+        } catch (JSONException e) {}
+        try {
+            username = userJSON.getString(JSON_USERNAME);
+        } catch (JSONException e) {}
+
+        try {
+            password = userJSON.getString(JSON_PASSWORD);
+        } catch (JSONException e) {}
+
+        try {
+            email = userJSON.getString(JSON_EMAIL);
+        } catch (JSONException e) {}
+
+        try {
+            JSONArray jsonSavedTrips = userJSON.getJSONArray(JSON_SAVEDTRIPS);
+
+            for (int j=0; j<jsonSavedTrips.length(); j++) {
+                savedtrips.add( jsonSavedTrips.getString(j) );
+            }
+
+        } catch(JSONException e) {}
+
+        try {
+            JSONArray jsonFavTrips = userJSON.getJSONArray(JSON_FAVOURITETRIPS);
+
+            for (int j=0; j<jsonFavTrips.length(); j++) {
+                favouritetrips.add( jsonFavTrips.getString(j) );
+            }
+
+        } catch(JSONException e) {}
+
+        return new User(id, username, password, email, savedtrips, favouritetrips);
+    }
+
+    public static ArrayList<User> newUserArrayFromJSON(String result) throws Exception {
 
         ArrayList<User> users = new ArrayList<>();
         JSONArray userJSONArray = new JSONArray(result);
 
         for (int i=0; i < userJSONArray.length(); i++) {
-
-            JSONObject userJSON = userJSONArray.getJSONObject(i);
-            String id = "";
-            String username = "";
-            String password = "";
-            String email = "";
-            ArrayList<String> savedtrips = new ArrayList<>();
-            ArrayList<String> favouritetrips = new ArrayList<>();
-
             try {
-                id = userJSON.getString(JSON_ID);
-            } catch (JSONException e) {}
-            try {
-                username = userJSON.getString(JSON_USERNAME);
-            } catch (JSONException e) {}
-
-            try {
-                password = userJSON.getString(JSON_PASSWORD);
-            } catch (JSONException e) {}
-
-            try {
-                email = userJSON.getString(JSON_EMAIL);
-            } catch (JSONException e) {}
-
-            try {
-                JSONArray jsonSavedTrips = userJSON.getJSONArray(JSON_SAVEDTRIPS);
-
-                for (int j=0; j<jsonSavedTrips.length(); j++) {
-                    savedtrips.add( jsonSavedTrips.getString(j) );
-                }
-
-            } catch(JSONException e) {}
-
-            try {
-                JSONArray jsonFavTrips = userJSON.getJSONArray(JSON_FAVOURITETRIPS);
-
-                for (int j=0; j<jsonFavTrips.length(); j++) {
-                    savedtrips.add( jsonFavTrips.getString(j) );
-                }
-
-            } catch(JSONException e) {}
-
-            users.add(new User(id,username, password, email, savedtrips, favouritetrips) );
+                users.add(newUserFromJSON(userJSONArray.getJSONObject(i)) );
+            } catch (Exception e) {
+                throw e;
+            }
         }
 
         return users;
     }
 
-    public String getUserRegistration() throws JSONException {
-        JSONObject dataToSend = new JSONObject();
-        dataToSend.put(User.JSON_USERNAME, username);
-        dataToSend.put(User.JSON_PASSWORD, password);
-        dataToSend.put(User.JSON_EMAIL, email);
-        return dataToSend.toString();
-    }
-
-    public String getId(){return id;
-    }
-    public ArrayList<String> getSavedtrips() {
-        return savedtrips;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public ArrayList<String> getFavouritetrips() {
-        return favouritetrips;
-    }
+    public String getId(){ return id; }
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+    public String getEmail() { return email; }
+    public ArrayList<String> getSavedtrips() { return savedtrips; }
+    public ArrayList<String> getFavouritetrips() { return favouritetrips; }
 
     @Override
     public int describeContents() {
         return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-
-        parcel.writeString(id);
-
-        parcel.writeString(username);
-
     }
 }
