@@ -132,16 +132,16 @@ public class Trip {
 
         String locationString = "";
         for(Location location: locations) { locationString += location.getTitle() + "\n"; }
+
         String userString = "";
         for (String user : usernames){
             userString += user + "\n";
         }
+
         String useridString = "";
         for (String user : userids){
             userString += user + "\n";
         }
-
-
 
         map.put(JSON_ID,id);
         map.put(JSON_NAME, name);
@@ -224,21 +224,16 @@ public class Trip {
     public ArrayList<User> getUsers(){
 
         ArrayList<String> useridsList = this.userids;
-
         ArrayList<String> usernamesList = this.usernames;
-
-        ArrayList<User> userList = new ArrayList<User>();
+        ArrayList<User> userList = new ArrayList<>();
 
         for (int i = 0; i < useridsList.size(); i++){
 
-            User user = new User(useridsList.get(i), usernamesList.get(i));
-
+            User user = new User(useridsList.get(i), usernamesList.get(i), "","", (new ArrayList<String>()), (new ArrayList<String>()));
             userList.add(user);
-
         }
 
         return userList;
-
     }
 
 }

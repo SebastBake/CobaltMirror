@@ -50,7 +50,6 @@ public class Location implements Parcelable{
         this.latitude = latitude;
         this.longitude = longitude;
         this.altitude = altitude;
-
     }
 
     Location(Parcel parcel) {
@@ -61,7 +60,6 @@ public class Location implements Parcelable{
         longitude = parcel.readDouble();
         altitude = parcel.readDouble();
     }
-
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

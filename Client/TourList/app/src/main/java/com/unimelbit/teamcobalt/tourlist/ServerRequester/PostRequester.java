@@ -27,14 +27,7 @@ public class PostRequester extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-
-        try {
-            return postData(params[0]);
-        } catch (IOException ex) {
-            String msg = "Network error, received an IO exception !";
-            processor.requestFailed(msg, ex);
-            return msg;
-        }
+        return postData(params[0]);
     }
 
     @Override
@@ -49,7 +42,7 @@ public class PostRequester extends AsyncTask<String, Void, String> {
         }
     }
 
-    private String postData(String urlPath) throws IOException {
+    private String postData(String urlPath) {
 
         StringBuilder result = new StringBuilder();
         BufferedReader bufferedReader = null;
@@ -59,8 +52,8 @@ public class PostRequester extends AsyncTask<String, Void, String> {
             //Initialize and config request, then connect to server
             URL url = new URL(urlPath);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(6 * 1000 /* milliseconds */);
-            urlConnection.setConnectTimeout(6 * 1000 /* milliseconds */);
+            urlConnection.setReadTimeout(10 * 1000 /* milliseconds */);
+            urlConnection.setConnectTimeout(10 * 1000 /* milliseconds */);
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true);  //enable output (body data)
             urlConnection.setRequestProperty("Content-Type", "application/json");// set header
@@ -80,10 +73,10 @@ public class PostRequester extends AsyncTask<String, Void, String> {
                 result.append(line).append("\n");
             }
 
-        } finally {
-            if (bufferedReader != null) {
-                bufferedReader.close();
-            }
+            bufferedReader.close();
+
+        } catch(Exception e) {
+            return e.getMessage();
         }
 
         return result.toString();

@@ -3,6 +3,7 @@ package com.unimelbit.teamcobalt.tourlist;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatListRoomFragment;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
@@ -52,6 +53,16 @@ public class BaseFragmentContainerManager {
     }
 
     /**
+     * Takes the user to the register screen with network error message
+     */
+    public void gotoRegisterFragmentWithMessage(String msg) {
+
+        RegisterFragment fragment = new RegisterFragment();
+        Toast.makeText(baseActivity, msg, Toast.LENGTH_LONG).show();
+        gotoFragmentUsingBackstack(fragment);
+    }
+
+    /**
      * Takes the user to the register screen
      */
     public void gotoLoginFragment() {
@@ -61,7 +72,17 @@ public class BaseFragmentContainerManager {
     }
 
     /**
-     * Takes the user to the register screen
+     * Takes the user to the login screen with a incorrect login message
+     */
+    public void gotoLoginFragmentWithMessage(String msg) {
+
+        LoginFragment fragment = LoginFragment.newInstance();
+        Toast.makeText(baseActivity, msg, Toast.LENGTH_LONG).show();
+        gotoFragmentUsingBackstack(fragment);
+    }
+
+    /**
+     * Takes the user to the profile screen
      */
     public void gotoProfileFragment() {
 
@@ -81,10 +102,21 @@ public class BaseFragmentContainerManager {
     /**
      * Takes the user to the home screen
      */
-    public void gotoHomeFragment(User user) {
+    public void gotoLoginOrRegisterFragmentWithMessage(String msg) {
 
-        baseActivity.setCurrentUser(user);
-        gotoHomeFragment();
+        LoginOrRegisterFragment fragment = LoginOrRegisterFragment.newInstance();
+        Toast.makeText(baseActivity, msg, Toast.LENGTH_LONG).show();
+        gotoFragmentUsingBackstack(fragment);
+    }
+
+    /**
+     * Takes the user to the home screen
+     */
+    public void gotoHomeFragmentWithMessage(String msg) {
+
+        HomeFragment fragment = HomeFragment.newInstance();
+        Toast.makeText(baseActivity, msg, Toast.LENGTH_LONG).show();
+        gotoFragmentUsingBackstack(fragment);
     }
 
     /**
@@ -109,7 +141,7 @@ public class BaseFragmentContainerManager {
      */
     public void gotoTabbedTripFragment(Trip trip) {
 
-        baseActivity.setCurrentTrip(trip);
+        BaseActivity.setCurrentTrip(trip);
         TabbedTripFragment fragment = TabbedTripFragment.newInstance();
         gotoFragmentUsingBackstack(fragment);
     }
@@ -124,10 +156,9 @@ public class BaseFragmentContainerManager {
     }
 
     public void gotoSearchedTripDetailsFragment(Trip trip){
-        baseActivity.setSearchedTrip(trip);
+        BaseActivity.setSearchedTrip(trip);
         SearchedTripDetailsFragment fragment = SearchedTripDetailsFragment.newInstance();
         gotoFragmentUsingBackstack(fragment);
-
     }
 
     /**
@@ -154,7 +185,8 @@ public class BaseFragmentContainerManager {
      */
     public void gotoLoadingFragment(String loadingMsg) {
 
-        LoadingFragment fragment = LoadingFragment.newInstance(loadingMsg);
+        LoadingFragment fragment = LoadingFragment.newInstance();
+        LoadingFragment.setLoadingMsg(loadingMsg);
         gotoFragmentUsingBackstack(fragment);
     }
 
@@ -183,25 +215,25 @@ public class BaseFragmentContainerManager {
     }
 
 
-    /*
-    The bread and butter for transactions and backstacks
+    /**
+     * The bread and butter for transactions and backstacks
      */
-    private void replaceFragment (Fragment fragment){
+    private void replaceFragment (Fragment fragment) {
+
         String backStateName = fragment.getClass().getName();
 
         FragmentManager manager = baseActivity.getSupportFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
 
-        if (!fragmentPopped){ //fragment not in back stack, create it.
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(containerId, fragment);
-            ft.addToBackStack(backStateName);
-            ft.commit();
+        if (!fragmentPopped) { //fragment not in back stack, create it.
+            manager.beginTransaction()
+                    .replace(containerId, fragment)
+                    .addToBackStack(backStateName)
+                    .commit();
         }
     }
 
     public BaseActivity getBaseActivity(){
         return baseActivity;
-
     }
 }
