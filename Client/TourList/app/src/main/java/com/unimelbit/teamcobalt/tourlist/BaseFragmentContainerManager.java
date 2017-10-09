@@ -159,7 +159,6 @@ public class BaseFragmentContainerManager {
         BaseActivity.setSearchedTrip(trip);
         SearchedTripDetailsFragment fragment = SearchedTripDetailsFragment.newInstance();
         gotoFragmentUsingBackstack(fragment);
-
     }
 
     /**
@@ -186,7 +185,8 @@ public class BaseFragmentContainerManager {
      */
     public void gotoLoadingFragment(String loadingMsg) {
 
-        LoadingFragment fragment = LoadingFragment.newInstance(loadingMsg);
+        LoadingFragment fragment = LoadingFragment.newInstance();
+        LoadingFragment.setLoadingMsg(loadingMsg);
         gotoFragmentUsingBackstack(fragment);
     }
 
@@ -215,20 +215,21 @@ public class BaseFragmentContainerManager {
     }
 
 
-    /*
-    The bread and butter for transactions and backstacks
+    /**
+     * The bread and butter for transactions and backstacks
      */
-    private void replaceFragment (Fragment fragment){
+    private void replaceFragment (Fragment fragment) {
+
         String backStateName = fragment.getClass().getName();
 
         FragmentManager manager = baseActivity.getSupportFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
 
-        if (!fragmentPopped){ //fragment not in back stack, create it.
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(containerId, fragment);
-            ft.addToBackStack(backStateName);
-            ft.commit();
+        if (!fragmentPopped) { //fragment not in back stack, create it.
+            manager.beginTransaction()
+                    .replace(containerId, fragment)
+                    .addToBackStack(backStateName)
+                    .commit();
         }
     }
 

@@ -15,22 +15,11 @@ import com.unimelbit.teamcobalt.tourlist.R;
  */
 public class LoadingFragment extends Fragment {
 
-    public static final String ARG_LOADING_MSG = "ARG_LOADING_MSG";
     public static final String DEFAULT_MSG = "Loading...";
-    private String loadingMsg;
+    private static String loadingMsg = DEFAULT_MSG;
 
-    public static LoadingFragment newInstance(String loadingMsg) {
-
+    public static LoadingFragment newInstance() {
         LoadingFragment fragment = new LoadingFragment();
-
-        Bundle args = new Bundle();
-        if (loadingMsg != null) {
-            args.putString(ARG_LOADING_MSG, loadingMsg);
-        } else {
-            args.putString(ARG_LOADING_MSG, DEFAULT_MSG);
-        }
-        fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -39,19 +28,13 @@ public class LoadingFragment extends Fragment {
 
         View rootView =  inflater.inflate(R.layout.fragment_load, container, false);
 
-        TextView loadingMsg = (TextView) rootView.findViewById(R.id.loading_message);
-        loadingMsg.setText((String)this.getArguments().get(ARG_LOADING_MSG));
+        TextView loadingTexView = (TextView) rootView.findViewById(R.id.loading_message);
+        loadingTexView.setText(loadingMsg);
 
         return rootView;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            loadingMsg = getArguments().getString(ARG_LOADING_MSG);
-        }
+    public static void setLoadingMsg(String msg) {
+        loadingMsg = msg;
     }
 }
