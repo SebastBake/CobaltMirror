@@ -3,6 +3,7 @@ package com.unimelbit.teamcobalt.tourlist.TripSearch;
 import android.util.Log;
 
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
+import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
@@ -48,7 +49,7 @@ public class SearchedTripGetRequest implements GetRequest {
 
         Log.e("GetRequest failed",msg);
         e.printStackTrace();
-        containerManager.gotoErrorFragment("SearchedTripGetRequest failed: " + msg);
+        ErrorActivity.newError(containerManager.getBaseActivity(),e,"SearchedTripGetRequest failed: " + msg);
     }
 }
 

@@ -1,5 +1,7 @@
 package com.unimelbit.teamcobalt.tourlist.Model;
 
+import android.support.design.internal.ParcelableSparseArray;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +21,10 @@ public class Trip {
     public static final String JSON_DATE = "date";
     public static final String JSON_LOC = "locations";
     public static final String JSON_DESC = "description";
-    public static final String JSON_USERS = "users";
+    public static final String JSON_USERS_NAMES = "usernames";
+    public static final String JSON_USERS_IDS = "userids";
+
+    public static final String USERLIST_TRIPS = "users_trip";
 
     private String id;
     private String name;
@@ -28,7 +33,8 @@ public class Trip {
     private String cost;
     private String size;
     private ArrayList<Location> locations;
-    private ArrayList<String> users;
+    private ArrayList<String> usernames;
+    private ArrayList<String> userids;
 
     private String url;
 
@@ -40,7 +46,8 @@ public class Trip {
             String cost,
             String size,
             ArrayList<Location> locations,
-            ArrayList<String> users,
+            ArrayList<String> usernames,
+            ArrayList<String> userids,
             String url
     ) {
         this.id = id;
@@ -50,7 +57,8 @@ public class Trip {
         this.cost = cost;
         this.size = size;
         this.locations = locations;
-        this.users = users;
+        this.usernames = usernames;
+        this.userids = userids;
         this.url = url;
     }
 
@@ -69,7 +77,8 @@ public class Trip {
             String date = "";
             String description = "";
             ArrayList<Location> locations = new ArrayList<>();
-            ArrayList<String> users = new ArrayList<>();
+            ArrayList<String> usernames = new ArrayList<>();
+            ArrayList<String> userids = new ArrayList<>();
 
             try {
                 id = tripJSON.getString(JSON_ID);
@@ -99,13 +108,19 @@ public class Trip {
                 locations = Location.newLocationArrayFromJSON(jsonLocations);
             } catch(JSONException e) {}
             try {
-                JSONArray jsonUsers = tripJSON.getJSONArray(JSON_USERS);
-                for (int j=0; i<jsonUsers.length();j++){
-                    users.add(jsonUsers.get(j).toString());
+                JSONArray jsonUsernames = tripJSON.getJSONArray(JSON_USERS_NAMES);
+                for (int j=0; i<jsonUsernames.length();j++){
+                    usernames.add(jsonUsernames.get(j).toString());
+                }
+            } catch(JSONException e) {}
+            try {
+                JSONArray jsonUserids = tripJSON.getJSONArray(JSON_USERS_IDS);
+                for (int j=0; i<jsonUserids.length();j++){
+                    userids.add(jsonUserids.get(j).toString());
                 }
             } catch(JSONException e) {}
 
-            trips.add(new Trip(id,name, description, date, cost, size, locations,users, url));
+            trips.add(new Trip(id,name, description, date, cost, size, locations,usernames,userids, url));
         }
 
         return trips;
@@ -118,9 +133,15 @@ public class Trip {
         String locationString = "";
         for(Location location: locations) { locationString += location.getTitle() + "\n"; }
         String userString = "";
-        for (String user : users){
+        for (String user : usernames){
             userString += user + "\n";
         }
+        String useridString = "";
+        for (String user : userids){
+            userString += user + "\n";
+        }
+
+
 
         map.put(JSON_ID,id);
         map.put(JSON_NAME, name);
@@ -128,7 +149,8 @@ public class Trip {
         map.put(JSON_COST, cost);
         map.put(JSON_SIZE, size);
         map.put(JSON_DESC, description);
-        map.put(JSON_USERS,userString);
+        map.put(JSON_USERS_NAMES,userString);
+        map.put(JSON_USERS_IDS,useridString);
         map.put(JSON_LOC, locationString);
 
         return map;
@@ -151,12 +173,18 @@ public class Trip {
         }
 
         JSONArray userJSONArray = new JSONArray();
-        for(String user: users) {
+        for(String user: usernames) {
             userJSONArray.put(user);
         }
 
-        trip.put(JSON_USERS,userJSONArray);
+        JSONArray useridJSONArray = new JSONArray();
+        for(String user: usernames) {
+            useridJSONArray.put(user);
+        }
+
+        trip.put(JSON_USERS_NAMES,userJSONArray);
         trip.put(JSON_LOC, locationJSONArray);
+        trip.put(JSON_USERS_IDS,useridJSONArray);
 
         return trip;
     }
@@ -189,5 +217,28 @@ public class Trip {
         return url;
     }
 
-    public ArrayList<String> getUsers() {return users;}
+    public ArrayList<String> getUsernames() {return usernames;}
+
+    public ArrayList<String> getUserids() {return userids;}
+
+    public ArrayList<User> getUsers(){
+
+        ArrayList<String> useridsList = this.userids;
+
+        ArrayList<String> usernamesList = this.usernames;
+
+        ArrayList<User> userList = new ArrayList<User>();
+
+        for (int i = 0; i < useridsList.size(); i++){
+
+            User user = new User(useridsList.get(i), usernamesList.get(i));
+
+            userList.add(user);
+
+        }
+
+        return userList;
+
+    }
+
 }

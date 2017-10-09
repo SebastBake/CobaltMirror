@@ -26,23 +26,15 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
     public static final int TRIP_SECTION_INDEX = 1;
 
     private Button chatButton;
-
     private TextView title, info;
-
-    private String name;
-
     private ListView list;
-
     private ArrayAdapter<String> adapter;
-
     private ArrayList<String> userList;
-
     private BaseActivity base;
+    private String username;
 
     public ChatFragment() {
-        // Required empty public constructor
     }
-
 
     public static ChatFragment newInstance() {
         ChatFragment fragment = new ChatFragment();
@@ -63,17 +55,12 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
         base = (BaseActivity) getActivity();
 
         chatButton = (Button) v.findViewById(R.id.button_chat);
-
         chatButton.setOnClickListener(this);
-
         title = (TextView) v.findViewById(R.id.chatFragmentTitle);
-
         info = (TextView) v.findViewById(R.id.chatFragmentDesc);
-
         ListView listV = (ListView) v.findViewById(R.id.userListChat);
 
-        userList = initUsers(15);
-
+        userList = BaseActivity.getCurrentTrip().getUsernames();
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, userList);
 
         // Here, you set the data in your ListView
@@ -85,24 +72,19 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
             public void onItemClick(AdapterView<?>adapter,View v, int position, long i){
 
                 String user = userList.get(position);
-
                 Intent intent = new Intent(getActivity(),UserProfile.class);
-
                 startActivity(intent);
             }
         });
 
-        name = base.getUserName();
-
-        if(name == null){
-
-            name = "User did not login";
-
+        if (BaseActivity.getCurrentUser() == null) {
+            username = "anonymous user";
+        } else {
+            username = BaseActivity.getCurrentUser().getUsername();
         }
 
-        setTextView(title, base.getCurrentTrip().getName()+" Chat");
-
-        setTextView(info, "You will be signed in Chat as: "+ name);
+        setTextView(title, BaseActivity.getCurrentTrip().getName()+" Chat");
+        setTextView(info, "You will be signed in Chat as: "+ username);
 
         return v;
     }
@@ -114,25 +96,18 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         if(id == R.id.button_chat){
 
-            String roomName = base.getCurrentTrip().getName();
+            String roomName = BaseActivity.getCurrentTrip().getName();
+            String roomId = BaseActivity.getCurrentTrip().getId();
 
-            ChatAdaptor chatService = AppServicesFactory
-                    .getServicesFactory()
-                    .getFirebaseChatService(getActivity());
-
-            chatService.checkRoom(roomName);
-
-            chatService.enterChatRoom(base.getUserName(), roomName,base.getCurrentTrip().getUsers());
-
+            ChatAdaptor chatService = AppServicesFactory.getServicesFactory().getFirebaseChatService(getActivity());
+            chatService.checkRoom(roomId);
+            chatService.enterChatRoom(username, roomName, roomId,base.getCurrentTrip().getUsernames());
         }
-
     }
 
 
     private void setTextView(TextView t, String s){
-
         t.setText(s);
-
     }
 
     public ArrayList<String> initUsers(int n){
@@ -140,14 +115,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
         ArrayList<String> array = new ArrayList<String>();
 
         for(int i = 0; i < n; i++){
-
             String item = "User "+ i;
-
             array.add(item);
-
         }
 
         return array;
     }
-
 }

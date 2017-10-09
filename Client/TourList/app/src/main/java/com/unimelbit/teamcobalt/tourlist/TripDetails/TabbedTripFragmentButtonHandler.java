@@ -9,6 +9,8 @@ import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
@@ -114,8 +116,15 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
             public void onClick(View view) {
 
                 Intent intent = new Intent(activity, MapActivity.class);
+
                 ArrayList<Location> locations = activity.getCurrentTrip().getLocations();
+
+                ArrayList<User> user = activity.getCurrentTrip().getUsers();
+
                 intent.putParcelableArrayListExtra(Location.LOC_DEFAULT_PARCEL_KEY, locations);
+
+                intent.putParcelableArrayListExtra(Trip.USERLIST_TRIPS, user);
+
                 fragment.startActivity(intent);
             }
         });

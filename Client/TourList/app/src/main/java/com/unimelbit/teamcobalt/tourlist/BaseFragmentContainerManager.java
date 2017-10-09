@@ -166,40 +166,6 @@ public class BaseFragmentContainerManager {
     }
 
     /**
-     * Takes the user to the error screen
-     */
-    public void gotoErrorFragment(String errMsg) {
-
-        ErrorFragment fragment = ErrorFragment.newInstance(errMsg);
-        //gotoFragment(fragment);
-
-
-        baseActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(containerId,fragment)
-                .addToBackStack(null)
-                .commit();
-
-/*
-        final AlertDialog.Builder builder = new AlertDialog.Builder(baseActivity);
-
-        //Dialogue to display
-        final String message = "The Following Error has occurred:\n\n" + errMsg;
-
-        //Direct user to location settings if they press OK, otherwise dismiss the display box
-        builder.setMessage(message)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                //baseActivity.getSupportFragmentManager().popBackStackImmediate();
-                                d.dismiss();
-                            }
-                        });
-        builder.create().show();
-        */
-    }
-
-    /**
      *
      * @return the current fragment in the main fragment container
      */

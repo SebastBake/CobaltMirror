@@ -9,10 +9,6 @@ var userSchema = mongoose.Schema({
   "email": String,
   "savedtrips": [String],
   "createdtrips": [String],
-  "favouritetrips": [String],
-  "currenttrip": String,
-  "latitude": Number,
-  "longitude": Number,
-
+  "currenttrip": String
 });
 mongoose.model('users', userSchema);

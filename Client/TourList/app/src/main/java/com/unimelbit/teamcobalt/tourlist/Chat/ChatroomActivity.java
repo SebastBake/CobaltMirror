@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -43,9 +44,13 @@ public class ChatroomActivity extends AppCompatActivity {
 
     private String userName;
 
-    private String roomName;
+    private String roomName, roomId;
 
     private ArrayList<String> users;
+
+    private FirebaseChatRoomHandler chatRoomHandler;
+
+    private ListView listOfMessages;
 
 
     @Override
@@ -60,15 +65,16 @@ public class ChatroomActivity extends AppCompatActivity {
 
         userName = getIntent().getExtras().getString("Name");
 
-        if(userName.isEmpty() || userName == null){
-
-            userName = "Didn't login properly";
-
-        }
+        listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
         FirebaseMessaging.getInstance().subscribeToTopic("user_"+userName);
 
+        chatRoomHandler = (FirebaseChatRoomHandler) AppServicesFactory.getServicesFactory()
+                .getFirebaseChatService(this);
+
         roomName = getIntent().getExtras().getString("Room_name");
+
+        roomId = getIntent().getExtras().getString("Id");
 
         displayChatMessages();
 
@@ -85,30 +91,22 @@ public class ChatroomActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 EditText input = (EditText)findViewById(R.id.input);
 
-                if(!input.getText().toString().isEmpty()) {
+                String message = input.getText().toString();
+
+                if(!message.isEmpty()) {
                     // Read the input field and push a new instance
                     // of ChatMessage to the Firebase database
-                    FirebaseDatabase.getInstance()
-                            .getReference().child(roomName)
-                            .push()
-                            .setValue(new Chat(input.getText().toString(),
-                                    userName)
-                            );
+                    chatRoomHandler.sendMessage(message, userName, roomId);
+
 
                    if (!users.isEmpty() || users != null){
-                        for (String user : users){
-                            Map notification = new HashMap<>();
-                            notification.put("username", user);
-                            notification.put("message", input.getText().toString());
-                            notification.put("fromUser",userName);
 
-                           FirebaseDatabase.getInstance()
-                                    .getReference().child("notificationRequests").push().setValue(notification);
-                        }
+                       chatRoomHandler.sendNotification(users, message, userName);
+
                    }
-
 
 
                     // Clear the input
@@ -122,39 +120,29 @@ public class ChatroomActivity extends AppCompatActivity {
     }
 
 
-
-
     private void displayChatMessages() {
 
-        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
-
         adapter = new FirebaseListAdapter<Chat>(this, Chat.class,
-                R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomName)) {
+                R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomId)) {
             @Override
-            protected void populateView(View v, Chat model, int position) {
-                // Get references to the views of message.xml
-                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
-                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+            protected void populateView(View v, Chat chat, int position) {
+
+                TextView messageText = (TextView) v.findViewById(R.id.message_text);
+                TextView userNameText = (TextView) v.findViewById(R.id.message_user);
+                TextView timeText = (TextView) v.findViewById(R.id.message_time);
 
                 // Set their text
-                messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
+                messageText.setText(chat.getMessage());
+                userNameText.setText(chat.getUserName());
 
                 // Format the date before showing it
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        model.getMessageTime()));
+                timeText.setText(DateFormat.format("EEE, d MMM yyyy (h:mm a)",
+                        chat.getTime()));
             }
         };
 
         listOfMessages.setAdapter(adapter);
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.chat_menu, menu);
-        return true;
     }
 
 

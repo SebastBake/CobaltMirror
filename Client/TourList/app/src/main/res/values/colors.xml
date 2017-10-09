@@ -5,6 +5,7 @@
     <color name="colorAccent">#0E4375</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="white_overlay">#20ffffff</color>
 
     <color name="scheme1_blue">#0e4375</color>
     <color name="scheme1_orangeLight">#f5c851</color>

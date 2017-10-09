@@ -24,7 +24,10 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
     public static final String INTENT_SIZE = "com.example.spike.uitest.MESSAGE_THREE";
     public static final String INTENT_COST = "com.example.spike.uitest.MESSAGE_FOUR";
     public static final String INTENT_DESC = "com.example.spike.uitest.MESSAGE_FIVE";
-    public static final String INTENT_USER = "com.example.spike.uitest.MESSAGE_SIX";
+    public static final String INTENT_USERNAMES = "com.example.spike.uitest.MESSAGE_SIX";
+    public static final String INTENT_USERIDS = "com.example.spike.uitest.MESSAGE_SEVEN";
+
+    public static final String YOU_MUST_BE_LOGGED_IN = "You must be logged in to create a trip.";
 
     private String id="temp id";
     private String size;
@@ -33,6 +36,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
     private String date;
     private String desc;
     private String user;
+    private String userid;
 
     private RadioButton size_small;
     private RadioButton size_medium;
@@ -143,13 +147,25 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
 
     private void gotoChooseLocationsActivity() {
 
+        if(BaseActivity.getCurrentUser() == null) {
+            Toast.makeText(getActivity(), YOU_MUST_BE_LOGGED_IN, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         EditText nameText = (EditText) getView().findViewById(R.id.create_trip_name_field);
         EditText dateText =  (EditText) getView().findViewById(R.id.create_trip_date_field);
         EditText descText = (EditText) getView().findViewById(R.id.create_trip_desc_field);
         name = nameText.getText().toString();
         date = dateText.getText().toString();
         desc = descText.getText().toString();
-        user = ((BaseActivity)getActivity()).getUserName();
+
+        if (BaseActivity.getCurrentUser() == null) {
+            user = "anonymous user";
+            userid = "anonymous user";
+        } else {
+            user = BaseActivity.getCurrentUser().getUsername();
+            userid = BaseActivity.getCurrentUser().getId();
+        }
 
         boolean notFilledOut = name.isEmpty() || date.isEmpty() || (size==null) || (cost==null) || (desc.isEmpty());
 
@@ -165,7 +181,8 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         intent.putExtra(INTENT_SIZE, size);
         intent.putExtra(INTENT_COST, cost);
         intent.putExtra(INTENT_DESC, desc);
-        intent.putExtra(INTENT_USER,user);
+        intent.putExtra(INTENT_USERNAMES,user);
+        intent.putExtra(INTENT_USERIDS,userid);
         startActivity(intent);
         getActivity().getSupportFragmentManager().popBackStack();
     }

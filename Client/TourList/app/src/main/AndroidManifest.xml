@@ -46,7 +46,7 @@
 
         <activity
             android:name=".BaseActivity"
-            android:label="@string/title_activity_base"
+            android:label="TourList"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,16 +58,6 @@
             android:name=".TripDetails.MapActivity"
             android:label="@string/title_activity_map" />
         <activity
-            android:name=".AugmentedReality.AugmentedRealityActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_augmented_reality"
-            android:parentActivityName=".BaseActivity"
-            android:theme="@style/FullscreenTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.unimelbit.teamcobalt.tourlist.BaseActivity" />
-        </activity>
-        <activity
             android:name=".AugmentedReality.ARActivity"
             android:configChanges="screenSize|orientation"
             android:label="@string/title_activity_aug_reality" />
@@ -77,6 +67,7 @@
         <activity android:name=".CreateTrips.AddLocationsToTripActivity" />
         <activity android:name=".Chat.ChatroomActivity" />
         <activity android:name=".Profile.UserProfile" />
+        <activity android:name=".Error.ErrorActivity"></activity>
     </application>
 
 </manifest>

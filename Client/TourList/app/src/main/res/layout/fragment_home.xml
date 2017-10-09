@@ -128,40 +128,4 @@
         app:layout_constraintTop_toTopOf="@+id/searchButtonMain"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/longView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="13dp"
-        android:text="Longitude"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/latView"
-        tools:layout_constraintTop_creator="1" />
-
-    <TextView
-        android:id="@+id/latView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="114dp"
-        android:text="Latitude"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintTop_creator="1" />
-
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="15dp"
-        android:text="START"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/longView"
-        tools:layout_constraintTop_creator="1" />
-
 </android.support.constraint.ConstraintLayout>

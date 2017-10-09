@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatAdaptor;
 import com.unimelbit.teamcobalt.tourlist.Chat.FirebaseChatRoomHandler;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.ARGoogleGpsProvider;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Tracking.CoordinateDBPostRequester;
 import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
 
@@ -64,6 +67,29 @@ public class AppServicesFactory {
         }
 
         return firebasePoster;
+
+    }
+
+    /**
+     * Creates a Gps provider class. Note that this will create a new instance every time it is
+     * not shared
+     * @param c
+     * @return
+     */
+    public GoogleGpsProvider getFirebaseGpsProvider(Context c){
+
+        return new FirebaseGoogleGpsProvider(c);
+
+    }
+
+    /**
+     * Same as the Gps provider class, but for AR
+     * @param c
+     * @return
+     */
+    public GoogleGpsProvider getARGpsProvider(Context c){
+
+       return new ARGoogleGpsProvider(c);
 
     }
 

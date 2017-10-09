@@ -26,11 +26,6 @@ public class LoginOrRegisterFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_login_or_register, container, false);
@@ -39,7 +34,6 @@ public class LoginOrRegisterFragment extends Fragment {
 
         initLoginMessageText(rootView);
         initLoginAndRegisterButtons(rootView);
-
 
         return rootView;
     }

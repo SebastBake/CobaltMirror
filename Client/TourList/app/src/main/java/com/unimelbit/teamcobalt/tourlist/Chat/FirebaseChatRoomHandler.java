@@ -27,7 +27,6 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
     //References to database
     private DatabaseReference root, rootRef;
 
-
     private Context context;
 
     public FirebaseChatRoomHandler(Context c){
@@ -71,13 +70,15 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
      * @param users
      */
     @Override
-    public void enterChatRoom(String userName, String room,ArrayList<String> users) {
+    public void enterChatRoom(String userName, String room, String id,ArrayList<String> users) {
 
         Intent chatIntent = new Intent(context, ChatroomActivity.class);
 
         chatIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         chatIntent.putExtra("Name", userName);
+
+        chatIntent.putExtra("Id", id);
 
         chatIntent.putExtra("Room_name", room);
 
@@ -129,5 +130,35 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
         rootRef.child(room).setValue("");
 
     }
+
+
+    public void sendMessage(String message, String userName, String roomName){
+
+        Chat chatModel = new Chat(message, userName);
+
+        FirebaseDatabase.getInstance()
+                .getReference().child(roomName)
+                .push()
+                .setValue(chatModel);
+
+
+    }
+
+
+    public void sendNotification(ArrayList<String> users, String message, String userName){
+
+        for (String user : users){
+
+            Map notification = new HashMap<>();
+            notification.put("username", user);
+            notification.put("message", message);
+            notification.put("fromUser",userName);
+
+            FirebaseDatabase.getInstance()
+                    .getReference().child("notificationRequests").push().setValue(notification);
+        }
+
+    }
+
 
 }
