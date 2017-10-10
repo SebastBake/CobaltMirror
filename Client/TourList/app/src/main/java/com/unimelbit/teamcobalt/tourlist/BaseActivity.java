@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
-import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
+//import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARTools;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
 import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
@@ -45,6 +45,8 @@ import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -270,7 +272,9 @@ public class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
         Fragment f = getSupportFragmentManager().findFragmentById(mainContainer.getContainerId());
 
-        if (id == R.id.nav_Profile &&
+        if (id == R.id.nav_Home && currentUser != null) {
+            mainContainer.gotoHomeFragment();
+        } else if (id == R.id.nav_Profile &&
                 !(f instanceof LoginOrRegisterFragment) &&
                 !(f instanceof ProfileFragment)
                 ) {

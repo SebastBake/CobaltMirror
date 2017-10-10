@@ -1,5 +1,6 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,13 +28,13 @@ public class LoginOrRegisterFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_login_or_register, container, false);
 
         getActivity().setTitle("Login Or Register");
 
         initLoginMessageText(rootView);
         initLoginAndRegisterButtons(rootView);
+
 
         return rootView;
     }
