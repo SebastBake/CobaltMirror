@@ -12,6 +12,7 @@ var assert = chai.expect();
 
 chai.use(chaiHttp);
 
+
 /*
  * Testing the find all route
  */
@@ -172,7 +173,7 @@ describe('/Get search Trip', () => {
 describe('/POST create user', () => {
   it('it should POST user with fields', (done) => {
     var user = {
-      username: "heyhey2",
+      username: "testingCreateUser",
       password: "1223",
       email: "heay@gmail.com"
     }
@@ -184,7 +185,7 @@ describe('/POST create user', () => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property('username');
-        res.body.username.should.equal('heyhey2');
+        res.body.username.should.equal('testingCreateUser');
         done();
       });
   });
@@ -196,14 +197,14 @@ describe('/POST create user', () => {
  */
 describe('/Get user with id', () => {
   it('it should be able to GET user with id', (done) => {
-    var userid = "59bf3b26b2f0fe001fbc703b"
+    var userid = "59db139b36c512001feb3ea4"
     chai.request(server)
       .get('/api/user/' + userid)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property("username");
-        res.body.username.should.equal("heyhey");
+        res.body.username.should.equal("shiba");
         done();
       });
   });
@@ -216,9 +217,9 @@ describe('/Get user with id', () => {
  */
 describe('/Put trip into savedtrips', () => {
   it('it should be able to put trip', (done) => {
-    var userid = "59bb1b06734d1d5739a85453"
-    var username = "melonGOD"
-    var tripid = "59b1e251734d1d2c16133d16"
+    var userid = "59db139b36c512001feb3ea4"
+    var username = "shiba"
+    var tripid = "59daecf52b53f7001f25e135"
     var putObject = {
       "username": username,
       "userid": userid,
@@ -232,7 +233,7 @@ describe('/Put trip into savedtrips', () => {
         res.body.should.be.a('object');
         res.body.should.have.property("savedtrips");
         res.body.savedtrips.should.have.members([
-          "59b1e251734d1d2c16133d16"
+          "59daecf52b53f7001f25e135"
         ]);
         done();
       });
@@ -245,9 +246,9 @@ describe('/Put trip into savedtrips', () => {
  */
 describe('/Put trip into remove savedtrips', () => {
   it('it should be able to put trip', (done) => {
-    var userid = "59bb1b06734d1d5739a85453"
-    var username = "melonGOD"
-    var tripid = "59b1e251734d1d2c16133d16"
+    var userid = "59db139b36c512001feb3ea4"
+    var username = "shiba"
+    var tripid = "59daecf52b53f7001f25e135"
     var putObject = {
       "username": username,
       "userid": userid,
@@ -274,15 +275,15 @@ describe('/Put trip into remove savedtrips', () => {
 describe('/Get user with id and password', () => {
   it('it should be able to GET user with username and password', (
     done) => {
-    var username = "sebast"
-    var password = "sebast"
+    var username = "shiba"
+    var password = "inu"
     chai.request(server)
       .get('/api/user/find/' + username + "/" + password)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('array');
         res.body[0].should.have.property("username");
-        res.body[0].username.should.equal("sebast");
+        res.body[0].username.should.equal("shiba");
         done();
       });
   });
@@ -308,25 +309,64 @@ describe('/Get all users ', () => {
 
 
 /*
- * Test the /Put trip to current trip for user
+ * Test the /PUT editTrip route
  */
-describe('/Put trip to user current trip ', () => {
-  it('it should be able to GET all users', (done) => {
-    var userid = "59bb1b06734d1d5739a85453"
-    var tripid = "59b1e251734d1d2c16133d16"
-    var putObject = {
-      "userid": userid,
-      "tripid": tripid
+describe('/PUT editTrip', () => {
+  it('it should put edit trip', (done) => {
+    var trip = {
+      "_id": "59daecf52b53f7001f25e135",
+      "name": "testingedit",
+      "description": "testingedit",
+      "date": "124",
+      "size": "1-5",
+      "cost": "$$",
+      "owner": "seb",
+      "userids": [
+        "seb"
+      ],
+      "usernames": [
+        "seb"
+      ],
+      "locations": [{
+        "_id": "59daecf52b53f7001f25e136",
+        "altitude": 100,
+        "longitude": 144.9472673,
+        "latitude": -37.77572610000001,
+        "title": "SGA SECURITY SERVICES"
+      }, {
+        "_id": "59daf3745e2404001f760b28",
+
+        "altitude": 100,
+        "longitude": 144.9472529,
+        "latitude": -37.774495,
+        "title": "Boulton's Cleaning Service"
+      }]
     }
     chai.request(server)
-      .put('/api/user/updateCurrentTrip/')
-      .send(putObject)
+      .put('/api/trips/edit')
+      .send(trip)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
-        res.body.should.have.property("currenttrip");
-        res.body.currenttrip.should.equal(
-          "59b1e251734d1d2c16133d16");
+        res.body.should.have.property('locations');
+        res.body.locations.should.be.a('array')
+        done();
+      });
+  });
+
+});
+
+/*
+ * Test the /Get saved trips
+ */
+describe('/Get user with id', () => {
+  it('it should be able to GET trips from savedtrips array', (done) => {
+    var userid = "59daebad2b53f7001f25e131"
+    chai.request(server)
+      .get('/api/user/savedtrips/' + userid)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
         done();
       });
   });
