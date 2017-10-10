@@ -6,6 +6,10 @@ import android.content.Context;
  * Created by Hong Lin on 5/10/2017.
  */
 
+/**
+ * Adaptor for services needed by the app.
+ * Currenly, only a Google services adaptor has been implemented.
+ */
 public interface GPSProviderAdaptor {
 
     //Check if the GPS is enabled

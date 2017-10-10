@@ -19,6 +19,10 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by Hong Lin on 1/09/2017.
  */
 
+/**
+ * The base GPS Tools class that is responsible uses the google api to call locations and provide
+ * the user with their current coordinates. This is used for location tracking in the app.
+ */
 public abstract class GoogleGpsProvider implements GPSProviderAdaptor{
 
     //Location provider and other utilities
@@ -63,8 +67,8 @@ public abstract class GoogleGpsProvider implements GPSProviderAdaptor{
 
 
     /*
-Location request settings.
- */
+    Location request settings.
+    */
     public void createLocationRequest() {
 
         mLocationRequest = new LocationRequest();
@@ -89,7 +93,6 @@ Location request settings.
     /*
     Get the location client
      */
-
     public FusedLocationProviderClient getLocationClient(){
 
         return this.mFusedLocationClient;
@@ -134,10 +137,16 @@ Location request settings.
     }
 
 
+    /**
+     * Sends coordiantes to firebase
+     * @param latitude
+     * @param longitude
+     */
     protected void postToFireBase(double latitude, double longitude){
 
         String userId = "USER_NOT_SET";
 
+        //If not sharing, dont upload correct coordinates
         if(!BaseActivity.locationSharing){
 
             latitude = UserTracker.NO_VALUE;
@@ -148,12 +157,14 @@ Location request settings.
 
         User currentUser = BaseActivity.getCurrentUser();
 
+        //Make sure user has been set
         if(currentUser != null){
 
             userId = currentUser.getId();
 
         }
 
+        //Send to users firebase
         AppServicesFactory.getServicesFactory()
                 .getFirebasePostRequester(c)
                 .postToDb(latitude, longitude
