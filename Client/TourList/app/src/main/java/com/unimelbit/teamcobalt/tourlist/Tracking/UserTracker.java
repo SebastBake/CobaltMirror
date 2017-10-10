@@ -24,24 +24,20 @@ import java.util.ArrayList;
 public class UserTracker {
 
     public final static double NO_VALUE = 0.0;
-
     public final static int LAT_INDEX = 0, LONG_INDEX = 1;
 
     //User coordinates
     private ArrayList<Double> coordinates;
 
-    //User icons
     private Bitmap userIcon;
-
     private FirebaseChatRoomHandler fbHandler;
-
     private Context c;
 
     public UserTracker(Context c){
 
         this.c = c;
 
-        coordinates = new ArrayList<Double>();
+        coordinates = new ArrayList<>();
 
         this.fbHandler = (FirebaseChatRoomHandler) AppServicesFactory
                 .getServicesFactory().getFirebaseChatService(c);
@@ -60,7 +56,6 @@ public class UserTracker {
         fbHandler.checkRoom(userRef);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-
         final DatabaseReference coordinateRef = ref.child(userRef);
 
         //Get the current location when calling this listener
@@ -71,7 +66,6 @@ public class UserTracker {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
 
                     Double latVal = snapshot.child("lat").getValue(Double.class);
-
                     Double longVal = snapshot.child("long").getValue(Double.class);
 
                     //remove old coordinates
@@ -81,23 +75,16 @@ public class UserTracker {
                     if (latVal != null && longVal != null) {
 
                         coordinates.add(latVal);
-
                         coordinates.add(longVal);
-
                     }
-
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
         return coordinates;
-
     }
 
 
@@ -110,13 +97,9 @@ public class UserTracker {
 
         IconGenerator iconFactory = new IconGenerator(c);
 
-        //Orange marker by default
         iconFactory.setStyle(IconGenerator.STYLE_ORANGE);
-
         Bitmap userIcon = iconFactory.makeIcon(userName);
-
         return userIcon;
-
     }
 
     public void setUserIcon(Bitmap userIcon) {

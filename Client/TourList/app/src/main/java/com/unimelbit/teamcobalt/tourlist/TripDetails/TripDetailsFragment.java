@@ -11,7 +11,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
+import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -23,11 +23,8 @@ import java.util.HashMap;
 public class TripDetailsFragment extends Fragment {
 
     public static final int TRIP_SECTION_INDEX = 0;
-
     private boolean imageLoaded;
-
     private ImageView imageDetail;
-
     private PlaceImageLoader pILoader;
 
     public TripDetailsFragment() {
@@ -44,7 +41,6 @@ public class TripDetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_trip_details, container, false);
 
         imageDetail = (ImageView) rootView.findViewById(R.id.imageView2);
-
         pILoader = new PlaceImageLoader(getActivity());
 
         if (((BaseActivity) getActivity()).getCurrentTrip() != null) {
@@ -72,6 +68,9 @@ public class TripDetailsFragment extends Fragment {
 
         TextView tripSize = (TextView) rootView.findViewById(R.id.trip_details_size);
         tripSize.setText("Max Size: " + trip.getSize());
+
+        TextView tripOwner = (TextView) rootView.findViewById(R.id.trip_details_owner);
+        tripOwner.setText("Owner: " + trip.getOwner());
     }
 
     private void initLocationsList(View rootView, Trip trip) {
@@ -86,13 +85,8 @@ public class TripDetailsFragment extends Fragment {
             // Add screenshot of the location on the map into the trip details image
             if (!imageLoaded) {
 
-                // System.out.println("long: " + loc.getLongitude().toString());
-                // System.out.println("lat: " + loc.getLatitude().toString());
-
                 pILoader.setMapImage(loc.getLatitude().toString(), loc.getLongitude().toString(), imageDetail);
                 imageLoaded = true;
-
-
             }
         }
 

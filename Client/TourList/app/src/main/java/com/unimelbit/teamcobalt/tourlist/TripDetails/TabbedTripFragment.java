@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,9 +17,9 @@ import android.view.ViewGroup;
 
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.ARActivity;
-import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -36,20 +35,11 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
     public static final String INTENT_TRIP_USERNAMES = "com.example.spike.uitest.MESSAGETHREE";
     public static final String INTENT_TRIP_USERIDS = "com.example.spike.uitest.MESSAGEFOUR";
 
-
-
-    private TripPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
-    private TabbedTripFragmentButtonHandler buttonHandeler;
-
-    private GoogleGpsProvider gpsTool;
-
     public TabbedTripFragment() {
     }
 
     public static TabbedTripFragment newInstance() {
-        TabbedTripFragment fragment = new TabbedTripFragment();
-        return fragment;
+        return new TabbedTripFragment();
     }
 
     @Override
@@ -57,12 +47,8 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
         View rootView = inflater.inflate(R.layout.fragment_tabbed_trip, container, false);
 
-        Trip currentTrip = ((BaseActivity)getActivity()).getCurrentTrip();
-        String screenTitle = getResources().getText(R.string.title_fragment_current_trip) + ": ";
-        getActivity().setTitle(screenTitle + currentTrip.getName() );
-
-        // Initialise views
-        buttonHandeler = new TabbedTripFragmentButtonHandler(rootView, (BaseActivity) getActivity(), this);
+        Trip currentTrip = BaseActivity.getCurrentTrip();
+        getActivity().setTitle(currentTrip.getName() );
         initTabs(rootView);
 
         return rootView;
@@ -70,18 +56,21 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
     private void initTabs(View rootView) {
 
+        TabbedTripFragmentButtonHandler buttonHandler = new TabbedTripFragmentButtonHandler(rootView, (BaseActivity) getActivity(), this);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new TripPagerAdapter(getChildFragmentManager());
+        TripPagerAdapter mSectionsPagerAdapter = new TripPagerAdapter(getChildFragmentManager());
 
         // Set up the ViewPager with the sections adapter. (View which holds the fragments)
-        mViewPager = (ViewPager) rootView.findViewById(R.id.trip_container);
+        ViewPager mViewPager = (ViewPager) rootView.findViewById(R.id.trip_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // Link the pager to the tabs
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.trip_tabs);
+        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.trip_tabs);
+        tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.addOnTabSelectedListener(buttonHandeler);
+        tabLayout.addOnTabSelectedListener(buttonHandler);
     }
 
 
@@ -132,16 +121,16 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
      */
     public void startAR() {
 
-        gpsTool = AppServicesFactory.getServicesFactory().getFirebaseGpsProvider(getActivity());
+        GoogleGpsProvider gpsTool = AppServicesFactory.getServicesFactory().getFirebaseGpsProvider(getActivity());
 
         //Proceed and open activity if GPS is on
         if(gpsTool.isGPSEnable(getActivity())){
 
             Intent intent = new Intent(getActivity(), ARActivity.class);
-            String id = ((BaseActivity)getActivity()).getCurrentTrip().getId();
-            ArrayList<String > usernames = ((BaseActivity)getActivity()).getCurrentTrip().getUsernames();
-            ArrayList<String > userids = ((BaseActivity)getActivity()).getCurrentTrip().getUserids();
-            User user = ((BaseActivity)getActivity()).getCurrentUser();
+            String id = BaseActivity.getCurrentTrip().getId();
+            ArrayList<String > usernames = BaseActivity.getCurrentTrip().getUsernames();
+            ArrayList<String > userids = BaseActivity.getCurrentTrip().getUserids();
+            User user = BaseActivity.getCurrentUser();
             intent.putExtra(INTENT_TRIPID, id);
             intent.putExtra(INTENT_TRIP_USERIDS,userids);
             intent.putExtra(INTENT_TRIP_USERNAMES,usernames);
@@ -177,5 +166,17 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
             builder.create().show();
 
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        getActivity().findViewById(R.id.trip_tabs).setVisibility(View.GONE);
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
+        getActivity().findViewById(R.id.trip_tabs).setVisibility(View.GONE);
+        super.onDetach();
     }
 }

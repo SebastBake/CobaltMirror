@@ -64,10 +64,13 @@
         <activity
             android:name=".AugmentedReality.POIDetailActivity"
             android:label="@string/title_activity_poidetail" />
-        <activity android:name=".CreateTrips.AddLocationsToTripActivity" />
         <activity android:name=".Chat.ChatroomActivity" />
         <activity android:name=".Profile.UserProfile" />
-        <activity android:name=".Error.ErrorActivity"></activity>
+        <activity android:name=".ErrorOrSuccess.ErrorActivity" />
+        <activity
+            android:name=".ErrorOrSuccess.SuccessActivity"
+            android:label="@string/title_activity_success"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by Sebastian on 18/9/17.
  * Handler for the fabs on the tabbed trip fragment
  */
-public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener  {
+class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener  {
 
     private BaseActivity activity;
     private TabbedTripFragment fragment;
@@ -30,7 +30,7 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
     private FloatingActionButton mainButton;
     private boolean isMainFabActivated;
 
-    public TabbedTripFragmentButtonHandler(View rootView, BaseActivity activity, TabbedTripFragment fragment) {
+    TabbedTripFragmentButtonHandler(View rootView, BaseActivity activity, TabbedTripFragment fragment) {
 
         this.activity = activity;
         this.fragment = fragment;
@@ -61,8 +61,7 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
     public void onTabReselected(TabLayout.Tab tab) {
     }
 
-
-    public void setIsMainFabActivated(boolean isMainFabActivated) {
+    private void setIsMainFabActivated(boolean isMainFabActivated) {
         this.isMainFabActivated = isMainFabActivated;
         if(isMainFabActivated) {
             showSmallButtons();
@@ -92,8 +91,8 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         locButton.setOnClickListener(listener);
     }
 
-    public void resetLocSharingColor() {
-        if(activity.isLocationSharingOn()) {
+    private void resetLocSharingColor() {
+        if(BaseActivity.isLocationSharingOn()) {
 
             ColorStateList greenColour = ColorStateList.valueOf(ResourcesCompat.getColor(fragment.getResources(), R.color.scheme1_green, null));
             locButton.setBackgroundTintList(greenColour);
@@ -105,23 +104,15 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         }
     }
 
-
     private void initMapButton(View rootView) {
 
         mapButton = (FloatingActionButton) rootView.findViewById(R.id.map_button);
-
         mapButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(activity, MapActivity.class);
-
-                ArrayList<Location> locations = BaseActivity.getCurrentTrip().getLocations();
-                ArrayList<User> user = BaseActivity.getCurrentTrip().getUsers();
-
-                intent.putParcelableArrayListExtra(Location.LOC_DEFAULT_PARCEL_KEY, locations);
-                intent.putParcelableArrayListExtra(Trip.USERLIST_TRIPS, user);
                 fragment.startActivity(intent);
             }
         });
@@ -145,11 +136,7 @@ public class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedL
         mainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isMainFabActivated) {
-                    setIsMainFabActivated(!isMainFabActivated);
-                } else {
-                    setIsMainFabActivated(!isMainFabActivated);
-                }
+                setIsMainFabActivated(!isMainFabActivated);
             }
         });
     }

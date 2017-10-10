@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.Error;
+package com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 public class ErrorActivity extends AppCompatActivity {
@@ -52,6 +53,7 @@ public class ErrorActivity extends AppCompatActivity {
 
     public static void newError(Activity from, Exception e, String msg) {
 
+        e.printStackTrace();
         Intent i = new Intent(from, ErrorActivity.class);
         i.putExtra(INTENT_MSG,msg);
         i.putExtra(INTENT_STACKTRACE,e.toString());
@@ -60,6 +62,7 @@ public class ErrorActivity extends AppCompatActivity {
     }
 
     public static void newError(Activity from, Exception e) {
+        e.printStackTrace();
         Intent i = new Intent(from, ErrorActivity.class);
         i.putExtra(INTENT_MSG,INTENT_EMPTY_FIELD_FLAG);
         i.putExtra(INTENT_STACKTRACE,e.toString());
@@ -81,5 +84,12 @@ public class ErrorActivity extends AppCompatActivity {
         i.putExtra(INTENT_STACKTRACE,INTENT_EMPTY_FIELD_FLAG);
         from.startActivity(i);
         from.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, BaseActivity.class);
+        startActivity(i);
+        finish();
     }
 }

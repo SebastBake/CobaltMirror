@@ -14,12 +14,11 @@ import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
+import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.PlaceImageLoader;
-import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
 
 import org.json.JSONException;
@@ -56,9 +55,9 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
 
         pILoader = new PlaceImageLoader(getActivity());
 
-        if (((BaseActivity) getActivity()).getSearchedTrip() != null) {
+        if (BaseActivity.getSearchedTrip() != null) {
 
-             currentTrip = ((BaseActivity) getActivity()).getSearchedTrip();
+            currentTrip = BaseActivity.getSearchedTrip();
             initTextBoxes(rootView, currentTrip);
             initLocationsList(rootView, currentTrip);
             getActivity().setTitle( currentTrip.getName() );
@@ -88,7 +87,6 @@ public class SearchedTripDetailsFragment extends Fragment implements BackButtonI
 
         TextView tripUserCount = (TextView) rootView.findViewById(R.id.trip_details_count);
         tripSize.setText("Group Members: " + trip.getUsernames().size());
-
     }
 
     private void initLocationsList(View rootView, Trip trip) {

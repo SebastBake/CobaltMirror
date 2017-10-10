@@ -1,20 +1,14 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
-import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
-import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
+import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequester;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by Sebastian on 18/9/17.
@@ -38,10 +32,7 @@ class RegisterUserPostRequest implements PostRequest {
         this.email = email;
         this.activity = activity;
 
-        // Start loading fragment
         activity.getMainContainerManager().gotoLoadingFragment(LOADING_MSG);
-
-        // Start get request
         new PostRequester(this).execute(REGISTER_URL);
     }
 
@@ -74,7 +65,7 @@ class RegisterUserPostRequest implements PostRequest {
             String out = dataToSend.toString();
             return out;
         } catch (Exception e) {
-            
+
             // massive error lol
             e.printStackTrace();
             ErrorActivity.newError(activity, e, GET_DATA_FAILED);

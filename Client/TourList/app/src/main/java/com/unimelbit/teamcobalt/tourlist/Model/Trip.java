@@ -1,6 +1,7 @@
 package com.unimelbit.teamcobalt.tourlist.Model;
 
-import android.support.design.internal.ParcelableSparseArray;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,7 +14,8 @@ import java.util.HashMap;
  * Created by Sebastian on 12/9/17.
  * Simple class to hold trip details, can be constructed using JSON from the server
  */
-public class Trip {
+public class Trip implements Parcelable {
+
     public static final String JSON_ID = "_id";
     public static final String JSON_NAME = "name";
     public static final String JSON_COST = "cost";
@@ -21,9 +23,9 @@ public class Trip {
     public static final String JSON_DATE = "date";
     public static final String JSON_LOC = "locations";
     public static final String JSON_DESC = "description";
+    public static final String JSON_OWNER = "owner";
     public static final String JSON_USERS_NAMES = "usernames";
     public static final String JSON_USERS_IDS = "userids";
-
     public static final String USERLIST_TRIPS = "users_trip";
 
     private String id;
@@ -32,6 +34,7 @@ public class Trip {
     private String description;
     private String cost;
     private String size;
+    private String owner;
     private ArrayList<Location> locations;
     private ArrayList<String> usernames;
     private ArrayList<String> userids;
@@ -45,6 +48,7 @@ public class Trip {
             String date,
             String cost,
             String size,
+            String owner,
             ArrayList<Location> locations,
             ArrayList<String> usernames,
             ArrayList<String> userids,
@@ -56,10 +60,119 @@ public class Trip {
         this.date = date;
         this.cost = cost;
         this.size = size;
+        this.owner = owner;
         this.locations = locations;
         this.usernames = usernames;
         this.userids = userids;
         this.url = url;
+    }
+
+    protected Trip(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        date = in.readString();
+        description = in.readString();
+        cost = in.readString();
+        size = in.readString();
+        owner = in.readString();
+        locations = in.createTypedArrayList(Location.CREATOR);
+        usernames = in.createStringArrayList();
+        userids = in.createStringArrayList();
+        url = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(date);
+        dest.writeString(description);
+        dest.writeString(cost);
+        dest.writeString(size);
+        dest.writeString(owner);
+        dest.writeTypedList(locations);
+        dest.writeStringList(usernames);
+        dest.writeStringList(userids);
+        dest.writeString(url);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Trip> CREATOR = new Creator<Trip>() {
+        @Override
+        public Trip createFromParcel(Parcel in) {
+            return new Trip(in);
+        }
+
+        @Override
+        public Trip[] newArray(int size) {
+            return new Trip[size];
+        }
+    };
+
+    public static Trip newTripFromJSON(String result, String url) throws JSONException {
+
+        JSONObject tripJSON = new JSONObject(result);
+
+        String id = "";
+        String name = "";
+        String cost = "";
+        String size = "";
+        String date = "";
+        String description = "";
+        String owner = "";
+        ArrayList<Location> locations = new ArrayList<>();
+        ArrayList<String> usernames = new ArrayList<>();
+        ArrayList<String> userids = new ArrayList<>();
+
+        try {
+            id = tripJSON.getString(JSON_ID);
+        } catch (JSONException e) {}
+        try {
+            name = tripJSON.getString(JSON_NAME);
+        } catch (JSONException e) {}
+
+        try {
+            date = tripJSON.getString(JSON_DATE);
+        } catch (JSONException e) {}
+
+        try {
+            cost = tripJSON.getString(JSON_COST);
+        } catch (JSONException e) {}
+
+        try {
+            size = tripJSON.getString(JSON_SIZE);
+        } catch (JSONException e) {}
+
+        try {
+            description = tripJSON.getString(JSON_DESC);
+        } catch (JSONException e) {}
+
+        try {
+            owner = tripJSON.getString(JSON_OWNER);
+        } catch (JSONException e) {}
+
+        try {
+            JSONArray jsonLocations = tripJSON.getJSONArray(JSON_LOC);
+            locations = Location.newLocationArrayFromJSON(jsonLocations);
+        } catch(JSONException e) {}
+        try {
+            JSONArray jsonUsernames = tripJSON.getJSONArray(JSON_USERS_NAMES);
+            for (int j=0; j<jsonUsernames.length();j++){
+                usernames.add(jsonUsernames.get(j).toString());
+            }
+        } catch(JSONException e) {}
+        try {
+            JSONArray jsonUserids = tripJSON.getJSONArray(JSON_USERS_IDS);
+            for (int j=0; j<jsonUserids.length();j++){
+                userids.add(jsonUserids.get(j).toString());
+            }
+        } catch(JSONException e) {}
+
+        return new Trip(id, name, description, date, cost, size, owner, locations, usernames, userids, url);
     }
 
     public static ArrayList<Trip> newTripArrayFromJSON(String result, String url) throws JSONException {
@@ -68,59 +181,8 @@ public class Trip {
         JSONArray tripJSONArray = new JSONArray(result);
 
         for (int i=0; i < tripJSONArray.length(); i++) {
-
             JSONObject tripJSON = tripJSONArray.getJSONObject(i);
-            String id = "";
-            String name = "";
-            String cost = "";
-            String size = "";
-            String date = "";
-            String description = "";
-            ArrayList<Location> locations = new ArrayList<>();
-            ArrayList<String> usernames = new ArrayList<>();
-            ArrayList<String> userids = new ArrayList<>();
-
-            try {
-                id = tripJSON.getString(JSON_ID);
-            } catch (JSONException e) {}
-            try {
-                name = tripJSON.getString(JSON_NAME);
-            } catch (JSONException e) {}
-
-            try {
-                date = tripJSON.getString(JSON_DATE);
-            } catch (JSONException e) {}
-
-            try {
-                cost = tripJSON.getString(JSON_COST);
-            } catch (JSONException e) {}
-
-            try {
-                size = tripJSON.getString(JSON_SIZE);
-            } catch (JSONException e) {}
-
-            try {
-                description = tripJSON.getString(JSON_DESC);
-            } catch (JSONException e) {}
-
-            try {
-                JSONArray jsonLocations = tripJSON.getJSONArray(JSON_LOC);
-                locations = Location.newLocationArrayFromJSON(jsonLocations);
-            } catch(JSONException e) {}
-            try {
-                JSONArray jsonUsernames = tripJSON.getJSONArray(JSON_USERS_NAMES);
-                for (int j=0; i<jsonUsernames.length();j++){
-                    usernames.add(jsonUsernames.get(j).toString());
-                }
-            } catch(JSONException e) {}
-            try {
-                JSONArray jsonUserids = tripJSON.getJSONArray(JSON_USERS_IDS);
-                for (int j=0; i<jsonUserids.length();j++){
-                    userids.add(jsonUserids.get(j).toString());
-                }
-            } catch(JSONException e) {}
-
-            trips.add(new Trip(id,name, description, date, cost, size, locations,usernames,userids, url));
+            trips.add(newTripFromJSON(tripJSON.toString(), url));
         }
 
         return trips;
@@ -149,6 +211,7 @@ public class Trip {
         map.put(JSON_COST, cost);
         map.put(JSON_SIZE, size);
         map.put(JSON_DESC, description);
+        map.put(JSON_OWNER, owner);
         map.put(JSON_USERS_NAMES,userString);
         map.put(JSON_USERS_IDS,useridString);
         map.put(JSON_LOC, locationString);
@@ -165,6 +228,7 @@ public class Trip {
         trip.put(JSON_DATE, date);
         trip.put(JSON_SIZE, size);
         trip.put(JSON_DESC, description);
+        trip.put(JSON_OWNER, owner);
 
         JSONArray locationJSONArray = new JSONArray();
 
@@ -189,51 +253,14 @@ public class Trip {
         return trip;
     }
 
-    public String getId(){
-       return id;
-    }
-
-    public ArrayList<Location> getLocations() {
-        return locations;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCost() {
-        return cost;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public ArrayList<String> getUsernames() {return usernames;}
-
-    public ArrayList<String> getUserids() {return userids;}
-
-    public ArrayList<User> getUsers(){
-
-        ArrayList<String> useridsList = this.userids;
-        ArrayList<String> usernamesList = this.usernames;
-        ArrayList<User> userList = new ArrayList<>();
-
-        for (int i = 0; i < useridsList.size(); i++){
-
-            User user = new User(useridsList.get(i), usernamesList.get(i), "","", (new ArrayList<String>()), (new ArrayList<String>()));
-            userList.add(user);
-        }
-
-        return userList;
-    }
-
+    public String getId(){ return id; }
+    public ArrayList<Location> getLocations() { return locations; }
+    public String getDescription() { return description; }
+    public String getSize() { return size; }
+    public String getName() { return name; }
+    public String getCost() { return cost; }
+    public String getUrl() { return url; }
+    public String getOwner() { return owner; }
+    public ArrayList<String> getUsernames() { return usernames; }
+    public ArrayList<String> getUserids() { return userids; }
 }

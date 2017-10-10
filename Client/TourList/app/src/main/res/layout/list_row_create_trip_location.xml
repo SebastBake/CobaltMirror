@@ -13,7 +13,7 @@
         android:layout_height="100dp"
         android:layout_marginRight="10dp"
         android:contentDescription="Property Image"
-        app:srcCompat="@drawable/googleg_standard_color_18" />
+        app:srcCompat="@mipmap/geocode" />
 
     <LinearLayout
         android:id="@+id/infoSection"

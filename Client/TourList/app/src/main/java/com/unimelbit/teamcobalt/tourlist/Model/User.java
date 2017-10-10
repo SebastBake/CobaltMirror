@@ -59,6 +59,9 @@ public class User implements Parcelable{
     protected User(Parcel in) {
         id = in.readString();
         username = in.readString();
+        password = in.readString();
+        savedtrips = in.createStringArrayList();
+        favouritetrips = in.createStringArrayList();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

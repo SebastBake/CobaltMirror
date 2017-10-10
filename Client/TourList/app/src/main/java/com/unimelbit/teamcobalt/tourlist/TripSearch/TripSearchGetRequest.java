@@ -4,7 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
-import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
+import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
@@ -51,7 +51,7 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
         try {
             if ( searchQuery == "Random_trips"){
                 trips = Trip.newTripArrayFromJSON(result, random_url);
-            }else{
+            } else {
                 trips = Trip.newTripArrayFromJSON(result, url);
             }
             containerManager.gotoTripSearchResultFragment(searchQuery, this);
