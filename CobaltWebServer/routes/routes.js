@@ -30,6 +30,9 @@ router.get('/api/locations/search', controller.findTripsByText);
 //Delete Trip
 router.put('/api/trips/delete', controller.deleteTrip);
 
+//Edit Trip
+router.put('/api/trips/edit', controller.editTrip);
+
 
 
 // USER ROUTES
@@ -56,7 +59,10 @@ router.get('/api/user/find/:username/:password', usercontroller.retrieveOneUser)
 router.get('/api/users', usercontroller.findAllUsers);
 
 //update current trip of user
-router.put('/api/user/updateCurrentTrip/', usercontroller.updateCurrentTripUser)
+router.put('/api/user/updateCurrentTrip/', usercontroller.updateCurrentTripUser);
+
+// Return saved trips data
+router.get('/api/user/savedtrips/:id', usercontroller.savedTrips);
 
 
 module.exports = router;

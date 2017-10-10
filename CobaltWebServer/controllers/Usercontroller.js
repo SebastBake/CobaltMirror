@@ -174,6 +174,25 @@ var updateCurrentTripUser = function(req, res) {
   });
 }
 
+var savedTrips = function(req, res) {
+  personInx = req.params.id
+  User.findById(personInx, function(err, person) {
+    if (!err) {
+      Trip.find({
+        '_id': {
+          $in: person.savedtrips
+        }
+      }, function(err, docs) {
+        res.send(docs);
+        console.log(docs);
+      });
+    } else {
+      res.sendStatus(404);
+    }
+  });
+
+}
+
 
 module.exports.createUser = createUser;
 module.exports.Removetrip = Removetrip;
@@ -182,3 +201,4 @@ module.exports.Addtrip = Addtrip;
 module.exports.retrieveOneUser = retrieveOneUser;
 module.exports.findAllUsers = findAllUsers;
 module.exports.updateCurrentTripUser = updateCurrentTripUser;
+module.exports.savedTrips = savedTrips

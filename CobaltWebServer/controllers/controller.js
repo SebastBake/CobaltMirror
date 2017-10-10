@@ -207,6 +207,34 @@ var deleteTrip = function(req, res) {
   }));
 };
 
+var editTrip = function(req, res) {
+  Trip.findOneAndUpdate({
+    _id: req.body._id
+  }, {
+    $set: {
+      'name': req.body.name,
+      "description": req.body.description,
+      "date": req.body.date,
+      "size": req.body.size,
+      "cost": req.body.cost,
+      "locations": req.body.locations,
+      "usernames": req.body.usernames,
+      "userids": req.body.userids,
+      "owner": req.body.owner
+    }
+  }, {
+    new: true
+  }, function(err, data) {
+    if (!err) {
+      console.log(data);
+      res.send(data);
+
+    } else {
+      res.sendStatus(404);
+    }
+  });
+}
+
 module.exports.createTrip =
   createTrip;
 module.exports.findAllTrips = findAllTrips;
@@ -219,3 +247,4 @@ module.exports.findRandomTrips =
   findRandomTrips;
 module.exports.findOneTripByID = findOneTripByID;
 module.exports.deleteTrip = deleteTrip;
+module.exports.editTrip = editTrip;
