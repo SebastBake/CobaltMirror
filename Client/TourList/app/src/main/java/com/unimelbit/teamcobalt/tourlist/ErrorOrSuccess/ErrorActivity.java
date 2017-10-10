@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 public class ErrorActivity extends AppCompatActivity {
@@ -57,6 +58,7 @@ public class ErrorActivity extends AppCompatActivity {
         i.putExtra(INTENT_MSG,msg);
         i.putExtra(INTENT_STACKTRACE,e.toString());
         from.startActivity(i);
+        from.finish();
     }
 
     public static void newError(Activity from, Exception e) {
@@ -65,6 +67,7 @@ public class ErrorActivity extends AppCompatActivity {
         i.putExtra(INTENT_MSG,INTENT_EMPTY_FIELD_FLAG);
         i.putExtra(INTENT_STACKTRACE,e.toString());
         from.startActivity(i);
+        from.finish();
     }
 
     public static void newError(Activity from, String msg) {
@@ -72,6 +75,7 @@ public class ErrorActivity extends AppCompatActivity {
         i.putExtra(INTENT_MSG,msg);
         i.putExtra(INTENT_STACKTRACE,INTENT_EMPTY_FIELD_FLAG);
         from.startActivity(i);
+        from.finish();
     }
 
     public static void newError(Activity from) {
@@ -79,5 +83,13 @@ public class ErrorActivity extends AppCompatActivity {
         i.putExtra(INTENT_MSG,INTENT_EMPTY_FIELD_FLAG);
         i.putExtra(INTENT_STACKTRACE,INTENT_EMPTY_FIELD_FLAG);
         from.startActivity(i);
+        from.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, BaseActivity.class);
+        startActivity(i);
+        finish();
     }
 }

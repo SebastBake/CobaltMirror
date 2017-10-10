@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
+import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.SuccessActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequester;
@@ -17,8 +18,7 @@ import static com.unimelbit.teamcobalt.tourlist.Model.Trip.newTripFromJSON;
 /**
  * Created by Sebastian on 18/9/17.
  */
-
-public class CreateTripPostRequest implements PostRequest {
+class CreateTripPostRequest implements PostRequest {
 
     private static final String LOADING_MSG = "Creating trip ...";
     private static final String CREATE_TRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/create";
@@ -39,11 +39,10 @@ public class CreateTripPostRequest implements PostRequest {
 
     @Override
     public void processResult(String result) {
-        Toast.makeText(activity,"Result: " + result, Toast.LENGTH_SHORT).show();
 
         try {
             Trip trip = newTripFromJSON(result, "");
-            new TripGetRequestByID(trip.getId(),activity.getMainContainerManager());
+            SuccessActivity.newSuccess(activity, "Successfully created new trip:" + trip.getName());
         } catch (Exception e) {
             requestFailed("Something failed for url: " + CREATE_TRIP_URL + " and result: " + result, e);
         }

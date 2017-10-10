@@ -217,6 +217,7 @@ public class BaseActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
 
         } else {
+
             Fragment f = getMainContainerManager().getCurrentFragment();
 
             int fragments = getSupportFragmentManager().getBackStackEntryCount();
@@ -241,9 +242,7 @@ public class BaseActivity extends AppCompatActivity
 
                     getSupportFragmentManager().popBackStackImmediate();
                     getSupportFragmentManager().popBackStackImmediate();
-                }
-
-                else if (getFragmentManager().getBackStackEntryCount() > 1) {
+                } else if (getFragmentManager().getBackStackEntryCount() > 1) {
                     getSupportFragmentManager().popBackStackImmediate();
                 } else {
                     super.onBackPressed();
