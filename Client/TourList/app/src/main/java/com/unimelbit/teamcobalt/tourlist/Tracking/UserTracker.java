@@ -17,12 +17,18 @@ import java.util.ArrayList;
  * Created by Hong Lin on 2/10/2017.
  */
 
+/**
+ * Tracker class that hold information about the user location and icons to be used in the
+ * live tracking map activity.
+ */
 public class UserTracker {
 
     public final static double NO_VALUE = 0.0;
     public final static int LAT_INDEX = 0, LONG_INDEX = 1;
 
+    //User coordinates
     private ArrayList<Double> coordinates;
+
     private Bitmap userIcon;
     private FirebaseChatRoomHandler fbHandler;
     private Context c;
@@ -62,8 +68,10 @@ public class UserTracker {
                     Double latVal = snapshot.child("lat").getValue(Double.class);
                     Double longVal = snapshot.child("long").getValue(Double.class);
 
+                    //remove old coordinates
                     coordinates.clear();
 
+                    //Place new ones if they are valid
                     if (latVal != null && longVal != null) {
 
                         coordinates.add(latVal);
@@ -88,6 +96,7 @@ public class UserTracker {
     public Bitmap createUserIcon(String userName){
 
         IconGenerator iconFactory = new IconGenerator(c);
+
         iconFactory.setStyle(IconGenerator.STYLE_ORANGE);
         Bitmap userIcon = iconFactory.makeIcon(userName);
         return userIcon;

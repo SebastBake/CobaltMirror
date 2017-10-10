@@ -17,6 +17,13 @@ import java.util.HashMap;
 /**
  * Created by Hong Lin on 5/10/2017.
  */
+
+/**
+ * Handler class to be responsible for tracking activities called.
+ * The functions will provide the ability to retrieve user locations and update the map live
+ * as the coordinates are recived on a periodic basis.
+ * It also manages markers to be placed on the Google Map.
+ */
 public class GoogleMapTrackingHandler {
 
     private Context c;
@@ -40,6 +47,8 @@ public class GoogleMapTrackingHandler {
     public UserTracker makeUserTracker(String userName, Context c){
 
         UserTracker userTracker = new UserTracker(c);
+      
+        //Create special icon for user
         Bitmap icon = userTracker.createUserIcon(userName);
         userTracker.setUserIcon(icon);
         return userTracker;
@@ -97,6 +106,7 @@ public class GoogleMapTrackingHandler {
 
             MarkerOptions userMarker = getUserMarker(entry.getKey(), entry.getValue());
 
+            //Add if user is allowing their info to be shared
             if(userMarker != null){
                 markerList.add(userMarker);
             }

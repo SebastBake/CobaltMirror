@@ -14,6 +14,10 @@ import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
  * Created by Hong Lin on 5/10/2017.
  */
 
+/**
+ * GPS tools used to provide location and utilised in Firebase.
+ * This is for constantly updating the firebase with a user location and important for user tracking.
+ */
 public class FirebaseGoogleGpsProvider extends GoogleGpsProvider {
 
 
@@ -22,6 +26,9 @@ public class FirebaseGoogleGpsProvider extends GoogleGpsProvider {
     }
 
 
+    /**
+     * Sends location constantly
+     */
     public void callback(){
 
         //Location to be sent to the view
@@ -51,7 +58,10 @@ public class FirebaseGoogleGpsProvider extends GoogleGpsProvider {
 
     }
 
-
+    /**
+     * Stop tracking when called
+     * @param user
+     */
     public void stopTrack(User user){
 
         String userId = "USER_NOT_SET";

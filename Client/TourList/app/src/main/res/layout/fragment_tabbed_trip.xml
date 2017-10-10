@@ -61,7 +61,7 @@
         android:layout_height="56dp"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="16dp"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:src="@mipmap/ic_more"
         android:textStyle="bold"
         app:backgroundTint="@color/scheme1_orangeDark"
         app:elevation="10dp"

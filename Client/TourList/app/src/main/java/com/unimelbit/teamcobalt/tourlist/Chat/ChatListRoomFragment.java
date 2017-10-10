@@ -14,7 +14,9 @@ import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
 
-
+/**
+ * General chat room activity to show 2 chat rooms that users publicly join
+ */
 public class ChatListRoomFragment extends Fragment implements View.OnClickListener {
 
     private static final String LOGGED_OUT_CHAT_USERNAME = "anon";

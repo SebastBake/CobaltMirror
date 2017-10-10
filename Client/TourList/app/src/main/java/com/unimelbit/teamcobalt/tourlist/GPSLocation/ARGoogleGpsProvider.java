@@ -15,8 +15,15 @@ import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
  * Created by Hong Lin on 5/10/2017.
  */
 
+/**
+ * Google GPS tools used to provide locations consistently by AR
+ */
+
 public class ARGoogleGpsProvider extends GoogleGpsProvider {
 
+    private final int ACCURACY = 7;
+
+    private final int TIME_TO_WAIT = 1000;
 
     private ARActivity arActivity;
 
@@ -42,9 +49,10 @@ public class ARGoogleGpsProvider extends GoogleGpsProvider {
                     double longitude = location.getLongitude();
 
                     if (location != null && arActivity.getArchitectView() != null) {
-                        // check if location has altitude at certain accuracy level & call right
-                        // architect method (the one with altitude information)
-                        if (location.hasAltitude() && location.hasAccuracy() && location.getAccuracy() < 7) {
+
+                        // Send information if inaccurate, or just end every second
+
+                        if (location.hasAltitude() && location.hasAccuracy() && location.getAccuracy() < ACCURACY) {
 
                             arActivity.getArchitectView().setLocation(latitude,
                                     longitude, location.getAltitude(), location.getAccuracy());
@@ -52,7 +60,7 @@ public class ARGoogleGpsProvider extends GoogleGpsProvider {
                         } else {
 
                             arActivity.getArchitectView().setLocation(latitude,
-                                    longitude, location.hasAccuracy() ? location.getAccuracy() : 1000);
+                                    longitude, location.hasAccuracy() ? location.getAccuracy() : TIME_TO_WAIT);
 
                         }
 

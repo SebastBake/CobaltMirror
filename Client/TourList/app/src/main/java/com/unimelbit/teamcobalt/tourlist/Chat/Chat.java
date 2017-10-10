@@ -3,7 +3,10 @@ package com.unimelbit.teamcobalt.tourlist.Chat;
 import java.util.Date;
 
 /**
- * Created by Hong Lin on 22/09/2017.
+ * Model class to act as template for the messages used in firebase
+ *
+ * Tutorial from: Ashraff Hathibelagal
+ * @https://code.tutsplus.com/tutorials/how-to-create-an-android-chat-app-using-firebase--cms-27397
  */
 
 public class Chat {

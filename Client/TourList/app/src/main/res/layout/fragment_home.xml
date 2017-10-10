@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.unimelbit.teamcobalt.tourlist.Home.HomeFragment"
     tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:layout_editor_absoluteX="0dp"
+    app:layout_constraintDimensionRatio="W,1:1">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -15,7 +16,7 @@
         android:layout_width="366dp"
         android:layout_height="84dp" /> -->
 
-    <TextView
+<!--    <TextView
         android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -27,59 +28,68 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1" />
-
-    <Button
-        android:id="@+id/createButtonMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CREATE"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <Button
-        android:id="@+id/searchButtonMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SEARCH"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/createButtonMain"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/createButtonMain"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/createButtonMain"
-        app:layout_constraintHorizontal_bias="0.0" />
+        tools:layout_constraintLeft_creator="1" />-->
 
     <Button
         android:id="@+id/curTripButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="78dp"
+        android:layout_width="0dp"
+        android:layout_height= "90dp"
         android:text="CURRENT TRIP"
-        app:layout_constraintLeft_toLeftOf="@+id/notifyingText"
-        app:layout_constraintTop_toBottomOf="@+id/searchButtonMain"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginLeft="7dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/background_ol"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.108" />
+
+    <LinearLayout android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout3"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/curTripButton"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
+
+        <Button
+            android:id="@+id/createButtonMain"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight=".40"
+            android:text="CREATE TRIP"
+            style="@style/background_b"/>
+
+        <Button
+            android:id="@+id/searchButtonMain"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight=".60"
+            android:text="SEARCH TRIP"
+            style="@style/background_od"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/generalChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:layout_marginStart="7dp"
-        android:layout_marginTop="19dp"
         android:text="CHAT ROOMS"
-        app:layout_constraintLeft_toLeftOf="@+id/notifyingText"
-        app:layout_constraintTop_toBottomOf="@+id/searchButtonMain"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="8dp"
+        style="@style/background_g"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"/>
+
 
     <HorizontalScrollView
         android:id="@+id/horizontal_scroll"

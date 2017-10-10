@@ -4,8 +4,6 @@ package com.unimelbit.teamcobalt.tourlist.Chat;
  * Created by Hong Lin on 26/09/2017.
  */
 
-import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-
 import java.util.ArrayList;
 
 /**

@@ -1,17 +1,10 @@
 package com.unimelbit.teamcobalt.tourlist.Chat;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,26 +12,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
-import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
+
+/**
+ *
+ * Chat activity to display messages from other users. This will utilise firebase as a database
+ * to share messages.
+ *
+ * Tutorial from: Ashraff Hathibelagal
+ * @https://code.tutsplus.com/tutorials/how-to-create-an-android-chat-app-using-firebase--cms-27397
+ */
 
 public class ChatroomActivity extends AppCompatActivity {
+
 
     private FirebaseListAdapter<Chat> adapter;
     private String userName;
@@ -53,7 +45,6 @@ public class ChatroomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
 
-        //mAuth = FirebaseAuth.getInstance();
 
         users = getIntent().getExtras().getStringArrayList("users");
         Toast.makeText(this,"Result: " + users, Toast.LENGTH_SHORT).show();
@@ -64,6 +55,7 @@ public class ChatroomActivity extends AppCompatActivity {
 
         FirebaseMessaging.getInstance().subscribeToTopic("user_"+userName);
 
+        //Handler to be responsible for handling messaging functions
         chatRoomHandler = (FirebaseChatRoomHandler) AppServicesFactory.getServicesFactory()
                 .getFirebaseChatService(this);
 
@@ -92,10 +84,8 @@ public class ChatroomActivity extends AppCompatActivity {
                 String message = input.getText().toString();
 
                 if(!message.isEmpty()) {
-                    // Read the input field and push a new instance
-                    // of ChatMessage to the Firebase database
+                    // Send message if it isn't empty
                     chatRoomHandler.sendMessage(message, userName, roomId);
-
 
                    if (!users.isEmpty() || users != null){
 
@@ -103,8 +93,6 @@ public class ChatroomActivity extends AppCompatActivity {
 
                    }
 
-
-                    // Clear the input
                     input.setText("");
                 }
             }
@@ -115,10 +103,14 @@ public class ChatroomActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Displays the messages received from Firebase for the relevant chat room
+     */
     private void displayChatMessages() {
 
         adapter = new FirebaseListAdapter<Chat>(this, Chat.class,
                 R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomId)) {
+            //Uses adapter to update and display values from the Chat model class
             @Override
             protected void populateView(View v, Chat chat, int position) {
 
@@ -126,11 +118,8 @@ public class ChatroomActivity extends AppCompatActivity {
                 TextView userNameText = (TextView) v.findViewById(R.id.message_user);
                 TextView timeText = (TextView) v.findViewById(R.id.message_time);
 
-                // Set their text
                 messageText.setText(chat.getMessage());
                 userNameText.setText(chat.getUserName());
-
-                // Format the date before showing it
                 timeText.setText(DateFormat.format("EEE, d MMM yyyy (h:mm a)",
                         chat.getTime()));
             }

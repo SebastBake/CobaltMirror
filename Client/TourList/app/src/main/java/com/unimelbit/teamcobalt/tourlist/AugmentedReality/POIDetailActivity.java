@@ -23,9 +23,12 @@ import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.io.InputStream;
 
-
+/**
+ * Class that displays detail about the trip location
+ */
 public class POIDetailActivity extends AppCompatActivity implements View.OnClickListener{
 
+    //Keys for sending extras
     public static final String EXTRAS_KEY_POI_TITILE = "title";
     public static final String EXTRAS_KEY_POI_DESCR = "description";
     public static final String EXTRAS_KEY_POI_LAT = "latitude";
@@ -43,8 +46,11 @@ public class POIDetailActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         this.setContentView(R.layout.activity_poidetail);
+
         title = getIntent().getExtras().getString(EXTRAS_KEY_POI_TITILE);
+
         ((TextView) findViewById(R.id.poi_title)).setText(title);
         ((TextView) findViewById(R.id.poi_description)).setText(getIntent().getExtras().getString(EXTRAS_KEY_POI_DESCR));
 
@@ -62,6 +68,9 @@ public class POIDetailActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    /**
+     * Finds a static map image of location and sets it ot the image view
+     */
     public void setMapImage() {
 
         String mapURL = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," +
@@ -74,6 +83,7 @@ public class POIDetailActivity extends AppCompatActivity implements View.OnClick
 
     public void onClick(View v)
     {
+        //Open browser about the relevant location
         if (v == webSearchButton)
         {
             Uri uri = Uri.parse("https://www.google.com/search?q="+ title);
