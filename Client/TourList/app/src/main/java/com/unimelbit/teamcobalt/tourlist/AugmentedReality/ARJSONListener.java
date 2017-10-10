@@ -14,6 +14,9 @@ import org.json.JSONObject;
  * Created by Hong Lin on 3/09/2017.
  */
 
+/**
+ * Listener will listen to JSON files and initiate appropriate Activity with details after receiving
+ */
 public class ARJSONListener implements ARListener{
 
     private ArchitectJavaScriptInterfaceListener mArchitectJavaScriptInterfaceListener;

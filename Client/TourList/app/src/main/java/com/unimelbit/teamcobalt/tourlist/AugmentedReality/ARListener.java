@@ -8,6 +8,9 @@ import com.wikitude.architect.ArchitectJavaScriptInterfaceListener;
  * Created by Hong Lin on 1/09/2017.
  */
 
+/**
+ * Listener needed for AR view to handle AR JS JSONs
+ */
 public interface ARListener {
 
     //Create and return a listner for the JS interface
