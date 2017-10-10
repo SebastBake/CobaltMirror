@@ -33,8 +33,6 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
         root = FirebaseDatabase.getInstance().getReference().getRoot();
 
-
-
         rootRef = FirebaseDatabase.getInstance().getReference();
 
         this.context = c;
@@ -132,6 +130,12 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
     }
 
 
+    /**
+     * Send message to relevant chat room with user name and such
+     * @param message
+     * @param userName
+     * @param roomName
+     */
     public void sendMessage(String message, String userName, String roomName){
 
         Chat chatModel = new Chat(message, userName);
@@ -145,8 +149,15 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
     }
 
 
+    /**
+     * Notifications to be sent for people subscribed to particular topics
+     * @param users
+     * @param message
+     * @param userName
+     */
     public void sendNotification(ArrayList<String> users, String message, String userName){
 
+        //Iterate through the users subscribed and create a notification for each to send to
         for (String user : users){
 
             Map notification = new HashMap<>();
