@@ -19,10 +19,14 @@ import java.util.Map;
  * Created by Hong Lin on 1/10/2017.
  */
 
+/**
+ * Tool used to request the coordinates of a user and post them to Firebase when called
+ */
 public class FireBaseRequester implements CoordinateDBPostRequester{
 
     private Context c;
 
+    //Uses similar method to the chat handler when uploading coordinates
     private FirebaseChatRoomHandler fbHandler;
 
     public FireBaseRequester(Context c){

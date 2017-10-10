@@ -20,6 +20,12 @@ import java.util.Map;
  * Created by Hong Lin on 5/10/2017.
  */
 
+/**
+ * Handler class to be responsible for tracking activities called.
+ * The functions will provide the ability to retrieve user locations and update the map live
+ * as the coordinates are recived on a periodic basis.
+ * It also manages markers to be placed on the Google Map.
+ */
 public class GoogleMapTrackingHandler {
 
     private Context c;
@@ -54,6 +60,7 @@ public class GoogleMapTrackingHandler {
 
         UserTracker userTracker = new UserTracker(c);
 
+        //Create special icon for user
         Bitmap icon = userTracker.createUserIcon(userName);
 
         userTracker.setUserIcon(icon);
@@ -127,6 +134,7 @@ public class GoogleMapTrackingHandler {
 
             MarkerOptions userMarker = getUserMarker(user.getId(), tracker);
 
+            //Add if user is allowing their info to be shared
             if(userMarker != null){
 
                 markerList.add(userMarker);
@@ -171,15 +179,15 @@ public class GoogleMapTrackingHandler {
     }
 
 
+    /**
+     * Simply add users to an array for tracking
+     * @param users
+     */
     public void putIntoUserList(ArrayList<User> users){
 
         for(User user : users) {
 
             userList.put(user, makeUserTracker(user.getUsername(), c));
-
-            Log.i("REEEEEEEEE", "Username: "+ user.getUsername());
-
-            Log.i("REEEEEEEEE", "UserId: "+ user.getId());
 
         }
 
