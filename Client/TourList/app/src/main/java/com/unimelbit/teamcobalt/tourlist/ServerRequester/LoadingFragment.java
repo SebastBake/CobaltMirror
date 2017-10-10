@@ -28,10 +28,31 @@ public class LoadingFragment extends Fragment {
 
         View rootView =  inflater.inflate(R.layout.fragment_load, container, false);
 
+        try {
+            getActivity().getActionBar().hide();
+        } catch (Exception e) {}
+
+
         TextView loadingTexView = (TextView) rootView.findViewById(R.id.loading_message);
         loadingTexView.setText(loadingMsg);
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        try {
+            getActivity().getActionBar().show();
+        } catch (Exception e) {}
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
+        try {
+            getActivity().getActionBar().show();
+        } catch (Exception e) {}
+        super.onDetach();
     }
 
     public static void setLoadingMsg(String msg) {

@@ -29,9 +29,7 @@ import java.util.ArrayList;
 public class CustomListAdapter extends ArrayAdapter<Place> {
 
     private ArrayList<Place> items;
-
     private Context c;
-
     private GeoDataClient mGeoDataClient;
 
     private static class ViewHolder {
@@ -42,7 +40,6 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
         super(context, textViewResourceId, items);
 
         this.items = items;
-
         this.c = context;
     }
 
@@ -70,11 +67,8 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
         // Return the completed view to render on screen
 
         Button delButton = (Button) convertView.findViewById(R.id.delete_button);
-
         ImageView up = (ImageView) convertView.findViewById(R.id.image_up);
-
         ImageView down = (ImageView) convertView.findViewById(R.id.image_down);
-
         ImageView image = (ImageView) convertView.findViewById(R.id.bitmap_image);
 
         //getPhotos(items.get(position).getId(), image);
@@ -114,7 +108,6 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
             }
         });
 
-
         return convertView;
     }
 
@@ -122,7 +115,6 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
     private void getPhotos(String id, ImageView i) {
 
         final String placeId = id;
-
         final ImageView image = i;
 
         final Task<PlacePhotoMetadataResponse> photoMetadataResponse = mGeoDataClient.getPlacePhotos(placeId);
@@ -146,8 +138,6 @@ public class CustomListAdapter extends ArrayAdapter<Place> {
                         Bitmap bitmap = photo.getBitmap();
 
                         image.setImageBitmap(bitmap);
-
-
                     }
                 });
             }

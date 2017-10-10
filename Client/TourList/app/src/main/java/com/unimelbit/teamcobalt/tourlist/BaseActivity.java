@@ -1,14 +1,10 @@
 package com.unimelbit.teamcobalt.tourlist;
 
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -17,33 +13,26 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationCallback;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
-import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
-import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
+import com.unimelbit.teamcobalt.tourlist.CreateTrips.TabbedCreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
-import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 
-import com.unimelbit.teamcobalt.tourlist.Tracking.FireBaseRequester;
-import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -86,6 +75,7 @@ public class BaseActivity extends AppCompatActivity
         mainContainer = new BaseFragmentContainerManager(this, R.id.fragment_container);
 
         try {
+            findViewById(R.id.trip_tabs).setVisibility(View.GONE);
             initNavDrawer();
             initUserPreferencesAndLogin();
             initPermissions();
@@ -270,7 +260,7 @@ public class BaseActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        Fragment f = getSupportFragmentManager().findFragmentById(mainContainer.getContainerId());
+        Fragment f = mainContainer.getCurrentFragment();
 
         if (id == R.id.nav_Profile &&
                 !(f instanceof LoginOrRegisterFragment) &&
@@ -285,7 +275,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_search && !(f instanceof TripSearchFragment)) {
             mainContainer.gotoTripSearchFragment();
 
-        } else if (id == R.id.nav_create && !(f instanceof CreateTripFragment)) {
+        } else if (id == R.id.nav_create && !(f instanceof TabbedCreateTripFragment)) {
             mainContainer.gotoCreateFragment();
 
         } else if (id == R.id.nav_current) {

@@ -45,8 +45,8 @@ public class GetRequester extends AsyncTask<String, Void, String> {
             //Initialize and config request, then connect to server
             URL url = new URL(urlPath);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(5 * 1000 /* milliseconds */);
-            urlConnection.setConnectTimeout(5 * 1000 /* milliseconds */);
+            urlConnection.setReadTimeout(15 * 1000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15 * 1000 /* milliseconds */);
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("Content-Type", "application/json");// set header
             urlConnection.connect();

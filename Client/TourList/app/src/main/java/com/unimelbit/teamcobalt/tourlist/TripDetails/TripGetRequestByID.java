@@ -4,7 +4,7 @@ package com.unimelbit.teamcobalt.tourlist.TripDetails;
 import android.util.Log;
 
 import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
-import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
+import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;

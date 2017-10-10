@@ -1,42 +1,25 @@
 package com.unimelbit.teamcobalt.tourlist.CreateTrips;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
-import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
 public class CreateTripFragment extends Fragment implements View.OnClickListener, BackButtonInterface {
 
-    public static final String INTENT_ID = "com.example.spike.uitest.MESSAGE_ID";
-    public static final String INTENT_NAME = "com.example.spike.uitest.MESSAGE";
-    public static final String INTENT_DATE = "com.example.spike.uitest.MESSAGE_TWO";
-    public static final String INTENT_SIZE = "com.example.spike.uitest.MESSAGE_THREE";
-    public static final String INTENT_COST = "com.example.spike.uitest.MESSAGE_FOUR";
-    public static final String INTENT_DESC = "com.example.spike.uitest.MESSAGE_FIVE";
-    public static final String INTENT_USERNAMES = "com.example.spike.uitest.MESSAGE_SIX";
-    public static final String INTENT_USERIDS = "com.example.spike.uitest.MESSAGE_SEVEN";
-
-    public static final String YOU_MUST_BE_LOGGED_IN = "You must be logged in to create a trip.";
-
-    private String id="temp id";
-    private String size;
-    private String cost;
-    private String name;
-    private String date;
-    private String desc;
-    private String user;
-    private String userid;
+    public static final int TAB_INDEX = 0;
+    public static final String TAB_TITLE = "Details";
 
     private RadioButton size_small;
     private RadioButton size_medium;
@@ -44,10 +27,13 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
     private RadioButton cost_small;
     private RadioButton cost_medium;
     private RadioButton cost_large;
-    private Button apply;
+    private EditText nameText;
+    private EditText descText;
+    private Button getDateBtn;
 
     public CreateTripFragment() {
     }
+
     public static CreateTripFragment newInstance() {
         CreateTripFragment fragment = new CreateTripFragment();
         return fragment;
@@ -58,10 +44,8 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_create_trip, container, false);
-        getActivity().setTitle( "Create a Trip");
-
         initButtons(rootView);
-
+        initTextBoxes(rootView);
         return rootView;
     }
 
@@ -81,110 +65,79 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         cost_medium = (RadioButton) rootView.findViewById(R.id.Cost_medium);
         cost_medium.setOnClickListener(this);
         cost_large = (RadioButton) rootView.findViewById(R.id.Cost_large);
-        cost_large.setOnClickListener(this);
 
-        apply = (Button) rootView.findViewById(R.id.buttonApply);
-        apply.setOnClickListener(this);
+        getDateBtn = (Button) rootView.findViewById(R.id.button_set_date);
+        getDateBtn.setOnClickListener(this);
+    }
+
+    private void initTextBoxes(View rootView) {
+
+        nameText = (EditText) rootView.findViewById(R.id.create_trip_name_field);
+        descText = (EditText) rootView.findViewById(R.id.create_trip_desc_field);
+
+        TextWatcher textWatcher = new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { updateEditTextBoxes(); }
+        };
+
+        nameText.addTextChangedListener(textWatcher);
+        descText.addTextChangedListener(textWatcher);
     }
 
     @Override
     public void onClick(View view) {
 
         // Is the button now checked?
-        boolean checked;
+        int clickedId = view.getId();
+        boolean clickedSizeRadio = clickedId == R.id.Size_small || clickedId == R.id.Size_medium || clickedId == R.id.Size_large;
+        boolean clickedCostRadio = clickedId == R.id.Cost_small || clickedId == R.id.Cost_medium || clickedId == R.id.Cost_large;
 
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.Size_small:
-                checked = ((RadioButton) view).isChecked();
-                if (checked)
-                    size = "1-5";
-                size_medium.setChecked(false);
-                size_large.setChecked(false);
-                break;
-            case R.id.Size_medium:
-                checked = ((RadioButton) view).isChecked();
-                if (checked)
-                    size = "5-10";
-                size_small.setChecked(false);
-                size_large.setChecked(false);
-                break;
-            case R.id.Size_large:
-                checked = ((RadioButton) view).isChecked();
-                if (checked)
-                    size = ">10";
-                size_medium.setChecked(false);
-                size_small.setChecked(false);
-                break;
-            case R.id.Cost_small:
-                checked = ((RadioButton) view).isChecked();
-                if (checked)
-                    cost = "$";
-                cost_medium.setChecked(false);
-                cost_large.setChecked(false);
-                break;
-            case R.id.Cost_medium:
-                checked = ((RadioButton) view).isChecked();
-                if (checked)
-                    cost = "$$";
-                cost_small.setChecked(false);
-                cost_large.setChecked(false);
-                break;
-            case R.id.Cost_large:
-                checked = ((RadioButton) view).isChecked();
-                if (checked)
-                    cost = "$$$";
-                cost_medium.setChecked(false);
-                cost_small.setChecked(false);
-                break;
-            case R.id.buttonApply:
+        if (clickedCostRadio) {
+            resetCostRadioButtons((RadioButton) view);
 
-                gotoChooseLocationsActivity();
-                break;
-        }
+        } else if (clickedSizeRadio) {
+            resetSizeRadioButtons((RadioButton) view);
 
-    }
-
-    private void gotoChooseLocationsActivity() {
-
-        if(BaseActivity.getCurrentUser() == null) {
-            Toast.makeText(getActivity(), YOU_MUST_BE_LOGGED_IN, Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        EditText nameText = (EditText) getView().findViewById(R.id.create_trip_name_field);
-        EditText dateText =  (EditText) getView().findViewById(R.id.create_trip_date_field);
-        EditText descText = (EditText) getView().findViewById(R.id.create_trip_desc_field);
-        name = nameText.getText().toString();
-        date = dateText.getText().toString();
-        desc = descText.getText().toString();
-
-        if (BaseActivity.getCurrentUser() == null) {
-            user = "anonymous user";
-            userid = "anonymous user";
         } else {
-            user = BaseActivity.getCurrentUser().getUsername();
-            userid = BaseActivity.getCurrentUser().getId();
+            switch(clickedId) {
+
+                case R.id.button_set_date:
+
+                    DialogFragment newFragment = new AddDateToTripDialogFragment();
+                    newFragment.show(getFragmentManager(),"Date Picker");
+                    break;
+            }
         }
-
-        boolean notFilledOut = name.isEmpty() || date.isEmpty() || (size==null) || (cost==null) || (desc.isEmpty());
-
-        if (notFilledOut) {
-            Toast.makeText(getActivity(), "Please fill out form correctly", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Intent intent = new Intent(getActivity(), AddLocationsToTripActivity.class);
-        intent.putExtra(INTENT_ID, id);
-        intent.putExtra(INTENT_NAME, name);
-        intent.putExtra(INTENT_DATE, date);
-        intent.putExtra(INTENT_SIZE, size);
-        intent.putExtra(INTENT_COST, cost);
-        intent.putExtra(INTENT_DESC, desc);
-        intent.putExtra(INTENT_USERNAMES,user);
-        intent.putExtra(INTENT_USERIDS,userid);
-        startActivity(intent);
-        getActivity().getSupportFragmentManager().popBackStack();
     }
 
+    private void resetCostRadioButtons(RadioButton checked) {
+        cost_small.setChecked(false);
+        cost_medium.setChecked(false);
+        cost_large.setChecked(false);
+        checked.setChecked(true);
+        NewTripSingleton.getInstance().cost = checked.getText().toString();
+    }
+
+    private void resetSizeRadioButtons(RadioButton checked) {
+        size_small.setChecked(false);
+        size_medium.setChecked(false);
+        size_large.setChecked(false);
+        checked.setChecked(true);
+        NewTripSingleton.getInstance().size = checked.getText().toString();
+    }
+
+    protected void updateEditTextBoxes() {
+        NewTripSingleton newTrip = NewTripSingleton.getInstance();
+        newTrip.name = nameText.getText().toString();
+        newTrip.description = descText.getText().toString();
+    }
 }

@@ -2,16 +2,12 @@ package com.unimelbit.teamcobalt.tourlist.Home;
 
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
-import com.unimelbit.teamcobalt.tourlist.Error.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**

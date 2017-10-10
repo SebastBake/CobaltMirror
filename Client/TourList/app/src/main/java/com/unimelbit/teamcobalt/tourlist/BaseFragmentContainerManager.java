@@ -2,25 +2,24 @@ package com.unimelbit.teamcobalt.tourlist;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatListRoomFragment;
-import com.unimelbit.teamcobalt.tourlist.CreateTrips.CreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.CreateTrips.TabbedCreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
-import com.unimelbit.teamcobalt.tourlist.Model.User;
+import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchGetRequest;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
-import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
-import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
-import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
 
 /**
  * Created by Sebastian on 14/9/17.
@@ -176,8 +175,14 @@ public class BaseFragmentContainerManager {
      */
     public void gotoCreateFragment() {
 
-        CreateTripFragment fragment = new CreateTripFragment();
-        gotoFragmentUsingBackstack(fragment);
+        //CreateTripFragment fragment = new CreateTripFragment();
+
+        try {
+            TabbedCreateTripFragment fragment = TabbedCreateTripFragment.newInstance();
+            gotoFragmentUsingBackstack(fragment);
+        } catch (Exception e) {
+            ErrorActivity.newError(baseActivity,e,"Failed to go to create trip.");
+        }
     }
 
     /**
@@ -210,7 +215,6 @@ public class BaseFragmentContainerManager {
      * @param fragment the fragment to replace the current fragment
      */
     private void gotoFragmentUsingBackstack(Fragment fragment) {
-
         replaceFragment(fragment);
     }
 

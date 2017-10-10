@@ -10,39 +10,26 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
-import com.unimelbit.teamcobalt.tourlist.Model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Hong Lin on 5/10/2017.
  */
-
 public class GoogleMapTrackingHandler {
 
     private Context c;
-
-    private HashMap<User, UserTracker> userList;
-
+    private HashMap<String, UserTracker> users; // <userId, userName>
     private ArrayList<MarkerOptions> markerList;
-
     private ArrayList<Marker> markersOnMap;
 
-
     public GoogleMapTrackingHandler(Context c){
-
         this.c = c;
-
-        userList = new HashMap<>();
-
-        markerList = new ArrayList<MarkerOptions>();
-
-        markersOnMap = new ArrayList<Marker>();
-
+        users = new HashMap<>();
+        markerList = new ArrayList<>();
+        markersOnMap = new ArrayList<>();
     }
-
 
     /**
      * Create a user tracker object for the user
@@ -53,15 +40,10 @@ public class GoogleMapTrackingHandler {
     public UserTracker makeUserTracker(String userName, Context c){
 
         UserTracker userTracker = new UserTracker(c);
-
         Bitmap icon = userTracker.createUserIcon(userName);
-
         userTracker.setUserIcon(icon);
-
         return userTracker;
     }
-
-
 
     /**
      * Remove all markers that were added to the map
@@ -69,14 +51,11 @@ public class GoogleMapTrackingHandler {
      */
     public void removeUserMarkers(ArrayList<Marker> markers){
 
-        for(Marker marker : markers){
-
+        for(Marker marker : markers) {
             marker.remove();
-
         }
 
         markers.clear();
-
     }
 
     /**
@@ -91,22 +70,17 @@ public class GoogleMapTrackingHandler {
         //Only create the marker if the user has a location or has location enabled
         if(!coordinates.isEmpty() && coordinates.get(UserTracker.LAT_INDEX) != UserTracker.NO_VALUE) {
 
-            LatLng latLng = new LatLng(coordinates.get(UserTracker.LAT_INDEX),
-                    coordinates.get(UserTracker.LONG_INDEX));
+            LatLng latLng = new LatLng(coordinates.get(UserTracker.LAT_INDEX), coordinates.get(UserTracker.LONG_INDEX));
 
             //Get the custom icon to set to the marker
             Bitmap userIcon = coordinateRequester.getUserIcon();
-
-            MarkerOptions marker = new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.fromBitmap(userIcon));
+            MarkerOptions marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromBitmap(userIcon));
 
             return marker;
         }
 
         return null;
-
     }
-
 
     /**
      * Get a list of all markers based on the user array
@@ -114,30 +88,20 @@ public class GoogleMapTrackingHandler {
      * @param markerList
      * @return
      */
-    public void getAllMarkers(HashMap<User, UserTracker> users, ArrayList<MarkerOptions> markerList){
+    public void getAllMarkers( HashMap<String, UserTracker> users, ArrayList<MarkerOptions> markerList){
 
         markerList.clear();
 
         //Iterate through all the users in the trip and create markers for them
-        for (Map.Entry<User, UserTracker> entry : users.entrySet()){
+        for (HashMap.Entry<String, UserTracker> entry : users.entrySet()) {
 
-            User user = entry.getKey();
-
-            UserTracker tracker = entry.getValue();
-
-            MarkerOptions userMarker = getUserMarker(user.getId(), tracker);
+            MarkerOptions userMarker = getUserMarker(entry.getKey(), entry.getValue());
 
             if(userMarker != null){
-
                 markerList.add(userMarker);
-
             }
-
-
         }
-
     }
-
 
     /**
      * Add the markers to the map
@@ -148,13 +112,9 @@ public class GoogleMapTrackingHandler {
     public void initUserMarkers(ArrayList<MarkerOptions> markers, ArrayList<Marker> markersAdded, GoogleMap mMap){
 
         for(MarkerOptions marker : markers){
-
             markersAdded.add(mMap.addMarker(marker));
-
-
         }
     }
-
 
     /**
      *Place the markers for each location
@@ -166,35 +126,20 @@ public class GoogleMapTrackingHandler {
             MarkerOptions marker = new MarkerOptions().position(latLng).title(location.getTitle());
             map.addMarker(marker);
         }
-
-
     }
 
+    public void putIntoUserList(ArrayList<String> userIds, ArrayList<String> userNames) {
 
-    public void putIntoUserList(ArrayList<User> users){
+        for(int i=0; i<userIds.size(); i++) {
 
-        for(User user : users) {
+            users.put(userIds.get(i), makeUserTracker(userNames.get(i), c));
 
-            userList.put(user, makeUserTracker(user.getUsername(), c));
-
-            Log.i("REEEEEEEEE", "Username: "+ user.getUsername());
-
-            Log.i("REEEEEEEEE", "UserId: "+ user.getId());
-
+            Log.i("REEEEEEEEE", "Username: "+ makeUserTracker(userNames.get(i), c) );
+            Log.i("REEEEEEEEE", "UserId: "+ userIds.get(i));
         }
-
     }
 
-
-    public HashMap<User, UserTracker> getUserList() {
-        return userList;
-    }
-
-    public ArrayList<Marker> getMarkersOnMap() {
-        return markersOnMap;
-    }
-
-    public ArrayList<MarkerOptions> getMarkerList() {
-        return markerList;
-    }
+    public HashMap<String, UserTracker> getUserList() { return users; }
+    public ArrayList<Marker> getMarkersOnMap() { return markersOnMap; }
+    public ArrayList<MarkerOptions> getMarkerList() { return markerList; }
 }
