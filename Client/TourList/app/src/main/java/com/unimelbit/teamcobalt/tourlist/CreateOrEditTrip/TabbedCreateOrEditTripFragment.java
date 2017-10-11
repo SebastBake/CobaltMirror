@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.CreateTrips;
+package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
@@ -21,19 +23,19 @@ import java.util.ArrayList;
 /**
  *
  */
-public class TabbedCreateTripFragment extends Fragment {
+public class TabbedCreateOrEditTripFragment extends Fragment {
 
     public static final int NUM_TABS = 2;
     public static final String YOU_MUST_BE_LOGGED_IN = "You must be logged in to create a trip.";
 
-    public TabbedCreateTripFragment() {
+    public TabbedCreateOrEditTripFragment() {
     }
 
     /**
      *
      */
-    public static TabbedCreateTripFragment newInstance() {
-        TabbedCreateTripFragment fragment = new TabbedCreateTripFragment();
+    public static TabbedCreateOrEditTripFragment newInstance() {
+        TabbedCreateOrEditTripFragment fragment = new TabbedCreateOrEditTripFragment();
         return fragment;
     }
 
@@ -41,7 +43,14 @@ public class TabbedCreateTripFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_tabbed_create_trip, container, false);
-        getActivity().setTitle( "Create a Trip");
+
+        NewTripSingleton newTrip = AppServicesFactory.getServicesFactory().getNewTrip();
+        if(newTrip.getEditTripFlag()) {
+            getActivity().setTitle( "Edit Trip");
+        } else {
+            getActivity().setTitle( "Create a Trip");
+        }
+
         initTabs(rootView);
         initDoneButton(rootView);
 
@@ -92,18 +101,12 @@ public class TabbedCreateTripFragment extends Fragment {
         @Override
         public void onClick(View view) {
 
-            NewTripSingleton newTrip = NewTripSingleton.getInstance();
+            NewTripSingleton newTrip = AppServicesFactory.getServicesFactory().getNewTrip();
 
             if(BaseActivity.getCurrentUser() == null) {
                 Toast.makeText(getActivity(), YOU_MUST_BE_LOGGED_IN, Toast.LENGTH_LONG).show();
-                return;
             } else {
-                newTrip.locations = Location.newLocationArrayFromPlaceArray(newTrip.places);
-                newTrip.usernames = new ArrayList<>();
-                newTrip.usernames.add(BaseActivity.getCurrentUser().getUsername());
-                newTrip.userIds = new ArrayList<>();
-                newTrip.userIds.add(BaseActivity.getCurrentUser().getId());
-                newTrip.submitNewTrip(activity);
+                newTrip.submitTrip(activity);
             }
         }
     }
@@ -119,8 +122,8 @@ public class TabbedCreateTripFragment extends Fragment {
 
             // getItem is called to instantiate the fragment for the given page.
             switch (position) {
-                case CreateTripFragment.TAB_INDEX:
-                    return CreateTripFragment.newInstance();
+                case CreateOrEditTripFragment.TAB_INDEX:
+                    return CreateOrEditTripFragment.newInstance();
                 case AddLocationsToTripFragment.TAB_INDEX:
                     return AddLocationsToTripFragment.newInstance();
             }
@@ -139,8 +142,8 @@ public class TabbedCreateTripFragment extends Fragment {
             // titles of the tabs
             if (getActivity() != null) {
                 switch (position) {
-                    case CreateTripFragment.TAB_INDEX:
-                        return CreateTripFragment.TAB_TITLE;
+                    case CreateOrEditTripFragment.TAB_INDEX:
+                        return CreateOrEditTripFragment.TAB_TITLE;
                     case AddLocationsToTripFragment.TAB_INDEX:
                         return AddLocationsToTripFragment.TAB_TITLE;
                 }

@@ -5,7 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatListRoomFragment;
-import com.unimelbit.teamcobalt.tourlist.CreateTrips.TabbedCreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.NewTripSingleton;
+import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.TabbedCreateOrEditTripFragment;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
@@ -173,12 +174,25 @@ public class BaseFragmentContainerManager {
     /**
      * Takes the user to the create trips screen
      */
-    public void gotoCreateFragment() {
-
-        //CreateTripFragment fragment = new CreateTripFragment();
+    public void gotoCreateTrip() {
 
         try {
-            TabbedCreateTripFragment fragment = TabbedCreateTripFragment.newInstance();
+            AppServicesFactory.getServicesFactory().getNewTrip().clearTrip();
+            TabbedCreateOrEditTripFragment fragment = TabbedCreateOrEditTripFragment.newInstance();
+            gotoFragmentUsingBackstack(fragment);
+        } catch (Exception e) {
+            ErrorActivity.newError(baseActivity,e,"Failed to go to create trip.");
+        }
+    }
+
+    /**
+     * Takes the user to the edit trips screen
+     */
+    public void gotoEditTrip(Trip trip) {
+
+        try {
+            AppServicesFactory.getServicesFactory().getNewTrip().editExistingTrip(trip);
+            TabbedCreateOrEditTripFragment fragment = TabbedCreateOrEditTripFragment.newInstance();
             gotoFragmentUsingBackstack(fragment);
         } catch (Exception e) {
             ErrorActivity.newError(baseActivity,e,"Failed to go to create trip.");

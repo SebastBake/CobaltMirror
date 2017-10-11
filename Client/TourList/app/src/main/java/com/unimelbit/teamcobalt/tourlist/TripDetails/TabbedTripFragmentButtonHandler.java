@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
@@ -24,6 +25,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     private BaseActivity activity;
     private TabbedTripFragment fragment;
 
+    private FloatingActionButton editButton;
     private FloatingActionButton augmentedRealityButton;
     private FloatingActionButton locButton;
     private FloatingActionButton mapButton;
@@ -35,10 +37,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         this.activity = activity;
         this.fragment = fragment;
 
-        initLocSharingButton(rootView);
-        initAugmentedRealityButton(rootView);
-        initMapButton(rootView);
-        initMainButton(rootView);
+        initButtons(rootView);
         setIsMainFabActivated(false);
     }
 
@@ -70,27 +69,6 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         }
     }
 
-    private void initLocSharingButton(View rootView) {
-
-        locButton = (FloatingActionButton) rootView.findViewById(R.id.loc_button);
-        resetLocSharingColor();
-        final TabbedTripFragmentButtonHandler handeler = this;
-
-        FloatingActionButton.OnClickListener listener = new View.OnClickListener() {
-
-            final BaseActivity baseActivity = activity;
-            final TabbedTripFragmentButtonHandler from = handeler;
-
-            @Override
-            public void onClick(View view) {
-                baseActivity.toggleLocationSharing();
-                from.resetLocSharingColor();
-            }
-        };
-
-        locButton.setOnClickListener(listener);
-    }
-
     private void resetLocSharingColor() {
         if(BaseActivity.isLocationSharingOn()) {
 
@@ -104,7 +82,50 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         }
     }
 
-    private void initMapButton(View rootView) {
+    private void initButtons(View rootView) {
+
+        editButton = (FloatingActionButton) rootView.findViewById(R.id.edit_button);
+        editButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                activity.getMainContainerManager().gotoEditTrip(BaseActivity.getCurrentTrip());
+            }
+        });
+
+        locButton = (FloatingActionButton) rootView.findViewById(R.id.loc_button);
+        resetLocSharingColor();
+
+        final TabbedTripFragmentButtonHandler handler = this;
+
+        locButton.setOnClickListener(new View.OnClickListener() {
+
+            final BaseActivity baseActivity = activity;
+            final TabbedTripFragmentButtonHandler from = handler;
+
+            @Override
+            public void onClick(View view) {
+                baseActivity.toggleLocationSharing();
+                from.resetLocSharingColor();
+            }
+        });
+
+        mainButton = (FloatingActionButton) rootView.findViewById(R.id.main_button);
+        mainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setIsMainFabActivated(!isMainFabActivated);
+            }
+        });
+
+        augmentedRealityButton = (FloatingActionButton) rootView.findViewById(R.id.ar_button);
+        augmentedRealityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragment.startAR();
+            }
+        });
 
         mapButton = (FloatingActionButton) rootView.findViewById(R.id.map_button);
         mapButton.setOnClickListener(new View.OnClickListener() {
@@ -118,30 +139,8 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         });
     }
 
-    private void initAugmentedRealityButton(View rootView) {
-
-        augmentedRealityButton = (FloatingActionButton) rootView.findViewById(R.id.ar_button);
-
-        augmentedRealityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragment.startAR();
-            }
-        });
-    }
-
-    private void initMainButton(View rootView) {
-        mainButton = (FloatingActionButton) rootView.findViewById(R.id.main_button);
-
-        mainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setIsMainFabActivated(!isMainFabActivated);
-            }
-        });
-    }
-
     private void hideAllButtons() {
+        editButton.setVisibility(View.GONE);
         locButton.setVisibility(View.GONE);
         augmentedRealityButton.setVisibility(View.GONE);
         mapButton.setVisibility(View.GONE);
@@ -149,6 +148,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     }
 
     private void showAllButtons() {
+        editButton.setVisibility(View.VISIBLE);
         locButton.setVisibility(View.VISIBLE);
         augmentedRealityButton.setVisibility(View.VISIBLE);
         mainButton.setVisibility(View.VISIBLE);
@@ -157,14 +157,11 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
     private void hideSmallButtons() {
 
-        locButton.setVisibility(View.GONE);
-        augmentedRealityButton.setVisibility(View.GONE);
-        mapButton.setVisibility(View.GONE);
+        hideAllButtons();
+        mainButton.setVisibility(View.VISIBLE);
     }
 
     private void showSmallButtons() {
-        locButton.setVisibility(View.VISIBLE);
-        augmentedRealityButton.setVisibility(View.VISIBLE);
-        mapButton.setVisibility(View.VISIBLE);
+        showAllButtons();
     }
 }
