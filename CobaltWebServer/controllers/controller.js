@@ -47,9 +47,10 @@ var createTrip = function(req, res) {
           return res.status(500).json({
             'error': 'error in adding'
           });
+        } else {
+          res.send(newTrip);
         }
       });
-      res.send(newTrip);
     } else {
       res.sendStatus(400);
     }
@@ -208,6 +209,20 @@ var deleteTrip = function(req, res) {
 };
 
 var editTrip = function(req, res) {
+  console.log(req.body);
+  //console.log(res.body.locations);
+  var locations = [];
+  for (var i = 0; i < req.body.locations.length; i++) {
+    var newlocation = {
+      "title": req.body.locations[i].title,
+      "description": req.body.locations[i].description,
+      "latitude": req.body.locations[i].latitude,
+      "longitude": req.body.locations[i].longitude,
+      "altitude": req.body.locations[i].altitude
+    };
+    locations[i] = newlocation;
+  }
+
   Trip.findOneAndUpdate({
     _id: req.body._id
   }, {
@@ -217,7 +232,7 @@ var editTrip = function(req, res) {
       "date": req.body.date,
       "size": req.body.size,
       "cost": req.body.cost,
-      "locations": req.body.locations,
+      "locations": locations,
       "usernames": req.body.usernames,
       "userids": req.body.userids,
       "owner": req.body.owner
