@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -57,6 +58,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         chatRoomB = (Button) rootView.findViewById(R.id.generalChat);
 
         chatRoomB.setOnClickListener(this);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("user_"+base.getCurrentUser().getId());
 
         LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.linear);
         for (int i = 0; i < 20; i++) {

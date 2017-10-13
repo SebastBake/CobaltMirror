@@ -42,17 +42,19 @@ public class TripSearchFragment extends Fragment implements View.OnClickListener
         return v;
     }
 
+
     @Override
     public void  onClick(View v){
 
         switch (v.getId()) {
-
+            // Search database based on text entered
             case R.id.Search_button:
                 EditText searchText = (EditText) getView().findViewById(R.id.Search_input);
                 String text = searchText.getText().toString();
                 new TripSearchGetRequest(text, ((BaseActivity)getActivity()).getMainContainerManager());
                 break;
 
+            // Search database for 10 random trips
             case R.id.Random_button:
                 String randomtext = "Random_trips";
                 new TripSearchGetRequest(randomtext, ((BaseActivity)getActivity()).getMainContainerManager());

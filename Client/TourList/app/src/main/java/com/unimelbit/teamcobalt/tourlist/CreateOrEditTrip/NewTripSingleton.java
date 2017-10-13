@@ -41,10 +41,13 @@ public class NewTripSingleton {
 
     void submitTrip(BaseActivity activity) {
 
-        usernames = new ArrayList<>();
-        usernames.add(BaseActivity.getCurrentUser().getUsername());
-        userIds = new ArrayList<>();
-        userIds.add(BaseActivity.getCurrentUser().getId());
+        //Check if creating trip and need new arrays
+        if (editTripFlag == false){
+            usernames = new ArrayList<>();
+             userIds = new ArrayList<>();
+            usernames.add(BaseActivity.getCurrentUser().getUsername());
+            userIds.add(BaseActivity.getCurrentUser().getId());
+        }
 
         locations = Location.newLocationArrayFromPlaceArray(places);
 
@@ -58,10 +61,10 @@ public class NewTripSingleton {
     private void makeRequest(BaseActivity activity) {
 
         Trip newTrip = new Trip(id, name, description, getDateString(), cost, size, ownerId, locations, usernames, userIds, "");
-
+        Toast.makeText(activity, newTrip.getUserids().toString(), Toast.LENGTH_LONG).show();
         if (editTripFlag) {
-            new CreateTripPostRequest(activity, newTrip);
-            //new EditTripPutRequest(activity, newTrip);
+            //new CreateTripPostRequest(activity, newTrip);
+            new EditTripPutRequest(activity, newTrip);
         } else {
             new CreateTripPostRequest(activity, newTrip);
         }

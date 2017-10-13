@@ -101,7 +101,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
             ChatAdaptor chatService = AppServicesFactory.getServicesFactory().getFirebaseChatService(getActivity());
             chatService.checkRoom(roomId);
-            chatService.enterChatRoom(username, roomName, roomId,base.getCurrentTrip().getUsernames());
+            chatService.enterChatRoom(BaseActivity.getCurrentUser().getId(), roomName, roomId,base.getCurrentTrip().getUserids(),username);
         }
     }
 

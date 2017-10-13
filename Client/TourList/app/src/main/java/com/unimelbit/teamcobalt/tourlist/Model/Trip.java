@@ -242,8 +242,8 @@ public class Trip implements Parcelable {
         }
 
         JSONArray useridJSONArray = new JSONArray();
-        for(String user: usernames) {
-            useridJSONArray.put(user);
+        for(String userid: userids) {
+            useridJSONArray.put(userid);
         }
 
         trip.put(JSON_USERS_NAMES,userJSONArray);

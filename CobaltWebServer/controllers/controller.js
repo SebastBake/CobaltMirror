@@ -5,6 +5,8 @@ var mongoose = require('mongoose');
 var Trip = mongoose.model('trips');
 var User = mongoose.model('users');
 
+
+//Creates a trip
 var createTrip = function(req, res) {
 
   console.log(JSON.stringify(req.body));
@@ -17,10 +19,12 @@ var createTrip = function(req, res) {
     "cost": req.body.cost,
     "locations": [],
     "usernames": [req.body.usernames[0]],
-    "userids": [req.body.userids],
-    "owner": req.body.userids[0]
+    "userids": [req.body.userids[0]],
+    "owner": req.body.usernames[0]
   });
 
+
+  // Adds locations to trip
   for (var i = 0; i < req.body.locations.length; i++) {
     var newlocation = {
       "title": req.body.locations[i].title,
@@ -58,7 +62,7 @@ var createTrip = function(req, res) {
 };
 
 
-
+// Find all trips in database
 var findAllTrips = function(req, res) {
   Trip.find(function(err, trips) {
     if (!err) {
@@ -93,6 +97,8 @@ var findOneTrip = function(req, res) {
   }));
 };
 
+
+//Find trip by id
 var findOneTripByID = function(req, res) {
   var tripInx = req.params.id;
   Trip.find({
@@ -109,6 +115,8 @@ var findOneTripByID = function(req, res) {
   }));
 };
 
+
+//Search database for trips with specified text
 var findTripsByText = function(req, res) {
   console.log(req.param("searchcontent"));
   //if blank input
@@ -176,6 +184,7 @@ var findTripsByText = function(req, res) {
   }
 };
 
+// Find 10 randoms trips(repeated trips allowed if less than 10 trips in db)
 var findRandomTrips = function(req, res) {
   Trip.find(function(err, trips) {
     if (!err) {
@@ -194,6 +203,8 @@ var findRandomTrips = function(req, res) {
   });
 };
 
+
+//Delete a trip from the database
 var deleteTrip = function(req, res) {
   Trip.findOneAndRemove({
     name: req.body.tripname
@@ -208,10 +219,12 @@ var deleteTrip = function(req, res) {
   }));
 };
 
+
+//Edits contents of a trip and returns edited trip
 var editTrip = function(req, res) {
   console.log(req.body);
-  //console.log(res.body.locations);
   var locations = [];
+  //Converts req locations array to JSON array with no id
   for (var i = 0; i < req.body.locations.length; i++) {
     var newlocation = {
       "title": req.body.locations[i].title,

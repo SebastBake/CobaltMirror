@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.TabbedCreateOrEditTripFragment;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
@@ -84,6 +85,7 @@ public class BaseActivity extends AppCompatActivity
             ErrorActivity.newError(this, e, STARTUP_FAIL_MESSAGE);
         }
     }
+
 
     /**
      * Initializes the permissions manager
