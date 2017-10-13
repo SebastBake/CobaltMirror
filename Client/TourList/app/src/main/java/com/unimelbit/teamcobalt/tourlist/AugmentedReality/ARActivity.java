@@ -53,9 +53,7 @@ public class ARActivity extends AppCompatActivity {
 
         //Get values for AR
         tripId = getIntent().getStringExtra(TabbedTripFragment.INTENT_TRIPID);
-//        tripUserids = getIntent().getStringArrayListExtra(TabbedTripFragment.INTENT_TRIP_USERIDS);
-//        tripUsernames = getIntent().getStringArrayListExtra(TabbedTripFragment.INTENT_TRIP_USERNAMES);
-//        user = getIntent().getParcelableExtra(TabbedTripFragment.INTENT_USER);
+
 
         //Initialise the request
         arGpsTool.createLocationRequest();
@@ -90,8 +88,7 @@ public class ARActivity extends AppCompatActivity {
         architectView.onPostCreate();
         try {
             this.architectView.load(assetLoc);
-            this.architectView.callJavascript("World.newData('" + tripId +"')");
-            //sendUserList(this.architectView);
+            this.architectView.callJavascript("World.tripId('" + tripId +"')");
 
 
         } catch (Exception e) {
@@ -99,27 +96,6 @@ public class ARActivity extends AppCompatActivity {
         }
 
     }
-
-    /**
-     * Send the user list to the AR list view to handle in the AR view
-     * @param architectView
-     * @throws JSONException
-     */
-//    private void sendUserList(ArchitectView architectView) throws JSONException {
-//        JSONArray array = new JSONArray();
-//
-//        //Loop through and place the user into a json to send
-//        for(int i = 0;i < tripUsernames.size();i++){
-//            if(!Objects.equals(tripUsernames.get(i),user.getUsername()) &&
-//                    !Objects.equals(tripUserids.get(i),user.getId()) ){
-//                JSONObject object = new JSONObject();
-//                object.put("username",tripUsernames.get(i));
-//                object.put("userid",tripUserids.get(i));
-//                array.put(object);
-//            }
-//        }
-//        architectView.callJavascript("World.userMarkers('" + array +"')");
-//    }
 
 
     /** Resume app settings
