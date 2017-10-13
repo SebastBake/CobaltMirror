@@ -9,10 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.google.android.gms.vision.text.Text;
-import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -84,7 +81,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         int id = view.getId();
 
         if (id == R.id.createButtonMain) {
-            base.getMainContainer().gotoCreateFragment();
+            base.getMainContainer().gotoCreateTrip();
 
         } else if (id == R.id.searchButtonMain) {
             base.getMainContainer().gotoTripSearchFragment();

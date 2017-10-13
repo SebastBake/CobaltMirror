@@ -26,6 +26,7 @@ public class TripDetailsFragment extends Fragment {
     private boolean imageLoaded;
     private ImageView imageDetail;
     private PlaceImageLoader pILoader;
+    private Trip trip;
 
     public TripDetailsFragment() {
     }
@@ -43,11 +44,11 @@ public class TripDetailsFragment extends Fragment {
         imageDetail = (ImageView) rootView.findViewById(R.id.imageView2);
         pILoader = new PlaceImageLoader(getActivity());
 
-        if (((BaseActivity) getActivity()).getCurrentTrip() != null) {
+        if (BaseActivity.getCurrentTrip() != null) {
 
-            Trip currentTrip = ((BaseActivity) getActivity()).getCurrentTrip();
-            initTextBoxes(rootView, currentTrip);
-            initLocationsList(rootView, currentTrip);
+            trip = BaseActivity.getCurrentTrip();
+            initTextBoxes(rootView, trip);
+            initLocationsList(rootView, trip);
             imageLoaded = false;
 
         } else {

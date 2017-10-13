@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.CreateTrips;
+package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
 
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 

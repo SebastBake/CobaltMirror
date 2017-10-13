@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.CreateTrips;
+package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
+import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 
-public class CreateTripFragment extends Fragment implements View.OnClickListener, BackButtonInterface {
+public class CreateOrEditTripFragment extends Fragment implements View.OnClickListener, BackButtonInterface {
 
     public static final int TAB_INDEX = 0;
     public static final String TAB_TITLE = "Details";
@@ -31,11 +34,11 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
     private EditText descText;
     private Button getDateBtn;
 
-    public CreateTripFragment() {
+    public CreateOrEditTripFragment() {
     }
 
-    public static CreateTripFragment newInstance() {
-        CreateTripFragment fragment = new CreateTripFragment();
+    public static CreateOrEditTripFragment newInstance() {
+        CreateOrEditTripFragment fragment = new CreateOrEditTripFragment();
         return fragment;
     }
 
@@ -65,9 +68,20 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         cost_medium = (RadioButton) rootView.findViewById(R.id.Cost_medium);
         cost_medium.setOnClickListener(this);
         cost_large = (RadioButton) rootView.findViewById(R.id.Cost_large);
+        cost_large.setOnClickListener(this);
 
         getDateBtn = (Button) rootView.findViewById(R.id.button_set_date);
         getDateBtn.setOnClickListener(this);
+
+        NewTripSingleton newTrip = AppServicesFactory.getServicesFactory().getNewTrip();
+        if(newTrip.getEditTripFlag()) {
+            size_small.setChecked(size_small.getText().equals(newTrip.size));
+            size_medium.setChecked(size_medium.getText().equals(newTrip.size));
+            size_large.setChecked(size_large.getText().equals(newTrip.size));
+            cost_small.setChecked(cost_small.getText().equals(newTrip.cost));
+            cost_medium.setChecked(cost_medium.getText().equals(newTrip.cost));
+            cost_large.setChecked(cost_large.getText().equals(newTrip.cost));
+        }
     }
 
     private void initTextBoxes(View rootView) {
@@ -91,6 +105,13 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
 
         nameText.addTextChangedListener(textWatcher);
         descText.addTextChangedListener(textWatcher);
+
+        NewTripSingleton newTrip = AppServicesFactory.getServicesFactory().getNewTrip();
+        if(newTrip.getEditTripFlag()) {
+            nameText.setText(newTrip.name);
+            newTrip.description = BaseActivity.getCurrentTrip().getDescription(); // had to add this line because for some reason the description did not appear
+            descText.setText(newTrip.description);
+        }
     }
 
     @Override
@@ -124,7 +145,7 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         cost_medium.setChecked(false);
         cost_large.setChecked(false);
         checked.setChecked(true);
-        NewTripSingleton.getInstance().cost = checked.getText().toString();
+        AppServicesFactory.getServicesFactory().getNewTrip().cost = checked.getText().toString();
     }
 
     private void resetSizeRadioButtons(RadioButton checked) {
@@ -132,11 +153,11 @@ public class CreateTripFragment extends Fragment implements View.OnClickListener
         size_medium.setChecked(false);
         size_large.setChecked(false);
         checked.setChecked(true);
-        NewTripSingleton.getInstance().size = checked.getText().toString();
+        AppServicesFactory.getServicesFactory().getNewTrip().size = checked.getText().toString();
     }
 
     protected void updateEditTextBoxes() {
-        NewTripSingleton newTrip = NewTripSingleton.getInstance();
+        NewTripSingleton newTrip = AppServicesFactory.getServicesFactory().getNewTrip();
         newTrip.name = nameText.getText().toString();
         newTrip.description = descText.getText().toString();
     }

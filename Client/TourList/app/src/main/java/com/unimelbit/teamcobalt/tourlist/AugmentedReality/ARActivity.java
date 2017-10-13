@@ -53,9 +53,9 @@ public class ARActivity extends AppCompatActivity {
 
         //Get values for AR
         tripId = getIntent().getStringExtra(TabbedTripFragment.INTENT_TRIPID);
-        tripUserids = getIntent().getStringArrayListExtra(TabbedTripFragment.INTENT_TRIP_USERIDS);
-        tripUsernames = getIntent().getStringArrayListExtra(TabbedTripFragment.INTENT_TRIP_USERNAMES);
-        user = getIntent().getParcelableExtra(TabbedTripFragment.INTENT_USER);
+//        tripUserids = getIntent().getStringArrayListExtra(TabbedTripFragment.INTENT_TRIP_USERIDS);
+//        tripUsernames = getIntent().getStringArrayListExtra(TabbedTripFragment.INTENT_TRIP_USERNAMES);
+//        user = getIntent().getParcelableExtra(TabbedTripFragment.INTENT_USER);
 
         //Initialise the request
         arGpsTool.createLocationRequest();
@@ -82,8 +82,7 @@ public class ARActivity extends AppCompatActivity {
 
 
 
-    /*
-    Create view with the JS and assets provided in this function
+    /**Create view with the JS and assets provided in this function
      */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -92,7 +91,7 @@ public class ARActivity extends AppCompatActivity {
         try {
             this.architectView.load(assetLoc);
             this.architectView.callJavascript("World.newData('" + tripId +"')");
-            sendUserList(this.architectView);
+            //sendUserList(this.architectView);
 
 
         } catch (Exception e) {
@@ -106,25 +105,24 @@ public class ARActivity extends AppCompatActivity {
      * @param architectView
      * @throws JSONException
      */
-    private void sendUserList(ArchitectView architectView) throws JSONException {
-        JSONArray array = new JSONArray();
+//    private void sendUserList(ArchitectView architectView) throws JSONException {
+//        JSONArray array = new JSONArray();
+//
+//        //Loop through and place the user into a json to send
+//        for(int i = 0;i < tripUsernames.size();i++){
+//            if(!Objects.equals(tripUsernames.get(i),user.getUsername()) &&
+//                    !Objects.equals(tripUserids.get(i),user.getId()) ){
+//                JSONObject object = new JSONObject();
+//                object.put("username",tripUsernames.get(i));
+//                object.put("userid",tripUserids.get(i));
+//                array.put(object);
+//            }
+//        }
+//        architectView.callJavascript("World.userMarkers('" + array +"')");
+//    }
 
-        //Loop through and place the user into a json to send
-        for(int i = 0;i < tripUsernames.size();i++){
-            if(!Objects.equals(tripUsernames.get(i),user.getUsername()) &&
-                    !Objects.equals(tripUserids.get(i),user.getId()) ){
-                JSONObject object = new JSONObject();
-                object.put("username",tripUsernames.get(i));
-                object.put("userid",tripUserids.get(i));
-                array.put(object);
-            }
-        }
-        architectView.callJavascript("World.userMarkers('" + array +"')");
-    }
 
-
-    /*
-    Resume app settings
+    /** Resume app settings
      */
     @Override
     protected void onResume() {
@@ -136,8 +134,7 @@ public class ARActivity extends AppCompatActivity {
 
     }
 
-    /*
-    Destroy activity
+    /** Destroy activity
      */
     @Override
     protected void onDestroy() {
@@ -146,8 +143,7 @@ public class ARActivity extends AppCompatActivity {
 
     }
 
-    /*
-    Settings when acitivty paused
+    /** Settings when acitivty paused
      */
     @Override
     protected void onPause() {
