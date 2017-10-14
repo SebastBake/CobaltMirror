@@ -21,7 +21,7 @@ class EditTripPutRequest implements PutRequest {
 
     private static final String LOADING_MSG = "Editing trip ...";
     private static final String EDIT_TRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/edit/";
-    private static final int HTTP_ERROR_CODE = 404;
+    private static final int HTTP_SUCCESS_CODE = 200;
 
     BaseActivity activity;
     Trip trip;
@@ -48,7 +48,7 @@ class EditTripPutRequest implements PutRequest {
     public void processResult(String result,int status) {
 
         try {
-            if (status == HTTP_ERROR_CODE) {
+            if (status != HTTP_SUCCESS_CODE) {
                 throw new Exception();
             }
             new TripGetRequestByID(trip.getId(), activity.getMainContainerManager());

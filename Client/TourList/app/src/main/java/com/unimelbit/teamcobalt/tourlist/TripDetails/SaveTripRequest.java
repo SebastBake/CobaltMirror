@@ -21,7 +21,7 @@ public class SaveTripRequest implements PutRequest {
     private static String URL_SAVE_BASE = "https://cobaltwebserver.herokuapp.com/api/user/addtrip/";
     private String tripid;
     private String url;
-    private static final int HTTP_ERROR_CODE = 500;
+    private static final int HTTP_SUCCESS_CODE = 200;
 
     BaseActivity activity;
 
@@ -43,7 +43,7 @@ public class SaveTripRequest implements PutRequest {
     @Override
     public void processResult(String result,int status) {
         try {
-            if (status == HTTP_ERROR_CODE) {
+            if (status != HTTP_SUCCESS_CODE) {
                 throw new Exception();
             }
             new TripGetRequestByID(tripid, activity.getMainContainerManager());

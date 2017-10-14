@@ -21,7 +21,7 @@ class CreateTripPostRequest implements PostRequest {
 
     private static final String LOADING_MSG = "Creating trip ...";
     private static final String CREATE_TRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/create";
-    private static final int HTTP_ERROR_CODE = 400;
+    private static final int HTTP_SUCCESS_CODE = 200;
 
     BaseActivity activity;
     Trip trip;
@@ -42,7 +42,7 @@ class CreateTripPostRequest implements PostRequest {
 
         try {
 
-            if (status == HTTP_ERROR_CODE ) {
+            if (status != HTTP_SUCCESS_CODE ) {
                 throw new Exception();
             }
             new TripGetRequest(trip.getName(), activity.getMainContainerManager());

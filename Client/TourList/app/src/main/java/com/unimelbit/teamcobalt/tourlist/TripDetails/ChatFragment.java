@@ -66,11 +66,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, userList);
 
         //Check if user is in trip
-        if (base.getCurrentTrip().getUserids().contains(base.getCurrentUser().getId()) == false){
-            isUserInTrip = false;
-        }else{
-            isUserInTrip = true;
-        }
+        isUserInTrip = base.getCurrentTrip().getUserids().contains(base.getCurrentUser().getId());
+
 
         // Here, you set the data in your ListView
         listV.setAdapter(adapter);
@@ -104,7 +101,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
         int id = view.getId();
 
         if(id == R.id.button_chat){
-            if (checkUserInTrip()==true) {
+            if (checkUserInTrip()) {
                 String roomName = BaseActivity.getCurrentTrip().getName();
                 String roomId = BaseActivity.getCurrentTrip().getId();
 
@@ -116,7 +113,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
     }
 
     private boolean checkUserInTrip(){
-        if(isUserInTrip == false){
+        if(!isUserInTrip){
             Toast.makeText(base,"Please save trip first",Toast.LENGTH_LONG).show();
             return false;
         }

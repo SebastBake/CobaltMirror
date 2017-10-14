@@ -40,11 +40,8 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
         initButtons(rootView);
         setIsMainFabActivated(false);
-        if (activity.getCurrentTrip().getUserids().contains(activity.getCurrentUser().getId()) == false){
-            isUserInTrip = false;
-        }else{
-            isUserInTrip = true;
-        }
+
+        isUserInTrip = activity.getCurrentTrip().getUserids().contains(activity.getCurrentUser().getId());
     }
 
     @Override
@@ -95,7 +92,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
             @Override
             public void onClick(View v) {
-                if (checkUserInTrip()==true){
+                if (checkUserInTrip()){
                     activity.getMainContainerManager().gotoEditTrip(BaseActivity.getCurrentTrip());
                 }
             }
@@ -113,7 +110,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
                 @Override
                 public void onClick (View view){
-                    if (checkUserInTrip()==true) {
+                    if (checkUserInTrip()) {
                         baseActivity.toggleLocationSharing();
                         from.resetLocSharingColor();
                     }
@@ -143,7 +140,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
             @Override
             public void onClick(View view) {
-                if (checkUserInTrip()==true) {
+                if (checkUserInTrip()) {
                     Intent intent = new Intent(activity, MapActivity.class);
                     fragment.startActivity(intent);
                 }
@@ -152,7 +149,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     }
 
     private boolean checkUserInTrip(){
-        if(isUserInTrip == false){
+        if(!isUserInTrip){
             Toast.makeText(activity,"Please save trip first",Toast.LENGTH_LONG).show();
             return false;
         }
