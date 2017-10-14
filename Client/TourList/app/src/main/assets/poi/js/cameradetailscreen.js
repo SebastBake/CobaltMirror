@@ -106,7 +106,7 @@ var World = {
 
 
 		}
-		}
+
 
 
 		// updates distance information
