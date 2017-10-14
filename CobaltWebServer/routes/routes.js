@@ -58,6 +58,9 @@ router.get('/api/user/find/:username/:password', usercontroller.retrieveOneUser)
 //Find all users
 router.get('/api/users', usercontroller.findAllUsers);
 
+//update current trip of user
+router.put('/api/user/updateCurrentTrip/', usercontroller.updateCurrentTripUser);
+
 // Return saved trips data
 router.get('/api/user/savedtrips/:id', usercontroller.savedTrips);
 

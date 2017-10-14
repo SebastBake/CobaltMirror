@@ -1,9 +1,3 @@
-/**
-*
-* Modified from Wikitude-sdk-samples
-* From:https://github.com/Wikitude/wikitude-sdk-samples
-**/
-
 var kMarker_AnimationDuration_ChangeDrawable = 500;
 var kMarker_AnimationDuration_Resize = 1000;
 
@@ -12,6 +6,9 @@ function Marker(poiData) {
     this.poiData = poiData;
     this.isSelected = false;
 
+    /*
+        With AR.PropertyAnimations you are able to animate almost any property of ARchitect objects. This sample will animate the opacity of both background drawables so that one will fade out while the other one fades in. The scaling is animated too. The marker size changes over time so the labels need to be animated too in order to keep them relative to the background drawable. AR.AnimationGroups are used to synchronize all animations in parallel or sequentially.
+    */
 
     this.animationGroup_idle = null;
     this.animationGroup_selected = null;
@@ -25,8 +22,9 @@ function Marker(poiData) {
     this.markerDrawable_idle = new AR.ImageDrawable(World.markerDrawable_idle, 2.5, {
         zOrder: 0,
         opacity: 1.0,
-
-      // Onclick to react to user press
+        /*
+            To react on user interaction, an onClick property can be set for each AR.Drawable. The property is a function which will be called each time the user taps on the drawable. The function called on each tap is returned from the following helper function defined in marker.js. The function returns a function which checks the selected state with the help of the variable isSelected and executes the appropriate function. The clicked marker is passed as an argument.
+        */
         onClick: Marker.prototype.getOnClickTrigger(this)
     });
 
@@ -60,14 +58,18 @@ function Marker(poiData) {
         }
     });
 
-
+    /*
+        Create an AR.ImageDrawable using the AR.ImageResource for the direction indicator which was created in the World. Set options regarding the offset and anchor of the image so that it will be displayed correctly on the edge of the screen.
+    */
     this.directionIndicatorDrawable = new AR.ImageDrawable(World.markerDrawable_directionIndicator, 0.1, {
         enabled: false,
         verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
     });
 
-
-   //Represent object in radar as a circle
+    /*
+        The representation of an AR.GeoObject in the radar is defined in its drawables set (second argument of AR.GeoObject constructor). 
+        Once drawables.radar is set the object is also shown on the radar e.g. as an AR.Circle
+    */
     this.radarCircle = new AR.Circle(0.03, {
         horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.CENTER,
         opacity: 0.8,
@@ -76,7 +78,9 @@ function Marker(poiData) {
         }
     });
 
-    //Represent object in different state in radar as a circle of different color
+    /*
+        Additionally create circles with a different color for the selected state.
+    */
     this.radarCircleSelected = new AR.Circle(0.05, {
         horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.CENTER,
         opacity: 0.8,
@@ -105,7 +109,10 @@ function Marker(poiData) {
 
 Marker.prototype.getOnClickTrigger = function(marker) {
 
-
+    /*
+        The setSelected and setDeselected functions are prototype Marker functions. 
+        Both functions perform the same steps but inverted.
+    */
 
     return function() {
 
@@ -132,7 +139,9 @@ Marker.prototype.getOnClickTrigger = function(marker) {
     };
 };
 
-
+/*
+    Property Animations allow constant changes to a numeric value/property of an object, dependent on start-value, end-value and the duration of the animation. Animations can be seen as functions defining the progress of the change on the value. The Animation can be parametrized via easing curves.
+*/
 Marker.prototype.setSelected = function(marker) {
 
     marker.isSelected = true;
@@ -178,7 +187,9 @@ Marker.prototype.setSelected = function(marker) {
             amplitude: 2.0
         }));
 
-
+        /*
+         There are two types of AR.AnimationGroups. Parallel animations are running at the same time, sequentials are played one after another. This example uses a parallel AR.AnimationGroup.
+         */
         marker.animationGroup_selected = new AR.AnimationGroup(AR.CONST.ANIMATION_GROUP_TYPE.PARALLEL, [hideIdleDrawableAnimation, showSelectedDrawableAnimation, idleDrawableResizeAnimationX, selectedDrawableResizeAnimationX, titleLabelResizeAnimationX, descriptionLabelResizeAnimationX, idleDrawableResizeAnimationY, selectedDrawableResizeAnimationY, titleLabelResizeAnimationY, descriptionLabelResizeAnimationY]);
     }
 
@@ -271,7 +282,7 @@ Marker.prototype.isAnyAnimationRunning = function(marker) {
     }
 };
 
-
+// will truncate all strings longer than given max-length "n". e.g. "foobar".trunc(3) -> "foo..."
 String.prototype.trunc = function(n) {
     return this.substr(0, n - 1) + (this.length > n ? '...' : '');
 };

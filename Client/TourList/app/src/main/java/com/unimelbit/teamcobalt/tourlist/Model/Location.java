@@ -1,12 +1,10 @@
 package com.unimelbit.teamcobalt.tourlist.Model;
 
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,20 +12,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Sebastian on 14/9/17.
  * Simple class to hold trip locations, can be constructed using JSON from the server
  */
-public class Location implements Parcelable, Place {
+public class Location implements Parcelable{
 
-    public static final String DEFAULT_DESC = "No description";
+    public static final String DEFAULT_DESC = "This is a default description because we haven't totally completed the create a trip screen to include a description box";
     public static final String LOC_DEFAULT_PARCEL_KEY = "LOC_DEFAULT_PARCEL_KEY";
     public static final String JSON_ID = "_id";
     public static final String JSON_TITLE = "title";
-    public static final String JSON_DESC = "description";
+    public static final String JSON_DESC = "Description";
     public static final String JSON_LAT = "latitude";
     public static final String JSON_LON = "longitude";
     public static final String JSON_ALT = "altitude";
@@ -159,64 +155,6 @@ public class Location implements Parcelable, Place {
     }
     public String getId() { return id; }
 
-    @Override
-    public List<Integer> getPlaceTypes() {
-
-        List<Integer> list = new ArrayList<>();
-        list.add(Place.TYPE_GEOCODE);
-        return list;
-    }
-
-    @Override
-    public CharSequence getAddress() {
-        return null;
-    }
-
-    @Override
-    public Locale getLocale() {
-        return null;
-    }
-
-    @Override
-    public CharSequence getName() {
-        return getTitle();
-    }
-
-    @Override
-    public LatLng getLatLng() {
-        return new LatLng(latitude, longitude);
-    }
-
-    @Override
-    public LatLngBounds getViewport() {
-        return null;
-    }
-
-    @Override
-    public Uri getWebsiteUri() {
-        return null;
-    }
-
-    @Override
-    public CharSequence getPhoneNumber() {
-        return null;
-    }
-
-    @Override
-    public float getRating() {
-        return 0;
-    }
-
-    @Override
-    public int getPriceLevel() {
-        return 0;
-    }
-
-    @Override
-    public CharSequence getAttributions() {
-        return null;
-    }
-
     public Double getLatitude() {
         return latitude;
     }
@@ -255,15 +193,4 @@ public class Location implements Parcelable, Place {
             return new Location(source);
         }
     };
-
-
-    @Override
-    public Place freeze() {
-        return null;
-    }
-
-    @Override
-    public boolean isDataValid() {
-        return false;
-    }
 }

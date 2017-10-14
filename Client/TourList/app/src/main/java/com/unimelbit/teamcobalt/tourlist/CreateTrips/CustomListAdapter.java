@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
+package com.unimelbit.teamcobalt.tourlist.CreateTrips;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Hong Lin on 9/09/2017.
  */
-public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
+public class CustomListAdapter extends ArrayAdapter<Place> {
 
     private ArrayList<Place> items;
     private Context c;
@@ -36,7 +36,7 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
         private TextView itemView;
     }
 
-    public CreateOrEditTripLocationListAdapter(Context context, int textViewResourceId, ArrayList<Place> items) {
+    public CustomListAdapter(Context context, int textViewResourceId, ArrayList<Place> items) {
         super(context, textViewResourceId, items);
 
         this.items = items;

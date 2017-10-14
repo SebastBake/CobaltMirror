@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
-import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
 
 import org.json.JSONException;
 
@@ -39,6 +38,8 @@ public class TripSearchResultFragment extends Fragment{
 
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
     private String searchQuery;
+    private String username;
+    private String userid;
 
     private onFragmentCreatedListener listener;
 
@@ -117,7 +118,10 @@ public class TripSearchResultFragment extends Fragment{
                 Button b = (Button)v.findViewById(R.id.Go_to_trip);
 
 
-                // On button click, go to trip details fragment.
+                username = BaseActivity.getCurrentUser().getUsername();
+                userid = BaseActivity.getCurrentUser().getId();
+                Toast.makeText(getContext(),userid , Toast.LENGTH_SHORT).show();
+
                 b.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -128,7 +132,7 @@ public class TripSearchResultFragment extends Fragment{
                         String nameText = tv.getText().toString();
                         String idText = tripID.getText().toString();
                         Toast.makeText(getContext(), nameText, Toast.LENGTH_SHORT).show();
-                        new TripGetRequestByID(idText, ((BaseActivity)getActivity()).getMainContainerManager());
+                        new SearchedTripGetRequest(idText, ((BaseActivity)getActivity()).getMainContainerManager());
                     }
                 });
 
@@ -138,7 +142,6 @@ public class TripSearchResultFragment extends Fragment{
         };
 
         resultsList.setAdapter(adapter);
-        // Text Filter for search results
         filter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

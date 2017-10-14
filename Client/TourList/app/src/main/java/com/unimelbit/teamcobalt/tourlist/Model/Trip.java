@@ -242,8 +242,8 @@ public class Trip implements Parcelable {
         }
 
         JSONArray useridJSONArray = new JSONArray();
-        for(String userid: userids) {
-            useridJSONArray.put(userid);
+        for(String user: usernames) {
+            useridJSONArray.put(user);
         }
 
         trip.put(JSON_USERS_NAMES,userJSONArray);
@@ -258,7 +258,6 @@ public class Trip implements Parcelable {
     public String getDescription() { return description; }
     public String getSize() { return size; }
     public String getName() { return name; }
-    public String getDate() { return date; }
     public String getCost() { return cost; }
     public String getUrl() { return url; }
     public String getOwner() { return owner; }

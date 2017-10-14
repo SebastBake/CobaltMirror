@@ -153,6 +153,26 @@ var Removetrip = function(req, res) {
   });
 };
 
+// Get currenttrip and sends back updated user
+var updateCurrentTripUser = function(req, res) {
+  User.findOneAndUpdate({
+    _id: req.body.userid
+  }, {
+    $set: {
+      'currenttrip': req.body.tripid
+    }
+  }, {
+    new: true
+  }, function(err, data) {
+    if (!err) {
+      console.log(data);
+      res.send(data);
+
+    } else {
+      res.sendStatus(404);
+    }
+  });
+}
 
 var savedTrips = function(req, res) {
   personInx = req.params.id
@@ -180,4 +200,5 @@ module.exports.findOneUser = findOneUser;
 module.exports.Addtrip = Addtrip;
 module.exports.retrieveOneUser = retrieveOneUser;
 module.exports.findAllUsers = findAllUsers;
+module.exports.updateCurrentTripUser = updateCurrentTripUser;
 module.exports.savedTrips = savedTrips

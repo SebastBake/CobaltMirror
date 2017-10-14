@@ -11,7 +11,7 @@ public interface PostRequest {
      * Implementation should take in the result of the post request as a string, process it, and
      * replace the loading screen.
      */
-    void processResult(String result,int status);
+    void processResult(String result);
 
     /**
      * getDataToSend() should return the data which is to be sent to the server

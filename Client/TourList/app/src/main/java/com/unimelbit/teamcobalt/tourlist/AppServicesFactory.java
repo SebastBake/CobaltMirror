@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatAdaptor;
 import com.unimelbit.teamcobalt.tourlist.Chat.FirebaseChatRoomHandler;
-import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.NewTripSingleton;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.ARGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
@@ -25,8 +24,6 @@ public class AppServicesFactory {
     private ChatAdaptor firebaseChatService;
 
     private FireBaseRequester firebasePoster;
-
-    private NewTripSingleton newTripSingletonInstance;
 
     /**
      * Return itself as it is a singleton class
@@ -96,13 +93,4 @@ public class AppServicesFactory {
 
     }
 
-    /**
-     * Returns the NewTripSingleton service
-     */
-    public NewTripSingleton getNewTrip() {
-        if(newTripSingletonInstance == null) {
-            newTripSingletonInstance = new NewTripSingleton();
-        }
-        return newTripSingletonInstance;
-    }
 }

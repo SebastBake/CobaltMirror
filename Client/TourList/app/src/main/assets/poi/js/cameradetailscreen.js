@@ -1,9 +1,3 @@
-/**
-*
-* Modified from Wikitude-sdk-samples
-* From:https://github.com/Wikitude/wikitude-sdk-samples
-**/
-
 
 var ServerNearbyInformation = {
 	POIDATA_SERVER: "https://maps.googleapis.com/maps/api/place/nearbysearch/",
@@ -16,32 +10,38 @@ var ServerTripInformation = {
    POIDATA_SERVER: "https://cobaltwebserver.herokuapp.com/api/trips/findbyid/"
 }
 
-
-// Id of trip
+/**
+var ServerUserInformation = {
+     POIDATA_SERVER: "https://colbalt-179409.firebaseio.com/"
+}
+**/
 var tripid;
+var users;
 
-// POI-locations based on group( 1= Nearby locations, 0 = trip locations)
+
+
+
+
 var markerGroup = 0;
 
-
-// implementation of "World"
+// implementation of AR-Experience (aka "World")
 var World = {
 
-	//  user's latest location
+	//  user's latest known location, accessible via userLocation.latitude, userLocation.longitude, userLocation.altitude
 	userLocation: null,
 
-   //Check if POI-data is being requested
+
 	isRequestingData: false,
 
 	// true once data was fetched
 	initiallyLoadedData: false,
 
-	// POI-Marker assets
+	// different POI-Marker assets
 	markerDrawable_idle: null,
 	markerDrawable_selected: null,
 	markerDrawable_directionIndicator: null,
 
-	// list of AR.GeoObjects that are currently shown in the World
+	// list of AR.GeoObjects that are currently shown in the scene / World
 	markerList: [],
 
 	// The last selected marker
@@ -51,12 +51,105 @@ var World = {
 	updatePlacemarkDistancesEveryXLocationUpdates: 10,
 
     //Get Trip id from android app
-	 tripId : function tripIdFn(string){
+	 newData : function newDataFn(string){
     	    tripid = string;
     	},
 
+   //Get user data from android app
+   userMarkers : function userMarkersFn(array){
+        users = JSON.parse(array);
+   },
 
-	// Called to add POI- data
+/**
+   updateUserLocations : function updateUserLocationsFn() {
+
+        for(var j=0;j < World.markerList.length; j++ ){
+        // server-url to JSON content provider
+                          var serverUrl = ServerUserInformation.POIDATA_SERVER + World.markerList[j].userid +".json";
+                          var data;
+                          var jqxhr = $.ajax({
+                                               dataType: "json",
+                                               url:  serverUrl,
+                                               data: data,
+                                               success: function(data) {
+                            	 var lat;
+                            	 var long;
+                            	  for ( var key in data){
+                                     lat = data[key].lat;
+                                     long = data[key].long;
+                                  }
+                                if(lat == 0 && long == 0){
+                                    World.updateStatusMessage((World.markerList.length - 1) + ' places loaded');
+                                }
+                                    World.markerList[j].latitude = lat;
+                                    World.markerList[j].longitude = long;
+
+                           }})
+                            .error(function(err) {
+
+                            	World.updateStatusMessage("Invalid web-service response.", true);
+
+                            	})
+
+                    }
+
+   },
+
+   displayUsers : function displayUsersFn(){
+
+        	// set helper var to avoid requesting places while loading
+        	World.isRequestingData = true;
+        	console.log(users);
+        	World.updateStatusMessage('Requesting users from web-service');
+        	var userArray = [];
+        	var markerGroup = 2;
+            for(var i=0;i < users.length; i++ ){
+            // server-url to JSON content provider
+                  var serverUrl = ServerUserInformation.POIDATA_SERVER + users[i].userid +".json";
+                  var username = users[i].username;
+                  var id = users[i].userid;
+                  var data;
+                  var jqxhr = $.ajax({
+                                       dataType: "json",
+                                       url:  serverUrl,
+                                       data: data,
+                                       async: false,
+                                       success: function(data) {
+                    	 var lat;
+                    	 var long;
+                    	  for ( var key in data){
+                    	     console.log(key);
+                    	     console.log(data[key]);
+                             lat = data[key].lat;
+                             long = data[key].long;
+                              console.log(data[key].lat);
+                          }
+                         userArray.push({
+                                           "name": username,
+                                            "lat": lat,
+                                            "lon": long,
+                                            "userid": id
+                                         });
+                         console.log(userArray);
+
+
+                   }})
+                    .error(function(err) {
+
+                    	World.updateStatusMessage("Invalid web-service response.", true);
+
+                    	})
+
+            }
+            console.log(userArray);
+            World.isRequestingData = false;
+            World.loadPoisFromJsonData(userArray);
+
+   },
+
+   **/
+
+	// called to inject new POI data
 	loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
 
 		// destroys all existing AR-Objects (markers & radar)
@@ -74,8 +167,7 @@ var World = {
 		World.markerDrawable_idle = new AR.ImageResource("assets/marker_idle.png");
 		World.markerDrawable_selected = new AR.ImageResource("assets/marker_selected.png");
 		World.markerDrawable_directionIndicator = new AR.ImageResource("assets/indi.png");
-
-		// loop through POI-information and create a marker per POI based on markerGroup
+		// loop through POI-information and create an AR.GeoObject (=Marker) per POI
 
 		if (markerGroup == 1){
 		for (var currentPlaceNr = 0; currentPlaceNr < poiData.length; currentPlaceNr++) {
@@ -83,6 +175,7 @@ var World = {
             				"id": currentPlaceNr,
             				"latitude": parseFloat(poiData[currentPlaceNr].geometry.location.lat),
             				"longitude": parseFloat(poiData[currentPlaceNr].geometry.location.lng),
+                             //"altitude":parseFloat(poiData[currentPlaceNr].altitude),
             				"title": poiData[currentPlaceNr].name,
             				"description": poiData[currentPlaceNr].vicinity
 
@@ -91,7 +184,7 @@ var World = {
 			}
 
 
-		}else {
+		}else if (markerGroup == 0){
 		for (var currentPlaceNr = 0; currentPlaceNr < poiData.length; currentPlaceNr++) {
                  var singlePoi = {
                                     	"id": currentPlaceNr,
@@ -106,10 +199,24 @@ var World = {
 
 
 		}
+		else{
+		    for (var currentPlaceNr = 0; currentPlaceNr < poiData.length; currentPlaceNr++) {
+                             var singleUserPoi = {
+                                                	"id": currentPlaceNr,
+                                                	"latitude": parseFloat(poiData[currentPlaceNr].lat),
+                                                	"longitude": parseFloat(poiData[currentPlaceNr].lon),
+                                                    //"altitude":parseFloat(poiData[currentPlaceNr].altitude),
+                                                	"title": poiData[currentPlaceNr].name,
+                                                	"description": "User",
+                                                	"userid": poiData[currentPlaceNr].userid
+                                                	};
+                                                	 console.log(poiData[currentPlaceNr].lat);
+                                                		World.markerList.push(new Marker(singleUserPoi));
+                    			}
 		}
 
 
-		// updates distance information
+		// updates distance information of all placemarks
 		World.updateDistanceToUserValues();
 
 		World.updateStatusMessage(currentPlaceNr + ' places loaded');
@@ -119,7 +226,7 @@ var World = {
 		$("#panel-distance-range").slider("refresh");
 	},
 
-	// sets/updates distances of all makers
+	// sets/updates distances of all makers so they are available way faster than calling (time-consuming) distanceToUser() method all the time
 	updateDistanceToUserValues: function updateDistanceToUserValuesFn() {
 		for (var i = 0; i < World.markerList.length; i++) {
 			World.markerList[i].distanceToUser = World.markerList[i].markerObject.locations[0].distanceToUser();
@@ -144,10 +251,17 @@ var World = {
 		});
 	},
 
+	/*
 
-	// user clicked "More" button in POI-detail panel -> go to place fragment of app
+	*/
+	// user clicked "More" button in POI-detail panel -> search google
 	onPoiDetailMoreButtonClicked: function onPoiDetailMoreButtonClickedFn() {
 		var currentMarker = World.currentMarker;
+
+        /*
+		var Url = "https://www.google.com/search?q="+ currentMarker.poiData.title;
+		AR.context.openInBrowser(Url);
+		*/
 
 		var markerSelectedJSON = {
             action: "present_poi_details",
@@ -192,13 +306,17 @@ var World = {
 			World.initiallyLoadedData = true;
 		} else if (World.locationUpdateCounter === 0) {
 			World.updateDistanceToUserValues();
+			//if (markerGroup == "User"){
+			  //  World.updateUserLocations();
+			//}
+
 		}
 
-		// helper used to update information every 10 location updates fired
+		// helper used to update information every now and then (e.g. every 10 location updates fired)
 		World.locationUpdateCounter = (++World.locationUpdateCounter % World.updatePlacemarkDistancesEveryXLocationUpdates);
 	},
 
-	//Open panel when marker is selected
+	// fired when user pressed maker in cam
 	onMarkerSelected: function onMarkerSelectedFn(marker) {
 		World.currentMarker = marker;
 
@@ -206,7 +324,7 @@ var World = {
 		$("#poi-detail-title").html(marker.poiData.title);
 		$("#poi-detail-description").html(marker.poiData.description);
 
-		//Calculate distance if undefined
+		/* It's ok for AR.Location subclass objects to return a distance of `undefined`. In case such a distance was calculated when all distances were queried in `updateDistanceToUserValues`, we recalcualte this specific distance before we update the UI. */
 		if( undefined == marker.distanceToUser ) {
 			marker.distanceToUser = marker.markerObject.locations[0].distanceToUser();
 		}
@@ -214,6 +332,7 @@ var World = {
 
 		$("#poi-detail-distance").html(distanceToUserValue);
 
+		// show panel
 		$("#panel-poidetail").panel("open", 123);
 
 		$(".ui-panel-dismiss").unbind("mousedown");
@@ -223,29 +342,34 @@ var World = {
 		});
 	},
 
-	// returns distance in meters with maxdistance * 1.1
+	// screen was clicked but no geo-object was hit
+	onScreenClick: function onScreenClickFn() {
+		// you may handle clicks on empty AR space too
+	},
+
+	// returns distance in meters of placemark with maxdistance * 1.1
 	getMaxDistance: function getMaxDistanceFn() {
 
-		// sort places by distance
+		// sort palces by distance so the first entry is the one with the maximum distance
 		World.markerList.sort(World.sortByDistanceSortingDescending);
 
 		// use distanceToUser to get max-distance
 		var maxDistanceMeters = World.markerList[0].distanceToUser;
 
-		// return maximum distance with some space to make sure all markers stay on screen
+		// return maximum distance times some factor >1.0 so ther is some room left and small movements of user don't cause places far away to disappear
 		return maxDistanceMeters * 1.1;
 	},
 
 	// updates values show in "range panel"
 	updateRangeValues: function updateRangeValuesFn() {
 
-
+		// get current slider value (0..100);
 		var slider_value = $("#panel-distance-range").val();
 
 		// max range relative to the maximum distance of all visible places
 		var maxRangeMeters = Math.round(World.getMaxDistance() * (slider_value / 100));
 
-		// range in meters
+		// range in meters including metric m/km
 		var maxRangeValue = (maxRangeMeters > 999) ? ((maxRangeMeters / 1000).toFixed(2) + " km") : (Math.round(maxRangeMeters) + " m");
 
 		// number of places within max-range
@@ -342,11 +466,10 @@ var World = {
         		}
         	},
 
-	// reload places from source
+	// reload places from content source
 	reloadPlaces: function reloadPlacesFn() {
 		if (!World.isRequestingData) {
 			if (World.userLocation) {
-			// Reloads places from either google or database based on markerGroup
 			    if(markerGroup == 0){
 			        World.requestDataFromTripServer(World.userLocation.latitude, World.userLocation.longitude);
 			    }else{
@@ -362,7 +485,7 @@ var World = {
 	},
 
 
-	// request POI data from database
+	// request POI data
 	requestDataFromTripServer: function requestDataFromServerFn(lat, lon) {
 
 		// set helper var to avoid requesting places while loading
@@ -385,14 +508,14 @@ var World = {
 			});
 	},
 
-     //Request nearby places from google
+
 	requestDataFromNearbyServer: function requestDataFromServerFn(lat, lon) {
 
     		// set helper var to avoid requesting places while loading
     		World.isRequestingData = true;
     		World.updateStatusMessage('Requesting places from web-service');
-
-
+             console.log(lat);
+             console.log(lon);
     		// server-url
     		var serverUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat +","+lon+"&radius=1500&key=AIzaSyDUTuXspBHRrHyFDPzWZ4gtcKP-xYbo4g0";
 

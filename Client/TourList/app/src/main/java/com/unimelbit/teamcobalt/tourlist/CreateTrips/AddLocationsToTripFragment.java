@@ -1,4 +1,4 @@
-package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
+package com.unimelbit.teamcobalt.tourlist.CreateTrips;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class AddLocationsToTripFragment extends Fragment {
     public static final String TAB_TITLE = "Locations";
     private static final int PLACE_PICKER_REQUEST = 1;
     private ArrayList<Place> placeArray;
-    private CreateOrEditTripLocationListAdapter listAdapter;
+    private CustomListAdapter listAdapter;
 
     public AddLocationsToTripFragment() {
     }
@@ -44,13 +43,8 @@ public class AddLocationsToTripFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_add_locations_to_trip, container, false);
 
-        NewTripSingleton newTrip = AppServicesFactory.getServicesFactory().getNewTrip();
-        if (newTrip.getEditTripFlag()) {
-            placeArray = newTrip.places;
-        } else {
-            placeArray = new ArrayList<>();
-            newTrip.places = placeArray;
-        }
+        placeArray = new ArrayList<>();
+        NewTripSingleton.getInstance().places = placeArray;
 
         initButtons(rootView);
         initLocationsList(rootView);
@@ -84,7 +78,7 @@ public class AddLocationsToTripFragment extends Fragment {
     private void initLocationsList(View rootView) {
 
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
-        listAdapter = new CreateOrEditTripLocationListAdapter(getActivity(), R.layout.list_row_create_trip_location, placeArray);
+        listAdapter = new CustomListAdapter(getActivity(), R.layout.list_row_create_trip_location, placeArray);
         listView.setAdapter(listAdapter);
     }
 

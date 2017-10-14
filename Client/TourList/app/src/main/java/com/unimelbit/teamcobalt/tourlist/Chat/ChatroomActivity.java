@@ -33,7 +33,7 @@ public class ChatroomActivity extends AppCompatActivity {
 
 
     private FirebaseListAdapter<Chat> adapter;
-    private String userName,userId;
+    private String userName;
     private String roomName, roomId;
     private ArrayList<String> users;
     private FirebaseChatRoomHandler chatRoomHandler;
@@ -49,12 +49,11 @@ public class ChatroomActivity extends AppCompatActivity {
         users = getIntent().getExtras().getStringArrayList("users");
         Toast.makeText(this,"Result: " + users, Toast.LENGTH_SHORT).show();
 
-        userName = getIntent().getExtras().getString("Username");
-        userId = getIntent().getExtras().getString("UserId");
+        userName = getIntent().getExtras().getString("Name");
 
         listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
-
+        FirebaseMessaging.getInstance().subscribeToTopic("user_"+userName);
 
         //Handler to be responsible for handling messaging functions
         chatRoomHandler = (FirebaseChatRoomHandler) AppServicesFactory.getServicesFactory()
