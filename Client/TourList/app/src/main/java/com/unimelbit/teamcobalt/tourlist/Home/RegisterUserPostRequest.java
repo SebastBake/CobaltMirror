@@ -37,7 +37,7 @@ class RegisterUserPostRequest implements PostRequest {
     }
 
     @Override
-    public void processResult(String result) {
+    public void processResult(String result, int status) {
 
         if(result.equalsIgnoreCase(REGISTER_URL)) {
             requestFailed(USER_ALREADY_EXISTS_ERROR_MESSAGE, new Exception(USER_ALREADY_EXISTS_ERROR_MESSAGE+result));

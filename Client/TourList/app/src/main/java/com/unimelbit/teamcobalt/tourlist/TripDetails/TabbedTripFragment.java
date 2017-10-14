@@ -128,13 +128,9 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
             Intent intent = new Intent(getActivity(), ARActivity.class);
             String id = BaseActivity.getCurrentTrip().getId();
-            ArrayList<String > usernames = BaseActivity.getCurrentTrip().getUsernames();
-            ArrayList<String > userids = BaseActivity.getCurrentTrip().getUserids();
-            User user = BaseActivity.getCurrentUser();
+
             intent.putExtra(INTENT_TRIPID, id);
-            intent.putExtra(INTENT_TRIP_USERIDS,userids);
-            intent.putExtra(INTENT_TRIP_USERNAMES,usernames);
-            intent.putExtra(INTENT_USER,user);
+
             startActivity(intent);
 
             //Notify the user to turn on the GPS settings

@@ -17,10 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
-import com.unimelbit.teamcobalt.tourlist.CreateTrips.TabbedCreateTripFragment;
+import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.TabbedCreateOrEditTripFragment;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
@@ -30,8 +28,6 @@ import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
-import com.unimelbit.teamcobalt.tourlist.Tracking.UserTracker;
-import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
@@ -87,6 +83,7 @@ public class BaseActivity extends AppCompatActivity
             ErrorActivity.newError(this, e, STARTUP_FAIL_MESSAGE);
         }
     }
+
 
     /**
      * Initializes the permissions manager
@@ -240,7 +237,7 @@ public class BaseActivity extends AppCompatActivity
                             .commit();
 
                 //Go back to the search instead of home from the search results fragment
-                } else if(f instanceof TripSearchResultFragment || f instanceof SearchedTripDetailsFragment){
+                } else if(f instanceof TripSearchResultFragment){
 
                     getSupportFragmentManager().popBackStackImmediate();
                     getSupportFragmentManager().popBackStackImmediate();
@@ -278,8 +275,8 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_search && !(f instanceof TripSearchFragment)) {
             mainContainer.gotoTripSearchFragment();
 
-        } else if (id == R.id.nav_create && !(f instanceof TabbedCreateTripFragment)) {
-            mainContainer.gotoCreateFragment();
+        } else if (id == R.id.nav_create && !(f instanceof TabbedCreateOrEditTripFragment)) {
+            mainContainer.gotoCreateTrip();
 
         } else if (id == R.id.nav_current) {
             if (currentTrip != null) {

@@ -6,7 +6,7 @@ package com.unimelbit.teamcobalt.tourlist.ServerRequester;
 
 public interface PutRequest {
 
-    void processResult(String result);
+    void processResult(String result,int status);
 
     /**
      * requestFailed() is called by the PutRequester when the request fails
