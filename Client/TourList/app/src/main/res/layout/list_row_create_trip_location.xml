@@ -12,6 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginRight="10dp"
+        android:contentDescription="Property Image"
         app:srcCompat="@mipmap/geocode" />
 
     <LinearLayout
@@ -48,6 +49,39 @@
         android:orientation="vertical"
         android:layout_below="@+id/infoSection"
         android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/bedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginRight="15dp"
+             />
+
+        <TextView
+            android:id="@+id/bathroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/bedroom"
+            />
+
+        <TextView
+            android:id="@+id/carspot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/bathroom"
+            />
 
         <ImageView
             android:id="@+id/image_up"
