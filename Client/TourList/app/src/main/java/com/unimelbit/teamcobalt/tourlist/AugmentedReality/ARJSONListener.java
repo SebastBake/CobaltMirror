@@ -58,8 +58,8 @@ public class ARJSONListener implements ARListener{
     }
 
 
-    /*
-    Create and return listener
+    /**
+    *Create and return listener
      */
     public void createListener(Context c){
 
@@ -68,8 +68,8 @@ public class ARJSONListener implements ARListener{
     }
 
 
-    /*
-    Set listener
+    /**
+    * Set listener
      */
     public void setListener(View view){
 
