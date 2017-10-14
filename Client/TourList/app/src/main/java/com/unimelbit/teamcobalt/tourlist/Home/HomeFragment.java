@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.google.android.gms.vision.text.Text;
-import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -61,6 +59,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         chatRoomB.setOnClickListener(this);
 
+        FirebaseMessaging.getInstance().subscribeToTopic("user_"+base.getCurrentUser().getId());
+
         LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.linear);
         for (int i = 0; i < 20; i++) {
             ImageView imageView = new ImageView(getActivity());
@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         int id = view.getId();
 
         if (id == R.id.createButtonMain) {
-            base.getMainContainer().gotoCreateFragment();
+            base.getMainContainer().gotoCreateTrip();
 
         } else if (id == R.id.searchButtonMain) {
             base.getMainContainer().gotoTripSearchFragment();

@@ -20,6 +20,7 @@ import java.net.URL;
 public class PostRequester extends AsyncTask<String, Void, String> {
 
     private PostRequest processor;
+    private int status;
 
     public PostRequester(PostRequest processor) {
         this.processor = processor;
@@ -36,7 +37,7 @@ public class PostRequester extends AsyncTask<String, Void, String> {
         super.onPostExecute(result);
 
         try {
-            processor.processResult(result);
+            processor.processResult(result,status);
         } catch (Exception e) {
             processor.requestFailed(result, e);
         }
@@ -69,6 +70,7 @@ public class PostRequester extends AsyncTask<String, Void, String> {
             InputStream inputStream = urlConnection.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
+            status = urlConnection.getResponseCode();
             while ((line = bufferedReader.readLine()) != null) {
                 result.append(line).append("\n");
             }
@@ -79,6 +81,6 @@ public class PostRequester extends AsyncTask<String, Void, String> {
             return e.getMessage();
         }
 
-        return result.toString();
+        return (result.toString());
     }
 }

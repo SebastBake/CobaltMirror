@@ -1,3 +1,9 @@
+/**
+* Created by Spike.
+* Modified from Wikitude-sdk-samples
+* From: https://github.com/Wikitude/wikitude-sdk-samples
+**/
+
 	var PoiRadar = {
 
 		hide: function hideFn() {
@@ -12,10 +18,10 @@
 			// set the back-ground image for the radar
 			AR.radar.background = new AR.ImageResource("assets/radar_bg.png");
 
-			// set the north-indicator image for the radar (not necessary if you don't want to display a north-indicator)
+			// set the north-indicator image for the radar
 			AR.radar.northIndicator.image = new AR.ImageResource("assets/radar_north.png");
 
-			// center of north indicator and radar-points in the radar asset, usually center of radar is in the exact middle of the bakground, meaning 50% X and 50% Y axis --> 0.5 for centerX/centerY
+
 			AR.radar.centerX = 0.5;
 			AR.radar.centerY = 0.5;
 
@@ -30,11 +36,6 @@
 				AR.radar.notifyUpdateRadarPosition();
 			}
 		},
-
-		// custom action when user pressed radar, e.g. display distance, custom filtering etc.
-		//clickedRadar: function clickedRadarFn() {
-		//	alert("Radar Clicked");
-	//	},
 
 		setMaxDistance: function setMaxDistanceFn(maxDistanceMeters) {
 			AR.radar.maxDistance = maxDistanceMeters;

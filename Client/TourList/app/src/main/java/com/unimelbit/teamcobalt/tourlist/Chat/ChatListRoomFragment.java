@@ -20,12 +20,14 @@ import java.util.ArrayList;
 public class ChatListRoomFragment extends Fragment implements View.OnClickListener {
 
     private static final String LOGGED_OUT_CHAT_USERNAME = "anon";
+    private static final String LOGGED_OUT_CHAT_USERID = "anonId";
 
     //Chatroom adaptor
     private ChatAdaptor chatServices;
     private BaseActivity base;
     private Button genChatButton, randChatButton;
     private String username;
+    private String userId;
 
     public ChatListRoomFragment() {
         // Required empty public constructor
@@ -48,8 +50,10 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
 
         if (BaseActivity.getCurrentUser() == null) {
             username = LOGGED_OUT_CHAT_USERNAME;
+            userId = LOGGED_OUT_CHAT_USERID;
         } else {
             username = BaseActivity.getCurrentUser().getUsername();
+            userId = BaseActivity.getCurrentUser().getId();
         }
 
         genChatButton = (Button) v.findViewById(R.id.gen_chat_button);
@@ -86,13 +90,13 @@ public class ChatListRoomFragment extends Fragment implements View.OnClickListen
 
         if(id == R.id.gen_chat_button){
 
-            chatServices.enterChatRoom(username, "General", "General",users);
+            chatServices.enterChatRoom(userId, "General", "General",users,username);
 
         }
 
         else if(id == R.id.rand_chat_button){
 
-            chatServices.enterChatRoom(username, "Random", "Random",users);
+            chatServices.enterChatRoom(userId, "Random", "Random",users,username);
         }
     }
 }

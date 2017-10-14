@@ -63,18 +63,20 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
     /**
      * Creates an intent and takes user to the chat room given with a user name
-     * @param userName
+     * @param username
      * @param room
      * @param users
+     *  @param userId
      */
     @Override
-    public void enterChatRoom(String userName, String room, String id,ArrayList<String> users) {
+    public void enterChatRoom(String userId, String room, String id,ArrayList<String> users,String username) {
 
         Intent chatIntent = new Intent(context, ChatroomActivity.class);
 
         chatIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        chatIntent.putExtra("Name", userName);
+        chatIntent.putExtra("UserId", userId);
+        chatIntent.putExtra("Username", username);
 
         chatIntent.putExtra("Id", id);
 

@@ -1,7 +1,6 @@
-package com.unimelbit.teamcobalt.tourlist.CreateTrips;
+package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
@@ -9,7 +8,7 @@ import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.SuccessActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequester;
-import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
 
 import org.json.JSONException;
 
@@ -22,6 +21,7 @@ class CreateTripPostRequest implements PostRequest {
 
     private static final String LOADING_MSG = "Creating trip ...";
     private static final String CREATE_TRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/create";
+    private static final int HTTP_SUCCESS_CODE = 200;
 
     BaseActivity activity;
     Trip trip;
@@ -38,11 +38,14 @@ class CreateTripPostRequest implements PostRequest {
     }
 
     @Override
-    public void processResult(String result) {
+    public void processResult(String result, int status) {
 
         try {
-            Trip trip = newTripFromJSON(result, "");
-            SuccessActivity.newSuccess(activity, "Successfully created new trip:" + trip.getName());
+
+            if (status != HTTP_SUCCESS_CODE ) {
+                throw new Exception();
+            }
+            new TripGetRequest(trip.getName(), activity.getMainContainerManager());
         } catch (Exception e) {
             requestFailed("Something failed for url: " + CREATE_TRIP_URL + " and result: " + result, e);
         }

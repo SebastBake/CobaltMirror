@@ -1,10 +1,12 @@
-package com.unimelbit.teamcobalt.tourlist.CreateTrips;
+package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
+
+import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 
 import java.util.Calendar;
 
@@ -27,7 +29,7 @@ public class AddDateToTripDialogFragment extends DialogFragment implements DateP
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
 
-        NewTripSingleton newTrip = NewTripSingleton.getInstance();
+        NewTripSingleton newTrip = AppServicesFactory.getServicesFactory().getNewTrip();
         int year;
         int month;
         int day;
@@ -51,7 +53,7 @@ public class AddDateToTripDialogFragment extends DialogFragment implements DateP
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
 
-        NewTripSingleton newTrip = NewTripSingleton.getInstance();
+        NewTripSingleton newTrip = AppServicesFactory.getServicesFactory().getNewTrip();
         newTrip.day = day;
         newTrip.month = month;
         newTrip.year = year;
