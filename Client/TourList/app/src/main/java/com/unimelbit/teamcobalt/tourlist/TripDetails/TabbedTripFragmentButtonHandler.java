@@ -31,6 +31,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     private FloatingActionButton mapButton;
     private FloatingActionButton mainButton;
     private boolean isMainFabActivated;
+    private boolean isUserInTrip;
 
     TabbedTripFragmentButtonHandler(View rootView, BaseActivity activity, TabbedTripFragment fragment) {
 
@@ -39,6 +40,11 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
         initButtons(rootView);
         setIsMainFabActivated(false);
+        if (activity.getCurrentTrip().getUserids().contains(activity.getCurrentUser().getId()) == false){
+            isUserInTrip = false;
+        }else{
+            isUserInTrip = true;
+        }
     }
 
     @Override
@@ -89,8 +95,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
             @Override
             public void onClick(View v) {
-
-                activity.getMainContainerManager().gotoEditTrip(BaseActivity.getCurrentTrip());
+                if (checkUserInTrip()==true){
+                    activity.getMainContainerManager().gotoEditTrip(BaseActivity.getCurrentTrip());
+                }
             }
         });
 
@@ -101,14 +108,18 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
         locButton.setOnClickListener(new View.OnClickListener() {
 
-            final BaseActivity baseActivity = activity;
-            final TabbedTripFragmentButtonHandler from = handler;
+                final BaseActivity baseActivity = activity;
+                final TabbedTripFragmentButtonHandler from = handler;
 
-            @Override
-            public void onClick(View view) {
-                baseActivity.toggleLocationSharing();
-                from.resetLocSharingColor();
+                @Override
+                public void onClick (View view){
+                    if (checkUserInTrip()==true) {
+                        baseActivity.toggleLocationSharing();
+                        from.resetLocSharingColor();
+                    }
             }
+
+
         });
 
         mainButton = (FloatingActionButton) rootView.findViewById(R.id.main_button);
@@ -132,12 +143,22 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(activity, MapActivity.class);
-                fragment.startActivity(intent);
+                if (checkUserInTrip()==true) {
+                    Intent intent = new Intent(activity, MapActivity.class);
+                    fragment.startActivity(intent);
+                }
             }
         });
     }
+
+    private boolean checkUserInTrip(){
+        if(isUserInTrip == false){
+            Toast.makeText(activity,"Please save trip first",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
 
     private void hideAllButtons() {
         editButton.setVisibility(View.GONE);
@@ -165,3 +186,4 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         showAllButtons();
     }
 }
+

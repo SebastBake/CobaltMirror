@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
 
 import org.json.JSONException;
 
@@ -127,7 +128,7 @@ public class TripSearchResultFragment extends Fragment{
                         String nameText = tv.getText().toString();
                         String idText = tripID.getText().toString();
                         Toast.makeText(getContext(), nameText, Toast.LENGTH_SHORT).show();
-                        new SearchedTripGetRequest(idText, ((BaseActivity)getActivity()).getMainContainerManager());
+                        new TripGetRequestByID(idText, ((BaseActivity)getActivity()).getMainContainerManager());
                     }
                 });
 

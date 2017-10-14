@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
@@ -32,6 +33,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
     private ArrayList<String> userList;
     private BaseActivity base;
     private String username;
+    private boolean isUserInTrip;
 
     public ChatFragment() {
     }
@@ -62,6 +64,13 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         userList = BaseActivity.getCurrentTrip().getUsernames();
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, userList);
+
+        //Check if user is in trip
+        if (base.getCurrentTrip().getUserids().contains(base.getCurrentUser().getId()) == false){
+            isUserInTrip = false;
+        }else{
+            isUserInTrip = true;
+        }
 
         // Here, you set the data in your ListView
         listV.setAdapter(adapter);
@@ -95,14 +104,23 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
         int id = view.getId();
 
         if(id == R.id.button_chat){
+            if (checkUserInTrip()==true) {
+                String roomName = BaseActivity.getCurrentTrip().getName();
+                String roomId = BaseActivity.getCurrentTrip().getId();
 
-            String roomName = BaseActivity.getCurrentTrip().getName();
-            String roomId = BaseActivity.getCurrentTrip().getId();
-
-            ChatAdaptor chatService = AppServicesFactory.getServicesFactory().getFirebaseChatService(getActivity());
-            chatService.checkRoom(roomId);
-            chatService.enterChatRoom(BaseActivity.getCurrentUser().getId(), roomName, roomId,base.getCurrentTrip().getUserids(),username);
+                ChatAdaptor chatService = AppServicesFactory.getServicesFactory().getFirebaseChatService(getActivity());
+                chatService.checkRoom(roomId);
+                chatService.enterChatRoom(BaseActivity.getCurrentUser().getId(), roomName, roomId, base.getCurrentTrip().getUserids(), username);
+            }
         }
+    }
+
+    private boolean checkUserInTrip(){
+        if(isUserInTrip == false){
+            Toast.makeText(base,"Please save trip first",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
 

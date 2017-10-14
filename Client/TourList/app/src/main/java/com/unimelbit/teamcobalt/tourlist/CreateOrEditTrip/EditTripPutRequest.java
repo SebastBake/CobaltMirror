@@ -9,6 +9,7 @@ import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequester;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PutRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PutRequester;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,9 +21,11 @@ class EditTripPutRequest implements PutRequest {
 
     private static final String LOADING_MSG = "Editing trip ...";
     private static final String EDIT_TRIP_URL = "https://cobaltwebserver.herokuapp.com/api/trips/edit/";
+    private static final int HTTP_ERROR_CODE = 404;
 
     BaseActivity activity;
     Trip trip;
+
 
     EditTripPutRequest(BaseActivity activity, Trip trip) {
 
@@ -42,13 +45,13 @@ class EditTripPutRequest implements PutRequest {
     }
 
     @Override
-    public void processResult(String result) {
+    public void processResult(String result,int status) {
 
         try {
-//            if (!result.equalsIgnoreCase(EDIT_TRIP_URL)) {
-//                throw new Exception();
-//            }
-            new TripGetRequest(trip.getName(), activity.getMainContainerManager());
+            if (status == HTTP_ERROR_CODE) {
+                throw new Exception();
+            }
+            new TripGetRequestByID(trip.getId(), activity.getMainContainerManager());
         } catch (Exception e) {
             requestFailed("Something failed for url: " + EDIT_TRIP_URL + " and result: " + result, e);
         }
