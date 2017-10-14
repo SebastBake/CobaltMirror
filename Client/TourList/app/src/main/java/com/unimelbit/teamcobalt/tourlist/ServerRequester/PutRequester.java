@@ -24,6 +24,7 @@ import java.net.URL;
 public class PutRequester extends AsyncTask<String, Void, String> {
 
     private PutRequest processor;
+    private int status;
 
     public PutRequester(PutRequest processor) {
         this.processor = processor;
@@ -43,7 +44,7 @@ public class PutRequester extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        processor.processResult(result);
+        processor.processResult(result,status);
     }
 
     private String putData(String urlPath) throws IOException {
@@ -73,6 +74,7 @@ public class PutRequester extends AsyncTask<String, Void, String> {
             InputStream inputStream = urlConnection.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
+            status = urlConnection.getResponseCode();
             while ((line = bufferedReader.readLine()) != null) {
                 result.append(line).append("\n");
             }

@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.TabbedCreateOrEditTripFragment;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
@@ -29,7 +28,6 @@ import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
-import com.unimelbit.teamcobalt.tourlist.TripSearch.SearchedTripDetailsFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
@@ -239,7 +237,7 @@ public class BaseActivity extends AppCompatActivity
                             .commit();
 
                 //Go back to the search instead of home from the search results fragment
-                } else if(f instanceof TripSearchResultFragment || f instanceof SearchedTripDetailsFragment){
+                } else if(f instanceof TripSearchResultFragment){
 
                     getSupportFragmentManager().popBackStackImmediate();
                     getSupportFragmentManager().popBackStackImmediate();
