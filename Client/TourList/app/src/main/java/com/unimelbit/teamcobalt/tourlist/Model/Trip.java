@@ -202,7 +202,7 @@ public class Trip implements Parcelable {
 
         String useridString = "";
         for (String user : userids){
-            userString += user + "\n";
+            useridString += user + "\n";
         }
 
         map.put(JSON_ID,id);

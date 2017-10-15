@@ -21,6 +21,17 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricTestRunner.class)
 public class TripTest {
 
+    public static final String JSON_ID = "_id";
+    public static final String JSON_NAME = "name";
+    public static final String JSON_COST = "cost";
+    public static final String JSON_SIZE = "size";
+    public static final String JSON_DATE = "date";
+    public static final String JSON_LOC = "locations";
+    public static final String JSON_DESC = "description";
+    public static final String JSON_OWNER = "owner";
+    public static final String JSON_USERS_NAMES = "usernames";
+    public static final String JSON_USERS_IDS = "userids";
+
     Trip trip;
     String id;
     String name;
@@ -28,8 +39,10 @@ public class TripTest {
     String date;
     String cost;
     String size;
+    String owner;
     ArrayList<Location> locations;
-    ArrayList<String> users;
+    ArrayList<String> usernames;
+    ArrayList<String> userids;
     String url;
 
     @Before
@@ -41,8 +54,10 @@ public class TripTest {
         this.date = "date";
         this.cost = "cost";
         this.size = "size";
+        this.owner = "owner";
         this.locations = new ArrayList<>();
-        this.users = new ArrayList<>();
+        this.usernames = new ArrayList<>();
+        this.userids = new ArrayList<>();
         this.url = "www.url.com";
 
         Location location = mock(Location.class);
@@ -50,7 +65,8 @@ public class TripTest {
         when(location.toJSON()).thenReturn(mock(JSONObject.class));
 
         locations.add(mock(Location.class));
-        users.add("user");
+        usernames.add("user");
+        userids.add("0");
 
         this.trip = new Trip(
                 this.id,
@@ -59,8 +75,10 @@ public class TripTest {
                 this.date,
                 this.cost,
                 this.size,
+                this.owner,
                 this.locations,
-                this.users,
+                this.usernames,
+                this.userids,
                 this.url);
     }
 
@@ -73,28 +91,32 @@ public class TripTest {
     public void toMap() throws Exception {
         Map<String, String> mapTrip = trip.toMap();
 
-        assertEquals(mapTrip.get("_id"), this.id);
-        assertEquals(mapTrip.get("name"), this.name);
-        assertEquals(mapTrip.get("description"), this.description);
-        assertEquals(mapTrip.get("date"), this.date);
-        assertEquals(mapTrip.get("cost"), this.cost);
-        assertEquals(mapTrip.get("size"), this.size);
-        assertEquals(mapTrip.get("users"), this.users.get(0) + "\n");
-        assertEquals(mapTrip.get("locations"), this.locations.get(0).getTitle() + "\n");
+        assertEquals(mapTrip.get(JSON_ID), this.id);
+        assertEquals(mapTrip.get(JSON_NAME), this.name);
+        assertEquals(mapTrip.get(JSON_DESC), this.description);
+        assertEquals(mapTrip.get(JSON_DATE), this.date);
+        assertEquals(mapTrip.get(JSON_COST), this.cost);
+        assertEquals(mapTrip.get(JSON_SIZE), this.size);
+        assertEquals(mapTrip.get(JSON_OWNER), this.owner);
+        assertEquals(mapTrip.get(JSON_USERS_NAMES), this.usernames.get(0) + "\n");
+        assertEquals(mapTrip.get(JSON_USERS_IDS), this.userids.get(0) + "\n");
+        assertEquals(mapTrip.get(JSON_LOC), this.locations.get(0).getTitle() + "\n");
     }
 
     @Test
     public void toJSON() throws Exception {
         JSONObject jsonTrip = trip.toJSON();
 
-        assertEquals(jsonTrip.get("_id"), this.id);
-        assertEquals(jsonTrip.get("name"), this.name);
-        assertEquals(jsonTrip.get("description"), this.description);
-        assertEquals(jsonTrip.get("date"), this.date);
-        assertEquals(jsonTrip.get("cost"), this.cost);
-        assertEquals(jsonTrip.get("size"), this.size);
-        assertEquals(jsonTrip.get("users"), new JSONArray().put(this.users.get(0)));
-        assertEquals(jsonTrip.get("locations"), new JSONArray().put(this.locations.get(0).toJSON()));
+        assertEquals(jsonTrip.get(JSON_ID), this.id);
+        assertEquals(jsonTrip.get(JSON_NAME), this.name);
+        assertEquals(jsonTrip.get(JSON_DESC), this.description);
+        assertEquals(jsonTrip.get(JSON_DATE), this.date);
+        assertEquals(jsonTrip.get(JSON_COST), this.cost);
+        assertEquals(jsonTrip.get(JSON_SIZE), this.size);
+        assertEquals(jsonTrip.get(JSON_OWNER), this.owner);
+        assertEquals(jsonTrip.get(JSON_USERS_NAMES),  new JSONArray().put(this.usernames.get(0)));
+        assertEquals(jsonTrip.get(JSON_USERS_IDS), new JSONArray().put(this.userids.get(0)));
+        assertEquals(jsonTrip.get(JSON_LOC), new JSONArray().put(this.locations.get(0).toJSON()));
     }
 
     @Test
@@ -133,8 +155,13 @@ public class TripTest {
     }
 
     @Test
-    public void getUsers() throws Exception {
-        assertEquals(trip.getUsers(), this.users);
+    public void getUsernames() throws Exception {
+        assertEquals(trip.getUsernames(), this.usernames);
+    }
+
+    @Test
+    public void getUserIds() throws Exception {
+        assertEquals(trip.getUserids(), this.userids);
     }
 
 }

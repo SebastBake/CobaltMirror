@@ -18,6 +18,13 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(RobolectricTestRunner.class)
 public class LocationTest {
 
+    public static final String JSON_ID = "_id";
+    public static final String JSON_TITLE = "title";
+    public static final String JSON_DESC = "description";
+    public static final String JSON_LAT = "latitude";
+    public static final String JSON_LON = "longitude";
+    public static final String JSON_ALT = "altitude";
+
     String id;
     String title;
     String description;
@@ -72,24 +79,24 @@ public class LocationTest {
     @Test
     public void toMap() throws Exception {
         Map<String, String> locMap = location.toMap();
-        assertEquals(locMap.get("_id"), this.id);
-        assertEquals(locMap.get("title"), this.title);
-        assertEquals(locMap.get("Description"), this.description);
-        assertEquals(locMap.get("latitude"), this.latitude.toString());
-        assertEquals(locMap.get("longitude"), this.longitude.toString());
-        assertEquals(locMap.get("altitude"), this.altitude.toString());
+        assertEquals(locMap.get(JSON_ID), this.id);
+        assertEquals(locMap.get(JSON_TITLE), this.title);
+        assertEquals(locMap.get(JSON_DESC), this.description);
+        assertEquals(locMap.get(JSON_LAT), this.latitude.toString());
+        assertEquals(locMap.get(JSON_LON), this.longitude.toString());
+        assertEquals(locMap.get(JSON_ALT), this.altitude.toString());
 
     }
 
     @Test
     public void toJSON() throws Exception {
         JSONObject locJson = location.toJSON();
-        assertEquals(locJson.get("_id"), this.id);
-        assertEquals(locJson.get("title"), this.title);
-        assertEquals(locJson.get("Description"), this.description);
-        assertEquals(locJson.get("latitude"), this.latitude.toString());
-        assertEquals(locJson.get("longitude"), this.longitude.toString());
-        assertEquals(locJson.get("altitude"), this.altitude.toString());
+        assertEquals(locJson.get(JSON_ID), this.id);
+        assertEquals(locJson.get(JSON_TITLE), this.title);
+        assertEquals(locJson.get(JSON_DESC), this.description);
+        assertEquals(locJson.get(JSON_LAT), this.latitude.toString());
+        assertEquals(locJson.get(JSON_LON), this.longitude.toString());
+        assertEquals(locJson.get(JSON_ALT), this.altitude.toString());
 
     }
 

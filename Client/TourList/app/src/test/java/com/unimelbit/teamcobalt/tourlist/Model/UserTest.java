@@ -46,17 +46,10 @@ public class UserTest {
 
     @Test
     public void newUserArrayFromJSON() throws Exception {
-
-    }
-
-    @Test
-    public void getUserRegistration() throws Exception {
-        String expected = "{\"password\":\"" + this.password
-                + "\",\"email\":\"" + this.email +
-                "\",\"username\":\"" + this.username +
-                "\"}";
-
-        assertEquals(expected, user.getUserRegistration());
+//        String expected = "{\"password\":\"" + this.password
+//                + "\",\"email\":\"" + this.email +
+//                "\",\"username\":\"" + this.username +
+//                "\"}";
     }
 
     @Test
