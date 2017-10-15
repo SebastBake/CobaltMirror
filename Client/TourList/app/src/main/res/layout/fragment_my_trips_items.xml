@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/Go_to_trip"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="49dp" />
+
+    <Button
+        android:id="@+id/Go_to_trip"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/scheme1_blue"
+        android:text="Go To"
+        android:textColor="@android:color/white"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginEnd="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="invisible"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true" />
+
+</android.widget.RelativeLayout>

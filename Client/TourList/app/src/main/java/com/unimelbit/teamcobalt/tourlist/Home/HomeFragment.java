@@ -1,14 +1,11 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
@@ -18,7 +15,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private BaseActivity base;
 
-    private Button searchB, createB, currTripB, chatRoomB;
+    private Button searchB, createB, myTripB, chatRoomB;
 
 
     public HomeFragment() {
@@ -47,9 +44,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         searchB.setOnClickListener(this);
 
-        currTripB = (Button) rootView.findViewById(R.id.curTripButton);
+        myTripB = (Button) rootView.findViewById(R.id.myTripButton);
 
-        currTripB.setOnClickListener(this);
+        myTripB.setOnClickListener(this);
 
         createB = (Button) rootView.findViewById(R.id.createButtonMain);
 
@@ -76,12 +73,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         } else if (id == R.id.searchButtonMain) {
             base.getMainContainer().gotoTripSearchFragment();
 
-        } else if (id == R.id.curTripButton) {
-            if (base.getCurrentTrip() != null) {
-                base.getMainContainer().gotoTabbedTripFragment(base.getCurrentTrip());
-            } else {
-                base.getMainContainer().gotoTabbedTripFragment(BaseActivity.DEMOTRIP_NAME);
-            }
+        } else if (id == R.id.myTripButton) {
+               new MyTripsGetRequest(base.getMainContainer());
+
         } else if (id == R.id.generalChat){
 
             base.getMainContainer().goToChatRooms();
