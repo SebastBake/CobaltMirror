@@ -26,6 +26,7 @@ import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.ProfileTripsGetRequest;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
@@ -269,7 +270,7 @@ public class BaseActivity extends AppCompatActivity
             if (currentUser == null) {
                 mainContainer.gotoLoginOrRegisterFragment();
             } else {
-                mainContainer.gotoProfileFragment();
+                new ProfileTripsGetRequest(mainContainer);
             }
 
         } else if (id == R.id.nav_search && !(f instanceof TripSearchFragment)) {

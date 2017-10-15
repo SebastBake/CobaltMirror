@@ -11,6 +11,7 @@ import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
+import com.unimelbit.teamcobalt.tourlist.Home.ProfileTripsGetRequest;
 import com.unimelbit.teamcobalt.tourlist.Home.RegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.LoadingFragment;
@@ -82,9 +83,10 @@ public class BaseFragmentContainerManager {
     /**
      * Takes the user to the profile screen
      */
-    public void gotoProfileFragment() {
+    public void gotoProfileFragment(ProfileTripsGetRequest request) {
 
         ProfileFragment fragment = new ProfileFragment();
+        fragment.setOnCreatedListener(request);
         gotoFragmentUsingBackstack(fragment);
     }
 
