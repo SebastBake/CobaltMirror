@@ -21,7 +21,7 @@ import java.util.HashMap;
 /**
  * Handler class to be responsible for tracking activities called.
  * The functions will provide the ability to retrieve user locations and update the map live
- * as the coordinates are recived on a periodic basis.
+ * as the coordinates are received on a periodic basis.
  * It also manages markers to be placed on the Google Map.
  */
 public class GoogleMapTrackingHandler {
@@ -149,7 +149,16 @@ public class GoogleMapTrackingHandler {
         }
     }
 
-    public HashMap<String, UserTracker> getUserList() { return users; }
-    public ArrayList<Marker> getMarkersOnMap() { return markersOnMap; }
-    public ArrayList<MarkerOptions> getMarkerList() { return markerList; }
+    public HashMap<String, UserTracker> getUserList() {
+        return users;
+    }
+
+    public ArrayList<Marker> getMarkersOnMap() {
+        return markersOnMap;
+    }
+
+    public ArrayList<MarkerOptions> getMarkerList() {
+        return markerList;
+    }
+
 }

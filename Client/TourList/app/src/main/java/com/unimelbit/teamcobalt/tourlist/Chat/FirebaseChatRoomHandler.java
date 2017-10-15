@@ -39,11 +39,6 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
     }
 
-
-
-
-
-
     /**
      * Generates a chat room based on the name it receives
      * @param name
