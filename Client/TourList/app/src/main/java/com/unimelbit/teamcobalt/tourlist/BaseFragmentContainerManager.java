@@ -91,7 +91,7 @@ public class BaseFragmentContainerManager {
     }
 
     /**
-     * Takes the user to the profile screen
+     * Takes the user to the my trips screen
      */
     public void gotoMyTripsFragment(MyTripsGetRequest request) {
 
