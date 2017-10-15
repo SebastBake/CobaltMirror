@@ -61,19 +61,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         FirebaseMessaging.getInstance().subscribeToTopic("user_"+base.getCurrentUser().getId());
 
-        LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.linear);
-        for (int i = 0; i < 20; i++) {
-            ImageView imageView = new ImageView(getActivity());
-            imageView.setId(i);
-            //left, top, right, bottom
-            imageView.setPadding(30, 10, 30, 10);
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), R.mipmap.umaru));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setOnClickListener(this);
-            layout.addView(imageView);
-        }
-
         return rootView;
     }
 
