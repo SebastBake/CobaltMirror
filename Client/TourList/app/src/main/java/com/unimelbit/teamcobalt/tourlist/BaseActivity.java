@@ -279,12 +279,9 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_create && !(f instanceof TabbedCreateOrEditTripFragment)) {
             mainContainer.gotoCreateTrip();
 
-        } else if (id == R.id.nav_current) {
-            if (currentTrip != null) {
-                mainContainer.gotoTabbedTripFragment(currentTrip);
-            } else {
-                mainContainer.gotoTabbedTripFragment(DEMOTRIP_NAME);
-            }
+        } else if (id == R.id.nav_Trips) {
+            new MyTripsGetRequest(mainContainer);
+
         }else if (id == R.id.nav_logout){
 
             attemptLogOut();
