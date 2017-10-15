@@ -31,7 +31,10 @@
         android:text="Connect with our community!"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView8"
+        android:textColor="@color/scheme1_blue"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        />
 
     <TextView
         android:id="@+id/textView5"
@@ -44,9 +47,9 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintTop_toBottomOf="@+id/gen_chat_button"
-        app:layout_constraintHorizontal_bias="0.545" />
+        app:layout_constraintHorizontal_bias="0.501" />
 
     <TextView
         android:id="@+id/textView9"
@@ -62,9 +65,10 @@
         android:layout_marginBottom="30dp"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/chatroom_username_text" />
+        app:layout_constraintHorizontal_bias="0.475"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/chatroom_username_text"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView10"
@@ -81,10 +85,11 @@
 
     <Button
         android:id="@+id/gen_chat_button"
-        style="@android:style/Widget.Button.Inset"
+        style="@style/button_style_od"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ENTER CHAT"
+        android:text="GENERAL CHAT"
+        android:padding="8dp"
         android:layout_marginStart="21dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -107,11 +112,12 @@
 
     <Button
         android:id="@+id/rand_chat_button"
-        style="@android:style/Widget.Button.Inset"
+        style="@style/button_style_ol"
+        android:padding="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
-        android:text="ENTER CHAT"
+        android:text="RANDOM CHAT"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
@@ -129,11 +135,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintTop_creator="1"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.528" />
+        app:layout_constraintHorizontal_bias="0.483" />
 
     <TextView
         android:id="@+id/chatroom_username_text"
@@ -142,7 +148,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="9dp"
         android:text="UserName"
         android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
