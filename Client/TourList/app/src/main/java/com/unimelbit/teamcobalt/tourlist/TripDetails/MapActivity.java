@@ -73,13 +73,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        addLocationToMap(locationList, mMap);
-        mapHandler.initLocationMarkers(this.locationList, this.mMap);
-        Location firstLocation = locationList.get(0);
-        centerCameraGoogleMap(firstLocation, mMap, DEFAULT_ZOOM);
 
+        if(locationList.size() > 0) {
+            addLocationToMap(locationList, mMap);
+            mapHandler.initLocationMarkers(this.locationList, this.mMap);
+            Location firstLocation = locationList.get(0);
+            centerCameraGoogleMap(firstLocation, mMap, DEFAULT_ZOOM);
+        }
         //transmit user location if allowed
-        boolean permissionToTransmitUserLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        boolean permissionToTransmitUserLocation = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED;
 
         if (permissionToTransmitUserLocation) {
 

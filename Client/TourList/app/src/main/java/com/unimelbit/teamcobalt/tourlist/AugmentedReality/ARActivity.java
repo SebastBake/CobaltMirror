@@ -33,10 +33,7 @@ public class ARActivity extends AppCompatActivity {
     private ARJSONListener arListener;
 
     private String tripId;
-    private ArrayList<String> tripUsernames;
-    private ArrayList<String> tripUserids;
-    private User user;
-
+    //Location of JS used by AR view
     private String assetLoc;
 
     @Override
