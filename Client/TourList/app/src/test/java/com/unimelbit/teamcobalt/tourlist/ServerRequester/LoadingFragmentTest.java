@@ -26,7 +26,7 @@ public class LoadingFragmentTest {
     @Test
     public void newInstance() throws Exception {
         // verifies that an instance is returned
-        assertNotNull(loadingFragment.newInstance("loading"));
+        assertNotNull(loadingFragment.newInstance());
     }
 
 }

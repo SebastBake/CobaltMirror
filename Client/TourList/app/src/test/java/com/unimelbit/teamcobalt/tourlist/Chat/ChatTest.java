@@ -25,21 +25,21 @@ public class ChatTest {
     }
 
     @Test
-    public void getSetMessageText() throws Exception {
-        assertEquals(text, chat.getMessageText());
+    public void getSetMessage() throws Exception {
+        assertEquals(text, chat.getMessage());
 
         String newMessage = "new message";
         chat.setMessageText(newMessage);
-        assertEquals(newMessage, chat.getMessageText());
+        assertEquals(newMessage, chat.getMessage());
     }
 
     @Test
     public void getSetMessageUser() throws Exception {
-        assertEquals(user, chat.getMessageUser());
+        assertEquals(user, chat.getUserName());
 
         String newUser = "new user";
-        chat.setMessageUser(newUser);
-        assertEquals(newUser, chat.getMessageUser());
+        chat.setUserName(newUser);
+        assertEquals(newUser, chat.getUserName());
     }
 
     @Test
@@ -48,10 +48,10 @@ public class ChatTest {
         Thread.sleep(1000);
         Long newTime = new Date().getTime();
 
-        assertTrue(newTime != chat.getMessageTime());
+        assertTrue(newTime != chat.getTime());
 
-        chat.setMessageTime(newTime);
-        assertTrue(newTime == chat.getMessageTime());
+        chat.setTime(newTime);
+        assertTrue(newTime == chat.getTime());
     }
 
 }
