@@ -13,6 +13,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
@@ -23,7 +24,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MyTripsFragment extends Fragment {
+public class MyTripsFragment extends Fragment implements BackButtonInterface {
 
     private onFragmentCreatedListener listener;
 
