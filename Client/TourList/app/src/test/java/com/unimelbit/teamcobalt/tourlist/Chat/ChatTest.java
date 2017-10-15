@@ -31,6 +31,7 @@ public class ChatTest {
         String newMessage = "new message";
         chat.setMessageText(newMessage);
         assertEquals(newMessage, chat.getMessage());
+
     }
 
     @Test
