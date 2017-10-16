@@ -8,7 +8,7 @@ import android.content.Context;
 
 /**
  * Adaptor for services needed by the app.
- * Currenly, only a Google services adaptor has been implemented.
+ * Currently, only a Google services adaptor has been implemented.
  */
 public interface GPSProviderAdaptor {
 
