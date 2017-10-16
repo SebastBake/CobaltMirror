@@ -1,28 +1,18 @@
 package com.unimelbit.teamcobalt.tourlist.AugmentedReality;
 
 import android.content.Context;
-import android.location.LocationManager;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-
-import static android.content.Context.LOCATION_SERVICE;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.robolectric.annotation.Config;
 
 /**
  * Created by awhite on 5/10/17.
  */
-
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class ARToolsTest {
 //    ARTools tools;
     Context context;

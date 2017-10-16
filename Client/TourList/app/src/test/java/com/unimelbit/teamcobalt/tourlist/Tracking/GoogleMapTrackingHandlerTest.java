@@ -4,6 +4,9 @@ import android.content.Context;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -11,6 +14,8 @@ import static org.mockito.Mockito.mock;
 /**
  * Created by awhite on 15/10/17.
  */
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class GoogleMapTrackingHandlerTest {
 
     GoogleMapTrackingHandler handler;
