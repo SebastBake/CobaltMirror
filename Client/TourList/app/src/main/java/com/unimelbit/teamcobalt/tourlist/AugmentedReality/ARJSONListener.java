@@ -67,6 +67,10 @@ public class ARJSONListener implements ARListener{
 
     }
 
+    public ArchitectJavaScriptInterfaceListener getmArchitectJavaScriptInterfaceListener() {
+        return this.mArchitectJavaScriptInterfaceListener;
+    }
+
 
     /**
     * Set listener

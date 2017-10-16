@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.AugmentedReality;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -12,23 +11,15 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class POIDetailActivityTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
-
-    @Test
-    public void onCreate() throws Exception {
-
-    }
+    /**
+     * Check androidTest folder for tests of POIDetailActivity.
+     * The class has no application logic to test,
+     * it creates an Activity and View for the details about the trip location.
+     */
 
     @Test
-    public void setMapImage() throws Exception {
-
-    }
-
-    @Test
-    public void onClick() throws Exception {
+    public void stubTest() throws Exception {
 
     }
 
