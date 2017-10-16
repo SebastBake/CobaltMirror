@@ -70,4 +70,19 @@ public class AppServicesFactoryTest {
 
     }
 
+    @Test
+    public void getFirebaseGpsProvider() throws Exception {
+
+    }
+
+    @Test
+    public void getARGpsProvider() throws Exception {
+
+    }
+
+    @Test
+    public void getNewTrip() throws Exception {
+
+    }
+
 }

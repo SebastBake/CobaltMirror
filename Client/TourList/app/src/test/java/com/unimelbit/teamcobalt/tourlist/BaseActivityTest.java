@@ -45,11 +45,11 @@ public class BaseActivityTest {
         assertEquals(base.PUT_OBJECT, testObj2);
     }
 
-//    @Test
-//    public void getMainContainerManager() throws Exception {
+    @Test
+    public void getMainContainerManager() throws Exception {
 //        BaseFragmentContainerManager manager = base.getMainContainerManager();
 //        assertNotNull(manager);
-//    }
+    }
 
     @Test
     public void setGetCurrentTrip() throws Exception {
@@ -102,6 +102,61 @@ public class BaseActivityTest {
 //
 //        base.setlocationSharing(false);
 //        assertFalse(base.isLocationSharingOn());
+
+    }
+
+    @Test
+    public void onCreate() throws Exception {
+
+    }
+
+    @Test
+    public void setCurrentTrip() throws Exception {
+
+    }
+
+    @Test
+    public void getCurrentTrip() throws Exception {
+
+    }
+
+    @Test
+    public void setCurrentUser() throws Exception {
+
+    }
+
+    @Test
+    public void getCurrentUser() throws Exception {
+
+    }
+
+    @Test
+    public void setLocationSharing() throws Exception {
+
+    }
+
+    @Test
+    public void getSharedPreferences() throws Exception {
+
+    }
+
+    @Test
+    public void onBackPressed() throws Exception {
+
+    }
+
+    @Test
+    public void onNavigationItemSelected() throws Exception {
+
+    }
+
+    @Test
+    public void onResume() throws Exception {
+
+    }
+
+    @Test
+    public void onPause() throws Exception {
 
     }
 

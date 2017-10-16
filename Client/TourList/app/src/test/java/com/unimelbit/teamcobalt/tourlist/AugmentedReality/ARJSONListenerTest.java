@@ -30,4 +30,14 @@ public class ARJSONListenerTest {
         assertNotNull(temp);
     }
 
+    @Test
+    public void createListener() throws Exception {
+
+    }
+
+    @Test
+    public void setListener() throws Exception {
+
+    }
+
 }

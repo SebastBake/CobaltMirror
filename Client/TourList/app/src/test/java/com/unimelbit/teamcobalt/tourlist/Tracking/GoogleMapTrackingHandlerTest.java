@@ -70,6 +70,30 @@ public class GoogleMapTrackingHandlerTest {
     }
 
 
+    @Test
+    public void removeUserMarkers() throws Exception {
+
+    }
+
+    @Test
+    public void getAllMarkers() throws Exception {
+
+    }
+
+    @Test
+    public void initUserMarkers() throws Exception {
+
+    }
+
+    @Test
+    public void initLocationMarkers() throws Exception {
+
+    }
+
+    @Test
+    public void putIntoUserList() throws Exception {
+
+    }
 
     @Test
     public void getMarkersOnMap() throws Exception {
