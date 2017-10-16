@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.TabbedCreateOrEditTripFragment;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
@@ -349,6 +350,9 @@ public class BaseActivity extends AppCompatActivity
         editor.remove("nameKey");
         editor.remove("passwordKey");
         editor.apply();
+
+        //Stop receiving notifications for user
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("user_" + getCurrentUser().getId());
 
         setCurrentUser(null);
 

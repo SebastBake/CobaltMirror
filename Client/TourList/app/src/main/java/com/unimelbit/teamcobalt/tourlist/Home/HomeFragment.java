@@ -2,6 +2,7 @@ package com.unimelbit.teamcobalt.tourlist.Home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
+import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
@@ -56,7 +58,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         chatRoomB.setOnClickListener(this);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("user_"+base.getCurrentUser().getId());
+        User user= base.getCurrentUser();
+
+        if(user != null && user.getId() != null) {
+            FirebaseMessaging.getInstance().subscribeToTopic("user_" + base.getCurrentUser().getId());
+
+        }
+        DrawerLayout drawer = (DrawerLayout)   getActivity().findViewById(R.id.drawer_layout);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED);
 
         return rootView;
     }

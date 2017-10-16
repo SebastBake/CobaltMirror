@@ -3,6 +3,7 @@ package com.unimelbit.teamcobalt.tourlist.Home;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ public class LoginOrRegisterFragment extends Fragment {
         initLoginMessageText(rootView);
         initLoginAndRegisterButtons(rootView);
 
+        DrawerLayout drawer = (DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         return rootView;
     }
