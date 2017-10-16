@@ -166,7 +166,7 @@ var findTripsByText = function(req, res) {
             }]
           }, function(err, places) {
             if (!err) {
-              res.send(place);
+              res.send(places);
             } else {
               res.sendStatus(404);
             }
