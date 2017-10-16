@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Gets the saved trips of the current user for the profile page
  */
 
-public class ProfileTripsGetRequest implements GetRequest, ProfileFragment.onFragmentCreatedListener {
+public class MyTripsGetRequest implements GetRequest, MyTripsFragment.onFragmentCreatedListener {
 
     private static String LOADING_MSG = "Loading trips...";
     private static String URL_MY_TRIPS_BASE = "https://cobaltwebserver.herokuapp.com/api/user/savedtrips/";
@@ -29,7 +29,7 @@ public class ProfileTripsGetRequest implements GetRequest, ProfileFragment.onFra
     private BaseFragmentContainerManager containerManager;
     ArrayList<Trip> trips;
 
-    public ProfileTripsGetRequest(BaseFragmentContainerManager containerManager) {
+    public MyTripsGetRequest(BaseFragmentContainerManager containerManager) {
 
         this.url = URL_MY_TRIPS_BASE + BaseActivity.getCurrentUser().getId();
         this.containerManager = containerManager;
@@ -46,7 +46,7 @@ public class ProfileTripsGetRequest implements GetRequest, ProfileFragment.onFra
 
         try {
             trips = Trip.newTripArrayFromJSON(result, url);
-            containerManager.gotoProfileFragment(this);
+            containerManager.gotoMyTripsFragment(this);
         } catch (Exception e) {
             requestFailed("Something failed for url: " + url + " and result: " + result, e);
         }
@@ -60,7 +60,9 @@ public class ProfileTripsGetRequest implements GetRequest, ProfileFragment.onFra
         ErrorActivity.newError(containerManager.getBaseActivity(),e,"TripGetRequest failed: " + msg);
     }
 
-    public void onCreatedView(ProfileFragment fragment,View rootView) throws JSONException {
+    @Override
+    public void onCreatedView(MyTripsFragment fragment, View rootView) throws JSONException {
         fragment.showResultsList(trips, rootView);
     }
+
 }

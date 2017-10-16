@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.TabbedCreateOrEditTripFragment;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
@@ -26,7 +27,7 @@ import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
-import com.unimelbit.teamcobalt.tourlist.Home.ProfileTripsGetRequest;
+import com.unimelbit.teamcobalt.tourlist.Home.MyTripsGetRequest;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
@@ -270,7 +271,7 @@ public class BaseActivity extends AppCompatActivity
             if (currentUser == null) {
                 mainContainer.gotoLoginOrRegisterFragment();
             } else {
-                new ProfileTripsGetRequest(mainContainer);
+                mainContainer.gotoProfileFragment();
             }
 
         } else if (id == R.id.nav_search && !(f instanceof TripSearchFragment)) {
@@ -279,12 +280,9 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_create && !(f instanceof TabbedCreateOrEditTripFragment)) {
             mainContainer.gotoCreateTrip();
 
-        } else if (id == R.id.nav_current) {
-            if (currentTrip != null) {
-                mainContainer.gotoTabbedTripFragment(currentTrip);
-            } else {
-                mainContainer.gotoTabbedTripFragment(DEMOTRIP_NAME);
-            }
+        } else if (id == R.id.nav_Trips) {
+            new MyTripsGetRequest(mainContainer);
+
         }else if (id == R.id.nav_logout){
 
             attemptLogOut();
@@ -352,6 +350,9 @@ public class BaseActivity extends AppCompatActivity
         editor.remove("nameKey");
         editor.remove("passwordKey");
         editor.apply();
+
+        //Stop receiving notifications for user
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("user_" + getCurrentUser().getId());
 
         setCurrentUser(null);
 

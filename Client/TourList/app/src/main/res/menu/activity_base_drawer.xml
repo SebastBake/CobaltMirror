@@ -9,8 +9,8 @@
             android:id="@+id/nav_Profile"
             android:title="Profile" />
         <item
-            android:id="@+id/nav_current"
-            android:title="Current Trip" />
+            android:id="@+id/nav_Trips"
+            android:title="My Trips" />
         <item
             android:id="@+id/nav_search"
             android:title="Search" />
