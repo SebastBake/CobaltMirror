@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.Tracking;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -12,13 +11,16 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class FireBaseRequesterTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
+    /**
+     * Can't test without posting to Firebase database.
+     * Would require mocking a Firebase database and possibly
+     * restructuring the code. However it mostly just uses
+     * the firebase library methods which themselves are well tested.
+     */
 
     @Test
-    public void postToDb() throws Exception {
+    public void stubTest() throws Exception {
 
     }
 

@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.Profile;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -12,13 +11,15 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class UserProfileTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
+    /**
+     * Check androidTest folder for tests of UserProfile.
+     * The class has no application logic to test, it creates a
+     * Fragment and View to display the profile page of another user.
+     */
 
     @Test
-    public void onCreate() throws Exception {
+    public void stubTest() throws Exception {
 
     }
 

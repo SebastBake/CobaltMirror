@@ -21,6 +21,11 @@ public class GoogleMapTrackingHandlerTest {
     GoogleMapTrackingHandler handler;
     Context context;
 
+    /*
+     * Requires some heavy mocking possibly
+     * TODO: Finish GoogleMapTrackingHandler testing
+     */
+
     @Before
     public void setUp() throws Exception {
         this.context = mock(Context.class);
@@ -38,7 +43,8 @@ public class GoogleMapTrackingHandlerTest {
     @Test
     public void getUserMarker() throws Exception {
 //        Doesn't work at the moment, when() only works on methods
-//        no instance variables
+//        not instance variables. Need to find a way to mock
+//        the latitude and longitude values
 //
 //        UserTracker tracker = mock(UserTracker.class);
 //        when(tracker.LAT_INDEX).thenReturn(0);
