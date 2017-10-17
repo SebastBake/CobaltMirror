@@ -9,16 +9,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Model.Location;
-import com.unimelbit.teamcobalt.tourlist.Model.Trip;
-import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
-
-import java.util.ArrayList;
 
 /**
  * Created by Sebastian on 18/9/17.
- * Handler for the fabs on the tabbed trip fragment
+ * Handler for the tabs on the tabbed trip fragment
  */
 class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener  {
 

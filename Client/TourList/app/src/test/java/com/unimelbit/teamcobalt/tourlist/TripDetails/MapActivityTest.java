@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -12,43 +11,16 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class MapActivityTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
-
-    @Test
-    public void onCreate() throws Exception {
-
-    }
+    /**
+     * Check androidTest folder for tests of MapActivity.
+     * The class has no application logic to test, it creates an
+     * Activity and View that shows a Map of the trip.
+     */
 
     @Test
-    public void onMapReady() throws Exception {
+    public void stubTest() throws Exception {
 
-    }
-
-    @Test
-    public void onResume() throws Exception {
-
-    }
-
-    @Test
-    public void onPause() throws Exception {
-
-    }
-
-    @Test
-    public void onDestroy() throws Exception {
-
-    }
-
-    @Test
-    public void addLocationToMap() throws Exception {
-
-    }
-
-    @Test
-    public void centerCameraGoogleMap() throws Exception {
 
     }
 

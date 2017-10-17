@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -12,23 +11,15 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class TabbedTripFragmentButtonHandlerTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
-
-    @Test
-    public void onTabSelected() throws Exception {
-
-    }
+    /**
+     * Check androidTest folder for tests of TabbedTripFragmentButtonHandler.
+     * The class has no application logic to test, it controls how the
+     * buttons and tabs look in the TabbedTripFragment UI.
+     */
 
     @Test
-    public void onTabUnselected() throws Exception {
-
-    }
-
-    @Test
-    public void onTabReselected() throws Exception {
+    public void stubTest() throws Exception {
 
     }
 

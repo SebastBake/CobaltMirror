@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.TripSearch;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -12,24 +11,16 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class TripSearchGetRequestTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
-
-    @Test
-    public void processResult() throws Exception {
-
-    }
+    /**
+     * Refer to the GetRequesterTest this class doesn't add much
+     * application logic, just specifies a specific URL to send to
+     * and data to send.
+     */
 
     @Test
-    public void requestFailed() throws Exception {
+    public void stubTest() throws Exception {
 
     }
-
-    @Test
-    public void onCreatedView() throws Exception {
-
-    }
-
 }
+
