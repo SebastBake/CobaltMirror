@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.Home;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -12,28 +11,15 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class HomeFragmentTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
-
-    @Test
-    public void newInstance() throws Exception {
-
-    }
+    /**
+     * Check androidTest folder for tests of HomeFragment.
+     * The class has no application logic to test, it creates an
+     * Fragment and View to display the home page.
+     */
 
     @Test
-    public void onCreate() throws Exception {
-
-    }
-
-    @Test
-    public void onCreateView() throws Exception {
-
-    }
-
-    @Test
-    public void onClick() throws Exception {
+    public void stubTest() throws Exception {
 
     }
 
