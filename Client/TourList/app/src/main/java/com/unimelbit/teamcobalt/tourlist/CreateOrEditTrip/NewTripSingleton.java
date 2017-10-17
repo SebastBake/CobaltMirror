@@ -61,7 +61,6 @@ public class NewTripSingleton {
     private void makeRequest(BaseActivity activity) {
 
         Trip newTrip = new Trip(id, name, description, getDateString(), cost, size, ownerId, locations, usernames, userIds, "");
-        Toast.makeText(activity, newTrip.getUserids().toString(), Toast.LENGTH_LONG).show();
         if (editTripFlag) {
             //new CreateTripPostRequest(activity, newTrip);
             new EditTripPutRequest(activity, newTrip);

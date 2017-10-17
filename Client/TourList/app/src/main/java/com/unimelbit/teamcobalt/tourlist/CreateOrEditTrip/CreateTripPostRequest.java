@@ -9,6 +9,7 @@ import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequester;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
+import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
 
 import org.json.JSONException;
 
@@ -45,7 +46,8 @@ class CreateTripPostRequest implements PostRequest {
             if (status != HTTP_SUCCESS_CODE ) {
                 throw new Exception();
             }
-            new TripGetRequest(trip.getName(), activity.getMainContainerManager());
+            Trip newTrip = newTripFromJSON(result,"");
+            new TripGetRequestByID(newTrip.getId(), activity.getMainContainerManager());
         } catch (Exception e) {
             requestFailed("Something failed for url: " + CREATE_TRIP_URL + " and result: " + result, e);
         }

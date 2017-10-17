@@ -94,6 +94,10 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
         TextView tripSize = (TextView) rootView.findViewById(R.id.trip_details_size);
         tripSize.setText("Max Size: " + trip.getSize());
 
+        TextView tripDate = (TextView) rootView.findViewById(R.id.trip_details_date);
+        tripDate.setText("Date: " + trip.getDate());
+
+
         TextView tripOwner = (TextView) rootView.findViewById(R.id.trip_details_owner);
         tripOwner.setText("Owner: " + trip.getOwner());
     }

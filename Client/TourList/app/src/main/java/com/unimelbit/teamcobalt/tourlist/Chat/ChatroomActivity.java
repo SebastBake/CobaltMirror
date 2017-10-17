@@ -47,7 +47,6 @@ public class ChatroomActivity extends AppCompatActivity {
 
 
         users = getIntent().getExtras().getStringArrayList("users");
-        Toast.makeText(this,"Result: " + users, Toast.LENGTH_SHORT).show();
 
         userName = getIntent().getExtras().getString("Username");
         userId = getIntent().getExtras().getString("UserId");
