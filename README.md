@@ -8,6 +8,12 @@ These instructions will get you a copy of the project up and running on your loc
 
 Contact one of the project members to get the required google-services.json file.
 
+Wikitude
+
+Google API
+
+Firebase
+
 ### Installing
 
 - Paste the google-services.json file into the app folder in TourList.
