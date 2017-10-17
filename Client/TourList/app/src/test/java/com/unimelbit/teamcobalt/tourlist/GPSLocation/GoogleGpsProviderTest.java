@@ -26,6 +26,8 @@ import static org.mockito.Mockito.when;
 @Config(manifest=Config.NONE)
 public class GoogleGpsProviderTest {
 
+    // TODO: implement location requests tests
+
     Context context;
     GoogleGpsProvider gps;
 
