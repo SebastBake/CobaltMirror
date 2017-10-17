@@ -168,5 +168,4 @@ public class FirebaseChatRoomHandler implements ChatAdaptor {
 
     }
 
-
 }

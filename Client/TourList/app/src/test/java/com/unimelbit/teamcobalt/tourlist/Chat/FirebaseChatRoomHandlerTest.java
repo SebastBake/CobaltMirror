@@ -12,6 +12,10 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class FirebaseChatRoomHandlerTest {
+
+    /*
+        TODO: Find out how to test when class uses firebase, might need powermock
+     */
     @Before
     public void setUp() throws Exception {
 

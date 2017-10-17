@@ -1,6 +1,5 @@
 package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -12,28 +11,15 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class TabbedCreateOrEditTripFragmentTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
-
-    @Test
-    public void newInstance() throws Exception {
-
-    }
+    /**
+     * Check androidTest folder for tests of TabbedCreateOrEditTripFragment.
+     * The class has no application logic to test, it creates an
+     * Fragment and View to create or edit a trip.
+     */
 
     @Test
-    public void onCreateView() throws Exception {
-
-    }
-
-    @Test
-    public void onDestroyView() throws Exception {
-
-    }
-
-    @Test
-    public void onDetach() throws Exception {
+    public void stubTest() throws Exception {
 
     }
 
