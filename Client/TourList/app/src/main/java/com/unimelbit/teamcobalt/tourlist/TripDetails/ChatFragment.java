@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Chat.ChatAdaptor;
-import com.unimelbit.teamcobalt.tourlist.Profile.UserProfile;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
@@ -71,17 +70,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
 
         // Here, you set the data in your ListView
         listV.setAdapter(adapter);
-
-        listV.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-            @Override
-            public void onItemClick(AdapterView<?>adapter,View v, int position, long i){
-
-                String user = userList.get(position);
-                Intent intent = new Intent(getActivity(),UserProfile.class);
-                startActivity(intent);
-            }
-        });
 
         if (BaseActivity.getCurrentUser() == null) {
             username = "anonymous user";
