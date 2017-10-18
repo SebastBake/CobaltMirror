@@ -46,7 +46,8 @@ First, in the CobaltWebServer folder, look at your package.JSON:
  Once all dependcies are installed you are ready to customize and modify the server.
  
  #### Use
- To be able to use your server with the app, please host the app on a hosting platform of your choice
+ To be able to use your server with the app, please host the app on a hosting platform of your choice.
+ 
  We used heroku to host and more information about heroku can be found [HERE](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction).
  
  After hosting, make sure to point the app towards your server.
@@ -68,7 +69,8 @@ First, in the CobaltWebServer folder, look at your package.JSON:
  #### Server testing
  Server-side testing is done using [mocha](https://mochajs.org/) and [chai](http://chaijs.com/).
  Both can be installed using `npm install`. 
- Tests can be found and added in `./tests/tests.js` 
+ 
+ Tests can be found and added in `./tests/tests.js`.  
  To run tests use the `npm test` command.
 
 
