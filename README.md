@@ -18,10 +18,10 @@ Contact one of the project members to get the required licenses for development 
 - The app will not run without the google-services.json file. Paste the google-services.json file into the app folder in Morange.
 - Use Android Studio to build the app on to your machine.
 
-## Running the tests
+#### Android unit testing
 
-There are a suite of Unit tests in the folder /Cobalt/Client/TourList/app/src/test/java/.
-Run these whenever you make a change to ensure the changes haven't created undesired side effects.
+There are a suite of unit tests in the folder /Cobalt/Client/TourList/app/src/test/java/.
+Run the tests whenever you make a change to ensure the changes haven't created undesired side effects.
 
 ### Server Setup & Use
 
@@ -34,9 +34,9 @@ Once all dependcies are installed you are ready to customize and modify the serv
 
 #### Run the server with the app
 
-We used (heroku)(https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) for hosting, but the server can be run on any hosting service with Node.js.
+We used (Heroku)(https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) for hosting, but the server can be run on any hosting service with Node.js.
 
-If you want to gain access to the main branch of the server, please request access to the heroku.
+If you want to gain access to the main branch of the server, please request access to the Heroku repository.
 
 If you're running your own copy of the server, make sure to point the app towards your server.
 
