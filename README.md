@@ -34,7 +34,7 @@ Once all dependcies are installed you are ready to customize and modify the serv
 
 #### Run the server with the app
 
-We used (Heroku)(https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) for hosting, but the server can be run on any hosting service with Node.js.
+We used [Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) for hosting, but the server can be run on any hosting service with Node.js.
 
 If you want to gain access to the main branch of the server, please request access to the Heroku repository.
 
