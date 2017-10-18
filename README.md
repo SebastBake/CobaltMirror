@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Contact one of the project members to get the required licenses, for development using our proprietary dependencies:
+Contact one of the project members to get the required licenses for development using our proprietary dependencies:
 
 - Wikitude is used for the AR. The team currently uses a student license.
 - A google services json file is required to gain access to the Google API (used for location data) and Firebase (used for user location sharing and chat).
