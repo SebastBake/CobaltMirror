@@ -15,7 +15,7 @@ Contact one of the project members to get the required licenses for development 
 ### Android App Setup
 
 - The app must be imported into Android Studio.
-- The app will not run without the google-services.json file. Paste the google-services.json file into the app folder in TourList.
+- The app will not run without the google-services.json file. Paste the google-services.json file into the app folder in Morange.
 - Use Android Studio to build the app on to your machine.
 
 ## Running the tests
