@@ -1,5 +1,5 @@
 # Morange - A Travel App
-Morange is a travel app for meeting new people and exploring and learning about new places. The app allows people to arrange trips by making it easy to share the locations, date, cost, and size of a trip with other like-minded travellers. The app also has chat and AR functionality, further helping people to meet up and navigate while travelling.
+Morange is a travel app for meeting new people and exploring new places. The app allows people to arrange trips by making it easy to share the locations, date, cost, and size of a trip with other like-minded travellers. The app also has chat and AR functionality, further helping people to meet up and navigate while travelling.
 
 ## Getting Started
 
