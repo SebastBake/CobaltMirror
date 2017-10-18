@@ -64,6 +64,12 @@ First, in the CobaltWebServer folder, look at your package.JSON:
  `private static final String CREATE_TRIP_URL = https://<YOUR SERVER ADDRESS>/<NAME OF YOUR ROUTE>`
  
  If you want to gain access to the main branch of the server, please request access to the heroku.
+ 
+ #### Server testing
+ Server-side testing is done using [mocha](https://mochajs.org/) and [chai](http://chaijs.com/).
+ Both can be installed using `npm install`. 
+ Tests can be found and added in `./tests/tests.js` 
+ To run tests use the `npm test` command.
 
 
 ## Running the tests
