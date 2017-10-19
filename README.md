@@ -11,12 +11,148 @@ Contact one of the project members to get the required licenses for development 
 
 - Wikitude is used for the AR. Team Cobalt currently uses a student license.
 - A google services json file is required to gain access to the Google API (used for location data) and Firebase (used for user location sharing and chat).
+- Google maps api and static maps api
 
 ### Android App Setup
 
 - The app must be imported into Android Studio.
 - The app will not run without the google-services.json file. Paste the google-services.json file into the app folder in Morange.
 - Use Android Studio to build the app on to your machine.
+
+### Logo and images
+
+The logos and various UI components (excluding Wikitude assets used in AR) were created through Adobe Illustrator.
+
+### API/Libraries setup
+
+Please note that the libraries may not be up to date in the future and the functions in the libraries are subject to being deprecated by the owners.
+
+#### Permissions
+
+To enable correct function of the various libraries and function of the app, the AndroidManifest.xml requires the following permissions:
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+#### Wikitude
+
+- This app currently uses the Wikitude API for the augmented reality function. To retrieve a key to use, go to the wikitude website: https://www.wikitude.com/
+
+- To add your own key, head into the strings.xml file and edit the "<string name="wikitude_key">" header to your own key.
+
+Useful documentation can be found at: http://www.wikitude.com/external/doc/documentation/latest/android/poi.html#geo-ar-points-of-interest
+
+The app currently uses a modified JS script, as well as the same CS and image assets in the /assets folder origianlly provided by wikitude.
+
+The Wikitude library is found under the lib folder in the root.
+The following dependency should be added:
+
+      compile(name: 'wikitudesdk', ext: 'aar')
+      
+The activity containing the Wikitude AR view must contain the following in the layout.xml:
+
+    <com.wikitude.architect.ArchitectView android:id="@+id/architectView"
+        android:layout_width="fill_parent" android:layout_height="fill_parent"/>
+
+In the AndroidManifest.xml, the following features are utilised and requried as well. Please ensure that the device using the app has the following:
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.compass"
+        android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+#### Google API setup and Picasso
+
+The app will utilise the following libraries:
+
+- Google Places API for Android 
+- Google Maps Android API 
+- Google Static Maps API
+
+To get keys for the api, the user must head into: https://console.developers.google.com
+The console will allow the user to activate the various APIs and enable them for use in the app.
+To add the key, open the AndroidManifest.xml and search for
+        
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value= YOUR_ANDROID_KEY/>
+
+Under the application header.
+It is important for the following to be in the build.gradle file:
+
+  dependencies:
+      
+      compile 'com.google.maps.android:android-maps-utils:0.4.+'
+      
+      compile 'com.google.android.gms:play-services:11.2.0'
+
+      compile 'com.squareup.picasso:picasso:2.3.3'
+
+  repositories:
+      
+      flatDir {
+          dirs 'libs'
+      }
+      maven {
+          url "https://maven.google.com"
+      }
+      
+Picasso is used to load images from the Static Maps API into the image views.
+
+#### Firebase Setup
+
+The app will utilise Firebase for its chat function and the automatic updates for live tracking.
+To add a key, a google JSON file must be generated.
+To do this, enter the website: https://console.firebase.google.com
+And link the account to a google project that has the keys for the Google APIs. This will enable a JSON key to be generated and linked with the app.
+
+The dependencies required include:
+
+    compile 'com.google.firebase:firebase-core:11.2.0'
+    
+    compile 'com.google.firebase:firebase-database:11.2.0'
+    
+    compile 'com.google.firebase:firebase-auth:11.2.0'
+    
+    compile 'com.google.firebase:firebase-messaging:11.2.0'
+    
+    compile 'com.firebaseui:firebase-ui:0.6.0'
+    
+    compile 'com.google.firebase:firebase-crash:10.2.0'
+    
+
+#### Permission Manager
+
+The PermissionManager.java class utilised by the app is for checking permissions when first running the app.
+The author of the code is karanchuri, and the git repository can be found at: https://github.com/karanchuri/PermissionManager
+
 
 #### Android unit testing
 
