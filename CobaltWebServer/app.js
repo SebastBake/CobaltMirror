@@ -25,7 +25,7 @@ var server = require('http').createServer(app);
 var firebase = require('firebase-admin');
 var request = require('request');
 
-// Your Firebase Cloud Messaging Server API key
+// Firebase Cloud Messaging Server API key
 var API_KEY =
   "AAAAK5_LmRw:APA91bG7_VkMa_2gTjhPVo_Pk5TzaZjq3dGedVrv7TTyZDTjUnyIUln4o_3uCjqkklzZOihg8Y_VDxs-LEfS1MozuinAdIKA2qjaODJbA6-LYgdU1di87DsvOkO04J4XImcDH8-BwU5J";
 
@@ -41,6 +41,7 @@ firebase.initializeApp({
 });
 ref = firebase.database().ref();
 
+// listen for notifications from app
 function listenForNotificationRequests() {
   var requests = ref.child('notificationRequests');
   requests.on('child_added', function(requestSnapshot) {
@@ -58,6 +59,7 @@ function listenForNotificationRequests() {
   });
 };
 
+// Sends notifications to firebase
 function sendNotificationToUser(username, message, fromUser, onSuccess) {
   request({
     url: 'https://fcm.googleapis.com/fcm/send',
@@ -94,5 +96,5 @@ server.listen(port, function() {
 });
 
 
-
-module.exports = server // For testing
+// For testing
+module.exports = server

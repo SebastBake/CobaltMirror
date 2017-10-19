@@ -1,65 +1,61 @@
 /**
  * Created by Spike lee on 11/08/2017.
  */
-// Routes yo
 var express = require('express');
 var router = express.Router();
 
-var controller = require('../controllers/controller.js');
-var usercontroller = require('../controllers/Usercontroller.js');
+var tripController = require('../controllers/Tripcontroller.js');
+var userController = require('../controllers/Usercontroller.js');
+
+//TRIP ROUTES
 
 // Create new Trip
-router.post('/api/trips/create', controller.createTrip);
+router.post('/api/trips/create', tripController.createTrip);
 
-// Find all Trips
-router.get('/api/trips/findall', controller.findAllTrips);
 
 //Random search
-router.get('/api/trips/findrandom', controller.findRandomTrips);
+router.get('/api/trips/findrandom', tripController.findRandomTrips);
 
 //Find trip by mongo id
-router.get('/api/trips/findbyid/:id', controller.findOneTripByID);
+router.get('/api/trips/findbyid/:id', tripController.findOneTripByID);
 
 // Find one Trip by name
-router.get('/api/trips/:name', controller.findOneTrip);
+router.get('/api/trips/:name', tripController.findOneTrip);
 
 
 //Search all trips with text
-router.get('/api/locations/search', controller.findTripsByText);
+router.get('/api/trips/search', tripController.findTripsByText);
 
 //Delete Trip
-router.put('/api/trips/delete', controller.deleteTrip);
+router.put('/api/trips/delete', tripController.deleteTrip);
 
 //Edit Trip
-router.put('/api/trips/edit', controller.editTrip);
+router.put('/api/trips/edit', tripController.editTrip);
 
 
 
 // USER ROUTES
 
 // Create User
-router.post('/api/user/create', usercontroller.createUser);
-
-// Login User
-//router.post('api/user/login', usercontroller.loginUser);
+router.post('/api/user/create', userController.createUser);
 
 //Find one User
-router.get('/api/user/:id', usercontroller.findOneUser);
+router.get('/api/user/:id', userController.findOneUser);
 
 //Add saved trip
-router.put('/api/user/addtrip', usercontroller.Addtrip);
+router.put('/api/user/addtrip', userController.Addtrip);
 
 //Remove trip from saved trips
-router.put('/api/user/removetrip', usercontroller.Removetrip);
+router.put('/api/user/removetrip', userController.Removetrip);
 
 //Retrieve one User
-router.get('/api/user/find/:username/:password', usercontroller.retrieveOneUser);
+router.get('/api/user/find/:username/:password', userController.retrieveOneUser);
 
 //Find all users
-router.get('/api/users', usercontroller.findAllUsers);
+router.get('/api/users', userController.findAllUsers);
 
 // Return saved trips data
-router.get('/api/user/savedtrips/:id', usercontroller.savedTrips);
+router.get('/api/user/savedtrips/:id', userController.savedTrips);
 
 
 module.exports = router;

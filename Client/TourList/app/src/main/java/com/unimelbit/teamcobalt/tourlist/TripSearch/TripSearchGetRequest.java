@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class TripSearchGetRequest implements GetRequest, TripSearchResultFragment.onFragmentCreatedListener {
 
     private static String LOADING_MSG = "Loading trips...";
-    private static String URL_SEARCH_BASE = "https://cobaltwebserver.herokuapp.com/api/locations/search?searchcontent=";
+    private static String URL_SEARCH_BASE = "https://cobaltwebserver.herokuapp.com/api/trips/search?searchcontent=";
     private static String URL_SEARCH_RANDOM = "https://cobaltwebserver.herokuapp.com/api/trips/findrandom";
     private String searchQuery;
     private String url;

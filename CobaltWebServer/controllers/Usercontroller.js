@@ -1,5 +1,6 @@
 /**
  *  Created by Spike lee on 15/09/2017.
+ *  All functions related to users of the app.
  */
 var mongoose = require('mongoose');
 var User = mongoose.model('users');
@@ -7,7 +8,7 @@ var Trip = mongoose.model('trips');
 
 
 
-// create a person document
+// create a new user
 var createUser = function(req, res) {
   console.log(JSON.stringify(req.body));
   var user = new User({
@@ -29,8 +30,10 @@ var createUser = function(req, res) {
 
 };
 
+// Retrieves User
 var retrieveOneUser = function(req, res) {
   var query = User.find();
+
   //get the Query String here
   var filterUsername = req.params.username;
   var filterPassword = req.params.password;
@@ -96,6 +99,7 @@ var Addtrip = function(req, res) {
         'error': 'error in adding'
       });
     }
+    //adds user to trip's list of users
     Trip.findOneAndUpdate({
       _id: TripInx
     }, {
@@ -117,7 +121,7 @@ var Addtrip = function(req, res) {
   });
 };
 
-// add trip to current user's saved list
+// remove trip to current user's saved list
 var Removetrip = function(req, res) {
   var TripInx = req.body.tripid;
   User.findOneAndUpdate({
@@ -134,6 +138,8 @@ var Removetrip = function(req, res) {
         'error': 'error in removing'
       });
     }
+
+    // remove user from trip's list of users
     Trip.findOneAndUpdate({
       _id: TripInx
     }, {
@@ -153,7 +159,7 @@ var Removetrip = function(req, res) {
   });
 };
 
-
+// returns a list of user's saved trips
 var savedTrips = function(req, res) {
   personInx = req.params.id
   User.findById(personInx, function(err, person) {
@@ -162,9 +168,9 @@ var savedTrips = function(req, res) {
         '_id': {
           $in: person.savedtrips
         }
-      }, function(err, docs) {
-        res.send(docs);
-        console.log(docs);
+      }, function(err, trips) {
+        res.send(trips);
+        console.log(trips);
       });
     } else {
       res.sendStatus(404);
