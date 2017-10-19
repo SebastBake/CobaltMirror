@@ -49,9 +49,13 @@ To enable correct function of the various libraries and function of the app, the
 
 #### Wikitude
 
-- This app currently uses the Wikitude API for the augmented reality function. To retrieve a key to use, go to the wikitude website: https://www.wikitude.com/
+This app currently uses the Wikitude API for the augmented reality function. To retrieve a key to use, go to the wikitude website: https://www.wikitude.com/
 
-- To add your own key, head into the strings.xml file and edit the "<string name="wikitude_key">" header to your own key.
+To add your own key, head into the strings.xml file and edit the header to your own key:
+
+    <string name="wikitude_key">YOUR_WIKITUDE_KEY</string>
+
+The app is currently using a student license and not used for commercial use. The developer must retrieve the appropriate key from the Wikitude website if they wish to use the develop the app for commercial uses.
 
 Useful documentation can be found at: http://www.wikitude.com/external/doc/documentation/latest/android/poi.html#geo-ar-points-of-interest
 
