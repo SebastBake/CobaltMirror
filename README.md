@@ -158,10 +158,20 @@ The PermissionManager.java class utilised by the app is for checking permissions
 The author of the code is karanchuri, and the git repository can be found at: https://github.com/karanchuri/PermissionManager
 
 
-#### Android unit testing
+### Android unit testing
 
 There are a suite of unit tests in the folder /Cobalt/Client/TourList/app/src/test/java/.
 Run the tests whenever you make a change to ensure the changes haven't created undesired side effects.
+This will utilise the [Mockito library](http://site.mockito.org/), JUnit and [Robolectric](http://robolectric.org/).
+Ensure the depedencies have been compiled in the build.gradle for testing:
+
+    testCompile 'junit:junit:4.12'
+    
+    testCompile 'org.robolectric:robolectric:3.4.2'
+    
+    testCompile 'org.robolectric:shadows-support-v4:3.0'
+    
+    testCompile 'org.mockito:mockito-core:1.10.19'
 
 ### Server Setup & Use
 
@@ -203,6 +213,9 @@ To run tests use the `npm test` command.
 * [Mongoose](https://www.mongoosejs.com) - MongoDB library for node.js
 * [Google libraries](https://developers.google.com/api-client-library/java/) - Google APIs
 * [PermissionManager](https://github.com/karanchuri/PermissionManager) - Permission manager
+* [Picasso](http://square.github.io/picasso/) - Image manager
+* [Mockito](http://site.mockito.org/) - Android Testing
+* [Robolectric](http://robolectric.org/) - Android Testing
 
 ## Authors - Team Cobalt
 
