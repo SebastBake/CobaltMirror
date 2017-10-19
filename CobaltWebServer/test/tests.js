@@ -1,9 +1,15 @@
+/*
+ * Server-side Testing
+ */
+
+
 //During the test the env variable is set to test
 process.env.NODE_ENV = 'test';
+
+//All requirements and models to test server
 var mongoose = require('mongoose');
 var Trip = require('../models/trips');
 var User = require('../models/users');
-//Require the dev-dependencies
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../app');
@@ -13,9 +19,8 @@ var assert = chai.expect();
 chai.use(chaiHttp);
 
 
-/*
- * Testing the find all route
- */
+
+// Testing the find all route
 describe('/GET trips', () => {
   it('it should GET all the trips', (done) => {
     chai.request(server)
@@ -28,10 +33,7 @@ describe('/GET trips', () => {
   });
 });
 
-
-/*
- * Test the /POST route
- */
+// Test the /POST route
 describe('/POST createTrip', () => {
   it('it should POST Trip with fields', (done) => {
     var trip = {
@@ -71,9 +73,8 @@ describe('/POST createTrip', () => {
 
 });
 
-/*
- * Test the /Put delete trip route
- */
+
+// Test the /Put delete trip route
 describe('/Put delete trip', () => {
   it('it should be able to put trip', (done) => {
     var tripname = "DemoTrippy"
@@ -93,9 +94,7 @@ describe('/Put delete trip', () => {
 
 
 
-/*
- * Test the /Get randomTrips route
- */
+//Test the /Get randomTrips route
 describe('/Get randomTrips', () => {
   it('it should be able to GET 10 random Trips with fields', (done) => {
     chai.request(server)
@@ -110,9 +109,8 @@ describe('/Get randomTrips', () => {
 
 });
 
-/*
- * Test the /Get find trip by mongo id route
- */
+
+//Test the /Get find trip by mongo id route
 describe('/Get Trip with id', () => {
   it('it should be able to GET Trip with id', (done) => {
     var tripId = "59a89ca1734d1d25a0f4ba31"
@@ -129,9 +127,7 @@ describe('/Get Trip with id', () => {
 
 });
 
-/*
- * Test the /Get find trip by name route
- */
+//Test the /Get find trip by name route
 describe('/Get Trip with name', () => {
   it('it should be able to GET Trip with its name', (done) => {
     var tripName = "DemoTrip"
@@ -147,9 +143,8 @@ describe('/Get Trip with name', () => {
   });
 
 });
-/*
- * Test the /Get search trips route
- */
+
+//Test the /Get search trips route
 describe('/Get search Trip', () => {
   it('it should be able to GET search trips', (done) => {
     var tripName = "searchcontent=DemoTrip"
@@ -167,9 +162,8 @@ describe('/Get search Trip', () => {
 });
 
 
-/*
- * Test the /POST route
- */
+
+//Test the /POST route
 describe('/POST create user', () => {
   it('it should POST user with fields', (done) => {
     var user = {
@@ -192,9 +186,7 @@ describe('/POST create user', () => {
 
 });
 
-/*
- * Test the /Get find user by id route
- */
+// Test the /Get find user by id route
 describe('/Get user with id', () => {
   it('it should be able to GET user with id', (done) => {
     var userid = "59db139b36c512001feb3ea4"
@@ -212,9 +204,9 @@ describe('/Get user with id', () => {
 });
 
 
-/*
- * Test the /Put trip int savedtrips route
- */
+
+// Test the /Put trip int savedtrips route
+
 describe('/Put trip into savedtrips', () => {
   it('it should be able to put trip', (done) => {
     var userid = "59db139b36c512001feb3ea4"
@@ -241,9 +233,7 @@ describe('/Put trip into savedtrips', () => {
 
 });
 
-/*
- * Test the /Put trip into removetrips route
- */
+//Test the /Put trip into removetrips route
 describe('/Put trip into remove savedtrips', () => {
   it('it should be able to put trip', (done) => {
     var userid = "59db139b36c512001feb3ea4"
@@ -269,9 +259,8 @@ describe('/Put trip into remove savedtrips', () => {
 });
 
 
-/*
- * Test the /Get retrieve user
- */
+
+//Test the /Get retrieve user
 describe('/Get user with id and password', () => {
   it('it should be able to GET user with username and password', (
     done) => {
@@ -291,9 +280,8 @@ describe('/Get user with id and password', () => {
 });
 
 
-/*
- * Test the /Get find all users
- */
+
+//Test the /Get find all users
 describe('/Get all users ', () => {
   it('it should be able to GET all users', (done) => {
     chai.request(server)
@@ -308,9 +296,7 @@ describe('/Get all users ', () => {
 });
 
 
-/*
- * Test the /PUT editTrip route
- */
+//Test the /PUT editTrip route
 describe('/PUT editTrip', () => {
   it('it should put edit trip', (done) => {
     var trip = {
@@ -356,9 +342,7 @@ describe('/PUT editTrip', () => {
 
 });
 
-/*
- * Test the /Get saved trips
- */
+//Test the /Get saved trips
 describe('/Get user with id', () => {
   it('it should be able to GET trips from savedtrips array', (done) => {
     var userid = "59daebad2b53f7001f25e131"

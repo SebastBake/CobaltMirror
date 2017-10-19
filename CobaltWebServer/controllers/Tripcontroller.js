@@ -1,5 +1,6 @@
 /**
  *  Created by Spike lee on 11/08/2017.
+ * All functions related to trips.
  */
 var mongoose = require('mongoose');
 var Trip = mongoose.model('trips');
@@ -40,6 +41,8 @@ var createTrip = function(req, res) {
 
   trip.save(function(err, newTrip) {
     if (!err) {
+
+      // Saves the newly created trip to creator's savedtrips
       User.findOneAndUpdate({
         _id: req.body.userids[0]
       }, {
@@ -47,6 +50,7 @@ var createTrip = function(req, res) {
           'savedtrips': newTrip._id
         }
       }, function(err, data) {
+        // If no error, return trip to app.
         if (err) {
           return res.status(500).json({
             'error': 'error in adding'
@@ -57,24 +61,6 @@ var createTrip = function(req, res) {
       });
     } else {
       res.sendStatus(400);
-    }
-  });
-};
-
-
-// Find all trips in database
-var findAllTrips = function(req, res) {
-  Trip.find(function(err, trips) {
-    if (!err) {
-      var n = 10;
-      var result = new Array(n);
-      for (var i = 0; i < n; i++) {
-        result.push(trips[Math.floor(Math.random() * trips.length)]);
-      }
-      console.log(result);
-      res.send(trips);
-    } else {
-      res.sendStatus(404);
     }
   });
 };
@@ -121,9 +107,9 @@ var findTripsByText = function(req, res) {
   console.log(req.param("searchcontent"));
   //if blank input
   if (!req.query.searchcontent) {
-    Trip.find({}, function(err, place) {
+    Trip.find({}, function(err, trips) {
       if (!err) {
-        res.send(place);
+        res.send(trips);
       } else {
         res.sendStatus(404);
       }
@@ -144,16 +130,16 @@ var findTripsByText = function(req, res) {
       }, {
         name: inputregex
       }]
-    }, function(err, place) {
+    }, function(err, trips) {
       if (!err) {
-        if (!place.length) {
+        // If search does not return trips, try search with first 3 letters of search text.
+        if (!trips.length) {
           var oristring = req.query.searchcontent;
           var sub = oristring.substring(0, 3);
           var match = {
             $regex: sub,
             $options: 'i'
           };
-          console.log(sub);
           Trip.find({
             $or: [{
               locations: {
@@ -164,16 +150,15 @@ var findTripsByText = function(req, res) {
             }, {
               name: match
             }]
-          }, function(err, places) {
+          }, function(err, newTrips) {
             if (!err) {
-              res.send(places);
+              res.send(newTrips);
             } else {
               res.sendStatus(404);
             }
           });
         } else {
-          console.log("find matching");
-          res.send(place);
+          res.send(trips);
         }
 
       } else {
@@ -184,12 +169,13 @@ var findTripsByText = function(req, res) {
   }
 };
 
-// Find 10 randoms trips(repeated trips allowed if less than 10 trips in db)
+// Find 10 randoms trips(repeated trips allowed)
 var findRandomTrips = function(req, res) {
   Trip.find(function(err, trips) {
     if (!err) {
       var n = 10;
       var result = [];
+      // Loop through db for 10 random trips
       for (var i = 0; i < n; i++) {
         var obj = trips[Math.floor(Math.random() * trips.length)]
         result.push(obj);
@@ -224,6 +210,7 @@ var deleteTrip = function(req, res) {
 var editTrip = function(req, res) {
   console.log(req.body);
   var locations = [];
+
   //Converts req locations array to JSON array with no id
   for (var i = 0; i < req.body.locations.length; i++) {
     var newlocation = {
@@ -236,6 +223,7 @@ var editTrip = function(req, res) {
     locations[i] = newlocation;
   }
 
+  // Finds trip by id and updates all relevant fields
   Trip.findOneAndUpdate({
     _id: req.body._id
   }, {
@@ -265,7 +253,6 @@ var editTrip = function(req, res) {
 
 module.exports.createTrip =
   createTrip;
-module.exports.findAllTrips = findAllTrips;
 module.exports.findOneTrip =
   findOneTrip;
 module

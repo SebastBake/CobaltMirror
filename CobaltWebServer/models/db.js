@@ -1,7 +1,7 @@
 /**
  *  Created by Spike lee on 11/08/2017.
  */
-// Create database
+// Create and connects to  database.
 var mongoose = require('mongoose');
 mongoose.connect(
   'mongodb://admin:admin@ds039145.mlab.com:39145/heroku_5g0994js',
