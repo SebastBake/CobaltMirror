@@ -151,6 +151,7 @@ The dependencies required include:
     
     compile 'com.google.firebase:firebase-crash:10.2.0'
     
+The JSON can also be directly loaded into the project from Android Studio by opening Tools > Firebase. This will open a Firebase side bar, which allows the user to connect the app to their Firebase account that has been set up with the project.
 
 #### Permission Manager
 
@@ -172,6 +173,9 @@ Ensure the depedencies have been compiled in the build.gradle for testing:
     testCompile 'org.robolectric:shadows-support-v4:3.0'
     
     testCompile 'org.mockito:mockito-core:1.10.19'
+    
+When running the app from studio, these tests will automatically run before the application is loaded to the device to ensure changes do not break the other functions.
+You can run the tests directly from studio from right clicking the test package and directly running the tests.
 
 ### Server Setup & Use
 
