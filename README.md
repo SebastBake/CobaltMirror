@@ -201,6 +201,7 @@ To run tests use the `npm test` command.
 * [Wikitude](http://www.wikitude.com/) - The AR framework used
 * [Firebase](https://firebase.google.com/) - Cloud messaging service
 * [Mongoose](https://www.mongoosejs.com) - MongoDB library for node.js
+* [PermissionManager](https://github.com/karanchuri/PermissionManager) - Permission manager
 
 ## Authors - Team Cobalt
 
