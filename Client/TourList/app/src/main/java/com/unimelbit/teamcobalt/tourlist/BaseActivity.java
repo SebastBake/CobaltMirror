@@ -347,6 +347,9 @@ public class BaseActivity extends AppCompatActivity
         Fragment fragmentInstance = new LoginOrRegisterFragment();
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
+        locationSharing = false;
+        ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(currentUser);
+
         editor.remove("nameKey");
         editor.remove("passwordKey");
         editor.apply();
