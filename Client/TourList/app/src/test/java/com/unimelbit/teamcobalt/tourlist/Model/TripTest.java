@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -17,8 +18,8 @@ import static org.mockito.Mockito.when;
 /**
  * Created by awhite on 5/10/17.
  */
-
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class TripTest {
 
     public static final String JSON_ID = "_id";

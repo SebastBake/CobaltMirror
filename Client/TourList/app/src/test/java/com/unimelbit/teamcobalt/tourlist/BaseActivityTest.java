@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,6 +22,7 @@ import static org.mockito.Mockito.mock;
  * Created by awhite on 4/10/17.
  */
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class BaseActivityTest {
 
     BaseActivity base;
@@ -45,11 +48,11 @@ public class BaseActivityTest {
         assertEquals(base.PUT_OBJECT, testObj2);
     }
 
-//    @Test
-//    public void getMainContainerManager() throws Exception {
+    @Test
+    public void getMainContainerManager() throws Exception {
 //        BaseFragmentContainerManager manager = base.getMainContainerManager();
 //        assertNotNull(manager);
-//    }
+    }
 
     @Test
     public void setGetCurrentTrip() throws Exception {
@@ -71,14 +74,14 @@ public class BaseActivityTest {
     }
 
     @Test
-    public void setlocationSharing() throws Exception {
-//        assertFalse(base.locationSharing);
-//
-//        base.setlocationSharing(true);
-//        assertTrue(base.locationSharing);
-//
-//        base.setlocationSharing(false);
-//        assertFalse(base.locationSharing);
+    public void setLocationSharing() throws Exception {
+        assertFalse(base.locationSharing);
+
+        base.setLocationSharing(true);
+        assertTrue(base.locationSharing);
+
+        base.setLocationSharing(false);
+        assertFalse(base.locationSharing);
 
     }
 
@@ -95,60 +98,39 @@ public class BaseActivityTest {
 
     @Test
     public void isLocationSharingOn() throws Exception {
-//        assertFalse(base.isLocationSharingOn());
-//
-//        base.setlocationSharing(true);
-//        assertTrue(base.isLocationSharingOn());
-//
-//        base.setlocationSharing(false);
-//        assertFalse(base.isLocationSharingOn());
+        assertFalse(base.isLocationSharingOn());
+
+        base.setLocationSharing(true);
+        assertTrue(base.isLocationSharingOn());
+
+        base.setLocationSharing(false);
+        assertFalse(base.isLocationSharingOn());
 
     }
 
     @Test
-    public void onRequestPermissionsResult() throws Exception {
+    public void getSharedPreferences() throws Exception {
+
+        assertEquals(base.getSharedPreferences(), Whitebox.getInternalState(base, "sharedpreferences"));
 
     }
 
     @Test
     public void getMainContainer() throws Exception {
 
-    }
-
-    @Test
-    public void attemptLogOut() throws Exception {
+        assertEquals(base.getMainContainer(), Whitebox.getInternalState(base, "mainContainer"));
 
     }
 
     @Test
-    public void logOut() throws Exception {
+    public void setGetSearchedTrip() throws Exception {
+        assertEquals(base.getSearchedTrip(), Whitebox.getInternalState(base, "searchedTrip"));
+
+        Trip trip = mock(Trip.class);
+        base.setSearchedTrip(trip);
+
+        assertEquals(base.getSearchedTrip(), trip);
 
     }
-
-    @Test
-    public void setUserName() throws Exception {
-
-    }
-
-    @Test
-    public void getUserName() throws Exception {
-
-    }
-
-    @Test
-    public void getSearchedTrip() throws Exception {
-
-    }
-
-    @Test
-    public void setSearchedTrip() throws Exception {
-
-    }
-
-    @Test
-    public void setLatLong() throws Exception {
-
-    }
-
 
 }

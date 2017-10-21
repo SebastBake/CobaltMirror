@@ -2,10 +2,13 @@ package com.unimelbit.teamcobalt.tourlist;
 
 import android.content.Context;
 
+import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.NewTripSingleton;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -16,6 +19,7 @@ import static org.mockito.Mockito.mock;
  */
 
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class AppServicesFactoryTest {
 
     AppServicesFactory factory;
@@ -67,6 +71,17 @@ public class AppServicesFactoryTest {
 //
 //        CoordinateDBPostRequester second = factory.getFirebasePostRequester(context);
 //        assertEquals(first, second);
+
+    }
+
+    @Test
+    public void getNewTrip() throws Exception {
+
+        NewTripSingleton first = factory.getNewTrip();
+        assertNotNull(first);
+
+        NewTripSingleton second = factory.getNewTrip();
+        assertEquals(first, second);
 
     }
 
