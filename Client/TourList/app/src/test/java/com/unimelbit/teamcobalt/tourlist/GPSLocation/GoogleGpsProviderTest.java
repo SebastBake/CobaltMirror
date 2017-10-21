@@ -26,8 +26,6 @@ import static org.mockito.Mockito.when;
 @Config(manifest=Config.NONE)
 public class GoogleGpsProviderTest {
 
-    // TODO: implement location requests tests
-
     Context context;
     GoogleGpsProvider gps;
 
@@ -91,37 +89,6 @@ public class GoogleGpsProviderTest {
 
         gps.setmRequestingLocationUpdates(false);
         assertFalse(gps.isRequestingLocation());
-    }
-
-    @Test
-    public void createLocationRequest() throws Exception {
-
-    }
-
-    @Test
-    public void getLocationRequest() throws Exception {
-
-    }
-
-
-    @Test
-    public void isRequestingLocation() throws Exception {
-
-    }
-
-    @Test
-    public void setmRequestingLocationUpdates() throws Exception {
-
-    }
-
-    @Test
-    public void callback() throws Exception {
-
-    }
-
-    @Test
-    public void postToFireBase() throws Exception {
-
     }
 
     @Test

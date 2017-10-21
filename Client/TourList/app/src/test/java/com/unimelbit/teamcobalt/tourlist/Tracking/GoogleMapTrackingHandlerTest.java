@@ -2,19 +2,25 @@ package com.unimelbit.teamcobalt.tourlist.Tracking;
 
 import android.content.Context;
 
+import com.unimelbit.teamcobalt.tourlist.Chat.FirebaseChatRoomHandler;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 /**
  * Created by awhite on 15/10/17.
  */
 @RunWith(RobolectricTestRunner.class)
+@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" , "org.powermock.*"})
+@PrepareForTest(FirebaseChatRoomHandler.class)
 @Config(manifest=Config.NONE)
 public class GoogleMapTrackingHandlerTest {
 
@@ -42,13 +48,11 @@ public class GoogleMapTrackingHandlerTest {
 
     @Test
     public void getUserMarker() throws Exception {
-//        Doesn't work at the moment, when() only works on methods
-//        not instance variables. Need to find a way to mock
-//        the latitude and longitude values
+
+//        TODO: find out how to fix 'IBitmapDescriptorFactory is not initialized'
 //
 //        UserTracker tracker = mock(UserTracker.class);
-//        when(tracker.LAT_INDEX).thenReturn(0);
-//        when(tracker.LONG_INDEX).thenReturn(0);
+//
 //        Bitmap icon = mock(Bitmap.class);
 //        when(tracker.getUserIcon()).thenReturn(icon);
 //
@@ -56,6 +60,7 @@ public class GoogleMapTrackingHandlerTest {
 //        LatLng latLng = new LatLng(0, 0);
 //        MarkerOptions marker2 = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromBitmap(icon));
 //        assertEquals(marker, marker2);
+
     }
 
     @Test
@@ -77,32 +82,6 @@ public class GoogleMapTrackingHandlerTest {
 //        assertTrue(userList.containsKey("0"));
 
         assertTrue(handler.getUserList().isEmpty());
-
-    }
-
-
-    @Test
-    public void removeUserMarkers() throws Exception {
-
-    }
-
-    @Test
-    public void getAllMarkers() throws Exception {
-
-    }
-
-    @Test
-    public void initUserMarkers() throws Exception {
-
-    }
-
-    @Test
-    public void initLocationMarkers() throws Exception {
-
-    }
-
-    @Test
-    public void putIntoUserList() throws Exception {
 
     }
 

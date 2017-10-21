@@ -2,6 +2,8 @@ package com.unimelbit.teamcobalt.tourlist;
 
 import android.content.Context;
 
+import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.NewTripSingleton;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,17 +75,13 @@ public class AppServicesFactoryTest {
     }
 
     @Test
-    public void getFirebaseGpsProvider() throws Exception {
-
-    }
-
-    @Test
-    public void getARGpsProvider() throws Exception {
-
-    }
-
-    @Test
     public void getNewTrip() throws Exception {
+
+        NewTripSingleton first = factory.getNewTrip();
+        assertNotNull(first);
+
+        NewTripSingleton second = factory.getNewTrip();
+        assertEquals(first, second);
 
     }
 
