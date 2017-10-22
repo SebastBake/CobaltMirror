@@ -23,8 +23,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Created by awhite on 21/10/17.
+ * Tests the UI of the AddDateToTripDialogFragment
  */
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AddDateToTripDialogFragmentTest {
@@ -32,8 +33,13 @@ public class AddDateToTripDialogFragmentTest {
     @Rule
     public ActivityTestRule<BaseActivity> mActivityTestRule = new ActivityTestRule<>(BaseActivity.class);
 
+    /*
+     * A user flow that gets to the AddDateToTripDialogFragment to test
+     */
     @Before
     public void init() throws Exception {
+
+        // Handles the case when the user isn't logged in
         if (BaseActivity.getCurrentUser() == null) {
             onView(withId(R.id.go_to_login_fragment)).perform(click());
 
@@ -49,18 +55,21 @@ public class AddDateToTripDialogFragmentTest {
             onView(withId(R.id.button_login)).perform(click());
         }
 
+        // Goes to the create trip page
         onView(withId(R.id.createButtonMain)).perform(click());
     }
 
     @Test
     public void AddDateToTrip() {
 
+        // Opens date picker
         onView(
                 allOf(withId(R.id.button_set_date),
                         withText("Set Date")))
                 .perform(scrollTo(), click()
                 );
 
+        // Selects a date
         onView(
                 allOf(withId(android.R.id.button1),
                         withText("OK")))

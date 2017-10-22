@@ -39,6 +39,8 @@ public class ChatListRoomFragmentTest {
      */
     @Before
     public void init() throws Exception {
+
+        // Handles the case when the user isn't logged in
         if (BaseActivity.getCurrentUser() == null) {
             onView(withId(R.id.go_to_login_fragment)).perform(click());
 
@@ -54,6 +56,7 @@ public class ChatListRoomFragmentTest {
             onView(withId(R.id.button_login)).perform(click());
         }
 
+        // Goes to the ChatListRoomFragment
         onView(withId(R.id.generalChat)).perform(click());
     }
 

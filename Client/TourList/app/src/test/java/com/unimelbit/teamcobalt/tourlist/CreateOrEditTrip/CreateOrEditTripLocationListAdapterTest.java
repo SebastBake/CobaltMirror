@@ -19,16 +19,23 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.withSettings;
 
 /**
- * Created by awhite on 16/10/17.
+ * Tests the CreateOrEditTripLocationListAdapter
+ *
+ * Contains some logic and some UI elements so need to
+ * check the androidTest folder for some of the test
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class CreateOrEditTripLocationListAdapterTest {
 
     CreateOrEditTripLocationListAdapter adapter;
 
+    // Creates the adapter before each test with mocked data
     @Before
     public void setUp() throws Exception {
+
+        // Creates fake data and mocked objects for the constructor
         Context context = mock(Context.class, withSettings().verboseLogging());
         int textViewResourceId = 0;
         ArrayList<Place> items = new ArrayList<>();
@@ -36,6 +43,7 @@ public class CreateOrEditTripLocationListAdapterTest {
         Place item = mock(Place.class);
         items.add(item);
 
+        // Constructs the adapter
         this.adapter = new CreateOrEditTripLocationListAdapter(context, textViewResourceId, items);
     }
 
@@ -46,12 +54,20 @@ public class CreateOrEditTripLocationListAdapterTest {
          */
     }
 
+    /*
+     * Tests the Image setter method
+     */
     @Test
     public void setImages() throws Exception {
+
+        // Sets up dumby data and mock view
         ImageView i = mock(ImageView.class);
         int type = Place.TYPE_AIRPORT;
 
+        // Tries to set the image
         adapter.setImages(i, type);
+
+        // Verifies that the image was set
         verify(i).setImageResource(R.mipmap.airport);
     }
 

@@ -12,24 +12,29 @@ import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertNotEquals;
 
 /**
- * Created by awhite on 16/10/17.
+ * Check androidTest folder for tests of AddLocationToTripDialogFragment.
+ * The class has no application logic to test,
+ * it creates a Fragment and View used to add locations to a trip.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class AddLocationsToTripFragmentTest {
-    /**
-     * Check androidTest folder for tests of AddLocationToTripDialogFragment.
-     * The class has no application logic to test,
-     * it creates a Fragment and View used to add locations to a trip.
-     */
+
 
     AddLocationsToTripFragment alttdf;
 
+    /*
+     *  Creates a fragment before each test
+     */
     @Before
     public void setUp() throws Exception {
         alttdf = new AddLocationsToTripFragment();
     }
 
+    /*
+     * Checks that a new instance is constructed with the correct properties
+     */
     @Test
     public void newInstance() throws Exception {
         Fragment fragment = alttdf.newInstance();
