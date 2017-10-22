@@ -1,7 +1,6 @@
 package com.unimelbit.teamcobalt.tourlist.ServerRequester;
 
 /**
- * Created by Sebastian on 13/9/17.
  * GetRequest classes use the GetRequester make get requests
  */
 public interface GetRequest {

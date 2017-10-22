@@ -3,9 +3,6 @@ package com.unimelbit.teamcobalt.tourlist.ServerRequester;
 import android.os.AsyncTask;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
-
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,18 +15,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by spike on 16/9/2017.
+ * Initiates a get request, calls the GetProcessor to process the results of the request or handle errors.
  */
-
 public class PutRequester extends AsyncTask<String, Void, String> {
 
     private PutRequest processor;
     private int status;
 
+    /**
+     * Constructor
+     */
     public PutRequester(PutRequest processor) {
         this.processor = processor;
     }
 
+    /**
+     * Calls the request method
+     */
     @Override
     protected String doInBackground(String... params) {
         try {
@@ -41,12 +43,18 @@ public class PutRequester extends AsyncTask<String, Void, String> {
         }
     }
 
+    /**
+     * Handles the response from the server
+     */
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        processor.processResult(result,status);
+        processor.processResult(result, status);
     }
 
+    /**
+     * Makes the http request to the server
+     */
     private String putData(String urlPath) throws IOException {
 
         StringBuilder result = new StringBuilder();
@@ -58,8 +66,8 @@ public class PutRequester extends AsyncTask<String, Void, String> {
             //Initialize and config request, then connect to server
             URL url = new URL(urlPath);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10*1000 /* milliseconds */);
-            urlConnection.setConnectTimeout(10*1000 /* milliseconds */);
+            urlConnection.setReadTimeout(10 * 1000 /* milliseconds */);
+            urlConnection.setConnectTimeout(10 * 1000 /* milliseconds */);
             urlConnection.setRequestMethod("PUT");
             urlConnection.setRequestProperty("Content-Type", "application/json");// set header
             urlConnection.connect();

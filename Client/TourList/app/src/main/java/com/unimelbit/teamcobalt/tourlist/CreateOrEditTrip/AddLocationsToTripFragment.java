@@ -21,16 +21,24 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_OK;
 
 /**
- *
+ * Fragment used to add/remove locations to new/edited trips
  */
 public class AddLocationsToTripFragment extends Fragment {
 
+    // Tab location
     public static final int TAB_INDEX = 1;
     public static final String TAB_TITLE = "Locations";
+
+    // Flag used for place picker
     private static final int PLACE_PICKER_REQUEST = 1;
+
+    // List of locations
     private ArrayList<Place> placeArray;
     private CreateOrEditTripLocationListAdapter listAdapter;
 
+    /**
+     * Required public empty constructor
+     */
     public AddLocationsToTripFragment() {
     }
 
@@ -39,6 +47,11 @@ public class AddLocationsToTripFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Initialises the fragment UI
+     *
+     * @return inflated View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -63,6 +76,7 @@ public class AddLocationsToTripFragment extends Fragment {
     private void initButtons(View rootView) {
 
         Button addLocationButton = (Button) rootView.findViewById(R.id.add_location_button);
+
         addLocationButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -72,8 +86,8 @@ public class AddLocationsToTripFragment extends Fragment {
 
                 try {
                     Intent intent = builder.build(getActivity());
-
                     startActivityForResult(intent, PLACE_PICKER_REQUEST);
+
                 } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
                 }
@@ -81,6 +95,9 @@ public class AddLocationsToTripFragment extends Fragment {
         });
     }
 
+    /**
+     * Initialises the list of locations
+     */
     private void initLocationsList(View rootView) {
 
         ListView listView = (ListView) rootView.findViewById(R.id.listView);

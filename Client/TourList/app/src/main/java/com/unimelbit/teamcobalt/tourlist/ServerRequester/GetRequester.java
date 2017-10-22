@@ -3,29 +3,36 @@ package com.unimelbit.teamcobalt.tourlist.ServerRequester;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Sebastian on 13/9/17.
- * Initiates a get request, calls the GetProcesor to process the results of the request or handle errors.
-*/
+ * Initiates a get request, calls the GetProcessor to process the results of the request or handle errors.
+ */
 public class GetRequester extends AsyncTask<String, Void, String> {
 
     private GetRequest processor;
 
+    /**
+     * Constructor
+     */
     public GetRequester(GetRequest processor) {
         this.processor = processor;
     }
 
+    /**
+     * Calls the request method
+     */
     @Override
     protected String doInBackground(String... params) {
         return getData(params[0]);
     }
 
+    /**
+     * Handles the response from the server
+     */
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
@@ -36,6 +43,9 @@ public class GetRequester extends AsyncTask<String, Void, String> {
         }
     }
 
+    /**
+     * Makes the http request to the server
+     */
     private String getData(String urlPath) {
 
         StringBuilder result = new StringBuilder();

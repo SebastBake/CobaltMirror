@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -13,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Sebastian on 13/9/17.
  * Initiates a post request, calls the PostRequest to get the contents of the post and process the
  * results of the request or handle errors.
  */
@@ -22,27 +20,39 @@ public class PostRequester extends AsyncTask<String, Void, String> {
     private PostRequest processor;
     private int status;
 
+    /**
+     * Constructor
+     */
     public PostRequester(PostRequest processor) {
         this.processor = processor;
     }
 
+    /**
+     * Calls the request method
+     */
     @Override
     protected String doInBackground(String... params) {
         return postData(params[0]);
     }
 
+    /**
+     * Handles the response from the server
+     */
     @Override
     protected void onPostExecute(String result) {
 
         super.onPostExecute(result);
 
         try {
-            processor.processResult(result,status);
+            processor.processResult(result, status);
         } catch (Exception e) {
             processor.requestFailed(result, e);
         }
     }
 
+    /**
+     * Makes the http request to the server
+     */
     private String postData(String urlPath) {
 
         StringBuilder result = new StringBuilder();
@@ -77,7 +87,7 @@ public class PostRequester extends AsyncTask<String, Void, String> {
 
             bufferedReader.close();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             return e.getMessage();
         }
 

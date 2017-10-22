@@ -1,7 +1,7 @@
 package com.unimelbit.teamcobalt.tourlist;
 
-import android.content.DialogInterface;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -26,8 +26,8 @@ import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Home.HomeFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.LoginOrRegisterFragment;
-import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
 import com.unimelbit.teamcobalt.tourlist.Home.MyTripsGetRequest;
+import com.unimelbit.teamcobalt.tourlist.Home.ProfileFragment;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchFragment;
@@ -37,34 +37,97 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+/**
+ * Start loading screen
+ */
+public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String DEMOTRIP_NAME = "DemoTrip"; // this will be removed eventually
+    public static final String MyPREFERENCES = "MyPrefs";
     private static final String STARTUP_FAIL_MESSAGE = "Couldn't start BaseActivity";
     private static final String RESUME_FAIL_MESSAGE = "Couldn't resume BaseActivity";
     private static final String PAUSE_FAIL_MESSAGE = "Couldn't pause BaseActivity";
+    private static final String LOC_SHARING_ON_MSG = "Location sharing is ON";
+    private static final String LOC_SHARING_OFF_MSG = "Location sharing is OFF";
 
-    public static JSONObject PUT_OBJECT; // what's this?
-
+    public static JSONObject PUT_OBJECT; // Used by put requester, TODO: update putRequester architecture
+    public static Boolean locationSharing;
+    public static SharedPreferences sharedpreferences;
     private static Trip currentTrip;
     private static User currentUser;
     private static Trip searchedTrip;
-
-    private static final String LOC_SHARING_ON_MSG = "Location sharing is ON";
-    private static final String LOC_SHARING_OFF_MSG = "Location sharing is OFF";
-    public static Boolean locationSharing;
-
-    public static SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
-
     private static BaseFragmentContainerManager mainContainer;
 
     private PermissionManager permission;
 
     private GoogleGpsProvider gpsTool;
 
+    /**
+     * Simple getter
+     */
+    public static Trip getCurrentTrip() {
+        return currentTrip;
+    }
 
+    /**
+     * Simple setter
+     */
+    public static void setCurrentTrip(Trip trip) {
+        currentTrip = trip;
+    }
+
+    /**
+     * Simple getter
+     */
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    /**
+     * Simple setter
+     */
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
+    /**
+     * Simple setter
+     */
+    public static void setLocationSharing(boolean share) {
+        locationSharing = share;
+    }
+
+    /**
+     * Simple getter
+     */
+    public static boolean isLocationSharingOn() {
+        return locationSharing;
+    }
+
+    /**
+     * Simple getter
+     */
+    public static Trip getSearchedTrip() {
+        return searchedTrip;
+    }
+
+    /**
+     * Simple setter
+     */
+    public static void setSearchedTrip(Trip searchedTrip) {
+        BaseActivity.searchedTrip = searchedTrip;
+    }
+
+    /**
+     * Simple setter for an object to be sent to the server on a put request
+     */
+    public static void setPutObject(JSONObject putObject) {
+        PUT_OBJECT = putObject;
+    }
+
+    /**
+     * Required onCreate method, initialises the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -88,13 +151,13 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
-
     /**
      * Initializes the permissions manager
      */
     private void initPermissions() {
         // Permission check when initiating app
-        permission = new PermissionManager() {};
+        permission = new PermissionManager() {
+        };
         permission.checkAndRequestPermissions(this);
     }
 
@@ -138,12 +201,12 @@ public class BaseActivity extends AppCompatActivity
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         // open home screen, no login
-        if (!sharedpreferences.getString("nameKey","").isEmpty()) {
+        if (!sharedpreferences.getString("nameKey", "").isEmpty()) {
 
             ArrayList<User> users;
 
             try {
-                users = User.newUserArrayFromJSON(sharedpreferences.getString("aUser",""));
+                users = User.newUserArrayFromJSON(sharedpreferences.getString("aUser", ""));
                 setCurrentUser(users.get(0));
                 mainContainer.gotoHomeFragmentWithMessage("Logged in as: " + getCurrentUser().getUsername());
 
@@ -157,53 +220,27 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
-    // Assorted getters/setter
     public BaseFragmentContainerManager getMainContainerManager() {
         return mainContainer;
     }
-    public static void setCurrentTrip(Trip trip) {
-        currentTrip = trip;
-    }
-    public static Trip getCurrentTrip() {
-        return currentTrip;
-    }
-    public static void setCurrentUser(User user) {
-        currentUser = user;
-    }
-    public static User getCurrentUser() {
-        return currentUser;
-    }
-    public static void setLocationSharing(boolean share) {
-        locationSharing = share;
-    }
-    public static boolean isLocationSharingOn() {
-        return locationSharing;
-    }
-    public static Trip getSearchedTrip() {
-        return searchedTrip;
-    }
-    public static void setSearchedTrip(Trip searchedTrip) {
-        BaseActivity.searchedTrip = searchedTrip;
-    }
-    public static void setPutObject(JSONObject putObject) {
-        PUT_OBJECT = putObject;
-    } // what's this?
 
     public void toggleLocationSharing() {
         setLocationSharing(!locationSharing);
 
-        if(isLocationSharingOn()) {
-            Toast.makeText(this,LOC_SHARING_ON_MSG,
+        if (isLocationSharingOn()) {
+            Toast.makeText(this, LOC_SHARING_ON_MSG,
                     Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this,LOC_SHARING_OFF_MSG,
+            Toast.makeText(this, LOC_SHARING_OFF_MSG,
                     Toast.LENGTH_SHORT).show();
         }
     }
-    public SharedPreferences getSharedPreferences () {
+
+    public SharedPreferences getSharedPreferences() {
         return sharedpreferences;
     }
-    public BaseFragmentContainerManager getMainContainer(){
+
+    public BaseFragmentContainerManager getMainContainer() {
 
         return mainContainer;
     }
@@ -228,7 +265,7 @@ public class BaseActivity extends AppCompatActivity
                 finish();
             } else {
 
-                if (f instanceof BackButtonInterface){
+                if (f instanceof BackButtonInterface) {
 
                     Fragment fragmentInstance = new HomeFragment();
 
@@ -240,8 +277,8 @@ public class BaseActivity extends AppCompatActivity
                             .addToBackStack(null)
                             .commit();
 
-                //Go back to the search instead of home from the search results fragment
-                } else if(f instanceof TripSearchResultFragment){
+                    //Go back to the search instead of home from the search results fragment
+                } else if (f instanceof TripSearchResultFragment) {
 
                     getSupportFragmentManager().popBackStackImmediate();
                     getSupportFragmentManager().popBackStackImmediate();
@@ -256,6 +293,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * Links menu items in the nav drawer to the methods defining their functionality
+     *
      * @param item The menu item tapped by the user
      */
     @Override
@@ -285,10 +323,10 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_Trips) {
             new MyTripsGetRequest(mainContainer);
 
-        }else if (id == R.id.nav_logout){
+        } else if (id == R.id.nav_logout) {
 
             attemptLogOut();
-        } else if (id == R.id.nav_chat_rooms){
+        } else if (id == R.id.nav_chat_rooms) {
 
             mainContainer.goToChatRooms();
         }
@@ -302,20 +340,22 @@ public class BaseActivity extends AppCompatActivity
      * Check for permissions and see if they are granted
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
-        permission.checkResult(requestCode,permissions, grantResults);
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        permission.checkResult(requestCode, permissions, grantResults);
     }
 
-
-    public void attemptLogOut(){
+    /**
+     * Attempts to log out
+     */
+    public void attemptLogOut() {
 
         Fragment f = getMainContainerManager().getCurrentFragment();
 
-        if(f instanceof LoginFragment || f instanceof LoginOrRegisterFragment){
+        if (f instanceof LoginFragment || f instanceof LoginOrRegisterFragment) {
 
             Toast.makeText(this, "Cannot log out without logging in", Toast.LENGTH_LONG).show();
 
-        }else {
+        } else {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -344,7 +384,10 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
-    public void logOut(){
+    /**
+     * Log user out of app
+     */
+    public void logOut() {
 
         Fragment fragmentInstance = new LoginOrRegisterFragment();
         SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -370,6 +413,10 @@ public class BaseActivity extends AppCompatActivity
         Toast.makeText(this, "Logged Out", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * onPause and onResume are required for handling gps location data
+     */
+    @Override
     protected void onResume() {
         super.onResume();
         try {
@@ -381,15 +428,18 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * onPause and onResume are required for handling gps location data
+     */
     @Override
     protected void onPause() {
         super.onPause();
         try {
-            ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(currentUser);
+            ((FirebaseGoogleGpsProvider) gpsTool).stopTrack(currentUser);
             gpsTool.stopLocationUpdates();
             gpsTool.setmRequestingLocationUpdates(false);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             ErrorActivity.newError(this, e, PAUSE_FAIL_MESSAGE);
         }
     }
