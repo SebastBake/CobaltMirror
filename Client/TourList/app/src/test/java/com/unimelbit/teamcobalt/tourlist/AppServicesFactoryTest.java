@@ -15,7 +15,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 /**
- * Created by awhite on 4/10/17.
+ * Tests for the AppServicesFactory class.
+ * AppServicesFactory is used as a Singleton
+ * factory which creates relevant handlers
+ * and classes to be used in the app.
  */
 
 @RunWith(RobolectricTestRunner.class)
@@ -25,12 +28,18 @@ public class AppServicesFactoryTest {
     AppServicesFactory factory;
     Context context;
 
+    /*
+     * Sets up the factory before every test
+     */
     @Before
     public void setUp() {
         this.context = mock(Context.class);
         this.factory = AppServicesFactory.getServicesFactory();
     }
 
+    /*
+     * Checks that the services factory singleton is returned
+     */
     @Test
     public void getServicesFactory() throws Exception {
         // Checks that it always returns the same instance
@@ -42,6 +51,9 @@ public class AppServicesFactoryTest {
 
     }
 
+    /*
+     * Checks that the firebase chat service singleton is returned
+     */
     @Test
     public void getFirebaseChatService() throws Exception {
         // Checks that it always returns the same instance
@@ -58,6 +70,9 @@ public class AppServicesFactoryTest {
 
     }
 
+    /*
+     * Checks that the Firebase Post Requester singleton is returned
+     */
     @Test
     public void getFirebasePostRequester() throws Exception {
         // Checks that it always returns the same instance
@@ -74,6 +89,9 @@ public class AppServicesFactoryTest {
 
     }
 
+    /*
+     * Checks that the new trip singleton is returned
+     */
     @Test
     public void getNewTrip() throws Exception {
 

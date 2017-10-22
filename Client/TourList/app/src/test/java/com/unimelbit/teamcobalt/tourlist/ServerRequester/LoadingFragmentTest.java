@@ -9,10 +9,9 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertNotNull;
 
 /**
- * Created by awhite on 6/10/17.
- *
  * Not much to test as Fragments are mostly interface/UI
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class LoadingFragmentTest {

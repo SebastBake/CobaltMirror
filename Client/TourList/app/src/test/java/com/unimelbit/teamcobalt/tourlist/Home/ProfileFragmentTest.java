@@ -6,16 +6,19 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
- * Created by awhite on 17/10/17.
+ * Check androidTest folder for tests of ProfileFragment.
+ * The class has no application logic to test, it creates an
+ * Fragment and View to display the users profile page.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class ProfileFragmentTest {
 
-    /**
-     * Check androidTest folder for tests of ProfileFragment.
-     * The class has no application logic to test, it creates an
-     * Fragment and View to display the users profile page.
+    /*
+     * Place holder because class needs to contain a test
+     *
+     * Replace when/if tests are added.
+     * i.e. if application logic is added to the class.
      */
 
     @Test

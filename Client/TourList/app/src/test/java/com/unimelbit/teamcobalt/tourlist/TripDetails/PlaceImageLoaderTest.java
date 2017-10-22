@@ -7,8 +7,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
- * Created by awhite on 17/10/17.
+ * Work in Progress
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class PlaceImageLoaderTest {

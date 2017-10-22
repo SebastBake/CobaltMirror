@@ -15,18 +15,26 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by awhite on 17/10/17.
+ * Tests for the UserTracker class.
+ * Tracker holds information about the user location and icons to be used in the
+ * live tracking map activity.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class UserTrackerTest {
 
     UserTracker tracker;
 
+    /*
+     * Creates a tracker before each test to be used for testing
+     */
     @Before
     public void setUp() throws Exception {
+        // mock used to avoid constructor
         tracker = mock(UserTracker.class);
 
+        // makes tracker mock ise the real methods for the tests
         doCallRealMethod().when(tracker).setUserIcon(isA(Bitmap.class));
         when(tracker.getUserIcon()).thenCallRealMethod();
     }
@@ -40,6 +48,9 @@ public class UserTrackerTest {
          */
     }
 
+    /*
+     * Tests Setter and Getter for UserIcon
+     */
     @Test
     public void setGetUserIcon() throws Exception {
         Bitmap userIcon = mock(Bitmap.class);
@@ -49,6 +60,5 @@ public class UserTrackerTest {
         assertEquals(tracker.getUserIcon(), userIcon);
 
     }
-
 
 }

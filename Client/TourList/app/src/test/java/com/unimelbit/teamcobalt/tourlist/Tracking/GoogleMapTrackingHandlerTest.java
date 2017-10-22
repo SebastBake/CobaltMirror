@@ -16,8 +16,9 @@ import static junit.framework.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 /**
- * Created by awhite on 15/10/17.
+ * Work in progress
  */
+
 @RunWith(RobolectricTestRunner.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" , "org.powermock.*"})
 @PrepareForTest(FirebaseChatRoomHandler.class)

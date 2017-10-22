@@ -21,6 +21,7 @@ public class ChatroomActivityTest {
      * Replace when/if tests are added.
      * i.e. if application logic is added to the class.
      */
+
     @Test
     public void stubTest() throws Exception {
 

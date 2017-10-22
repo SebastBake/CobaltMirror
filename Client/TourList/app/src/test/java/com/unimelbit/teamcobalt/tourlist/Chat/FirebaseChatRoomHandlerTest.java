@@ -118,6 +118,7 @@ public class FirebaseChatRoomHandlerTest {
 
         // Verifies listener was added
         verify(rootRef).addListenerForSingleValueEvent(isA(ValueEventListener.class));
+
     }
 
     @Test
@@ -132,6 +133,7 @@ public class FirebaseChatRoomHandlerTest {
         // Verifies that chat room was deleted
         verify(rootRef).child(isA(String.class));
         verify(rootRef).setValue("");
+
     }
 
 }

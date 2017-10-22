@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 /**
  * Tests the PermissionManager
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class PermissionManagerTest {
