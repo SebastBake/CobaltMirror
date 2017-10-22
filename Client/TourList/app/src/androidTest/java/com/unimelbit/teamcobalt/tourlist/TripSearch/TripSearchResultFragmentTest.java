@@ -32,7 +32,7 @@ public class TripSearchResultFragmentTest {
         if (BaseActivity.getCurrentUser() == null) {
             onView(withId(R.id.go_to_login_fragment)).perform(click());
 
-            String username = "newTestUser";
+            String username = "NewTestUser";
             onView(withId(R.id.login_username_field))
                     .perform(typeText(username), closeSoftKeyboard())
                     .check(matches(withText(username)));
