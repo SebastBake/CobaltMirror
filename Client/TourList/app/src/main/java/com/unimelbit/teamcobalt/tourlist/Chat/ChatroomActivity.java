@@ -9,11 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.R;
 
@@ -106,7 +104,7 @@ public class ChatroomActivity extends AppCompatActivity {
     /**
      * Displays the messages received from Firebase for the relevant chat room
      */
-    private void displayChatMessages() {
+    public void displayChatMessages() {
 
         adapter = new FirebaseListAdapter<Chat>(this, Chat.class,
                 R.layout.message, FirebaseDatabase.getInstance().getReference().child(roomId)) {
