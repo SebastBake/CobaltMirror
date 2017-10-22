@@ -6,16 +6,20 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
- * Created by awhite on 16/10/17.
+ * Check androidTest folder in the future for tests
+ * of POIDetailActivity. The class has no application logic to test,
+ * it creates an Activity and View for the details about the trip location.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class POIDetailActivityTest {
 
-    /**
-     * Check androidTest folder for tests of POIDetailActivity.
-     * The class has no application logic to test,
-     * it creates an Activity and View for the details about the trip location.
+    /*
+     * Place holder because class needs to contain a test
+     *
+     * Replace when/if tests are added.
+     * i.e. if application logic is added to the class.
      */
 
     @Test

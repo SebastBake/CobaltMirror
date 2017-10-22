@@ -25,8 +25,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Created by awhite on 21/10/17.
+ * UI testing for ChatroomActivity
  */
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class ChatroomActivityTest {
@@ -35,8 +36,13 @@ public class ChatroomActivityTest {
     public ActivityTestRule<BaseActivity> mActivityRule =
             new ActivityTestRule<BaseActivity>(BaseActivity.class);
 
+    /*
+     * User UI flow to get to the Chatroom for tests
+     */
     @Before
     public void init() throws Exception {
+
+        // Handles the case when the user isn't logged in
         if (BaseActivity.getCurrentUser() == null) {
             onView(withId(R.id.go_to_login_fragment)).perform(click());
 
@@ -52,12 +58,10 @@ public class ChatroomActivityTest {
             onView(withId(R.id.button_login)).perform(click());
         }
 
+        // Goes to the chat room list fragment
         onView(withId(R.id.generalChat)).perform(click());
-    }
 
-    @Test
-    public void chatroom() throws Exception {
-
+        // Goes to the chatroom
         onView(
                 allOf(
                         withId(R.id.gen_chat_button),
@@ -65,22 +69,35 @@ public class ChatroomActivityTest {
                         isDisplayed()))
                 .perform(click()
                 );
+    }
 
+    /*
+     * Tests that all UI elements required of a chatroom are there
+     * and that they are functional
+     * i.e. can type message into text box
+     */
+    @Test
+    public void chatroom() throws Exception {
+
+        // Checks that the message box is displayed
         onView(
                 withId(R.id.input))
                 .check(matches(isDisplayed())
                 );
 
+        // Simulates a user typing a message
         onView(
                 allOf(withId(R.id.input), isDisplayed()))
                 .perform(replaceText("Hi"), closeSoftKeyboard()
                 );
 
+        // Checks that the message is displayed
         onView(
                 withId(R.id.input))
                 .check(matches(withText("Hi"))
                 );
 
+        // Tries to send message
         onView(
                 allOf(withId(R.id.fab),
                         withParent(allOf(withId(R.id.activity_main),

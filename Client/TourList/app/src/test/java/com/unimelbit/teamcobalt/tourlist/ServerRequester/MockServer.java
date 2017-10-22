@@ -11,8 +11,6 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
- * Created by awhite on 6/10/17.
- *
  * Basic local server to test the code that connects to the heroku server
  */
 

@@ -28,8 +28,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Created by awhite on 21/10/17.
+ * UI tests for the ChatFragment
  */
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class ChatFragmentTest {
@@ -38,8 +39,13 @@ public class ChatFragmentTest {
     public ActivityTestRule<BaseActivity> mActivityRule = new ActivityTestRule<>(
             BaseActivity.class);
 
+    /*
+     *  A user flow that gets to the ChatFragment to test
+     */
     @Before
     public void init() throws Exception {
+
+        // Handles the case when the user isn't logged in
         if (BaseActivity.getCurrentUser() == null) {
             onView(withId(R.id.go_to_login_fragment)).perform(click());
 
@@ -55,6 +61,7 @@ public class ChatFragmentTest {
             onView(withId(R.id.button_login)).perform(click());
         }
 
+        // Goes to the search trip page
         onView(
                 allOf(withId(R.id.searchButtonMain),
                         withText("SEARCH TRIP"),
@@ -62,33 +69,43 @@ public class ChatFragmentTest {
                         isDisplayed()))
                 .perform(click());
 
+        // Does a random search
         onView(
                 allOf(withId(R.id.Random_button),
                         withText("I'm feeling adventurous"),
                         isDisplayed()))
                 .perform(click());
 
+        // Selects the first trip returned
         onView(
                 firstView(withId(R.id.Go_to_trip)))
                 .perform(click());
 
+        // Swipes from trip details tab to chat fragment
         onView(
                 allOf(withId(R.id.trip_container),
                         isDisplayed()))
                 .perform(swipeLeft());
     }
 
+    /*
+     * Checks that all the required fields are displayed
+     * and functional
+     */
     @Test
     public void chatFragment() {
 
+        // Checks that the list of users is displayed
         onView(
                 withId(R.id.userListChat))
                 .check(matches(isDisplayed()));
 
+        // Checks that the join chat button is displayed
         onView(
                 withId(R.id.button_chat))
                 .check(matches(isDisplayed()));
 
+        // Checks you can go to the chat
         onView(
                 allOf(withId(R.id.button_chat),
                         withText("start chatting"),
@@ -96,8 +113,12 @@ public class ChatFragmentTest {
                 .perform(click());
     }
 
+    /*
+     * A matcher that returns the first view matched
+     */
     private <T> Matcher<T> firstView(final Matcher<T> matcher) {
         return new BaseMatcher<T>() {
+
             boolean isFirst = true;
 
             @Override

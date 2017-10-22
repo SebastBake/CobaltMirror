@@ -16,8 +16,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
 
 /**
- * Created by awhite on 5/10/17.
+ * Tests for the ARJSONListener class
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class ARJSONListenerTest {
@@ -25,18 +26,27 @@ public class ARJSONListenerTest {
     ARJSONListener listener;
     Context context;
 
+    /*
+     * Sets up the ARJSONListner before each test
+     */
     @Before
     public void setUp() {
         this.listener = new ARJSONListener();
         this.context = mock(Context.class, withSettings().verboseLogging());
     }
 
+    /*
+     * Checks that the listener is returned
+     */
     @Test
     public void getArchitectJavaScriptInterfaceListener() throws Exception {
         ArchitectJavaScriptInterfaceListener temp = listener.getArchitectJavaScriptInterfaceListener(context);
         assertNotNull(temp);
     }
 
+    /*
+     * Verifies that a new listener is created
+     */
     @Test
     public void createListener() throws Exception {
 
@@ -46,6 +56,9 @@ public class ARJSONListenerTest {
 
     }
 
+    /*
+     * Checks the setter for Listener
+     */
     @Test
     public void setListener() throws Exception {
 

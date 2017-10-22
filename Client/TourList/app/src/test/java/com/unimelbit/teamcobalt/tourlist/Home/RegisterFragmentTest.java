@@ -8,23 +8,24 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertNotNull;
 
 /**
- * Created by awhite on 17/10/17.
+ * Check androidTest folder for tests of RegisterFragment.
+ * The class has no application logic to test, it creates an
+ * Fragment and View to display the login page. The only
+ * application logic is a call to the PostRequester which
+ * has it's own tests.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class RegisterFragmentTest {
 
-    /**
-     * Check androidTest folder for tests of RegisterFragment.
-     * The class has no application logic to test, it creates an
-     * Fragment and View to display the login page. The only
-     * application logic is a call to the PostRequester which
-     * has it's own tests.
+    /*
+     * Checks that a new instance is constructed with the correct properties
      */
-
     @Test
     public void newInstance() throws Exception {
+
         assertNotNull(RegisterFragment.newInstance());
+
     }
 
 }

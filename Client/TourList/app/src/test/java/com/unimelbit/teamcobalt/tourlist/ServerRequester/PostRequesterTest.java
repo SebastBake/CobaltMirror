@@ -11,9 +11,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by awhite on 6/10/17.
- */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class PostRequesterTest {

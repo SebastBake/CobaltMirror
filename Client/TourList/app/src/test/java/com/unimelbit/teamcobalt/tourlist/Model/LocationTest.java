@@ -14,8 +14,10 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by awhite on 5/10/17.
+ * Tests for the Location class.
+ * Location is used to represent a location
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class LocationTest {
@@ -35,14 +37,20 @@ public class LocationTest {
     Double altitude;
     Location location;
 
+    /*
+     * Creates a Location before each test to be used for testing
+     */
     @Before
     public void setUp() throws Exception {
+        // Dummy data
         this.id = "0";
         this.title = "title";
         this.description = "description";
         this.latitude = 0.0;
         this.longitude = 1.0;
         this.altitude = 2.0;
+
+        // Location created
         this.location = new Location(
                 this.id,
                 this.title,
@@ -52,6 +60,9 @@ public class LocationTest {
                 this.altitude);
     }
 
+    /*
+     *  Checks the data is written to the parcel
+     */
     @Test
     public void writeToParcel() throws Exception {
         //Save bundle to parcel
@@ -60,6 +71,7 @@ public class LocationTest {
 
         parcel.setDataPosition(0);
 
+        // Check data is the same as Trip
         assertEquals(parcel.readString(), this.id);
         assertEquals(parcel.readString(), this.title);
         assertEquals(parcel.readString(), this.description);
@@ -78,9 +90,16 @@ public class LocationTest {
 
     }
 
+    /*
+     *  Checks a Map is returned with the correct data
+     */
     @Test
     public void toMap() throws Exception {
+
+        // Gets Map
         Map<String, String> locMap = location.toMap();
+
+        // Compares the data
         assertEquals(locMap.get(JSON_ID), this.id);
         assertEquals(locMap.get(JSON_TITLE), this.title);
         assertEquals(locMap.get(JSON_DESC), this.description);
@@ -90,9 +109,16 @@ public class LocationTest {
 
     }
 
+    /*
+     * Checks a Json Object is returned with the correct data
+     */
     @Test
     public void toJSON() throws Exception {
+
+        // Gets the json
         JSONObject locJson = location.toJSON();
+
+        // Compares the data
         assertEquals(locJson.get(JSON_ID), this.id);
         assertEquals(locJson.get(JSON_TITLE), this.title);
         assertEquals(locJson.get(JSON_DESC), this.description);
@@ -102,35 +128,52 @@ public class LocationTest {
 
     }
 
+    /*
+     * Test the getter for id field
+     */
     @Test
     public void getId() throws Exception {
         assertEquals(this.id, location.getId());
     }
 
+    /*
+     * Test the getter for latitude field
+     */
     @Test
     public void getLatitude() throws Exception {
         assertEquals(this.latitude, location.getLatitude());
     }
 
+    /*
+     * Test the getter for description field
+     */
     @Test
     public void getDescription() throws Exception {
         assertEquals(this.description, location.getDescription());
     }
 
+    /*
+     * Test the getter for title field
+     */
     @Test
     public void getTitle() throws Exception {
         assertEquals(this.title, location.getTitle());
     }
 
+    /*
+     * Test the getter for longitude field
+     */
     @Test
     public void getLongitude() throws Exception {
         assertEquals(this.longitude, location.getLongitude());
     }
 
+    /*
+     * Test the getter for altitude field
+     */
     @Test
     public void getAltitude() throws Exception {
         assertEquals(this.altitude, location.getAltitude());
     }
-
 
 }

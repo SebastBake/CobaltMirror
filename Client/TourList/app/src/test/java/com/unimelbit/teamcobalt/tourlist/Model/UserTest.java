@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by awhite on 5/10/17.
+ * Tests for the User class.
+ * User is used to represent a user
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class UserTest {
@@ -25,6 +27,9 @@ public class UserTest {
     ArrayList<String> savedtrips;
     ArrayList<String> favouritetrips;
 
+    /*
+     * Creates a User before each test to be used for testing
+     */
     @Before
     public void setUp() throws Exception {
         this.id = "0";
@@ -45,6 +50,9 @@ public class UserTest {
                 this.favouritetrips);
     }
 
+    /*
+     * Test that a new user is created to match the provided json
+     */
     @Test
     public void newUserArrayFromJSON() throws Exception {
 //        String expected = "{\"password\":\"" + this.password
@@ -53,31 +61,49 @@ public class UserTest {
 //                "\"}";
     }
 
+    /*
+     * Getter for the id field
+     */
     @Test
     public void getId() throws Exception {
         assertEquals(user.getId(), this.id);
     }
 
+    /*
+     * Getter for the saved trips field
+     */
     @Test
     public void getSavedtrips() throws Exception {
         assertEquals(user.getSavedtrips(), this.savedtrips);
     }
 
+    /*
+     * Getter for the username field
+     */
     @Test
     public void getUsername() throws Exception {
         assertEquals(user.getUsername(), this.username);
     }
 
+    /*
+     * Getter for the password field
+     */
     @Test
     public void getPassword() throws Exception {
         assertEquals(user.getPassword(), this.password);
     }
 
+    /*
+     * Getter for the email field
+     */
     @Test
     public void getEmail() throws Exception {
         assertEquals(user.getEmail(), this.email);
     }
 
+    /*
+     * Getter for the favourite trips field
+     */
     @Test
     public void getFavouritetrips() throws Exception {
         assertEquals(user.getFavouritetrips(), this.favouritetrips);

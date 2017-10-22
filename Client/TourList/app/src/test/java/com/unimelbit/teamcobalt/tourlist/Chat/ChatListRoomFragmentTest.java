@@ -12,19 +12,20 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * Created by awhite on 16/10/17.
+ * Limited Unit tests for ChatRoomListFragment.
+ *
+ * Check androidTest folder for tests of ChatListRoomFragment.
+ * The class has little application logic to test,
+ * it creates an Activity and View for the list of chatrooms.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class ChatListRoomFragmentTest {
 
-    /**
-     * Check androidTest folder for tests of ChatListRoomFragment.
-     * The class has little application logic to test,
-     * it creates an Activity and View for the list of chatrooms.
+    /*
+     * Checks that a new instance is constructed with the correct properties
      */
-
-
     @Test
     public void newInstance() throws Exception {
         ChatListRoomFragment clrf = new ChatListRoomFragment();
@@ -34,6 +35,5 @@ public class ChatListRoomFragmentTest {
         Bundle args = fragment.getArguments();
         assertTrue(args.isEmpty());
     }
-
 
 }

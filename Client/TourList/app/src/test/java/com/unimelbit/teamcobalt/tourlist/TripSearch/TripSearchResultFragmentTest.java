@@ -12,18 +12,18 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 /**
- * Created by awhite on 17/10/17.
+ * Check androidTest folder for tests of TripSearchResultFragment.
+ * The class has no application logic to test, it creates an
+ * Fragment and View that shows the results of a trip search.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class TripSearchResultFragmentTest {
 
-    /**
-     * Check androidTest folder for tests of TripSearchResultFragment.
-     * The class has no application logic to test, it creates an
-     * Fragment and View that shows the results of a trip search.
+    /*
+     * Checks that a new instance is constructed with the correct properties
      */
-
     @Test
     public void newInstance() throws Exception {
         Fragment fragment = TripSearchResultFragment.newInstance("query");
@@ -33,6 +33,5 @@ public class TripSearchResultFragmentTest {
         assertEquals(arg, "query");
 
     }
-
 
 }

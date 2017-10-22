@@ -6,16 +6,19 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
- * Created by awhite on 17/10/17.
+ * Check androidTest folder for tests of ARGoogleGpsProvider.
+ * The class has no application logic to test,
+ * updates the UI with the location data.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class ARGoogleGpsProviderTest {
 
-    /**
-     * Check androidTest folder for tests of ARGoogleGpsProvider.
-     * The class has no application logic to test,
-     * updates the UI with the location data.
+    /*
+     * Place holder because class needs to contain a test
+     *
+     * Replace when/if tests are added.
+     * i.e. if application logic is added to the class.
      */
 
     @Test

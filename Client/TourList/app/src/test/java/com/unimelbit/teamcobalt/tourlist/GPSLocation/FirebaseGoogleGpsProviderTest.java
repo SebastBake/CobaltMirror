@@ -6,18 +6,24 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
- * Created by awhite on 17/10/17.
+ * Can't test without creating a mock Firebase database
+ * and modifying the class so you can specify the database
+ * to post to. Easily tested manually by running the app
+ * and looking at the firebase database to see if data is
+ * posted.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class FirebaseGoogleGpsProviderTest {
 
-    /**
-     * Can't test without creating a mock Firebase database
-     * and modifying the class so you can specify the database
-     * to post to. Easily tested manually by running the app
-     * and looking at the firebase database to see if data is
-     * posted.
+    /*
+     * Place holder because class needs to contain a test
+     *
+     * Replace when/if tests are added.
+     * i.e. if application logic that doesn't  require
+     *      connecting with the firebase database is
+     *      added to the class.
      */
 
     @Test

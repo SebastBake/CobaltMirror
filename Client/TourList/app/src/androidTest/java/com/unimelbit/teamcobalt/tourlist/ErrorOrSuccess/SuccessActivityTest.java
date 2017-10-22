@@ -18,7 +18,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Created by awhite on 21/10/17.
+ * Tests the UI of the SuccessActivity
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -28,13 +28,21 @@ public class SuccessActivityTest {
     public ActivityTestRule<SuccessActivity> mActivityRule = new ActivityTestRule<>(
             SuccessActivity.class);
 
+    /*
+      * Always checks that the SuccessActivity is being displayed before each test
+      */
     @Before
     public void setUp() throws Exception {
         onView(withId(R.id.success_message_out)).check(matches(isDisplayed()));
     }
 
+    /*
+     * Checks that the success page displays the required information
+     */
     @Test
     public void success() {
+
+        // checks that the success message is displayed
         onView(
                 withId(R.id.error_fragment_something_went_right_textview))
                 .check(matches(withText("Success!"))

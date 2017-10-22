@@ -6,17 +6,23 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
- * Created by awhite on 17/10/17.
+ * Can't test without posting to Firebase database.
+ * Would require mocking a Firebase database and possibly
+ * restructuring the code. However it mostly just uses
+ * the firebase library methods which themselves are well tested.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class FireBaseRequesterTest {
 
-    /**
-     * Can't test without posting to Firebase database.
-     * Would require mocking a Firebase database and possibly
-     * restructuring the code. However it mostly just uses
-     * the firebase library methods which themselves are well tested.
+    /*
+     * Place holder because class needs to contain a test
+     *
+     * Replace when/if tests are added.
+     * i.e. if application logic that doesn't  require
+     *      connecting with the firebase database is
+     *      added to the class.
      */
 
     @Test

@@ -22,7 +22,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Created by awhite on 21/10/17.
+ * UI tests for the HomeFragment
  */
 
 @RunWith(AndroidJUnit4.class)
@@ -32,8 +32,13 @@ public class HomeFragmentTest {
     public ActivityTestRule<BaseActivity> mActivityRule = new ActivityTestRule<>(
             BaseActivity.class);
 
+    /*
+     *  A user flow that gets to the HomeFragment to test
+     */
     @Before
     public void init(){
+
+        // Handles the case when the user isn't logged in
         if (BaseActivity.getCurrentUser() == null) {
             onView(withId(R.id.go_to_login_fragment)).perform(click());
 
@@ -51,17 +56,23 @@ public class HomeFragmentTest {
 
     }
 
+    /*
+     * Tests that the key parts required of the Home Fragment are displayed
+     */
     @Test
     public void HomeUI() {
 
+        // Button to go to the my trips page
         onView(withId(R.id.myTripButton)).check(matches(isDisplayed()));
 
+        // Button to go to the create trip page
         onView(withId(R.id.createButtonMain)).check(matches(isDisplayed()));
 
+        // Button to go to search page
         onView(withId(R.id.searchButtonMain)).check(matches(isDisplayed()));
 
+        // Button to go to chatroom list page
         onView(withId(R.id.generalChat)).check(matches(isDisplayed()));
-
 
     }
 }
