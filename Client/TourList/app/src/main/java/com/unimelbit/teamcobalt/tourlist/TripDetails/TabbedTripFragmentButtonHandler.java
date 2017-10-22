@@ -17,8 +17,7 @@ import com.unimelbit.teamcobalt.tourlist.R;
 import java.util.ArrayList;
 
 /**
- * Created by Sebastian on 18/9/17.
- * Handler for the fabs on the tabbed trip fragment
+ * Class to handle the trip details fragment buttons to prevent bloating of the trip details fragment
  */
 class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener  {
 
@@ -33,6 +32,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     private boolean isMainFabActivated;
     private boolean isUserInTrip;
 
+    /**
+     * Simple constructor
+     */
     TabbedTripFragmentButtonHandler(View rootView, BaseActivity activity, TabbedTripFragment fragment) {
 
         this.activity = activity;
@@ -41,9 +43,12 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         initButtons(rootView);
         setIsMainFabActivated(false);
 
-        isUserInTrip = activity.getCurrentTrip().getUserids().contains(activity.getCurrentUser().getId());
+        isUserInTrip = BaseActivity.getCurrentTrip().getUserids().contains(BaseActivity.getCurrentUser().getId());
     }
 
+    /**
+     * Only show floating buttons on the trip details page
+     */
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         if(tab.getPosition() == TripDetailsFragment.TRIP_SECTION_INDEX) {
@@ -54,15 +59,24 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         }
     }
 
+    /**
+     * Required by the tab listener interface
+     */
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
 
     }
 
+    /**
+     * Required by the tab listener interface
+     */
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
     }
 
+    /**
+     * Activation of the main Fab shows the smaller buttons
+     */
     private void setIsMainFabActivated(boolean isMainFabActivated) {
         this.isMainFabActivated = isMainFabActivated;
         if(isMainFabActivated) {
@@ -72,6 +86,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         }
     }
 
+    /**
+     * Change the colour of the location sharing button
+     */
     private void resetLocSharingColor() {
         if(BaseActivity.isLocationSharingOn()) {
 
@@ -85,6 +102,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         }
     }
 
+    /**
+     * Initialise buttons
+     */
     private void initButtons(View rootView) {
 
         editButton = (FloatingActionButton) rootView.findViewById(R.id.edit_button);
@@ -148,6 +168,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         });
     }
 
+    /**
+     * Prevents a non-logged in user from entering chat
+     */
     private boolean checkUserInTrip(){
         if(!isUserInTrip){
             Toast.makeText(activity,"Please save trip first",Toast.LENGTH_LONG).show();
@@ -156,7 +179,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         return true;
     }
 
-
+    /**
+     * Hides all of the buttons (when swiping to a different tab)
+     */
     private void hideAllButtons() {
         editButton.setVisibility(View.GONE);
         locButton.setVisibility(View.GONE);
@@ -165,6 +190,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         mainButton.setVisibility(View.GONE);
     }
 
+    /**
+     * Makes all of the buttons visible
+     */
     private void showAllButtons() {
         editButton.setVisibility(View.VISIBLE);
         locButton.setVisibility(View.VISIBLE);
@@ -173,12 +201,18 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         mapButton.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Hides the smaller buttons
+     */
     private void hideSmallButtons() {
 
         hideAllButtons();
         mainButton.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Shows the small buttons
+     */
     private void showSmallButtons() {
         showAllButtons();
     }

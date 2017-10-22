@@ -8,24 +8,28 @@ import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequest;
 import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
+
 import org.json.JSONException;
+
 import java.util.ArrayList;
 
 /**
- * Created by Sebastian on 14/9/17.
+ * A get request for trip search
  */
 public class TripSearchGetRequest implements GetRequest, TripSearchResultFragment.onFragmentCreatedListener {
 
     private static String LOADING_MSG = "Loading trips...";
     private static String URL_SEARCH_BASE = "https://cobaltwebserver.herokuapp.com/api/trips/search?searchcontent=";
     private static String URL_SEARCH_RANDOM = "https://cobaltwebserver.herokuapp.com/api/trips/findrandom";
+    ArrayList<Trip> trips;
     private String searchQuery;
     private String url;
     private String random_url;
-
     private BaseFragmentContainerManager containerManager;
-    ArrayList<Trip> trips;
 
+    /**
+     * Initiate a search get request
+     */
     TripSearchGetRequest(String searchQuery, BaseFragmentContainerManager containerManager) {
 
         this.searchQuery = searchQuery;
@@ -37,19 +41,21 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
         containerManager.gotoLoadingFragment(LOADING_MSG);
 
         // Start get request
-        if ( searchQuery == "Random_trips"){
+        if (searchQuery == "Random_trips") {
             new GetRequester(this).execute(random_url);
-        }else{
+        } else {
             new GetRequester(this).execute(url);
         }
-
     }
 
+    /**
+     * Process the request result
+     */
     @Override
     public void processResult(String result) {
 
         try {
-            if ( searchQuery == "Random_trips"){
+            if (searchQuery == "Random_trips") {
                 trips = Trip.newTripArrayFromJSON(result, random_url);
             } else {
                 trips = Trip.newTripArrayFromJSON(result, url);
@@ -60,15 +66,21 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
         }
     }
 
+    /**
+     * Handle request failure
+     */
     @Override
     public void requestFailed(String msg, Exception e) {
 
         Log.e("TripGetRequest failed", msg);
         e.printStackTrace();
-        ErrorActivity.newError(containerManager.getBaseActivity(),e,"TripGetRequest failed: " + msg);
+        ErrorActivity.newError(containerManager.getBaseActivity(), e, "TripGetRequest failed: " + msg);
     }
 
-    public void onCreatedView(TripSearchResultFragment fragment,View rootView) throws JSONException {
+    /**
+     * Show result list after result is retrieved
+     */
+    public void onCreatedView(TripSearchResultFragment fragment, View rootView) throws JSONException {
         fragment.showResultsList(trips, rootView);
     }
 }

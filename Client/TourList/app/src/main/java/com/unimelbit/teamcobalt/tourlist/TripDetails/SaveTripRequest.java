@@ -9,12 +9,9 @@ import com.unimelbit.teamcobalt.tourlist.ServerRequester.PutRequester;
 ;import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 /**
- * Created by spike on 16/9/2017.
+ * Put request for a user to shortlist a trip
  */
-
 public class SaveTripRequest implements PutRequest {
 
     private static String LOADING_MSG = "Loading trips...";
@@ -26,6 +23,9 @@ public class SaveTripRequest implements PutRequest {
     BaseActivity activity;
 
 
+    /**
+     *  Initiates a save trip request
+     */
     SaveTripRequest(String tripid, String username, String userid,BaseActivity activity) throws JSONException {
 
         this.tripid = tripid;
@@ -40,6 +40,9 @@ public class SaveTripRequest implements PutRequest {
         new PutRequester(this).execute(url);
     }
 
+    /**
+     * Check that the request was successful, handle the response
+     */
     @Override
     public void processResult(String result,int status) {
         try {
@@ -52,10 +55,13 @@ public class SaveTripRequest implements PutRequest {
         }
     }
 
+    /**
+     * handle a failed request
+     */
     @Override
     public void requestFailed(String msg, Exception e) {
         Log.e("RemoveTripPut failed", msg);
         e.printStackTrace();
-        ErrorActivity.newError(activity,e, "Removing trip failed: " + msg + "\n Here's the exception: " + e.toString());
+        ErrorActivity.newError( activity ,e, "Removing trip failed: " + msg + "\n Here's the exception: " + e.toString());
     }
 }

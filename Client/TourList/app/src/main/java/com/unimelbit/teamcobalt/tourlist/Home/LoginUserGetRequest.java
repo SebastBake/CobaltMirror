@@ -11,7 +11,7 @@ import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
 import java.util.ArrayList;
 
 /**
- * Created by ANn on 18/09/2017.
+ * Login get requester
  */
 class LoginUserGetRequest implements GetRequest {
 

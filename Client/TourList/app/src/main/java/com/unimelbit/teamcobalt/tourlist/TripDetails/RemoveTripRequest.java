@@ -15,10 +15,10 @@ import org.json.JSONObject;
 import static java.security.AccessController.getContext;
 
 /**
- * Created by spike on 16/9/2017.
+ * Initiate a put request to remove a saved trip from a user
  */
-
 public class RemoveTripRequest implements PutRequest {
+
     private static String LOADING_MSG = "Loading trips...";
     private static String URL_REMOVE_BASE = "https://cobaltwebserver.herokuapp.com/api/user/removetrip/";
     private String tripid;
@@ -27,6 +27,9 @@ public class RemoveTripRequest implements PutRequest {
 
     BaseActivity activity;
 
+    /**
+     * Initiate the request
+     */
     RemoveTripRequest(String tripid, String username, String userid, BaseActivity activity) throws JSONException {
 
         this.tripid = tripid;
@@ -45,6 +48,9 @@ public class RemoveTripRequest implements PutRequest {
         new PutRequester(this).execute(url);
     }
 
+    /**
+     * process the result of the request
+     */
     @Override
     public void processResult(String result,int status) {
         try {
@@ -57,6 +63,9 @@ public class RemoveTripRequest implements PutRequest {
         }
     }
 
+    /**
+     * Handle a failed request
+     */
     @Override
     public void requestFailed(String msg, Exception e) {
         Log.e("RemoveTripPut failed", msg);

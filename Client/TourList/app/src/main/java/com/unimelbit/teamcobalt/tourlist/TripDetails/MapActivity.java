@@ -24,7 +24,9 @@ import com.unimelbit.teamcobalt.tourlist.Tracking.GoogleMapTrackingHandler;
 
 import java.util.ArrayList;
 
-
+/**
+ * Shows trip locations on a map
+ */
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -37,6 +39,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     public static final int DEFAULT_ZOOM = 12;
 
+    /**
+     * Required onCreate method to initialise mapActivity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +101,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         isMapReady = true;
     }
 
+    /**
+     * Request user location data from phone gps
+     */
     protected void onResume() {
         super.onResume();
         if (!gpsTool.isRequestingLocation()) {
@@ -103,6 +111,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
+    /**
+     * Stop requesting user location data from phone gps
+     */
     @Override
     protected void onPause() {
         super.onPause();

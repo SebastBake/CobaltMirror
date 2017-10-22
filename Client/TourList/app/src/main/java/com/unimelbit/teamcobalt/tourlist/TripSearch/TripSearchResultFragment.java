@@ -1,30 +1,24 @@
 package com.unimelbit.teamcobalt.tourlist.TripSearch;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
-
-import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
-import com.unimelbit.teamcobalt.tourlist.Model.Trip;
-import com.unimelbit.teamcobalt.tourlist.R;
-
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequest;
+import com.unimelbit.teamcobalt.tourlist.Model.Trip;
+import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TripGetRequestByID;
 
 import org.json.JSONException;
@@ -33,20 +27,24 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by spike on 8/9/2017.
+ * Shows trip search results
  */
-public class TripSearchResultFragment extends Fragment{
+public class TripSearchResultFragment extends Fragment {
 
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
     private String searchQuery;
-
     private onFragmentCreatedListener listener;
-
     private ListAdapter adapter;
 
+    /**
+     * Required public empty constructor
+     */
     public TripSearchResultFragment() {
     }
 
+    /**
+     * Required factory method
+     */
     public static TripSearchResultFragment newInstance(String text) {
 
         TripSearchResultFragment fragment = new TripSearchResultFragment();
@@ -58,6 +56,9 @@ public class TripSearchResultFragment extends Fragment{
         return fragment;
     }
 
+    /**
+     * Required onCreate method
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -68,7 +69,9 @@ public class TripSearchResultFragment extends Fragment{
         }
     }
 
-
+    /**
+     * Inflate the fragment layout
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -76,7 +79,7 @@ public class TripSearchResultFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_search_result, container, false);
 
         try {
-            listener.onCreatedView (this, rootView);
+            listener.onCreatedView(this, rootView);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -84,21 +87,23 @@ public class TripSearchResultFragment extends Fragment{
         return rootView;
     }
 
+    /**
+     * Show the list result
+     */
     public void showResultsList(ArrayList<Trip> trips, View rootView) throws JSONException {
 
         TextView textview = (TextView) rootView.findViewById(R.id.result_text);
 
         String header = trips.size() + " " + getResources().getString(R.string.fragment_searchresults_header) + " " + searchQuery;
 
-
         textview.setText(header);
         getActivity().setTitle(R.string.title_fragment_searchresults);
 
-        final EditText filter = (EditText)rootView.findViewById(R.id.searchFilter);
-        final ListView resultsList = (ListView)rootView.findViewById(R.id.results_list);
+        final EditText filter = (EditText) rootView.findViewById(R.id.searchFilter);
+        final ListView resultsList = (ListView) rootView.findViewById(R.id.results_list);
 
         ArrayList<Map<String, String>> tripMaps = new ArrayList<>();
-        for(Trip trip: trips) {
+        for (Trip trip : trips) {
             tripMaps.add(trip.toMap());
         }
 
@@ -106,15 +111,14 @@ public class TripSearchResultFragment extends Fragment{
                 getContext(),
                 tripMaps,
                 R.layout.fragment_search_results_items,
-                new String[]{Trip.JSON_NAME,Trip.JSON_ID},
-                new int[]{R.id.name,R.id.ID}) {
+                new String[]{Trip.JSON_NAME, Trip.JSON_ID},
+                new int[]{R.id.name, R.id.ID}) {
 
             @Override
-            public View getView (int position, final View convertView, ViewGroup parent)
-            {
+            public View getView(int position, final View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
 
-                Button b = (Button)v.findViewById(R.id.Go_to_trip);
+                Button b = (Button) v.findViewById(R.id.Go_to_trip);
 
 
                 // On button click, go to trip details fragment.
@@ -122,13 +126,13 @@ public class TripSearchResultFragment extends Fragment{
 
                     @Override
                     public void onClick(View arg0) {
-                        RelativeLayout rl = (RelativeLayout)arg0.getParent();
-                        TextView tv = (TextView)rl.findViewById(R.id.name);
-                        TextView tripID = (TextView)rl.findViewById(R.id.ID);
+                        RelativeLayout rl = (RelativeLayout) arg0.getParent();
+                        TextView tv = (TextView) rl.findViewById(R.id.name);
+                        TextView tripID = (TextView) rl.findViewById(R.id.ID);
                         String nameText = tv.getText().toString();
                         String idText = tripID.getText().toString();
                         Toast.makeText(getContext(), nameText, Toast.LENGTH_SHORT).show();
-                        new TripGetRequestByID(idText, ((BaseActivity)getActivity()).getMainContainerManager());
+                        new TripGetRequestByID(idText, ((BaseActivity) getActivity()).getMainContainerManager());
                     }
                 });
 
@@ -138,6 +142,7 @@ public class TripSearchResultFragment extends Fragment{
         };
 
         resultsList.setAdapter(adapter);
+
         // Text Filter for search results
         filter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -146,7 +151,7 @@ public class TripSearchResultFragment extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ((SimpleAdapter)TripSearchResultFragment.this.adapter).getFilter().filter(s);
+                ((SimpleAdapter) TripSearchResultFragment.this.adapter).getFilter().filter(s);
             }
 
             @Override
@@ -155,10 +160,16 @@ public class TripSearchResultFragment extends Fragment{
         });
     }
 
+    /**
+     * Uses the requester to set the trip search result list
+     */
     public void setOnCreatedListener(TripSearchGetRequest request) {
         listener = request;
     }
 
+    /**
+     * Uses the requester to set the trip search result list
+     */
     public interface onFragmentCreatedListener {
         void onCreatedView(TripSearchResultFragment fragment, View rootView) throws JSONException;
     }
