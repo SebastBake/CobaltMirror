@@ -22,8 +22,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Created by awhite on 21/10/17.
+ * UI tests for the MyTripsFragment
  */
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class MyTripsFragmentTest {
@@ -32,8 +33,13 @@ public class MyTripsFragmentTest {
     public ActivityTestRule<BaseActivity> mActivityRule = new ActivityTestRule<>(
             BaseActivity.class);
 
+    /*
+     *  A user flow that gets to the MyTripsFragment to test
+     */
     @Before
     public void init() throws Exception {
+
+        // Handles the case when the user isn't logged in
         if (BaseActivity.getCurrentUser() == null) {
             onView(withId(R.id.go_to_login_fragment)).perform(click());
 
@@ -49,14 +55,17 @@ public class MyTripsFragmentTest {
             onView(withId(R.id.button_login)).perform(click());
         }
 
+        // Goes to the my trips page
         onView(withId(R.id.myTripButton)).perform(click());
     }
 
     @Test
     public void myTrips() throws Exception{
 
+        // Checks heading is displayed
         onView(withId(R.id.your_trips)).check(matches(isDisplayed()));
 
+        // Checks the list of trips is displayed
         onView(withId(R.id.results_list)).check(matches(isDisplayed()));
 
     }

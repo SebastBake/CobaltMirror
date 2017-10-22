@@ -19,14 +19,18 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Created by awhite on 21/10/17.
+ * UI tests for the TripSearchResultFragment
  */
+
 public class TripSearchResultFragmentTest {
 
     @Rule
     public ActivityTestRule<BaseActivity> mActivityRule = new ActivityTestRule<>(
             BaseActivity.class);
 
+    /*
+     *  A user flow that gets to the TripSearchResultFragment to test
+     */
     @Before
     public void init() throws Exception {
         if (BaseActivity.getCurrentUser() == null) {
@@ -44,20 +48,26 @@ public class TripSearchResultFragmentTest {
             onView(withId(R.id.button_login)).perform(click());
         }
 
+        // Goes to the search page
         onView(withId(R.id.searchButtonMain)).perform(click());
 
+        // Does a random search to go to results page
         onView(withId(R.id.Random_button)).perform(click());
 
     }
 
+    /*
+     * Checks that all the required fields are displayed for the results page
+     */
     @Test
     public void tripSearchResults() {
 
-
+        // Checks user can add filters to the results
         onView(
                 withId(R.id.searchFilter))
                 .check(matches(isDisplayed()));
 
+        // Checks the results are displayed
         onView(
                 withId(R.id.results_list))
                 .check(matches(isDisplayed()));

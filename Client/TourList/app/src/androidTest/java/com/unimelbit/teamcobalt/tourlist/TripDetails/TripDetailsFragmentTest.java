@@ -27,8 +27,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Created by awhite on 21/10/17.
+ * UI tests for the TripDetailsFragment
  */
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class TripDetailsFragmentTest {
@@ -37,8 +38,13 @@ public class TripDetailsFragmentTest {
     public ActivityTestRule<BaseActivity> mActivityRule = new ActivityTestRule<>(
             BaseActivity.class);
 
+    /*
+     *  A user flow that gets to the TripDetailsFragment to test
+     */
     @Before
     public void init() throws Exception {
+
+        // Handles the case when the user isn't logged in
         if (BaseActivity.getCurrentUser() == null) {
             onView(withId(R.id.go_to_login_fragment)).perform(click());
 
@@ -54,6 +60,7 @@ public class TripDetailsFragmentTest {
             onView(withId(R.id.button_login)).perform(click());
         }
 
+        // Goes to the search trip page
         onView(
                 allOf(withId(R.id.searchButtonMain),
                         withText("SEARCH TRIP"),
@@ -61,53 +68,69 @@ public class TripDetailsFragmentTest {
                         isDisplayed()))
                 .perform(click());
 
+        // Does a random search
         onView(
                 allOf(withId(R.id.Random_button),
                         withText("I'm feeling adventurous"),
                         isDisplayed()))
                 .perform(click());
 
+        // Selects the first trip returned
         onView(
                 firstView(withId(R.id.Go_to_trip)))
                 .perform(click());
     }
 
+
+    /*
+     * Checks that all the required fields are displayed
+     */
     @Test
     public void TripDetailsFragment() {
 
+        // Checks the trips description is displayed
         onView(
                 withId(R.id.trip_details_description))
                 .check(matches(isDisplayed()));
 
+        // Checks the rough cost of the trip is displayed
         onView(
                 withId(R.id.trip_details_cost))
                 .check(matches(isDisplayed()));
 
+        // Checks the number of users allowed in trip is displayed
         onView(
                 withId(R.id.trip_details_size))
                 .check(matches(isDisplayed()));
 
+        // Checks the trip date is displayed
         onView(
                 withId(R.id.trip_details_date))
                 .check(matches(isDisplayed()));
 
+        // Checks the creator of the trip is diplayed
         onView(
                 withId(R.id.trip_details_owner))
                 .check(matches(isDisplayed()));
 
+        // Checks the locations in the trip are displayed
         onView(
                 withId(R.id.locations_list_view))
                 .check(matches(isDisplayed()));
 
+        // Checks the map is displayed
         onView(
                 allOf(withId(R.id.imageView2)))
                 .check(matches(isDisplayed()));
 
     }
 
-
+    /*
+     * A matcher that returns the first view matched
+     */
     private <T> Matcher<T> firstView(final Matcher<T> matcher) {
         return new BaseMatcher<T>() {
+
             boolean isFirst = true;
 
             @Override
