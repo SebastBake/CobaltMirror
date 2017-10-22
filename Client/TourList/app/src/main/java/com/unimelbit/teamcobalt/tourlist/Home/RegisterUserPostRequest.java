@@ -11,7 +11,7 @@ import com.unimelbit.teamcobalt.tourlist.ServerRequester.PostRequester;
 import org.json.JSONObject;
 
 /**
- * Created by Sebastian on 18/9/17.
+ * Post requester for user to send info to the server and get registered
  */
 
 /**

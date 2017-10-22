@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
@@ -25,8 +24,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.unimelbit.teamcobalt.tourlist.R.color.scheme1_green;
 
 /**
  * A fragment that displays the details of the trip the user is in
@@ -41,14 +38,23 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
     private boolean isUserInTrip;
     private Button saveButton;
 
+    /**
+     * Required pubic empty constructor
+     */
     public TripDetailsFragment() {
     }
 
+    /**
+     * Required factory method
+     */
     public static TripDetailsFragment newInstance() {
         TripDetailsFragment fragment = new TripDetailsFragment();
         return fragment;
     }
 
+    /**
+     * Inflates the fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -69,8 +75,9 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
             imageLoaded = false;
 
         } else {
-            ErrorActivity.newError(getActivity(),"No current trip!");
+            ErrorActivity.newError(getActivity(), "No current trip!");
         }
+
         //Check if user is in trip
         isUserInTrip = BaseActivity.getCurrentTrip().getUserids().contains(BaseActivity.getCurrentUser().getId());
 
@@ -80,10 +87,8 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
             saveButton.setText("Leave");
         }
 
-
         return rootView;
     }
-
 
     /**
      * Initialise all the text in the trip details
@@ -142,6 +147,9 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
         listView.setAdapter(adapter);
     }
 
+    /**
+     * Handle save button click events
+     */
     @Override
     public void onClick(View v) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -149,55 +157,27 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
         if (isUserInTrip) {
             showRemoveAlert(builder);
 
-
         } else {
             showSaveAlert(builder);
         }
     }
 
-   private void showSaveAlert(AlertDialog.Builder builder){
-
-       //Dialogue to display
-       final String message = "Do you want to save this trip?";
-
-       //Save trip if they press OK, otherwise dismiss the display box
-       builder.setMessage(message)
-               .setPositiveButton("OK",
-                       new DialogInterface.OnClickListener() {
-                           public void onClick(DialogInterface d, int id) {
-                               try {
-                                   new SaveTripRequest(trip.getId(), BaseActivity.getCurrentUser().getUsername(),
-                                           BaseActivity.getCurrentUser().getId(),((BaseActivity) getActivity()));
-                               } catch (JSONException e) {
-                                   e.printStackTrace();
-                               }
-                               d.dismiss();
-                           }
-                       })
-               //Do no nothing if user presses 'Cancel' and close dialogue
-               .setNegativeButton("Cancel",
-                       new DialogInterface.OnClickListener() {
-                           public void onClick(DialogInterface d, int id) {
-                               d.cancel();
-                           }
-                       });
-       builder.create().show();
-
-   }
-
-    private void showRemoveAlert(AlertDialog.Builder builder){
+    /**
+     * Show an alert when the save button is pressed
+     */
+    private void showSaveAlert(AlertDialog.Builder builder) {
 
         //Dialogue to display
-        final String message = "Do you want to leave the trip?";
+        final String message = "Do you want to save this trip?";
 
-        //Remove trip from savedtrips if they press OK, otherwise dismiss the display box
+        //Save trip if they press OK, otherwise dismiss the display box
         builder.setMessage(message)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface d, int id) {
                                 try {
-                                    new RemoveTripRequest(trip.getId(), BaseActivity.getCurrentUser().getUsername(),
-                                            BaseActivity.getCurrentUser().getId(),((BaseActivity) getActivity()));
+                                    new SaveTripRequest(trip.getId(), BaseActivity.getCurrentUser().getUsername(),
+                                            BaseActivity.getCurrentUser().getId(), ((BaseActivity) getActivity()));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -213,6 +193,38 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
                         });
         builder.create().show();
 
+    }
+
+    /**
+     * Show an alert to leave the trip
+     */
+    private void showRemoveAlert(AlertDialog.Builder builder) {
+
+        //Dialogue to display
+        final String message = "Do you want to leave the trip?";
+
+        //Remove trip from savedtrips if they press OK, otherwise dismiss the display box
+        builder.setMessage(message)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                try {
+                                    new RemoveTripRequest(trip.getId(), BaseActivity.getCurrentUser().getUsername(),
+                                            BaseActivity.getCurrentUser().getId(), ((BaseActivity) getActivity()));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                d.dismiss();
+                            }
+                        })
+                //Do no nothing if user presses 'Cancel' and close dialogue
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                d.cancel();
+                            }
+                        });
+        builder.create().show();
     }
 }
 

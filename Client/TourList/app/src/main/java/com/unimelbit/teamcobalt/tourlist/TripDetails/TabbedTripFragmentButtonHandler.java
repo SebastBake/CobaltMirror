@@ -12,8 +12,7 @@ import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 /**
- * Created by Sebastian on 18/9/17.
- * Handler for the tabs on the tabbed trip fragment
+ * Class to handle the trip details fragment buttons to prevent bloating of the trip details fragment
  */
 class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener  {
 
@@ -28,6 +27,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     private boolean isMainFabActivated;
     private boolean isUserInTrip;
 
+    /**
+     * Simple constructor
+     */
     TabbedTripFragmentButtonHandler(View rootView, BaseActivity activity, TabbedTripFragment fragment) {
 
         this.activity = activity;
@@ -36,9 +38,12 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         initButtons(rootView);
         setIsMainFabActivated(false);
 
-        isUserInTrip = activity.getCurrentTrip().getUserids().contains(activity.getCurrentUser().getId());
+        isUserInTrip = BaseActivity.getCurrentTrip().getUserids().contains(BaseActivity.getCurrentUser().getId());
     }
 
+    /**
+     * Only show floating buttons on the trip details page
+     */
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         if(tab.getPosition() == TripDetailsFragment.TRIP_SECTION_INDEX) {
@@ -49,18 +54,24 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         }
     }
 
+    /**
+     * Required by the tab listener interface
+     */
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
 
     }
 
+    /**
+     * Required by the tab listener interface
+     */
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
     }
 
     /**
+     * Activation of the main Fab shows the smaller buttons
      * Shows the buttons only when user is on the main fragment of the tabbed fragment
-     * @param isMainFabActivated
      */
     private void setIsMainFabActivated(boolean isMainFabActivated) {
         this.isMainFabActivated = isMainFabActivated;
@@ -90,8 +101,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     }
 
     /**
-     * Initiates all teh buttons on the tabbed trip fragment
-     * @param rootView
+     * Initialise buttons
      */
     private void initButtons(View rootView) {
 
@@ -157,8 +167,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     }
 
     /**
-     * Makes sure user is in trip
-     * @return
+     * Prevents a non-logged in user from entering chat
      */
     private boolean checkUserInTrip(){
         if(!isUserInTrip){
@@ -170,7 +179,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
 
     /**
-     * Removes all buttons from the screen
+     * Hides all of the buttons (when swiping to a different tab)
      */
     private void hideAllButtons() {
         editButton.setVisibility(View.GONE);
@@ -180,6 +189,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         mainButton.setVisibility(View.GONE);
     }
 
+    /**
+     * Makes all of the buttons visible
+     */
     private void showAllButtons() {
         editButton.setVisibility(View.VISIBLE);
         locButton.setVisibility(View.VISIBLE);
@@ -197,6 +209,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         mainButton.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Shows the small buttons
+     */
     private void showSmallButtons() {
         showAllButtons();
     }

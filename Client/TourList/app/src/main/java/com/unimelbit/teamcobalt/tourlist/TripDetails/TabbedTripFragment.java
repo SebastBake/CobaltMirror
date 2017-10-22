@@ -21,10 +21,8 @@ import com.unimelbit.teamcobalt.tourlist.BackButtonInterface;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
-import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
 
-import java.util.ArrayList;
 
 /**
  * Fragment that contains 2 tabbed fragments for trip details and chat
@@ -32,23 +30,31 @@ import java.util.ArrayList;
 public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
     public static final int NUM_TABS = 2;
-
     public static final String INTENT_TRIPID = "com.example.spike.uitest.MESSAGE";
 
+    /**
+     * Required empty public constructor
+     */
     public TabbedTripFragment() {
     }
 
+    /**
+     * Required factory method
+     */
     public static TabbedTripFragment newInstance() {
         return new TabbedTripFragment();
     }
 
+    /**
+     * Inflates the fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_tabbed_trip, container, false);
 
         Trip currentTrip = BaseActivity.getCurrentTrip();
-        getActivity().setTitle(currentTrip.getName() );
+        getActivity().setTitle(currentTrip.getName());
         initTabs(rootView);
 
         return rootView;
@@ -78,9 +84,73 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
         tabLayout.addOnTabSelectedListener(buttonHandler);
     }
 
+    /**
+     * Start AR Activity after checking if GPS is enabled. Display a message to enable the GPS if
+     * it is not on and take user to location services settings page.
+     */
+    public void startAR() {
+
+        GoogleGpsProvider gpsTool = AppServicesFactory.getServicesFactory().getFirebaseGpsProvider(getActivity());
+
+        //Proceed and open activity if GPS is on
+        if (gpsTool.isGPSEnable(getActivity())) {
+
+            Intent intent = new Intent(getActivity(), ARActivity.class);
+            String id = BaseActivity.getCurrentTrip().getId();
+
+            intent.putExtra(INTENT_TRIPID, id);
+
+            startActivity(intent);
+
+        } else {
+
+            //Intent for directing user to the location settings activity
+            final Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            //Dialogue to display
+            final String message = "Please enable GPS before using AR functionality";
+
+            //Direct user to location settings if they press OK, otherwise dismiss the display box
+            builder.setMessage(message)
+                    .setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface d, int id) {
+                                    startActivity(settingsIntent);
+                                    d.dismiss();
+                                }
+                            })
+                    //Do no nothing if user presses 'Cancel' and close dialogue
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface d, int id) {
+                                    d.cancel();
+                                }
+                            });
+            builder.create().show();
+        }
+    }
 
     /**
-     * This adapter will have the trip fragments
+     * Remove tabs when navigating away
+     */
+    @Override
+    public void onDestroyView() {
+        getActivity().findViewById(R.id.trip_tabs).setVisibility(View.GONE);
+        super.onDestroyView();
+    }
+
+    /**
+     * Remove tabs when navigating away
+     */
+    @Override
+    public void onDetach() {
+        getActivity().findViewById(R.id.trip_tabs).setVisibility(View.GONE);
+        super.onDetach();
+    }
+
+    /**
+     * Pager adapter for the tabs
      */
     public class TripPagerAdapter extends FragmentPagerAdapter {
 
@@ -121,66 +191,5 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface{
             }
             return null;
         }
-    }
-
-    /**
-     * Start AR Activity after checking if GPS is enabled. Display a message to enable the GPS if
-     * it is not on and take user to location services settings page.
-     */
-    public void startAR() {
-
-        GoogleGpsProvider gpsTool = AppServicesFactory.getServicesFactory().getFirebaseGpsProvider(getActivity());
-
-        //Proceed and open activity if GPS is on
-        if(gpsTool.isGPSEnable(getActivity())){
-
-            Intent intent = new Intent(getActivity(), ARActivity.class);
-            String id = BaseActivity.getCurrentTrip().getId();
-
-            intent.putExtra(INTENT_TRIPID, id);
-
-            startActivity(intent);
-
-            //Notify the user to turn on the GPS settings
-        } else {
-
-            //Intent for directing user to the location settings activity
-            final Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            //Dialogue to display
-            final String message = "Please enable GPS before using AR functionality";
-
-            //Direct user to location settings if they press OK, otherwise dismiss the display box
-            builder.setMessage(message)
-                    .setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface d, int id) {
-                                    startActivity(settingsIntent);
-                                    d.dismiss();
-                                }
-                            })
-                    //Do no nothing if user presses 'Cancel' and close dialogue
-                    .setNegativeButton("Cancel",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface d, int id) {
-                                    d.cancel();
-                                }
-                            });
-            builder.create().show();
-
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        getActivity().findViewById(R.id.trip_tabs).setVisibility(View.GONE);
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDetach() {
-        getActivity().findViewById(R.id.trip_tabs).setVisibility(View.GONE);
-        super.onDetach();
     }
 }

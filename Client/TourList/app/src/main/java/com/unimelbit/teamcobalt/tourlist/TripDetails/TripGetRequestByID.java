@@ -12,7 +12,6 @@ import com.unimelbit.teamcobalt.tourlist.ServerRequester.GetRequester;
 import java.util.ArrayList;
 
 /**
- * Created by Sebastian on 13/9/17.
  * Initiates a get request to retrieve a trip from the server, and takes the user to the trip
  * details screen once that trip result is retrieved
  */
@@ -20,10 +19,14 @@ public class TripGetRequestByID implements GetRequest {
 
     public static final String DEFAULT_URL = "https://cobaltwebserver.herokuapp.com/api/trips/findbyid/";
     private static final String LOADING_MSG = "Loading trip...";
+    private static final String REQUEST_FAILED_MESSAGE = "TripGetRequest failed\n";
 
     private String url;
     private BaseFragmentContainerManager containerManager;
 
+    /**
+     * Initiates a trip get request
+     */
     public TripGetRequestByID(String query, BaseFragmentContainerManager containerManager) {
 
         this.url = DEFAULT_URL + query;
@@ -36,6 +39,9 @@ public class TripGetRequestByID implements GetRequest {
         new GetRequester(this).execute(url);
     }
 
+    /**
+     * Processes the result of the request
+     */
     @Override
     public void processResult(String result) {
 
@@ -43,15 +49,18 @@ public class TripGetRequestByID implements GetRequest {
             ArrayList<Trip> trip = Trip.newTripArrayFromJSON(result, url);
             containerManager.gotoTabbedTripFragment(trip.get(0));
         } catch (Exception e) {
-            requestFailed("Something failed for url: " + url + " and result: " + result, e);
+            requestFailed(result, e);
         }
     }
 
+    /**
+     * Handles request failure
+     */
     @Override
     public void requestFailed(String msg,Exception e) {
 
-        Log.e("TripGetRequest failed",msg);
+        Log.e(REQUEST_FAILED_MESSAGE,msg);
         e.printStackTrace();
-        ErrorActivity.newError(containerManager.getBaseActivity(),e,"TripGetRequest failed: " + msg);
+        ErrorActivity.newError(containerManager.getBaseActivity(),e,REQUEST_FAILED_MESSAGE + msg);
     }
 }
