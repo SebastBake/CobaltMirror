@@ -1,5 +1,5 @@
 # Morange - A Travel App
-Morange is a travel app for meeting new people and exploring new places. The app allows people to arrange trips by making it easy to share the locations, date, cost, and size of a trip with other like-minded travellers. The app also has chat and AR functionality, further helping people to meet up and navigate while travelling.
+Morange is a travel app for enhancing travelling experience, meeting new people and exploring new places. The app allows people to arrange trips by making it easy to share the locations, date, cost, and size of a trip with other like-minded travellers. The app also has chat and AR functionality, further helping people to communicate, meet up and navigate while travelling.
 
 ## Getting Started
 
@@ -21,7 +21,7 @@ Contact one of the project members to get the required licenses for development 
 
 ### Logo and images
 
-The logos and various UI components (excluding Wikitude assets used in AR) were created through Adobe Illustrator.
+The logos and various UI components (excluding Wikitude assets used in AR) were created through Adobe Illustrator. In order to customize the app's layout please refer to related xml file in res to adjust. Information about colour scheme, design ideas and user experience testing are provided in supporting documents attached. Otherwise, please contact our team members for further details. 
 
 ### API/Libraries setup
 
@@ -32,19 +32,19 @@ Please note that the libraries may not be up to date in the future and the funct
 To enable correct function of the various libraries and function of the app, the AndroidManifest.xml requires the following permissions:
 
     <uses-permission android:name="android.permission.INTERNET" />
-    
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    
+
     <uses-permission android:name="android.permission.ACCESS_GPS" />
-    
+
     <uses-permission android:name="android.permission.CAMERA" />
-    
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 #### Wikitude
@@ -65,7 +65,7 @@ The Wikitude library is found under the lib folder in the root.
 The following dependency should be added:
 
       compile(name: 'wikitudesdk', ext: 'aar')
-      
+
 The activity containing the Wikitude AR view must contain the following in the layout.xml:
 
     <com.wikitude.architect.ArchitectView android:id="@+id/architectView"
@@ -96,14 +96,14 @@ In the AndroidManifest.xml, the following features are utilised and requried as 
 
 The app will utilise the following libraries:
 
-- Google Places API for Android 
-- Google Maps Android API 
+- Google Places API for Android
+- Google Maps Android API
 - Google Static Maps API
 
 To get keys for the api, the user must head into: https://console.developers.google.com
 The console will allow the user to activate the various APIs and enable them for use in the app.
 To add the key, open the AndroidManifest.xml and search for
-        
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value= YOUR_ANDROID_KEY/>
@@ -112,22 +112,22 @@ Under the application header.
 It is important for the following to be in the build.gradle file:
 
   dependencies:
-      
+
       compile 'com.google.maps.android:android-maps-utils:0.4.+'
-      
+
       compile 'com.google.android.gms:play-services:11.2.0'
 
       compile 'com.squareup.picasso:picasso:2.3.3'
 
   repositories:
-      
+
       flatDir {
           dirs 'libs'
       }
       maven {
           url "https://maven.google.com"
       }
-      
+
 Picasso is used to load images from the Static Maps API into the image views.
 
 #### Firebase Setup
@@ -140,42 +140,51 @@ And link the account to a google project that has the keys for the Google APIs. 
 The dependencies required include:
 
     compile 'com.google.firebase:firebase-core:11.2.0'
-    
+
     compile 'com.google.firebase:firebase-database:11.2.0'
-    
+
     compile 'com.google.firebase:firebase-auth:11.2.0'
-    
+
     compile 'com.google.firebase:firebase-messaging:11.2.0'
-    
+
     compile 'com.firebaseui:firebase-ui:0.6.0'
-    
+
     compile 'com.google.firebase:firebase-crash:10.2.0'
-    
+
 The JSON can also be directly loaded into the project from Android Studio by opening Tools > Firebase. This will open a Firebase side bar, which allows the user to connect the app to their Firebase account that has been set up with the project.
 
-#### Permission Manager
+## Android unit testing
 
-The PermissionManager.java class utilised by the app is for checking permissions when first running the app.
-The author of the code is karanchuri, and the git repository can be found at: https://github.com/karanchuri/PermissionManager
-
-
-### Android unit testing
-
+### Code tests
 There are a suite of unit tests in the folder /Cobalt/Client/TourList/app/src/test/java/.
 Run the tests whenever you make a change to ensure the changes haven't created undesired side effects.
 This will utilise the [Mockito library](http://site.mockito.org/), JUnit and [Robolectric](http://robolectric.org/).
 Ensure the depedencies have been compiled in the build.gradle for testing:
 
     testCompile 'junit:junit:4.12'
-    
+
     testCompile 'org.robolectric:robolectric:3.4.2'
-    
+
     testCompile 'org.robolectric:shadows-support-v4:3.0'
-    
+
     testCompile 'org.mockito:mockito-core:1.10.19'
-    
+
 When running the app from studio, these tests will automatically run before the application is loaded to the device to ensure changes do not break the other functions.
 You can run the tests directly from studio from right clicking the test package and directly running the tests.
+
+### Instrumental tests
+When testing the UI, an emulator or phone is required to run the app to perform a series of instrumental tests.
+These tests run when the user right clicks the test folder and chooses to run the tests. The package can be found at \Cobalt\Client\TourList\app\src\androidTest\java\com\unimelbit\teamcobalt.
+The tests were performed using Android studio and were powered by [Robolectric](https://github.com/robolectric/robolectric) along with its [PowerMock](https://github.com/robolectric/robolectric/wiki/Using-PowerMock) functionality to perform the instrumental tests, along with the standard JUnit and Mockito tests as well.
+Please ensure the following dependencies are present, along with code unit test dependencies above:
+
+    testCompile "org.powermock:powermock-module-junit4:1.6.4"
+    
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.4"
+    
+    testCompile "org.powermock:powermock-api-mockito:1.6.4"
+    
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
 
 ### Server Setup & Use
 
@@ -202,10 +211,10 @@ For example in `CreateTripPostRequest.java`, modify:
 
 `private static final String CREATE_TRIP_URL = https://<YOUR SERVER ADDRESS>/<NAME OF YOUR ROUTE>`
 
-#### Server testing
+### Server testing
 
 Server-side testing is done using [mocha](https://mochajs.org/) and [chai](http://chaijs.com/).
-Both can be installed using `npm install`. 
+Both can be installed using `npm install`.
 
 Tests can be found and added in `./tests/tests.js`.  
 To run tests use the `npm test` command.
@@ -218,8 +227,9 @@ To run tests use the `npm test` command.
 * [Google libraries](https://developers.google.com/api-client-library/java/) - Google APIs
 * [PermissionManager](https://github.com/karanchuri/PermissionManager) - Permission manager
 * [Picasso](http://square.github.io/picasso/) - Image manager
-* [Mockito](http://site.mockito.org/) - Android Testing
-* [Robolectric](http://robolectric.org/) - Android Testing
+* [Mockito](http://site.mockito.org/) - Android Code Testing
+* [Robolectric](http://robolectric.org/) - Android Code Testing
+* [Robolectric - Powermock](https://github.com/robolectric/robolectric/wiki/Using-PowerMock) - Android Instrumental Testing
 
 ## Authors - Team Cobalt
 
@@ -227,9 +237,8 @@ To run tests use the `npm test` command.
 * **Spike** - *Dev Team* - [spikel@studenet.unimelb.edu.au](spikel@student.unimelb.edu.au)
 * **Sebastian** - *Dev Team* - [sebastianb1@student.unimelb.edu.au](sebastianb1@student.unimelb.edu.au)
 * **Alexander** - *QA Lead* - [awhite5@student.unimelb.edu.au](awhite5@student.unimelb.edu.au)
-* **An** - *Design Lead* - [thanhn6@student.unimelb.edu.au](thanhn6@student.unimelb.edu.au) 
+* **An** - *Design Lead* - [thanhn6@student.unimelb.edu.au](thanhn6@student.unimelb.edu.au)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-

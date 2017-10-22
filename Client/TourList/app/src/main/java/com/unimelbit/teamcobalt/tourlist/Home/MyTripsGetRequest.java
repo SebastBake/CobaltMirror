@@ -41,9 +41,14 @@ public class MyTripsGetRequest implements GetRequest, MyTripsFragment.onFragment
         new GetRequester(this).execute(url);
     }
 
+    /**
+     * Process the results from the request and interpret what to do with them
+     * @param result
+     */
     @Override
     public void processResult(String result) {
 
+        //If the retrieval was successful, then all is fine. If not, it was a network error
         try {
             trips = Trip.newTripArrayFromJSON(result, url);
             containerManager.gotoMyTripsFragment(this);
@@ -52,6 +57,11 @@ public class MyTripsGetRequest implements GetRequest, MyTripsFragment.onFragment
         }
     }
 
+    /**
+     * Have the user see an error if the trip request failed due to some network error
+     * @param msg
+     * @param e
+     */
     @Override
     public void requestFailed(String msg, Exception e) {
 

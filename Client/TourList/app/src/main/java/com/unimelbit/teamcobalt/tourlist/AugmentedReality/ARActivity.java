@@ -5,18 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
-import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
 import com.unimelbit.teamcobalt.tourlist.TripDetails.TabbedTripFragment;
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Class that is responsible for containing and initialising the AR View.
@@ -77,7 +69,8 @@ public class ARActivity extends AppCompatActivity {
 
 
 
-    /**Create view with the JS and assets provided in this function
+    /*
+     * Create view with the JS and assets provided in this function
      */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -95,7 +88,8 @@ public class ARActivity extends AppCompatActivity {
     }
 
 
-    /** Resume app settings
+    /*
+     * Resume app settings
      */
     @Override
     protected void onResume() {
@@ -107,7 +101,8 @@ public class ARActivity extends AppCompatActivity {
 
     }
 
-    /** Destroy activity
+    /*
+     * Destroy activity
      */
     @Override
     protected void onDestroy() {
@@ -116,7 +111,8 @@ public class ARActivity extends AppCompatActivity {
 
     }
 
-    /** Settings when acitivty paused
+    /*
+     * Settings when activity paused
      */
     @Override
     protected void onPause() {

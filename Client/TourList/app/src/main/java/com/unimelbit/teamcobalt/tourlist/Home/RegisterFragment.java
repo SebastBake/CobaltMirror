@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
+/**
+ * Register fragment for users to register themselves
+ */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     public static final String FILL_FORM_MESSAGE = "Enter details";
@@ -53,9 +56,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             String password = passwordText.getText().toString();
             String email = emailText.getText().toString();
 
+            //Check if what they input is valid
             if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
                 Toast.makeText(getActivity(), FILL_FORM_MESSAGE , Toast.LENGTH_SHORT).show();
 
+                //If valid, send the request for sign up
             } else {
                 new RegisterUserPostRequest(username, password, email, (BaseActivity) getActivity());
             }

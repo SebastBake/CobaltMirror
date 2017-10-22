@@ -89,8 +89,6 @@ public class GoogleGpsProviderTest {
 
         gps.setmRequestingLocationUpdates(false);
         assertFalse(gps.isRequestingLocation());
-
-
     }
 
     @Test

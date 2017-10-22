@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
+import com.karan.churi.PermissionManager.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.TabbedCreateOrEditTripFragment;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
@@ -42,7 +42,6 @@ import java.util.ArrayList;
  */
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String DEMOTRIP_NAME = "DemoTrip"; // this will be removed eventually
     public static final String MyPREFERENCES = "MyPrefs";
     private static final String STARTUP_FAIL_MESSAGE = "Couldn't start BaseActivity";
     private static final String RESUME_FAIL_MESSAGE = "Couldn't resume BaseActivity";
@@ -59,6 +58,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private static BaseFragmentContainerManager mainContainer;
 
     private PermissionManager permission;
+
     private GoogleGpsProvider gpsTool;
 
     /**
@@ -390,6 +390,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         Fragment fragmentInstance = new LoginOrRegisterFragment();
         SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        locationSharing = false;
+        ((FirebaseGoogleGpsProvider)gpsTool).stopTrack(currentUser);
 
         editor.remove("nameKey");
         editor.remove("passwordKey");

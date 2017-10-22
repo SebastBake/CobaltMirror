@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertNotNull;
 
@@ -12,8 +13,8 @@ import static junit.framework.Assert.assertNotNull;
  *
  * Not much to test as Fragments are mostly interface/UI
  */
-
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class LoadingFragmentTest {
 
     LoadingFragment loadingFragment;

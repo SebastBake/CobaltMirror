@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -13,8 +14,8 @@ import static org.mockito.Mockito.verify;
 /**
  * Created by awhite on 6/10/17.
  */
-
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class GetRequesterTest {
 
     GetRequest request;

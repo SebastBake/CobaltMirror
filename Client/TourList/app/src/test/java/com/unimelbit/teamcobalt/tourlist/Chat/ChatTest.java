@@ -2,6 +2,9 @@ package com.unimelbit.teamcobalt.tourlist.Chat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Date;
 
@@ -11,6 +14,8 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Created by awhite on 8/10/17.
  */
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class ChatTest {
 
     String text;

@@ -13,8 +13,13 @@ import org.json.JSONObject;
 /**
  * Post requester for user to send info to the server and get registered
  */
+
+/**
+ * Post requester for user to send info to the server and get registered
+ */
 class RegisterUserPostRequest implements PostRequest {
 
+    //Various messages
     private static final String LOADING_MSG = "Registering User ...";
     private static final String GET_DATA_FAILED = "Failed to create post request in RegisterUserPostRequest.getDataToSend()";
     private static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "Email already registered";
@@ -36,23 +41,35 @@ class RegisterUserPostRequest implements PostRequest {
         new PostRequester(this).execute(REGISTER_URL);
     }
 
+    /**
+     * Processes the reuslts and will determine if the user was successful with registering
+     * @param result
+     * @param status
+     */
     @Override
     public void processResult(String result, int status) {
 
+        //Give an error if the user already is part of the app
         if(result.equalsIgnoreCase(REGISTER_URL)) {
             requestFailed(USER_ALREADY_EXISTS_ERROR_MESSAGE, new Exception(USER_ALREADY_EXISTS_ERROR_MESSAGE+result));
             return;
         }
 
+        //Login the user if they have registered successfully
         try {
             User user = User.newUserFromJSON(new JSONObject(result));
             activity.getMainContainer().gotoLoginOrRegisterFragmentWithMessage(REGISTER_SUCCESS_MESSAGE + user.getUsername());
 
+            //Get an error with network problem
         } catch (Exception e) {
             requestFailed(GENERAL_ERROR_MESSAGE + result, e);
         }
     }
 
+    /**
+     * Build the JSON to send to the server containing the sign up information
+     * @return
+     */
     @Override
     public String getDataToSend() {
 
@@ -66,13 +83,18 @@ class RegisterUserPostRequest implements PostRequest {
             return out;
         } catch (Exception e) {
 
-            // massive error lol
+            // massive error
             e.printStackTrace();
             ErrorActivity.newError(activity, e, GET_DATA_FAILED);
         }
         return null;
     }
 
+    /**
+     * If user fails to register, then display the error message
+     * @param msg
+     * @param e
+     */
     @Override
     public void requestFailed(String msg, Exception e) {
         Log.e("RegUserPostReq failed", msg);

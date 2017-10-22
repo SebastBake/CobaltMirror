@@ -9,12 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Model.Location;
-import com.unimelbit.teamcobalt.tourlist.Model.Trip;
-import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
-
-import java.util.ArrayList;
 
 /**
  * Class to handle the trip details fragment buttons to prevent bloating of the trip details fragment
@@ -76,6 +71,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
 
     /**
      * Activation of the main Fab shows the smaller buttons
+     * Shows the buttons only when user is on the main fragment of the tabbed fragment
      */
     private void setIsMainFabActivated(boolean isMainFabActivated) {
         this.isMainFabActivated = isMainFabActivated;
@@ -87,17 +83,19 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     }
 
     /**
-     * Change the colour of the location sharing button
+     * Sets the location sharing button colour
      */
     private void resetLocSharingColor() {
         if(BaseActivity.isLocationSharingOn()) {
 
-            ColorStateList greenColour = ColorStateList.valueOf(ResourcesCompat.getColor(fragment.getResources(), R.color.scheme1_green, null));
+            ColorStateList greenColour = ColorStateList.valueOf(ResourcesCompat
+                    .getColor(fragment.getResources(), R.color.scheme1_green, null));
             locButton.setBackgroundTintList(greenColour);
 
         } else {
 
-            ColorStateList redColour = ColorStateList.valueOf(ResourcesCompat.getColor(fragment.getResources(), R.color.scheme1_red, null));
+            ColorStateList redColour = ColorStateList.valueOf(ResourcesCompat
+                    .getColor(fragment.getResources(), R.color.scheme1_red, null));
             locButton.setBackgroundTintList(redColour);
         }
     }
@@ -178,6 +176,7 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         }
         return true;
     }
+
 
     /**
      * Hides all of the buttons (when swiping to a different tab)

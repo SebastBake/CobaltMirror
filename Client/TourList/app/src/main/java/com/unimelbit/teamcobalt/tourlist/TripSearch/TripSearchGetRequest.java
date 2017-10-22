@@ -16,6 +16,10 @@ import java.util.ArrayList;
 /**
  * A get request for trip search
  */
+
+/**
+ * Get requester for the searched trips
+ */
 public class TripSearchGetRequest implements GetRequest, TripSearchResultFragment.onFragmentCreatedListener {
 
     private static String LOADING_MSG = "Loading trips...";
@@ -55,9 +59,11 @@ public class TripSearchGetRequest implements GetRequest, TripSearchResultFragmen
     public void processResult(String result) {
 
         try {
-            if (searchQuery == "Random_trips") {
+            //Randomise the trips list
+            if ( searchQuery == "Random_trips"){
                 trips = Trip.newTripArrayFromJSON(result, random_url);
             } else {
+                //Get an actual search
                 trips = Trip.newTripArrayFromJSON(result, url);
             }
             containerManager.gotoTripSearchResultFragment(searchQuery, this);

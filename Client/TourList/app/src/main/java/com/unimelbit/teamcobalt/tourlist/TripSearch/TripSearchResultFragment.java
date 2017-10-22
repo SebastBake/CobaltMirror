@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Shows trip search results
+ * Displays the search results for trips as a list of trips
  */
-public class TripSearchResultFragment extends Fragment {
+public class TripSearchResultFragment extends Fragment{
 
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
     private String searchQuery;
@@ -88,7 +88,10 @@ public class TripSearchResultFragment extends Fragment {
     }
 
     /**
-     * Show the list result
+     * Displays the trips in the fragment as a simple listview through an adapter
+     * @param trips
+     * @param rootView
+     * @throws JSONException
      */
     public void showResultsList(ArrayList<Trip> trips, View rootView) throws JSONException {
 
@@ -102,11 +105,13 @@ public class TripSearchResultFragment extends Fragment {
         final EditText filter = (EditText) rootView.findViewById(R.id.searchFilter);
         final ListView resultsList = (ListView) rootView.findViewById(R.id.results_list);
 
+        //Initialise the list of trips
         ArrayList<Map<String, String>> tripMaps = new ArrayList<>();
         for (Trip trip : trips) {
             tripMaps.add(trip.toMap());
         }
 
+        //Set up the adapter to contain the results
         adapter = new SimpleAdapter(
                 getContext(),
                 tripMaps,

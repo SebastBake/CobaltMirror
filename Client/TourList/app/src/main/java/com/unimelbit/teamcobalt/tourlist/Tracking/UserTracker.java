@@ -109,4 +109,5 @@ public class UserTracker {
     public Bitmap getUserIcon() {
         return userIcon;
     }
+
 }

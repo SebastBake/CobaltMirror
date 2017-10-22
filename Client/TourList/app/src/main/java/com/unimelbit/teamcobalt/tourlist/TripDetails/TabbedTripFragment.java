@@ -23,10 +23,11 @@ import com.unimelbit.teamcobalt.tourlist.GPSLocation.GoogleGpsProvider;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 
+
 /**
- * Handles the tabs for the trip screen
+ * Fragment that contains 2 tabbed fragments for trip details and chat
  */
-public class TabbedTripFragment extends Fragment implements BackButtonInterface {
+public class TabbedTripFragment extends Fragment implements BackButtonInterface{
 
     public static final int NUM_TABS = 2;
     public static final String INTENT_TRIPID = "com.example.spike.uitest.MESSAGE";
@@ -60,11 +61,13 @@ public class TabbedTripFragment extends Fragment implements BackButtonInterface 
     }
 
     /**
-     * Initialises the tabs
+     * Initates the tabs for the tabbed view
+     * @param rootView
      */
     private void initTabs(View rootView) {
 
-        TabbedTripFragmentButtonHandler buttonHandler = new TabbedTripFragmentButtonHandler(rootView, (BaseActivity) getActivity(), this);
+        TabbedTripFragmentButtonHandler buttonHandler = new TabbedTripFragmentButtonHandler(rootView,
+                (BaseActivity) getActivity(), this);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

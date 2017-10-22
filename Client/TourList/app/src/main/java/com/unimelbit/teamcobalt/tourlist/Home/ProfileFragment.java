@@ -24,10 +24,10 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Map;
 
+/***
+ * Simple profile fragment to show who has logged into the app at the time
+ */
 public class ProfileFragment extends Fragment {
-
-
-    private ListAdapter adapter;
 
     public ProfileFragment() {
     }

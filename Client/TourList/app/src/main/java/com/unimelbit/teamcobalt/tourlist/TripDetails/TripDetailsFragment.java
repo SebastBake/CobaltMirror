@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Trip details fragment
+ * A fragment that displays the details of the trip the user is in
  */
 public class TripDetailsFragment extends Fragment implements View.OnClickListener {
 
@@ -63,6 +63,7 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
         imageDetail = (ImageView) rootView.findViewById(R.id.imageView2);
         pILoader = new PlaceImageLoader(getActivity());
 
+        //Only load if there is a trip in the first place
         if (BaseActivity.getCurrentTrip() != null) {
 
             trip = BaseActivity.getCurrentTrip();
@@ -90,7 +91,9 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * Initialises the text boxes
+     * Initialise all the text in the trip details
+     * @param rootView
+     * @param trip
      */
     private void initTextBoxes(View rootView, Trip trip) {
 
@@ -112,7 +115,9 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * Initialises the locations list
+     * Display a list of locations that were originally saved
+     * @param rootView
+     * @param trip
      */
     private void initLocationsList(View rootView, Trip trip) {
 
@@ -131,6 +136,7 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
             }
         }
 
+        //Adapter that displays the list
         SimpleAdapter adapter = new SimpleAdapter(
                 getContext(),
                 locationsList,

@@ -13,8 +13,13 @@ import java.util.ArrayList;
 /**
  * Login get requester
  */
+
+/**
+ * Login get requester
+ */
 class LoginUserGetRequest implements GetRequest {
 
+    //Messages that will be used in the requester
     private static final String LOADING_MSG = "Logging in...";
     private static final String INCORRECT_LOGIN_MESSAGE = "Incorrect username or password!";
     private static final String NETWORK_ERROR_MESSAGE = "Network error!";
@@ -37,6 +42,11 @@ class LoginUserGetRequest implements GetRequest {
         new GetRequester(this).execute(url);
     }
 
+    /**
+     * Process the results that have been returned and act accordingly by taking them into
+     * the app if the details they provided are valid
+     * @param result
+     */
     @Override
     public void processResult(String result) {
         try {
@@ -47,6 +57,7 @@ class LoginUserGetRequest implements GetRequest {
                 User user = users.get(0);
                 BaseActivity.setCurrentUser(user);
 
+                //Setting up the sessions
                 SharedPreferences.Editor editor = BaseActivity.sharedpreferences.edit();
 
                 editor.putString(SESSION_NAME_KEY, user.getUsername());
@@ -60,11 +71,17 @@ class LoginUserGetRequest implements GetRequest {
                 activity.getMainContainer().gotoLoginFragmentWithMessage(INCORRECT_LOGIN_MESSAGE);
             }
 
+            //Will throw if network error
         } catch (Exception e) {
             requestFailed("Something failed for url: " + url + " and result: " + result, e);
         }
     }
 
+    /**
+     * Display an error due to the network acting up
+     * @param msg
+     * @param e
+     */
     @Override
     public void requestFailed(String msg, Exception e) {
         Log.e("Login failed", msg);

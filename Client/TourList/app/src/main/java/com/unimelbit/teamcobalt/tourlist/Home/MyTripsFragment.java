@@ -24,6 +24,9 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Fragment that displays the trips users have saved
+ */
 public class MyTripsFragment extends Fragment implements BackButtonInterface {
 
     private onFragmentCreatedListener listener;
@@ -62,10 +65,12 @@ public class MyTripsFragment extends Fragment implements BackButtonInterface {
     }
 
 
-
-    /*
-      Creates the list of saved trips
-    */
+    /**
+     * Create a list of trips the user has saved
+     * @param trips
+     * @param rootView
+     * @throws JSONException
+     */
     public void showResultsList(ArrayList<Trip> trips, View rootView) throws JSONException {
 
         TextView tripsMsg = (TextView) rootView.findViewById(R.id.your_trips);
@@ -80,6 +85,7 @@ public class MyTripsFragment extends Fragment implements BackButtonInterface {
             tripMaps.add(trip.toMap());
         }
 
+        //Adapter for the list of trips user has. This will pull the trip info for the said user
         adapter = new SimpleAdapter(
                 getContext(),
                 tripMaps,
@@ -100,12 +106,16 @@ public class MyTripsFragment extends Fragment implements BackButtonInterface {
 
                     @Override
                     public void onClick(View arg0) {
+
+                        //Get information about the trip
                         RelativeLayout rl = (RelativeLayout)arg0.getParent();
                         TextView tv = (TextView)rl.findViewById(R.id.name);
                         TextView tripID = (TextView)rl.findViewById(R.id.ID);
                         String nameText = tv.getText().toString();
                         String idText = tripID.getText().toString();
                         Toast.makeText(getContext(), nameText, Toast.LENGTH_SHORT).show();
+
+                        //Send user to the trip
                         new TripGetRequestByID(idText, ((BaseActivity)getActivity()).getMainContainerManager());
                     }
                 });
@@ -118,6 +128,10 @@ public class MyTripsFragment extends Fragment implements BackButtonInterface {
         resultsList.setAdapter(adapter);
     }
 
+    /**
+     * Set the listener for the request
+     * @param request
+     */
     public void setOnCreatedListener(MyTripsGetRequest request) {
         listener = request;
     }

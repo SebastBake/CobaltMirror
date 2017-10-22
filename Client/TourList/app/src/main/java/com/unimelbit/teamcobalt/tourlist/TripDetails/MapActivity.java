@@ -25,7 +25,7 @@ import com.unimelbit.teamcobalt.tourlist.Tracking.GoogleMapTrackingHandler;
 import java.util.ArrayList;
 
 /**
- * Shows trip locations on a map
+ * Map activity that displays a google map for user tracking
  */
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
