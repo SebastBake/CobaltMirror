@@ -65,7 +65,7 @@ public class LoginFragmentTest {
     @Test
     public void login() {
 
-        String username = "newTestUser";
+        String username = "NewTestUser";
         onView(withId(R.id.login_username_field))
                 .perform(typeText(username), closeSoftKeyboard())
                 .check(matches(withText(username)));
