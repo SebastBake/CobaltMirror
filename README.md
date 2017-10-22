@@ -172,6 +172,16 @@ Ensure the depedencies have been compiled in the build.gradle for testing:
     testCompile 'org.robolectric:shadows-support-v4:3.0'
 
     testCompile 'org.mockito:mockito-core:1.10.19'
+        
+    testCompile "org.powermock:powermock-module-junit4:1.6.4"
+    
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.4"
+    
+    testCompile "org.powermock:powermock-api-mockito:1.6.4"
+        
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
+    
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
 
 When running the app from studio, these tests will automatically run before the application is loaded to the device to ensure changes do not break the other functions.
 You can run the tests directly from studio from right clicking the test package and directly running the tests.
@@ -182,16 +192,12 @@ These tests run when the user right clicks the test folder and chooses to run th
 
     \Cobalt\Client\TourList\app\src\androidTest\
 
-The tests were performed using Android studio and were powered by [Robolectric](https://github.com/robolectric/robolectric) along with its [PowerMock](https://github.com/robolectric/robolectric/wiki/Using-PowerMock) functionality to perform the instrumental tests, along with the standard JUnit and Mockito tests as well.
+The tests were performed using Android studio and were powered by [Espresso](https://developer.android.com/training/testing/espresso/index.html)  functionality to perform the instrumental tests, along with the standard JUnit as well.
 Please ensure the following dependencies are present, along with code unit test dependencies above:
 
-    testCompile "org.powermock:powermock-module-junit4:1.6.4"
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
     
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.4"
-    
-    testCompile "org.powermock:powermock-api-mockito:1.6.4"
-    
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
 
 ## Server Setup & Use
 
