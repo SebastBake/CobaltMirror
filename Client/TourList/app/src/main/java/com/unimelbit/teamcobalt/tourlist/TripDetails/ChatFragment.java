@@ -1,13 +1,11 @@
 package com.unimelbit.teamcobalt.tourlist.TripDetails;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,13 +19,14 @@ import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.util.ArrayList;
 
-
+/**
+ * Chat fragment that shows user who is in the trip and a button to join the chat room
+ */
 public class ChatFragment extends Fragment implements View.OnClickListener{
     public static final int TRIP_SECTION_INDEX = 1;
 
     private Button chatButton;
     private TextView title, info;
-    private ListView list;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> userList;
     private BaseActivity base;
@@ -89,17 +88,27 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
         int id = view.getId();
 
         if(id == R.id.button_chat){
+            //If user in trip, initialise the parameters to enter the chat room
             if (checkUserInTrip()) {
+
                 String roomName = BaseActivity.getCurrentTrip().getName();
                 String roomId = BaseActivity.getCurrentTrip().getId();
 
                 ChatAdaptor chatService = AppServicesFactory.getServicesFactory().getFirebaseChatService(getActivity());
+                //Check the room exists
                 chatService.checkRoom(roomId);
-                chatService.enterChatRoom(BaseActivity.getCurrentUser().getId(), roomName, roomId, base.getCurrentTrip().getUserids(), username);
+
+                //Enter the chat room
+                chatService.enterChatRoom(BaseActivity.getCurrentUser().getId(), roomName, roomId,
+                        base.getCurrentTrip().getUserids(), username);
             }
         }
     }
 
+    /**
+     * Only lets the user enter the chat if they are in the trip, otherwise tell them to join
+     * @return
+     */
     private boolean checkUserInTrip(){
         if(!isUserInTrip){
             Toast.makeText(base,"Please save trip first",Toast.LENGTH_LONG).show();
@@ -113,15 +122,4 @@ public class ChatFragment extends Fragment implements View.OnClickListener{
         t.setText(s);
     }
 
-    public ArrayList<String> initUsers(int n){
-
-        ArrayList<String> array = new ArrayList<String>();
-
-        for(int i = 0; i < n; i++){
-            String item = "User "+ i;
-            array.add(item);
-        }
-
-        return array;
-    }
 }
