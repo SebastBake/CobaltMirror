@@ -11,7 +11,8 @@ Contact one of the project members to get the required licenses for development 
 
 - Wikitude is used for the AR. Team Cobalt currently uses a student license.
 - A google services json file is required to gain access to the Google API (used for location data) and Firebase (used for user location sharing and chat).
-- Google maps api and static maps api
+- Google maps api, static maps api and places api
+- Picasso
 
 ### Android App Setup
 
@@ -156,7 +157,10 @@ The JSON can also be directly loaded into the project from Android Studio by ope
 ## Android unit testing
 
 ### Code tests
-There are a suite of unit tests in the folder /Cobalt/Client/TourList/app/src/test/java/.
+There are a suite of unit tests in the folder:
+
+    \Cobalt\Client\TourList\app\src\test\java\
+
 Run the tests whenever you make a change to ensure the changes haven't created undesired side effects.
 This will utilise the [Mockito library](http://site.mockito.org/), JUnit and [Robolectric](http://robolectric.org/).
 Ensure the depedencies have been compiled in the build.gradle for testing:
@@ -174,7 +178,10 @@ You can run the tests directly from studio from right clicking the test package 
 
 ### Instrumental tests
 When testing the UI, an emulator or phone is required to run the app to perform a series of instrumental tests.
-These tests run when the user right clicks the test folder and chooses to run the tests. The package can be found at \Cobalt\Client\TourList\app\src\androidTest\java\com\unimelbit\teamcobalt.
+These tests run when the user right clicks the test folder and chooses to run the tests. The package can be found at:
+
+    \Cobalt\Client\TourList\app\src\androidTest\
+
 The tests were performed using Android studio and were powered by [Robolectric](https://github.com/robolectric/robolectric) along with its [PowerMock](https://github.com/robolectric/robolectric/wiki/Using-PowerMock) functionality to perform the instrumental tests, along with the standard JUnit and Mockito tests as well.
 Please ensure the following dependencies are present, along with code unit test dependencies above:
 
@@ -186,7 +193,7 @@ Please ensure the following dependencies are present, along with code unit test 
     
     testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
 
-### Server Setup & Use
+## Server Setup & Use
 
 #### Install a copy of the server
 
@@ -234,7 +241,7 @@ To run tests use the `npm test` command.
 ## Authors - Team Cobalt
 
 * **Hong** - *Dev Lead* - [linh3@student.unimelb.edu.au](linh3@student.unimelb.edu.au)
-* **Spike** - *Dev Team* - [spikel@studenet.unimelb.edu.au](spikel@student.unimelb.edu.au)
+* **Spike** - *Dev Team* - [spikel@student.unimelb.edu.au](spikel@student.unimelb.edu.au)
 * **Sebastian** - *Dev Team* - [sebastianb1@student.unimelb.edu.au](sebastianb1@student.unimelb.edu.au)
 * **Alexander** - *QA Lead* - [awhite5@student.unimelb.edu.au](awhite5@student.unimelb.edu.au)
 * **An** - *Design Lead* - [thanhn6@student.unimelb.edu.au](thanhn6@student.unimelb.edu.au)
