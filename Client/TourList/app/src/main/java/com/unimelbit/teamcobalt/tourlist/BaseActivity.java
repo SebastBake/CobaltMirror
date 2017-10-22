@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.unimelbit.teamcobalt.tourlist.AugmentedReality.PermissionManager;
+import com.karan.churi.PermissionManager.PermissionManager;
 import com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip.TabbedCreateOrEditTripFragment;
 import com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess.ErrorActivity;
 import com.unimelbit.teamcobalt.tourlist.GPSLocation.FirebaseGoogleGpsProvider;
@@ -59,7 +59,9 @@ public class BaseActivity extends AppCompatActivity
     public static final String MyPREFERENCES = "MyPrefs" ;
 
     private static BaseFragmentContainerManager mainContainer;
+
     private PermissionManager permission;
+
     private GoogleGpsProvider gpsTool;
 
 

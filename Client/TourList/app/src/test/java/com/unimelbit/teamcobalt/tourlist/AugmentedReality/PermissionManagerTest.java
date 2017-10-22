@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.karan.churi.PermissionManager.PermissionManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
