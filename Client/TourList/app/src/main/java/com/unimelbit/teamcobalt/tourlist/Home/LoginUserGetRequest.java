@@ -20,7 +20,7 @@ class LoginUserGetRequest implements GetRequest {
     private static final String NETWORK_ERROR_MESSAGE = "Network error!";
     private static final String LOGIN_SUCCESS_MESSAGE = "Logged in as: ";
     private static final String LOGIN_URL = "https://cobaltwebserver.herokuapp.com/api/user/find/";
-    private final static int NULL_RESULT_LEN = 3;
+    private static final int    NULL_RESULT_LEN = 3;
     private static final String SESSION_NAME_KEY = "nameKey";
     private static final String SESSION_PASSWORD_KEY = "passwordKey";
     private static final String SESSION_USER_KEY = "aUser";

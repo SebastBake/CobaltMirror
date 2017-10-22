@@ -23,7 +23,6 @@ import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchGetRequest;
 import com.unimelbit.teamcobalt.tourlist.TripSearch.TripSearchResultFragment;
 
 /**
- * Created by Sebastian on 14/9/17.
  * A class to help prevent bloating of the BaseActivity
  * Manages the main fragment container of the base activity
  * Any fragment transaction on the main fragment container should be placed in this class.
@@ -214,7 +213,9 @@ public class BaseFragmentContainerManager {
         gotoFragmentUsingBackstack(fragment);
     }
 
-
+    /**
+     * Start chat room fragment
+     */
     public void goToChatRooms() {
 
         ChatListRoomFragment fragment = new ChatListRoomFragment();
@@ -256,6 +257,9 @@ public class BaseFragmentContainerManager {
         }
     }
 
+    /**
+     * Simple getter for baseactivity
+     */
     public BaseActivity getBaseActivity(){
         return baseActivity;
     }

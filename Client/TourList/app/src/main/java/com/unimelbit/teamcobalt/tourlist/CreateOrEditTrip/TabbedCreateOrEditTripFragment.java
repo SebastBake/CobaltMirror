@@ -14,31 +14,38 @@ import android.widget.Toast;
 
 import com.unimelbit.teamcobalt.tourlist.AppServicesFactory;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
-import com.unimelbit.teamcobalt.tourlist.Model.Location;
-import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 import com.unimelbit.teamcobalt.tourlist.R;
 
-import java.util.ArrayList;
-
 /**
- *
+ * Fragment which manages the tabs for the AddLocationsToTripFragment, CreateOrEditTripFragment
+ * Also holds the submit button
  */
 public class TabbedCreateOrEditTripFragment extends Fragment {
 
     public static final int NUM_TABS = 2;
     public static final String YOU_MUST_BE_LOGGED_IN = "You must be logged in to create a trip.";
 
+    /**
+     * Required public empty constructor
+     */
     public TabbedCreateOrEditTripFragment() {
     }
 
     /**
+     * Simple factory method
      *
+     * @return fragment
      */
     public static TabbedCreateOrEditTripFragment newInstance() {
         TabbedCreateOrEditTripFragment fragment = new TabbedCreateOrEditTripFragment();
         return fragment;
     }
 
+    /**
+     * Inflates and initialises the UI
+     *
+     * @return the inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -57,23 +64,35 @@ public class TabbedCreateOrEditTripFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Remove tabs when navigating away
+     */
     @Override
     public void onDestroyView() {
         getActivity().findViewById(R.id.trip_tabs).setVisibility(View.GONE);
         super.onDestroyView();
     }
 
+    /**
+     * Remove tabs when navigating away
+     */
     @Override
     public void onDetach() {
         getActivity().findViewById(R.id.trip_tabs).setVisibility(View.GONE);
         super.onDetach();
     }
 
+    /**
+     * Initialises the done button
+     */
     private void initDoneButton(View rootView) {
         Button doneButton = (Button) rootView.findViewById(R.id.done_button);
         doneButton.setOnClickListener(new DoneButtonOnClickListener((BaseActivity) getActivity()));
     }
 
+    /**
+     * Initialises the tabs
+     */
     private void initTabs(View rootView) {
 
         // Create the adapter that will return a fragment for each of the three
@@ -90,6 +109,9 @@ public class TabbedCreateOrEditTripFragment extends Fragment {
         tabLayout.setupWithViewPager(mViewPager);
     }
 
+    /**
+     * Done button listener
+     */
     private class DoneButtonOnClickListener implements View.OnClickListener {
 
         BaseActivity activity;
@@ -111,6 +133,9 @@ public class TabbedCreateOrEditTripFragment extends Fragment {
         }
     }
 
+    /**
+     * Pager adapter for the tabs
+     */
     private class CreateTripPagerAdapter extends FragmentPagerAdapter {
 
         CreateTripPagerAdapter(FragmentManager fm) {

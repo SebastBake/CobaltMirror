@@ -1,25 +1,20 @@
 package com.unimelbit.teamcobalt.tourlist.CreateOrEditTrip;
 
-import android.net.Uri;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.Location;
 import com.unimelbit.teamcobalt.tourlist.Model.Trip;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 /**
- * Created by Sebastian on 10/10/17.
+ * Singleton to hold the data for a new or edited trip, then submits it via a post/put request
  */
 public class NewTripSingleton {
 
-    private boolean editTripFlag;
+    private boolean editTripFlag; // If a trip is being edited, this flag should be true
     public String id;
     public String name;
     public String description;
@@ -35,14 +30,20 @@ public class NewTripSingleton {
     public ArrayList<String> usernames;
     public ArrayList userIds;
 
+    /**
+     * Initialises a new trip singleton
+     */
     public NewTripSingleton() {
         clearTrip();
     }
 
+    /**
+     * Generates a request to update an edited trip, or create a trip
+     */
     void submitTrip(BaseActivity activity) {
 
         //Check if creating trip and need new arrays
-        if (editTripFlag == false){
+        if (!editTripFlag){
             usernames = new ArrayList<>();
              userIds = new ArrayList<>();
             usernames.add(BaseActivity.getCurrentUser().getUsername());
@@ -58,11 +59,13 @@ public class NewTripSingleton {
         }
     }
 
+    /**
+     * Starts the edit or create trip request
+     */
     private void makeRequest(BaseActivity activity) {
 
         Trip newTrip = new Trip(id, name, description, getDateString(), cost, size, ownerId, locations, usernames, userIds, "");
         if (editTripFlag) {
-            //new CreateTripPostRequest(activity, newTrip);
             new EditTripPutRequest(activity, newTrip);
         } else {
             new CreateTripPostRequest(activity, newTrip);
@@ -71,11 +74,19 @@ public class NewTripSingleton {
         clearTrip();
     }
 
+    /**
+     * Checks whether a request can be made
+     */
     private boolean isValid() {
         boolean valid = name != null && description != null && cost != null && size != null;
         return valid;
     }
 
+    /**
+     * Converts the date into a string for a request to be made
+     *
+     * @return date string
+     */
     private String getDateString() {
 
         if (date != null) {
@@ -91,6 +102,9 @@ public class NewTripSingleton {
         return editTripFlag;
     }
 
+    /**
+     * Sets a trip to be edited
+     */
     public void editExistingTrip(Trip trip) {
 
         clearTrip();
@@ -114,6 +128,9 @@ public class NewTripSingleton {
         }
     }
 
+    /**
+     * clear the data from the singleton
+     */
     public void clearTrip() {
         editTripFlag = false;
         id = null;
@@ -130,6 +147,4 @@ public class NewTripSingleton {
         usernames = null;
         userIds = null;
     }
-
-
 }

@@ -24,7 +24,7 @@ import com.unimelbit.teamcobalt.tourlist.R;
 import java.util.ArrayList;
 
 /**
- * Created by Hong Lin on 9/09/2017.
+ * List adapter used for locations list in AddLocationToTripFragment
  */
 public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
 
@@ -32,17 +32,19 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
     private Context c;
     private GeoDataClient mGeoDataClient;
 
-    private static class ViewHolder {
-        private TextView itemView;
-    }
-
-    public CreateOrEditTripLocationListAdapter(Context context, int textViewResourceId, ArrayList<Place> items) {
+    /**
+     * Simple constructor
+     */
+    CreateOrEditTripLocationListAdapter(Context context, int textViewResourceId, ArrayList<Place> items) {
         super(context, textViewResourceId, items);
 
         this.items = items;
         this.c = context;
     }
 
+    /**
+     * Initialise the view for a list item
+     */
     @Override
     public View getView(final int pos, View convertView, ViewGroup parent) {
 
@@ -52,10 +54,12 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
 
         // Get the data item for this position
         Place place = getItem(position);
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_create_trip_location, parent, false);
         }
+
         // Lookup view for data population
         TextView name = (TextView) convertView.findViewById(R.id.rowName);
 
@@ -86,7 +90,7 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
 
             @Override
             public void onClick(View v) {
-                if (position > 0){
+                if (position > 0) {
                     Place p = items.get(position);
                     items.remove(position);
                     items.add(position - 1, p);
@@ -99,7 +103,7 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
 
             @Override
             public void onClick(View v) {
-                if (position < items.size() - 1){
+                if (position < items.size() - 1) {
                     Place p = items.get(position);
                     items.remove(position);
                     items.add(position + 1, p);
@@ -111,7 +115,9 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
         return convertView;
     }
 
-
+    /**
+     * Get the photo of the place
+     */
     private void getPhotos(String id, ImageView i) {
 
         final String placeId = id;
@@ -121,22 +127,18 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
         photoMetadataResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoMetadataResponse>() {
             @Override
             public void onComplete(Task<PlacePhotoMetadataResponse> task) {
-                // Get the list of photos.
+
                 PlacePhotoMetadataResponse photos = task.getResult();
-                // Get the PlacePhotoMetadataBuffer (metadata for all of the photos).
                 PlacePhotoMetadataBuffer photoMetadataBuffer = photos.getPhotoMetadata();
-                // Get the first photo in the list.
                 PlacePhotoMetadata photoMetadata = photoMetadataBuffer.get(0);
-                // Get the attribution text.
                 CharSequence attribution = photoMetadata.getAttributions();
-                // Get a full-size bitmap for the photo.
+
                 Task<PlacePhotoResponse> photoResponse = mGeoDataClient.getPhoto(photoMetadata);
                 photoResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoResponse>() {
                     @Override
-                    public void onComplete( Task<PlacePhotoResponse> task) {
+                    public void onComplete(Task<PlacePhotoResponse> task) {
                         PlacePhotoResponse photo = task.getResult();
                         Bitmap bitmap = photo.getBitmap();
-
                         image.setImageBitmap(bitmap);
                     }
                 });
@@ -144,6 +146,9 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
         });
     }
 
+    /**
+     * Set the image used for a list item
+     */
     public void setImages(ImageView i, int type) {
 
         switch (type) {
@@ -363,7 +368,9 @@ public class CreateOrEditTripLocationListAdapter extends ArrayAdapter<Place> {
 
                 break;
         }
-
     }
 
+    private static class ViewHolder {
+        private TextView itemView;
+    }
 }

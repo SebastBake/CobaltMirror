@@ -1,7 +1,6 @@
 package com.unimelbit.teamcobalt.tourlist.ServerRequester;
 
 /**
- * Created by Sebastian on 18/9/17.
  * PostRequest classes use the PostRequester make get requests
  */
 public interface PostRequest {

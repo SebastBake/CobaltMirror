@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.unimelbit.teamcobalt.tourlist.R;
 
 /**
- * Created by Sebastian on 13/9/17.
  * A simple loading screen fragment
  */
 public class LoadingFragment extends Fragment {
@@ -18,11 +17,17 @@ public class LoadingFragment extends Fragment {
     public static final String DEFAULT_MSG = "Loading...";
     private static String loadingMsg = DEFAULT_MSG;
 
+    /**
+     * Required factory method
+     */
     public static LoadingFragment newInstance() {
         LoadingFragment fragment = new LoadingFragment();
         return fragment;
     }
 
+    /**
+     * Inflates the View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -39,6 +44,9 @@ public class LoadingFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Shows the action bar when leaving the fragment
+     */
     @Override
     public void onDestroyView() {
         try {
@@ -47,6 +55,9 @@ public class LoadingFragment extends Fragment {
         super.onDestroyView();
     }
 
+    /**
+     * Shows the action bar when leaving the fragment
+     */
     @Override
     public void onDetach() {
         try {
@@ -55,6 +66,9 @@ public class LoadingFragment extends Fragment {
         super.onDetach();
     }
 
+    /**
+     * Simple setter for the loading message
+     */
     public static void setLoadingMsg(String msg) {
         loadingMsg = msg;
     }

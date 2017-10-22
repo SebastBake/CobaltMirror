@@ -2,8 +2,8 @@ package com.unimelbit.teamcobalt.tourlist.ErrorOrSuccess;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -11,6 +11,10 @@ import android.widget.EditText;
 import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.R;
 
+/**
+ * Activity used to handle errors, proper use should prevent app crashes and give the user feedback
+ * concerning the cause of the error
+ */
 public class ErrorActivity extends AppCompatActivity {
 
     private static String TITLE = "Error";
@@ -21,6 +25,56 @@ public class ErrorActivity extends AppCompatActivity {
     private String msg;
     private String stackTrace;
 
+    /**
+     * Simple public static polymorphic method to start to the error activity
+     */
+    public static void newError(Activity from, Exception e, String msg) {
+
+        e.printStackTrace();
+        Intent i = new Intent(from, ErrorActivity.class);
+        i.putExtra(INTENT_MSG, msg);
+        i.putExtra(INTENT_STACKTRACE, e.toString());
+        from.startActivity(i);
+        from.finish();
+    }
+
+    /**
+     * Simple public static polymorphic method to start to the error activity
+     */
+    public static void newError(Activity from, Exception e) {
+        e.printStackTrace();
+        Intent i = new Intent(from, ErrorActivity.class);
+        i.putExtra(INTENT_MSG, INTENT_EMPTY_FIELD_FLAG);
+        i.putExtra(INTENT_STACKTRACE, e.toString());
+        from.startActivity(i);
+        from.finish();
+    }
+
+    /**
+     * Simple public static polymorphic method to start to the error activity
+     */
+    public static void newError(Activity from, String msg) {
+        Intent i = new Intent(from, ErrorActivity.class);
+        i.putExtra(INTENT_MSG, msg);
+        i.putExtra(INTENT_STACKTRACE, INTENT_EMPTY_FIELD_FLAG);
+        from.startActivity(i);
+        from.finish();
+    }
+
+    /**
+     * Simple public static polymorphic method to start to the error activity
+     */
+    public static void newError(Activity from) {
+        Intent i = new Intent(from, ErrorActivity.class);
+        i.putExtra(INTENT_MSG, INTENT_EMPTY_FIELD_FLAG);
+        i.putExtra(INTENT_STACKTRACE, INTENT_EMPTY_FIELD_FLAG);
+        from.startActivity(i);
+        from.finish();
+    }
+
+    /**
+     * Initialise the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +86,9 @@ public class ErrorActivity extends AppCompatActivity {
         initUI();
     }
 
+    /**
+     * Initialise the UI
+     */
     private void initUI() {
 
         // hide action bar, prevent keybaord from showing
@@ -51,41 +108,9 @@ public class ErrorActivity extends AppCompatActivity {
         }
     }
 
-    public static void newError(Activity from, Exception e, String msg) {
-
-        e.printStackTrace();
-        Intent i = new Intent(from, ErrorActivity.class);
-        i.putExtra(INTENT_MSG,msg);
-        i.putExtra(INTENT_STACKTRACE,e.toString());
-        from.startActivity(i);
-        from.finish();
-    }
-
-    public static void newError(Activity from, Exception e) {
-        e.printStackTrace();
-        Intent i = new Intent(from, ErrorActivity.class);
-        i.putExtra(INTENT_MSG,INTENT_EMPTY_FIELD_FLAG);
-        i.putExtra(INTENT_STACKTRACE,e.toString());
-        from.startActivity(i);
-        from.finish();
-    }
-
-    public static void newError(Activity from, String msg) {
-        Intent i = new Intent(from, ErrorActivity.class);
-        i.putExtra(INTENT_MSG,msg);
-        i.putExtra(INTENT_STACKTRACE,INTENT_EMPTY_FIELD_FLAG);
-        from.startActivity(i);
-        from.finish();
-    }
-
-    public static void newError(Activity from) {
-        Intent i = new Intent(from, ErrorActivity.class);
-        i.putExtra(INTENT_MSG,INTENT_EMPTY_FIELD_FLAG);
-        i.putExtra(INTENT_STACKTRACE,INTENT_EMPTY_FIELD_FLAG);
-        from.startActivity(i);
-        from.finish();
-    }
-
+    /**
+     * Go back to the baseactivity on back button press
+     */
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this, BaseActivity.class);
