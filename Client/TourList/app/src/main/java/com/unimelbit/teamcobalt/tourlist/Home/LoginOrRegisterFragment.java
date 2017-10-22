@@ -17,6 +17,10 @@ import com.unimelbit.teamcobalt.tourlist.BaseFragmentContainerManager;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
 
+/**
+ * Very first page of the app users will see if they have not logged in
+ * They can choose to login or register here
+ */
 public class LoginOrRegisterFragment extends Fragment {
 
     public LoginOrRegisterFragment() {
@@ -36,12 +40,17 @@ public class LoginOrRegisterFragment extends Fragment {
         initLoginMessageText(rootView);
         initLoginAndRegisterButtons(rootView);
 
+        //Lock app drawer if user is not logged in
         DrawerLayout drawer = (DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         return rootView;
     }
 
+    /**
+     * Show a message depending on whether user is logged in or not when starting the app
+     * @param rootView
+     */
     private void initLoginMessageText(View rootView) {
 
         TextView messageBox = (TextView) rootView.findViewById(R.id.login_or_register_text);
@@ -54,16 +63,27 @@ public class LoginOrRegisterFragment extends Fragment {
         }
     }
 
+    /**
+     * Set up the buttons for login and register
+     * @param rootView
+     */
     private void initLoginAndRegisterButtons(View rootView) {
         final Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
 
+        /*
+        The buttons below will have various animations
+         */
         Button loginButton = (Button) rootView.findViewById(R.id.go_to_login_fragment);
         loginButton.setAnimation(shake);
+
         Button registerButton = (Button) rootView.findViewById(R.id.go_to_register_fragment);
         registerButton.setAnimation(shake);
 
         BaseFragmentContainerManager manager = ((BaseActivity)getActivity()).getMainContainerManager();
 
+        /*
+        Have listeners for the buttons
+         */
         loginButton.setOnClickListener(new loginButtonListener(manager){
             public void onClick(View v){
                 v.startAnimation(shake);
@@ -78,10 +98,15 @@ public class LoginOrRegisterFragment extends Fragment {
         });
     }
 
+    /**
+     * Inner classes for listening to button clicks so the base fragment doesnt need to implement
+     * the on click listener interface
+     */
     class loginButtonListener implements Button.OnClickListener {
 
         BaseFragmentContainerManager manager;
 
+        //Take to the login fragment
         loginButtonListener(BaseFragmentContainerManager baseFragmentContainerManager) {
             manager = baseFragmentContainerManager;
         }
@@ -96,6 +121,7 @@ public class LoginOrRegisterFragment extends Fragment {
 
         BaseFragmentContainerManager manager;
 
+        //Take to the register fragment
         registerButtonListener(BaseFragmentContainerManager baseFragmentContainerManager) {
             manager = baseFragmentContainerManager;
         }

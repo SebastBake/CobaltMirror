@@ -16,6 +16,10 @@ import com.unimelbit.teamcobalt.tourlist.R;
 
 import java.io.IOException;
 
+
+/**
+ * Login page of the app
+ */
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public static final String FILL_FORM_MESSAGE = "Enter username and password";
@@ -53,6 +57,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Try log user into the app by checking if inputs are valid and then sending request to server
+     * @throws IOException
+     */
     public void attemptLogin() throws IOException {
 
         EditText usernameText = (EditText) getView().findViewById(R.id.login_username_field);
@@ -60,6 +68,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
 
+        //If fields aren't empty, send the request
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(getActivity(), FILL_FORM_MESSAGE, Toast.LENGTH_SHORT).show();
 

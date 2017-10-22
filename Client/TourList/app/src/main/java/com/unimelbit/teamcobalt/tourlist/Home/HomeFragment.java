@@ -13,6 +13,9 @@ import com.unimelbit.teamcobalt.tourlist.BaseActivity;
 import com.unimelbit.teamcobalt.tourlist.Model.User;
 import com.unimelbit.teamcobalt.tourlist.R;
 
+/**
+ * Fragment that displays the main menu/home page of the app
+ */
 public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private BaseActivity base;
@@ -42,6 +45,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         base = (BaseActivity)getActivity();
 
+        //Initialise buttons
         searchB = (Button) rootView.findViewById(R.id.searchButtonMain);
 
         searchB.setOnClickListener(this);
@@ -58,12 +62,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         chatRoomB.setOnClickListener(this);
 
+        //Set user
         User user= base.getCurrentUser();
 
         if(user != null && user.getId() != null) {
             FirebaseMessaging.getInstance().subscribeToTopic("user_" + base.getCurrentUser().getId());
 
         }
+
+        //Unlock app drawer
         DrawerLayout drawer = (DrawerLayout)   getActivity().findViewById(R.id.drawer_layout);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED);
 
