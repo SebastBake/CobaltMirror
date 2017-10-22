@@ -16,8 +16,8 @@ public class ARActivityTest {
 
 
     /**
-     * Check androidTest folder for tests of ARActivity.
-     * The class has no application logic to test,
+     * Check androidTest folder in the future for tests
+     * of ARActivity. The class has no application logic to test,
      * it creates an Activity and View for the AR page
      */
 

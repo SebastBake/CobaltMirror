@@ -29,8 +29,11 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 /**
- * Created by awhite on 16/10/17.
+ * Tests the FirebaseChatRoomHandler.
+ * FirebaseChatRoomHandler handles most the logic of
+ * chat rooms.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" , "org.powermock.*"})
 @PrepareForTest(FirebaseChatRoomHandler.class)
@@ -45,15 +48,22 @@ public class FirebaseChatRoomHandlerTest {
     DatabaseReference root;
     DatabaseReference rootRef;
 
+    /*
+     *  Uses whitebox to create a FirebaseChatRoomHandler
+     *  without using the constructor, allowing us to
+     *  stub the firebase dependencies.
+     */
     @Before
     public void setUp() throws Exception {
 
+        // Sets up variables used in the test
         handler = Whitebox.newInstance(FirebaseChatRoomHandler.class);
         this.context = mock(Context.class);
         this.root = mock(DatabaseReference.class);
         this.rootRef = mock(DatabaseReference.class);
         when(rootRef.child(isA(String.class))).thenReturn(rootRef);
 
+        // Sets the handler instance variables using whitebox
         Whitebox.setInternalState(handler, "context", context);
         Whitebox.setInternalState(handler, "root", root);
         Whitebox.setInternalState(handler, "rootRef", rootRef);
@@ -61,6 +71,9 @@ public class FirebaseChatRoomHandlerTest {
     }
 
     @Test
+    /*
+     * Checks that a chat room is generated
+     */
     public void generateChatRoom() throws Exception {
 
         handler.generateChatRoom("chat room");
@@ -69,39 +82,54 @@ public class FirebaseChatRoomHandlerTest {
 
     }
 
+    /*
+     * Checks that a user enters the given chat room
+     */
     @Test
     public void enterChatRoom() throws Exception {
+        // Mocks the intent to test that data is added
         Intent intent = mock(Intent.class);
         whenNew(Intent.class).withAnyArguments().thenReturn(intent);
 
         ArrayList users = new ArrayList<String>();
         users.add("user");
 
+        // Trys to enter user into chat room
         handler.enterChatRoom("0", "room", "1", users, "user");
 
+        // Verifies that the required data is added to enter the room
         verify(intent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
         verify(intent, times(4)).putExtra(isA(String.class), isA(String.class));
-
         verify(intent).putStringArrayListExtra(isA(String.class), isA(ArrayList.class));
 
+        // Verifies the chat room is entered
         verify(context).startActivity(intent);
 
     }
 
+    /*
+     * Checks a listener is added to the room
+     */
     @Test
     public void checkRoom() throws Exception {
 
+        // Tries to add listener
         handler.checkRoom("room");
 
+        // Verifies listener was added
         verify(rootRef).addListenerForSingleValueEvent(isA(ValueEventListener.class));
     }
 
     @Test
+    /*
+     * Checks that the chat room is deleted
+     */
     public void deleteRoom() throws Exception {
 
+        // Tries to delete chat room
         handler.deleteRoom("room");
 
+        // Verifies that chat room was deleted
         verify(rootRef).child(isA(String.class));
         verify(rootRef).setValue("");
     }

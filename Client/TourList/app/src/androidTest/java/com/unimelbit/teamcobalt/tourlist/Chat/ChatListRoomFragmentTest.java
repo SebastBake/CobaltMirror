@@ -22,8 +22,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Created by awhite on 21/10/17.
+ * UI tests for the ChatListRoomFragment
  */
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class ChatListRoomFragmentTest {
@@ -32,6 +33,10 @@ public class ChatListRoomFragmentTest {
     public ActivityTestRule<BaseActivity> mActivityRule =
             new ActivityTestRule<BaseActivity>(BaseActivity.class);
 
+
+    /*
+     *  A user flow that gets to the ChatListRoomFragment to test
+     */
     @Before
     public void init() throws Exception {
         if (BaseActivity.getCurrentUser() == null) {
@@ -52,14 +57,19 @@ public class ChatListRoomFragmentTest {
         onView(withId(R.id.generalChat)).perform(click());
     }
 
+    /*
+     * Tests that the key parts required of the ChatList Fragment are displayed
+     */
     @Test
     public void chatlist() {
+
+        // Checks for button to go to general chat room
         onView(
                 withId(R.id.gen_chat_button))
                 .check(matches(isDisplayed())
                 );
 
-
+        // Checks for button to go to random chat room
         onView(
                 withId(R.id.rand_chat_button))
                 .check(matches(isDisplayed())

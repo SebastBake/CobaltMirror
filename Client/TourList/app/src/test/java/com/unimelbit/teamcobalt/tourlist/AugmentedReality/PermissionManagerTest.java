@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by awhite on 16/10/17.
+ * Tests the PermissionManager
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
@@ -37,6 +37,9 @@ public class PermissionManagerTest {
     PackageInfo packageInfo;
     String[] permissions;
 
+    /*
+     * Sets up the permission manager before each test
+     */
     @Before
     public void setUp() throws Exception {
         this.manager = new PermissionManager() {};
@@ -61,6 +64,9 @@ public class PermissionManagerTest {
 
     }
 
+    /*
+     * Checks that the permissions are requested
+     */
     @Test
     public void checkAndRequestPermissions() throws Exception {
 
@@ -69,6 +75,9 @@ public class PermissionManagerTest {
 
     }
 
+    /*
+     * Checks that the status of the permissions is returned
+     */
     @Test
     public void getStatus() throws Exception {
 
@@ -82,6 +91,9 @@ public class PermissionManagerTest {
 
     }
 
+    /*
+     * checks the Setter for the permissions
+     */
     @Test
     public void setPermission() throws Exception {
         manager.checkAndRequestPermissions(activity);

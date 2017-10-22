@@ -13,8 +13,8 @@ import org.robolectric.annotation.Config;
 public class POIDetailActivityTest {
 
     /**
-     * Check androidTest folder for tests of POIDetailActivity.
-     * The class has no application logic to test,
+     * Check androidTest folder in the future for tests
+     * of POIDetailActivity. The class has no application logic to test,
      * it creates an Activity and View for the details about the trip location.
      */
 
