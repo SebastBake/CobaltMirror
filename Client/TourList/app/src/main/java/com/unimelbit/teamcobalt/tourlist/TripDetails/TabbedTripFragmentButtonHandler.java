@@ -58,6 +58,10 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     public void onTabReselected(TabLayout.Tab tab) {
     }
 
+    /**
+     * Shows the buttons only when user is on the main fragment of the tabbed fragment
+     * @param isMainFabActivated
+     */
     private void setIsMainFabActivated(boolean isMainFabActivated) {
         this.isMainFabActivated = isMainFabActivated;
         if(isMainFabActivated) {
@@ -67,19 +71,28 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         }
     }
 
+    /**
+     * Sets the location sharing button colour
+     */
     private void resetLocSharingColor() {
         if(BaseActivity.isLocationSharingOn()) {
 
-            ColorStateList greenColour = ColorStateList.valueOf(ResourcesCompat.getColor(fragment.getResources(), R.color.scheme1_green, null));
+            ColorStateList greenColour = ColorStateList.valueOf(ResourcesCompat
+                    .getColor(fragment.getResources(), R.color.scheme1_green, null));
             locButton.setBackgroundTintList(greenColour);
 
         } else {
 
-            ColorStateList redColour = ColorStateList.valueOf(ResourcesCompat.getColor(fragment.getResources(), R.color.scheme1_red, null));
+            ColorStateList redColour = ColorStateList.valueOf(ResourcesCompat
+                    .getColor(fragment.getResources(), R.color.scheme1_red, null));
             locButton.setBackgroundTintList(redColour);
         }
     }
 
+    /**
+     * Initiates all teh buttons on the tabbed trip fragment
+     * @param rootView
+     */
     private void initButtons(View rootView) {
 
         editButton = (FloatingActionButton) rootView.findViewById(R.id.edit_button);
@@ -143,6 +156,10 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         });
     }
 
+    /**
+     * Makes sure user is in trip
+     * @return
+     */
     private boolean checkUserInTrip(){
         if(!isUserInTrip){
             Toast.makeText(activity,"Please save trip first",Toast.LENGTH_LONG).show();
@@ -152,6 +169,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
     }
 
 
+    /**
+     * Removes all buttons from the screen
+     */
     private void hideAllButtons() {
         editButton.setVisibility(View.GONE);
         locButton.setVisibility(View.GONE);
@@ -168,6 +188,9 @@ class TabbedTripFragmentButtonHandler implements TabLayout.OnTabSelectedListener
         mapButton.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Hides the smaller buttons
+     */
     private void hideSmallButtons() {
 
         hideAllButtons();

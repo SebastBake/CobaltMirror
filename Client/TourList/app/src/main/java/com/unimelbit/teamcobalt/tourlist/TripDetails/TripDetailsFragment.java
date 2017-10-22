@@ -28,7 +28,9 @@ import java.util.HashMap;
 
 import static com.unimelbit.teamcobalt.tourlist.R.color.scheme1_green;
 
-
+/**
+ * A fragment that displays the details of the trip the user is in
+ */
 public class TripDetailsFragment extends Fragment implements View.OnClickListener {
 
     public static final int TRIP_SECTION_INDEX = 0;
@@ -55,6 +57,7 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
         imageDetail = (ImageView) rootView.findViewById(R.id.imageView2);
         pILoader = new PlaceImageLoader(getActivity());
 
+        //Only load if there is a trip in the first place
         if (BaseActivity.getCurrentTrip() != null) {
 
             trip = BaseActivity.getCurrentTrip();
@@ -82,7 +85,11 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
     }
 
 
-
+    /**
+     * Initialise all the text in the trip details
+     * @param rootView
+     * @param trip
+     */
     private void initTextBoxes(View rootView, Trip trip) {
 
         TextView tripDescription = (TextView) rootView.findViewById(R.id.trip_details_description);
@@ -102,6 +109,11 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
         tripOwner.setText("Owner: " + trip.getOwner());
     }
 
+    /**
+     * Display a list of locations that were originally saved
+     * @param rootView
+     * @param trip
+     */
     private void initLocationsList(View rootView, Trip trip) {
 
         ListView listView = (ListView) rootView.findViewById(R.id.locations_list_view);
@@ -119,6 +131,7 @@ public class TripDetailsFragment extends Fragment implements View.OnClickListene
             }
         }
 
+        //Adapter that displays the list
         SimpleAdapter adapter = new SimpleAdapter(
                 getContext(),
                 locationsList,

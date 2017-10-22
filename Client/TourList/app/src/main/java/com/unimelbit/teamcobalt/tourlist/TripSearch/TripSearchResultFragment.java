@@ -35,6 +35,10 @@ import java.util.Map;
 /**
  * Created by spike on 8/9/2017.
  */
+
+/**
+ * Displays the search results for trips as a list of trips
+ */
 public class TripSearchResultFragment extends Fragment{
 
     public static String ARG_SEARCH_QUERY = "ARG_SEARCH_QUERY";
@@ -84,6 +88,12 @@ public class TripSearchResultFragment extends Fragment{
         return rootView;
     }
 
+    /**
+     * Displays the trips in the fragment as a simple listview through an adapter
+     * @param trips
+     * @param rootView
+     * @throws JSONException
+     */
     public void showResultsList(ArrayList<Trip> trips, View rootView) throws JSONException {
 
         TextView textview = (TextView) rootView.findViewById(R.id.result_text);
@@ -97,11 +107,13 @@ public class TripSearchResultFragment extends Fragment{
         final EditText filter = (EditText)rootView.findViewById(R.id.searchFilter);
         final ListView resultsList = (ListView)rootView.findViewById(R.id.results_list);
 
+        //Initialise the list of trips
         ArrayList<Map<String, String>> tripMaps = new ArrayList<>();
         for(Trip trip: trips) {
             tripMaps.add(trip.toMap());
         }
 
+        //Set up the adapter to contain the results
         adapter = new SimpleAdapter(
                 getContext(),
                 tripMaps,

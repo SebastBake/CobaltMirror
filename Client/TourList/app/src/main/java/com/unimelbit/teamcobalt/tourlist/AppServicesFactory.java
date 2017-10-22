@@ -62,6 +62,11 @@ public class AppServicesFactory {
     }
 
 
+    /**
+     * Gets the firebase poster
+     * @param c
+     * @return
+     */
     public CoordinateDBPostRequester getFirebasePostRequester(Context c){
 
         if(firebasePoster == null){

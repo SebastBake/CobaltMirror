@@ -15,6 +15,9 @@ import java.util.ArrayList;
  * Created by spike on 16/9/2017.
  */
 
+/**
+ * Requester to save trips to user list
+ */
 public class SaveTripRequest implements PutRequest {
 
     private static String LOADING_MSG = "Loading trips...";

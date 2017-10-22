@@ -42,7 +42,6 @@ import java.util.ArrayList;
  */
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String DEMOTRIP_NAME = "DemoTrip"; // this will be removed eventually
     public static final String MyPREFERENCES = "MyPrefs";
     private static final String STARTUP_FAIL_MESSAGE = "Couldn't start BaseActivity";
     private static final String RESUME_FAIL_MESSAGE = "Couldn't resume BaseActivity";

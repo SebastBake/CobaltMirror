@@ -97,12 +97,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             base.getMainContainer().goToChatRooms();
 
         }
-
-        else{
-
-            base.getMainContainer().gotoTabbedTripFragment(BaseActivity.DEMOTRIP_NAME);
-
-
-        }
     }
 }

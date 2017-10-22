@@ -18,6 +18,10 @@ import static java.security.AccessController.getContext;
  * Created by spike on 16/9/2017.
  */
 
+
+/**
+ * Class for removing a trip from the users list
+ */
 public class RemoveTripRequest implements PutRequest {
     private static String LOADING_MSG = "Loading trips...";
     private static String URL_REMOVE_BASE = "https://cobaltwebserver.herokuapp.com/api/user/removetrip/";
@@ -45,6 +49,11 @@ public class RemoveTripRequest implements PutRequest {
         new PutRequester(this).execute(url);
     }
 
+    /**
+     * Like its parent class, it will display an error if something goes wrong
+     * @param result
+     * @param status
+     */
     @Override
     public void processResult(String result,int status) {
         try {
