@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
- * Created by awhite on 4/10/17.
+ * Tests for the BaseActivity class.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
@@ -27,12 +27,18 @@ public class BaseActivityTest {
 
     BaseActivity base;
 
+    /*
+     * Sets up base activity before every test
+     */
     @Before
     public void setUp() {
         this.base = new BaseActivity();
         base.locationSharing = false;
     }
 
+    /*
+     * Tests the Setter for put object
+     */
     @Test
     public void setPutObject() throws Exception {
         assertNull(base.PUT_OBJECT);
@@ -54,6 +60,9 @@ public class BaseActivityTest {
 //        assertNotNull(manager);
     }
 
+    /*
+     * Tests Setter and Getter for the current trip field
+     */
     @Test
     public void setGetCurrentTrip() throws Exception {
         Trip trip = mock(Trip.class);
@@ -64,6 +73,9 @@ public class BaseActivityTest {
 
     }
 
+    /*
+     * Tests Setter and Getter for the current user field
+     */
     @Test
     public void setGetCurrentUser() throws Exception {
         User user = mock(User.class);
@@ -73,6 +85,9 @@ public class BaseActivityTest {
         assertEquals(user, base.getCurrentUser());
     }
 
+    /*
+     * Tests Setter for the location sharing field
+     */
     @Test
     public void setLocationSharing() throws Exception {
         assertFalse(base.locationSharing);
@@ -85,6 +100,9 @@ public class BaseActivityTest {
 
     }
 
+    /*
+     * Test that location sharing field is switch from on to off or vice versa
+     */
     @Test
     public void toggleLocationSharing() throws Exception {
         assertFalse(base.locationSharing);
@@ -96,6 +114,9 @@ public class BaseActivityTest {
         assertFalse(base.locationSharing);
     }
 
+    /*
+     * Tests that the correct value is returned when called
+     */
     @Test
     public void isLocationSharingOn() throws Exception {
         assertFalse(base.isLocationSharingOn());
@@ -108,6 +129,9 @@ public class BaseActivityTest {
 
     }
 
+    /*
+     * Tests the getter for shared preferences
+     */
     @Test
     public void getSharedPreferences() throws Exception {
 
@@ -115,6 +139,9 @@ public class BaseActivityTest {
 
     }
 
+    /*
+     * Tests getter for main container
+     */
     @Test
     public void getMainContainer() throws Exception {
 
@@ -122,6 +149,9 @@ public class BaseActivityTest {
 
     }
 
+    /*
+     * Tests setter and getter for searched trip field
+     */
     @Test
     public void setGetSearchedTrip() throws Exception {
         assertEquals(base.getSearchedTrip(), Whitebox.getInternalState(base, "searchedTrip"));

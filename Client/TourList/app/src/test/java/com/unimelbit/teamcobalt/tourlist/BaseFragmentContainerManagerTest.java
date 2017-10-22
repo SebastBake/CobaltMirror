@@ -37,8 +37,11 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 import static org.powermock.api.support.membermodification.MemberMatcher.method;
 
 /**
- * Created by awhite on 17/10/17.
+ * Tests for the BaseFragmentContainerManager class.
+ * BaseFragmentContainerManager manages the main fragment container of the base activity
+ * Any fragment transaction on the main fragment container should be placed in this class.
  */
+
 @RunWith(RobolectricTestRunner.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "org.powermock.*"})
 @PrepareForTest(BaseFragmentContainerManager.class)
@@ -52,22 +55,30 @@ public class  BaseFragmentContainerManagerTest {
     int containerId;
     BaseFragmentContainerManager manager;
 
+    /*
+     * Creates the manager and stumps the private method replaceFragment
+     */
     @Before
     public void setUp() throws Exception {
         base = mock(BaseActivity.class);
         containerId = 0;
 
-//        suppress(Whitebox.getMethod(BaseFragmentContainerManager.class, "replaceFragment", Fragment.class));
         manager = spy(new BaseFragmentContainerManager(base, containerId));
         doNothing().when(manager, method(BaseFragmentContainerManager.class, "replaceFragment")).withArguments(isA(Fragment.class));
 
     }
 
+    /*
+     * Getter for the container id field
+     */
     @Test
     public void getContainerId() throws Exception {
         assertEquals(manager.getContainerId(), containerId);
     }
 
+    /*
+     * Tests that the users is taken to the register fragment
+     */
     @Test
     public void gotoRegisterFragment() throws Exception {
 
@@ -76,6 +87,9 @@ public class  BaseFragmentContainerManagerTest {
 
     }
 
+    /*
+     * Tests that the users is taken to the register fragment
+     */
     @Test
     public void gotoRegisterFragmentWithMessage() throws Exception {
 
@@ -83,6 +97,9 @@ public class  BaseFragmentContainerManagerTest {
         verifyPrivate(manager).invoke("gotoFragmentUsingBackstack", isA(RegisterFragment.class));
     }
 
+    /*
+     * Tests that the users is taken to the login fragment
+     */
     @Test
     public void gotoLoginFragment() throws Exception {
 
@@ -90,6 +107,9 @@ public class  BaseFragmentContainerManagerTest {
         verifyPrivate(manager).invoke("gotoFragmentUsingBackstack", isA(LoginFragment.class));
     }
 
+    /*
+     * Tests that the users is taken to the login fragment
+     */
     @Test
     public void gotoLoginFragmentWithMessage() throws Exception {
 
@@ -97,6 +117,9 @@ public class  BaseFragmentContainerManagerTest {
         verifyPrivate(manager).invoke("gotoFragmentUsingBackstack", isA(LoginFragment.class));
     }
 
+    /*
+     * Tests that the users is taken to the profile fragment
+     */
     @Test
     public void gotoProfileFragment() throws Exception {
 
@@ -105,6 +128,9 @@ public class  BaseFragmentContainerManagerTest {
 
     }
 
+    /*
+     * Tests that the users is taken to the login or register fragment
+     */
     @Test
     public void gotoLoginOrRegisterFragment() throws Exception {
 
@@ -113,6 +139,9 @@ public class  BaseFragmentContainerManagerTest {
 
     }
 
+    /*
+     * Tests that the users is taken to the login or register fragment
+     */
     @Test
     public void gotoLoginOrRegisterFragmentWithMessage() throws Exception {
 
@@ -120,6 +149,9 @@ public class  BaseFragmentContainerManagerTest {
         verifyPrivate(manager).invoke("gotoFragmentUsingBackstack", isA(LoginOrRegisterFragment.class));
     }
 
+    /*
+     * Tests that the users is taken to the home fragment
+     */
     @Test
     public void gotoHomeFragmentWithMessage() throws Exception {
 
@@ -127,6 +159,9 @@ public class  BaseFragmentContainerManagerTest {
         verifyPrivate(manager).invoke("gotoFragmentUsingBackstack", isA(HomeFragment.class));
     }
 
+    /*
+     * Tests that the users is taken to the home fragment
+     */
     @Test
     public void gotoHomeFragment() throws Exception {
 
@@ -134,6 +169,9 @@ public class  BaseFragmentContainerManagerTest {
         verifyPrivate(manager).invoke("gotoFragmentUsingBackstack", isA(HomeFragment.class));
     }
 
+    /*
+     * Tests that the users is taken to the tabbed trip fragment
+     */
     @Test
     public void gotoTabbedTripFragment() throws Exception {
 
@@ -143,6 +181,9 @@ public class  BaseFragmentContainerManagerTest {
         verifyNew(TripGetRequest.class).withArguments("url", manager);
     }
 
+    /*
+     * Tests that the users is taken to the trip search fragment
+     */
     @Test
     public void gotoTripSearchFragment() throws Exception {
 
@@ -150,6 +191,9 @@ public class  BaseFragmentContainerManagerTest {
         verifyPrivate(manager).invoke("gotoFragmentUsingBackstack", isA(TripSearchFragment.class));
     }
 
+    /*
+     * Tests that the users is taken to the trip search results fragment
+     */
     @Test
     public void gotoTripSearchResultFragment() throws Exception {
 
@@ -159,6 +203,9 @@ public class  BaseFragmentContainerManagerTest {
 
     }
 
+    /*
+     * Tests that the users is taken to the create trip fragment
+     */
     @Test
     public void gotoCreateTrip() throws Exception {
 
@@ -167,6 +214,9 @@ public class  BaseFragmentContainerManagerTest {
 
     }
 
+    /*
+     * Tests that the users is taken to the edit trip fragment
+     */
     @Test
     public void gotoEditTrip() throws Exception {
 
@@ -176,6 +226,9 @@ public class  BaseFragmentContainerManagerTest {
 
     }
 
+    /*
+     * Tests that the users is taken to the loading fragment
+     */
     @Test
     public void gotoLoadingFragment() throws Exception {
 
@@ -184,6 +237,9 @@ public class  BaseFragmentContainerManagerTest {
 
     }
 
+    /*
+     * Tests that the users is taken to the chat list room fragment
+     */
     @Test
     public void goToChatRooms() throws Exception {
 
@@ -192,6 +248,9 @@ public class  BaseFragmentContainerManagerTest {
 
     }
 
+    /*
+     * Tests getter for baseActivity
+     */
     @Test
     public void getBaseActivity() throws Exception {
         assertEquals(manager.getBaseActivity(), base);
